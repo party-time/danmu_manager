@@ -1,6 +1,6 @@
 /**
  * @author zhixin wen <wenzhixin2010@gmail.com>
- * version: 1.11.1
+ * version: 1.11.0
  * https://github.com/wenzhixin/bootstrap-table/
  */
 
@@ -313,7 +313,6 @@
         },
         pagination: false,
         onlyInfoPagination: false,
-        paginationLoop: true,
         sidePagination: 'client', // client or server
         totalRows: 0, // server side need to set
         pageNumber: 1,
@@ -1236,7 +1235,7 @@
             this.data = f ? $.grep(this.options.data, function (item, i) {
                 for (var key in f) {
                     if ($.isArray(f[key]) && $.inArray(item[key], f[key]) === -1 ||
-                            !$.isArray(f[key]) && item[key] !== f[key]) {
+                            item[key] !== f[key]) {
                         return false;
                     }
                 }
@@ -1500,16 +1499,6 @@
                 // when data is empty, hide the pagination
                 this.$pagination[this.getData().length ? 'show' : 'hide']();
             }
-
-            if (!this.options.paginationLoop) {
-                if (this.options.pageNumber === 1) {
-                    $pre.addClass('disabled');
-                }
-                if (this.options.pageNumber === this.totalPages) {
-                    $next.addClass('disabled');
-                }
-            }
-
             if ($allSelected) {
                 this.options.pageSize = this.options.formatAllRows();
             }
@@ -2604,8 +2593,7 @@
         var that = this;
 
         return $.grep(this.options.data, function (row) {
-            // fix #2424: from html with checkbox
-            return row[that.header.stateField] === true;
+            return row[that.header.stateField];
         });
     };
 

@@ -1,0 +1,60 @@
+<% include ../common/header.html %>
+<% include ../common/navbar.html %>
+<!-- /subnavbar -->
+<div class="main">
+    <div class="main-inner">
+        <div class="container">
+            <div class="row">
+                <div class="span12">
+                    <div class="widget widget-table action-table">
+                        <!-- /widget-header -->
+                        <div class="widget-content">
+                            <table id="mytable">
+                                <thead>
+                                <tr>
+                                    <th data-field="Name" data-editable="true">部门名称</th>
+                                    <th data-field="ParentName">上级部门</th>
+                                    <th data-field="Level" data-editable="true">部门级别</th>
+                                    <th data-field="Desc" data-editable="true">描述</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <!-- /widget-content -->
+                    </div>
+                    <!-- /widget -->
+                </div>
+                <!-- /span6 -->
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /main-inner -->
+</div>
+<link href="http://cdn.bootcss.com/bootstrap-table/1.9.1/bootstrap-table.min.css" rel="stylesheet"/>
+<script src="http://cdn.bootcss.com/bootstrap-table/1.9.1/bootstrap-table.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap-table/1.9.1/locale/bootstrap-table-zh-CN.min.js"></script>
+<script>
+    $("#mytable").bootstrapTable({
+        url: "http://localhost:8780/my/admin/blockKeywords",
+        method: 'get',
+        striped: true,
+        cache: false,
+        pagination: true,
+        sortable: false,
+        sortOrder: "asc",
+        sidePagination: "server",
+        pageNumber: 1,
+        pageSize: 10,
+        pageList: [10, 25, 50, 100],
+        search: true,
+        strictSearch: true,
+        showColumns: true,
+        showRefresh: true,
+        minimumCountColumns: 2,
+        clickToSelect: false,
+        height: 500
+    });
+</script>
+<% include ../common/bottom.html %>
