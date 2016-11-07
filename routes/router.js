@@ -49,6 +49,10 @@ router.get('/predanmu', function(req, res, next) {
   res.render('danmu/predanmu');
 });
 
+router.get('/historyDanmu', function(req, res, next) {
+  res.render('danmu/historyDanmu');
+});
+
 
 
 
