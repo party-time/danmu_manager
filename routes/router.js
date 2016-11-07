@@ -3,7 +3,7 @@ var router = express.Router();
 
 /**跳转到主页*/
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('party/party', { title: 'Express' });
 });
 /**跳转到登录页*/
 router.get('/login', function(req, res, next) {
