@@ -32,12 +32,6 @@
         },
         formatColumns: function () {
             return '列';
-        },
-        formatExport: function () {
-            return '导出数据';
-        },
-        formatClearFilters: function () {
-            return '清空过滤';
         }
     };
 

@@ -3,13 +3,11 @@
   if (typeof angular === 'undefined') {
     return;
   }
-  angular.module('bsTable', [])
-    .constant('uiBsTables', {bsTables: {}})
-    .directive('bsTableControl', ['uiBsTables', function (uiBsTables) {
+  angular.module('bsTable', []).directive('bsTableControl', function () {
     var CONTAINER_SELECTOR = '.bootstrap-table';
     var SCROLLABLE_SELECTOR = '.fixed-table-body';
     var SEARCH_SELECTOR = '.search input';
-    var bsTables = uiBsTables.bsTables;
+    var bsTables = {};
     function getBsTable (el) {
       var result;
       $.each(bsTables, function (id, bsTable) {
@@ -103,5 +101,5 @@
         });
       }
     };
-  }])
+  })
 })();

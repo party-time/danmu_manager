@@ -1,14 +1,13 @@
 /**
  * Bootstrap Table Catalan translation
- * Authors: Marc Pina<iwalkalone69@gmail.com>
- *          Claudi Martinez<claudix.kernel@gmail.com>
+ * Author: Marc Pina<iwalkalone69@gmail.com>
  */
 (function ($) {
     'use strict';
 
     $.fn.bootstrapTable.locales['ca-ES'] = {
         formatLoadingMessage: function () {
-            return 'Espereu, si us plau...';
+            return 'Si us plau esperi...';
         },
         formatRecordsPerPage: function (pageNumber) {
             return pageNumber + ' resultats per pàgina';
@@ -17,19 +16,19 @@
             return 'Mostrant de ' + pageFrom + ' fins ' + pageTo + ' - total ' + totalRows + ' resultats';
         },
         formatSearch: function () {
-            return 'Cerca';
+            return 'Buscar';
         },
         formatNoMatches: function () {
             return 'No s\'han trobat resultats';
         },
         formatPaginationSwitch: function () {
-            return 'Amaga/Mostra paginació';
+            return 'Amagar/Mostrar paginació';
         },
         formatRefresh: function () {
-            return 'Refresca';
+            return 'Refrescar';
         },
         formatToggle: function () {
-            return 'Alterna formatació';
+            return 'Amagar/Mostrar';
         },
         formatColumns: function () {
             return 'Columnes';

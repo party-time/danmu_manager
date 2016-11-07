@@ -28,9 +28,6 @@
         },
         formatColumns: function () {
             return 'Колонки';
-        },
-        formatClearFilters: function () {
-            return 'Очистить фильтры';
         }
     };
 
