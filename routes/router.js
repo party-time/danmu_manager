@@ -23,10 +23,7 @@ router.get('/party', function(req, res, next) {
 router.get('/partyResource', function(req, res, next) {
   res.render('pary/partyResource');
 });
-/**跳转弹幕审核*/
-router.get('/partyCheck', function(req, res, next) {
-  res.render('pary/partyCheck');
-});
+
 
 /**地址管理*/
 router.get('/cinema', function(req, res, next) {
@@ -43,14 +40,19 @@ router.get('/timerDanmu', function(req, res, next) {
   res.render('danmu/timerDanmu');
 });
 
-/**预制弹幕
- * 弹幕管理*/
+/**预制弹幕*/
 router.get('/predanmu', function(req, res, next) {
   res.render('danmu/predanmu');
 });
 
+/**历史弹幕*/
 router.get('/historyDanmu', function(req, res, next) {
   res.render('danmu/historyDanmu');
+});
+
+/**跳转弹幕审核*/
+router.get('/danmuCheck', function(req, res, next) {
+  res.render('danmu/danmuCheck');
 });
 
 
