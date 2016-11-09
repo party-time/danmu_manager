@@ -1,7 +1,7 @@
 <% include ../common/header.html %>
 <% include ../common/navbar.html %>
 <!-- /subnavbar -->
-<div class="main">
+<div class="main" ng-app="danmuCheckApp" ng-controller="danmuCheckCtrl">
     <div class="main-inner">
         <div class="container">
             <div class="row">
@@ -66,20 +66,16 @@
                                 <li>
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
                                         <h3 style="margin-right: 1em;width: 98px;">弹幕密度</h3>
-                                        <input type="text"
-                                               style="position: relative;line-height: 18px;top: 3px;width: 20px;"
-                                               maxlength="2"/>
-                                        <button class="btn btn-info" style="margin-left: 0em;">确定</button>
+                                        <input type="text" id="txt_btn-density" style="position: relative;line-height: 18px;top: 3px;width: 20px;" maxlength="2"/>
+                                        <button class="btn btn-info btn-density" style="margin-left: 0em;">确定</button>
                                     </div>
                                 </li>
 
                                 <li>
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
                                         <h3 style="margin-right: 1em;width: 98px;">延长活动时间</h3>
-                                        <input type="text"
-                                               style="position: relative;line-height: 18px;top: 3px;width: 20px;"
-                                               maxlength="2"/>
-                                        <button class="btn btn-info" style="margin-left: 0em;">确定</button>
+                                        <input type="text" id="txt_partytime" style="position: relative;line-height: 18px;top: 3px;width: 20px;" maxlength="2"/>
+                                        <button class="btn btn-info btn-partyDelay" style="margin-left: 0em;">确定</button>
                                     </div>
                                 </li>
                                 <li>
@@ -99,13 +95,11 @@
 
                                         <i class="icon-bookmark"></i>
                                         <h3 style="margin-right: 1em;width: 98px;">延迟时间</h3>
-                                        <button class="btn btn-sm btn-default" type="button"
-                                                ng-click="setDelaySecond(false)">
+                                        <button class="btn btn-sm btn-default time-delay-plus" type="button" ng-click="setDelaySecond(false)">
                                             +
                                         </button>
                                         <button type="button" class="btn btn-sm btn-default"> 延迟0秒</button>
-                                        <button class="btn btn-sm btn-default" type="button"
-                                                ng-click="setDelaySecond(true)">
+                                        <button class="btn btn-sm btn-default time-delay-sub" type="button" ng-click="setDelaySecond(true)">
                                             -
                                         </button>
                                     </div>
@@ -114,9 +108,9 @@
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
                                         <h3 style="margin-right: 1em;width: 98px;">播放器控制</h3>
 
-                                        <button class="btn btn-danger" title="关闭客户端">关闭</button>
-                                        <button class="btn btn-info" title="显示视频"> 视频</button>
-                                        <button class="btn btn-success" title="显示弹幕">弹幕</button>
+                                        <button class="btn btn-danger " title="关闭客户端" onclick="operateScreenHandler(0)">关闭</button>
+                                        <button class="btn btn-info " title="显示视频" onclick="operateScreenHandler(1)"> 视频</button>
+                                        <button class="btn btn-success " title="显示弹幕" onclick="operateScreenHandler(2)">弹幕</button>
                                     </div>
                                 </li>
                             </ul>
@@ -212,10 +206,13 @@
     </div>
     <!-- /main-inner -->
 </div>
+
 <link rel="stylesheet" href="/plug/bootstrap-switch/css/bootstrap-switch.css"/>
-<script src="/plug/bootstrap-switch/js/bootstrap-switch.js"></script>
 <link rel="stylesheet" href="/css/danmu/danmu.danmucheck.css"/>
+<script src="/plug/bootstrap-switch/js/bootstrap-switch.js"></script>
+<script src="/plug/angular/angular.min.js"></script>
 <script src="/js/common/danmu.switch.plug.js"></script>
 <script src="/js/bussiness/danmu/danmu.danmucheck.js"></script>
+
 
 <% include ../common/bottom.html %>
