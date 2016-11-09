@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="span8">
                     <div class="widget widget-table action-table">
-                        <div class="widget-header"> <i class="icon-th-list"></i>
+                        <div class="widget-header"><i class="icon-th-list"></i>
                             <h3> 当前活动：<span>外公芳龄48</span></h3>
                             <h3> 当前状态：A</h3>
                         </div>
@@ -21,17 +21,20 @@
                                     <th>消息</th>
                                     <th>图片</th>
                                     <th>剩余时间</th>
-                                    <th class="td-actions"> </th>
+                                    <th class="td-actions"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td> Fresh Web Development Resources </td>
-                                    <td> http://www.cssmoban.com/ </td>
-                                    <td> Fresh Web Development Resources </td>
-                                    <td> http://www.cssmoban.com/ </td>
-                                    <td> Fresh Web Development Resources </td>
-                                    <td class="td-actions"><a href="javascript:;" class="btn btn-small btn-success"><i class="btn-icon-only icon-ok"> </i></a><a href="javascript:;" class="btn btn-danger btn-small"><i class="btn-icon-only icon-remove"> </i></a></td>
+                                    <td> Fresh Web Development Resources</td>
+                                    <td> http://www.cssmoban.com/</td>
+                                    <td> Fresh Web Development Resources</td>
+                                    <td> http://www.cssmoban.com/</td>
+                                    <td> Fresh Web Development Resources</td>
+                                    <td class="td-actions"><a href="javascript:;" class="btn btn-small btn-success"><i
+                                            class="btn-icon-only icon-ok"> </i></a><a href="javascript:;"
+                                                                                      class="btn btn-danger btn-small"><i
+                                            class="btn-icon-only icon-remove"> </i></a></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -64,7 +67,8 @@
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
                                         <h3 style="margin-right: 1em;width: 98px;">弹幕密度</h3>
                                         <input type="text"
-                                               style="position: relative;line-height: 18px;top: 3px;width: 80px;"/>
+                                               style="position: relative;line-height: 18px;top: 3px;width: 20px;"
+                                               maxlength="2"/>
                                         <button class="btn btn-info" style="margin-left: 0em;">确定</button>
                                     </div>
                                 </li>
@@ -73,27 +77,37 @@
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
                                         <h3 style="margin-right: 1em;width: 98px;">延长活动时间</h3>
                                         <input type="text"
-                                               style="position: relative;line-height: 18px;top: 3px;width: 80px;"/>
+                                               style="position: relative;line-height: 18px;top: 3px;width: 20px;"
+                                               maxlength="2"/>
                                         <button class="btn btn-info" style="margin-left: 0em;">确定</button>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
                                         <h3 style="margin-right: 1em;width: 98px;">测试弹幕控制</h3>
-                                        <input name="testDanmuModel" type="checkbox" data-size="small"/>
+                                        <input id="testDanmuModel" name="testDanmuModel" type="checkbox" data-size="small"/>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
                                         <h3 style="margin-right: 1em;width: 98px;">预制弹幕控制</h3>
-                                        <input name="preDanmuModel" type="checkbox" data-size="small"/>
+                                        <input id="preDanmuModel" name="preDanmuModel" type="checkbox" data-size="small"/>
                                     </div>
                                 </li>
                                 <li>
-                                    <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
+                                    <div class="danmucheck-items-widget-header">
+
+                                        <i class="icon-bookmark"></i>
                                         <h3 style="margin-right: 1em;width: 98px;">延迟时间</h3>
-                                        <button class="btn btn-danger">关闭</button>
-                                        <button class="btn btn-info">开始</button>
+                                        <button class="btn btn-sm btn-default" type="button"
+                                                ng-click="setDelaySecond(false)">
+                                            +
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-default"> 延迟0秒</button>
+                                        <button class="btn btn-sm btn-default" type="button"
+                                                ng-click="setDelaySecond(true)">
+                                            -
+                                        </button>
                                     </div>
                                 </li>
                                 <li>
@@ -109,50 +123,82 @@
                         </div>
                         <!-- /widget-content -->
                     </div>
-                    <!-- /widget -->
-                    <div class="widget widget-nopad">
-                        <div class="widget-header"><i class="icon-list-alt"></i>
-                            <h3> 弹幕发送</h3>
-                            <a data-toggle="collapse" data-parent="#accordion"
-                               href="#collapseTwo">
-                            </a>
+                    <div class="widget">
+                        <div class="widget-header"><i class="icon-bookmark"></i>
+                            <h3>视频特效</h3>
                         </div>
                         <!-- /widget-header -->
-                        <div class="widget-content" id="collapseTwo">
-                            <ul class="danmucheck-items">
-                                <li>
-                                    <div class="danmucheck-items-widget-header">
-                                        <i class="icon-bookmark"></i>
-                                        <h3 style="margin-right: 1em;width: 98px;">选择弹幕</h3>
-                                        <select class="multiSelect" name="manager" style="width:100px">
-                                            <option>普通弹幕</option>
-                                            <option>动画特效</option>
-                                            <option>图片特效</option>
-                                            <option>闪光字</option>
-                                            <option>表情</option>
-                                        </select>
-                                    </div>
-                                    <div class="widget-content">
-                                        <div class="widget big-stats-container">
-                                            <div class="widget-content">
-                                                <h6 class="bigstats">A fully responsive premium quality admin template built on Twitter Bootstrap.  These are some dummy lines to fill the area.</h6>
-                                                <div id="big_stats" class="cf">
-                                                    <div class="stat"> <i class="icon-anchor"></i> <span class="value">851</span> </div>
-                                                    <!-- .stat -->
-                                                    <div class="stat"> <i class="icon-thumbs-up-alt"></i> <span class="value">423</span> </div>
-                                                    <!-- .stat -->
-                                                    <div class="stat"> <i class="icon-twitter-sign"></i> <span class="value">922</span> </div>
-                                                    <!-- .stat -->
-                                                    <div class="stat"> <i class="icon-bullhorn"></i> <span class="value">25%</span> </div>
-                                                    <!-- .stat -->
-                                                </div>
-                                            </div>
-                                            <!-- /widget-content -->
-
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
+                        <div class="widget-content">
+                            <img width="50px;" height="50px;"
+                                 src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4155302816,1201715785&fm=116&gp=0.jpg">
+                            <img width="50px;" height="50px;"
+                                 src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4155302816,1201715785&fm=116&gp=0.jpg">
+                            <img width="50px;" height="50px;"
+                                 src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4155302816,1201715785&fm=116&gp=0.jpg">
+                            <img width="50px;" height="50px;"
+                                 src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4155302816,1201715785&fm=116&gp=0.jpg">
+                        </div>
+                        <!-- /widget-content -->
+                    </div>
+                    <!-- /widget -->
+                    <div class="widget">
+                        <div class="widget-header"><i class="icon-bookmark"></i>
+                            <h3>图片特效</h3>
+                        </div>
+                        <!-- /widget-header -->
+                        <div class="widget-content">
+                            <img width="50px;" height="50px;"
+                                 src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4155302816,1201715785&fm=116&gp=0.jpg">
+                            <img width="50px;" height="50px;"
+                                 src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4155302816,1201715785&fm=116&gp=0.jpg">
+                            <img width="50px;" height="50px;"
+                                 src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4155302816,1201715785&fm=116&gp=0.jpg">
+                            <img width="50px;" height="50px;"
+                                 src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4155302816,1201715785&fm=116&gp=0.jpg">
+                        </div>
+                        <!-- /widget-content -->
+                    </div>
+                    <!-- /widget -->
+                    <div class="widget">
+                        <div class="widget-header"><i class="icon-bookmark"></i>
+                            <h3>表情特效</h3>
+                        </div>
+                        <!-- /widget-header -->
+                        <div class="widget-content">
+                            <img width="50px;" height="50px;"
+                                 src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4155302816,1201715785&fm=116&gp=0.jpg">
+                            <img width="50px;" height="50px;"
+                                 src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4155302816,1201715785&fm=116&gp=0.jpg">
+                            <img width="50px;" height="50px;"
+                                 src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4155302816,1201715785&fm=116&gp=0.jpg">
+                            <img width="50px;" height="50px;"
+                                 src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4155302816,1201715785&fm=116&gp=0.jpg">
+                        </div>
+                        <!-- /widget-content -->
+                    </div>
+                    <!-- /widget -->
+                    <div class="widget">
+                        <div class="widget-header"><i class="icon-bookmark"></i>
+                            <h3>闪光字</h3>
+                            <button class="btn btn-info">发送</button>
+                        </div>
+                        <!-- /widget-header -->
+                        <div class="widget-content">
+                            <textarea class="form-control" placeholder="请输入弹幕内容..."
+                                      style="width: 300px;height: 80px;outline:none;resize:none;"></textarea>
+                        </div>
+                        <!-- /widget-content -->
+                    </div>
+                    <!-- /widget -->
+                    <div class="widget">
+                        <div class="widget-header"><i class="icon-bookmark"></i>
+                            <h3>弹幕发送</h3>
+                            <button class="btn btn-info">发送</button>
+                        </div>
+                        <!-- /widget-header -->
+                        <div class="widget-content">
+                            <textarea class="form-control" placeholder="请输入弹幕内容..."
+                                      style="width: 300px;height: 80px;outline:none;resize:none;"></textarea>
                         </div>
                         <!-- /widget-content -->
                     </div>
@@ -167,9 +213,9 @@
     <!-- /main-inner -->
 </div>
 <link rel="stylesheet" href="/plug/bootstrap-switch/css/bootstrap-switch.css"/>
-<link rel="stylesheet" href="/plug/select2/css/select2.min.css"/>
 <script src="/plug/bootstrap-switch/js/bootstrap-switch.js"></script>
-<script src="/plug/select2/js/select2.min.js"></script>
 <link rel="stylesheet" href="/css/danmu/danmu.danmucheck.css"/>
+<script src="/js/common/danmu.switch.plug.js"></script>
 <script src="/js/bussiness/danmu/danmu.danmucheck.js"></script>
+
 <% include ../common/bottom.html %>

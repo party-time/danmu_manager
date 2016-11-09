@@ -1,34 +1,16 @@
+$(function () {
+    var client;
+    //初始化测试弹幕按钮
+    $.initSwitch('testDanmuModel', switchHandler);
+    //预制弹幕按钮
+    $.initSwitch('preDanmuModel', switchHandler);
 
-$('[name="testDanmuModel"]').bootstrapSwitch({
-    onText: "启动",
-    offText: "停止",
-    onColor: "success",
-    offColor: "danger",
-    size: "small",
-    onSwitchChange: function (event, state) {
+    function switchHandler(event, state) {
         if (state == true) {
             $(this).val("1");
         } else {
             $(this).val("2");
         }
     }
-})
+})();
 
-$('[name="preDanmuModel"]').bootstrapSwitch({
-    onText: "启动",
-    offText: "停止",
-    onColor: "success",
-    offColor: "danger",
-    size: "small",
-    onSwitchChange: function (event, state) {
-        if (state == true) {
-            $(this).val("1");
-        } else {
-            $(this).val("2");
-        }
-    }
-})
-
-$(".multiSelect").select2();
-
-//$('[name="testDanmuModel"]').bootstrapSwitch('disabled', true);
