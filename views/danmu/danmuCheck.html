@@ -8,36 +8,56 @@
                 <div class="span8">
                     <div class="widget widget-table action-table">
                         <div class="widget-header"><i class="icon-th-list"></i>
-                            <h3> 当前活动：<span class="danmu-partyName">{{partyName}}</span> 当前状态：<span class="danmuCheck-link-status">{{link_Status}}</span></h3>
+                            <h3> 活动：<span class="danmu-partyName">{{partyName}}</span>
+                                 状态：<span class="danmuCheck-link-status">{{link_Status}}</span>
+                                 人员：<span class="danmuCheck-link-status">{{adminCount}}</span>
+                            </h3>
                             <!--
                             <h3> 当前状态：<span class="danmuCheck-link-status">{{link_Status}}</span></h3>
                             -->
                         </div>
                         <!-- /widget-header -->
-                        <div class="widget-content" style=" overflow-x:auto;">
-                            <table class="table table-striped table-bordered">
-                                <thead>
+                        <div class="widget-content" style=" overflow-x:auto;overflow-y: scroll; max-height: 600px" >
+                            <table class="table table-bordered">
                                 <tr>
                                     <th width="20%">发送时间</th>
                                     <th>昵称</th>
                                     <th width="20%">消息</th>
                                     <th>图片</th>
                                     <th>秒数</th>
-                                    <th></th>
+                                    <th ></th>
                                 </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td> 2016-11-10 15:35:04 </td>
-                                    <td> 一条龙 </td>
-                                    <td >222222222222222</td>
-                                    <td> <img src="https://ss0.baidu.com/94o3dSag_xI4khGko9WTAnF6hhy/image/h%3D360/sign=9bb90992550fd9f9bf17536f152cd42b/9a504fc2d5628535959cf4cf94ef76c6a6ef63db.jpg" style="width: 50px; height: 50px;"/></td>
-                                    <td> 3秒 </td>
-                                    <td >
-                                        <a href="javascript:;" class="btn btn-danger btn-small">删除</a>
+
+                                <tr ng-repeat="danmu in danmuList">
+                                    <td>
+                                        {{danmu.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}
+                                    </td>
+                                    <td>
+                                        <span ng-if="danmu.nick!=null">{{danmu.nick}}</span>
+                                        <span ng-if="danmu.nick==null">&nbsp;</span>
+                                    </td>
+                                    <td>
+                                        <span ng-if="!danmu.isBlocked">{{danmu.msg}}</span>
+                                        <span ng-if="danmu.isBlocked"><del> {{danmu.msg}}</del></span>
+                                    </td>
+                                    <td>
+                                        <img ng-if="danmu.imgUrl!=null" ng-src="{{danmu.imgUrl}}" style="width: 30px;height: 30px;"/>
+                                        <span ng-if="danmu.imgUrl==null">&nbsp;</span>
+                                    </td>
+                                    <td>
+                                        <span ng-if="!danmu.s||danmu.s>0">{{danmu.s}}秒</span>
+                                        <span ng-if="danmu.s<=0&&danmu.s>-10">已发送</span>
+                                        <span ng-if="danmu.s<=-10">未发送</span>
+                                    </td>
+                                    <td>
+                                        <span ng-if="danmu.isBlocked">已删除</span>
+                                        <button ng-if="(!danmu.s||danmu.s>0)&&!danmu.isBlocked" type="button"
+                                                class="btn btn-danger btn-sm" ng-click="setDanmuBlocked(danmu.id)">
+                                            删除
+                                        </button>
                                     </td>
                                 </tr>
-                                </tbody>
+
                             </table>
                         </div>
                         <!-- /widget-content -->
@@ -64,31 +84,20 @@
                                         <h3 style="margin-right: 1em; ">历史弹幕查看&gt;&gt;</h3>
                                     </div>
                                 </li>
-                                <li>
-                                    <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
-                                        <h3 style="margin-right: 1em;width: 98px;">弹幕密度</h3>
-                                        <input type="text" id="txt_btn-density" style="position: relative;line-height: 18px;top: 3px;width: 20px;" maxlength="2"/>
-                                        <button class="btn btn-info btn-density" style="margin-left: 0em;">确定</button>
-                                    </div>
-                                </li>
+
 
                                 <li>
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
                                         <h3 style="margin-right: 1em;width: 98px;">延长活动时间</h3>
-                                        <input type="text" id="txt_partytime" style="position: relative;line-height: 18px;top: 3px;width: 20px;" maxlength="2"/>
-                                        <button class="btn btn-info btn-partyDelay" style="margin-left: 0em;">确定</button>
+                                        <input type="text" id="delaySecond" style="position: relative;line-height: 18px;top: 3px;width: 40px;" maxlength="2" ng-model="delaySecond"/>
+                                        <button class="btn btn-info btn-partyDelay" style="margin-left: 0em;" ng-class="{'disabled':!delaySecond||delaySecond<=0}">确定</button>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
-                                        <h3 style="margin-right: 1em;width: 98px;">测试弹幕控制</h3>
-                                        <input id="testDanmuModel" name="testDanmuModel" type="checkbox" data-size="small"/>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
-                                        <h3 style="margin-right: 1em;width: 98px;">预制弹幕控制</h3>
-                                        <input id="preDanmuModel" name="preDanmuModel" type="checkbox" data-size="small"/>
+                                        <h3 style="margin-right: 1em;width: 98px;">弹幕密度</h3>
+                                        <input type="text" id="txt_btn-density"  style="position: relative;line-height: 18px;top: 3px;width: 40px;" maxlength="2" ng-model="danmuDensity"/>
+                                        <button class="btn btn-info btn-density" style="margin-left: 0em;" ng-class="{'disabled':!danmuDensity||danmuDensity<=0}">确定</button>
                                     </div>
                                 </li>
                                 <li>
@@ -97,20 +106,42 @@
                                         <i class="icon-bookmark"></i>
                                         <h3 style="margin-right: 1em;width: 98px;">延迟时间</h3>
                                         <button class="btn btn-sm btn-default time-delay-plus" type="button" ng-click="setDelaySecond(false)">
+                                            -
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-default"> 0</button>
+                                        <button class="btn btn-sm btn-default time-delay-sub" type="button" ng-click="setDelaySecond(true)">
                                             +
                                         </button>
-                                        <button type="button" class="btn btn-sm btn-default"> 延迟0秒</button>
-                                        <button class="btn btn-sm btn-default time-delay-sub" type="button" ng-click="setDelaySecond(true)">
-                                            -
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
+                                        <h3 style="margin-right: 1em;width: 98px;">测试弹幕控制</h3>
+                                        <!--
+                                        <input id="preDanmuModel" class="preDanmuModel" name="preDanmuModel" type="checkbox" data-size="small"/>
+                                        -->
+                                        <button type="button" class="btn btn-sm btn-danger" ng-class="{'disabled':testModel==false}" ng-click="setTestModelHandler(false)">关闭</button>
+                                        <button type="button" class="btn btn-sm btn-info" ng-class="{'disabled':testModel}" ng-click="setTestModelHandler(true)">开启
+                                        </button>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
+                                        <h3 style="margin-right: 1em;width: 98px;">预制弹幕控制</h3>
+                                        <!--
+                                        <input id="preDanmuModel" class="preDanmuModel" name="preDanmuModel" type="checkbox" data-size="small"/>
+                                        -->
+                                        <button type="button" class="btn btn-sm btn-danger" ng-class="{'disabled':preStatus==false}" ng-click="setPreDanmuHandler(false)">关闭</button>
+                                        <button type="button" class="btn btn-sm btn-info" ng-class="{'disabled':preStatus}" ng-click="setPreDanmuHandler(true)">开启
                                         </button>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
                                         <h3 style="margin-right: 1em;width: 98px;">播放器控制</h3>
-                                        <button class="btn btn-info " title="关闭客户端" onclick="operateScreenHandler(0)"  ng-class="{'disabled':playerStatus==0}">关闭</button>
-                                        <button class="btn btn-info " title="显示视频" onclick="operateScreenHandler(1)" ng-class="{'disabled':playerStatus==1}"> 视频</button>
-                                        <button class="btn btn-info " title="显示弹幕" onclick="operateScreenHandler(2)" ng-class="{'disabled':playerStatus==2}">弹幕</button>
+                                        <button class="btn btn-danger " id="playerStatus_0" title="关闭客户端" onclick="operateScreenHandler(0)"  ng-class="{'disabled':playerStatus==0}">关闭</button>
+                                        <button class="btn btn-info " id="playerStatus_1" title="显示视频" onclick="operateScreenHandler(1)" ng-class="{'disabled':playerStatus==1}"> 视频</button>
+                                        <button class="btn btn-info " id="playerStatus_2" title="显示弹幕" onclick="operateScreenHandler(2)" ng-class="{'disabled':playerStatus==2}">弹幕</button>
                                     </div>
                                 </li>
                             </ul>

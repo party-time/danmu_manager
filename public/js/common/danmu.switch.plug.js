@@ -1,12 +1,16 @@
 (function ($) {
-    $.initSwitch = function (id, changeHandler) {
+    $.initSwitch = function (id) {
         $('#' + id).bootstrapSwitch({
             onText: "启动",
             offText: "关闭",
             onColor: "success",
             offColor: "danger",
             size: "small",
-            onSwitchChange: changeHandler
+            inverse:true,
+            animate:true,
+            onSwitchChange:function () {
+                return;
+            }
         });
     }
 })(jQuery);
