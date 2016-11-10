@@ -8,33 +8,34 @@
                 <div class="span8">
                     <div class="widget widget-table action-table">
                         <div class="widget-header"><i class="icon-th-list"></i>
-                            <h3> 当前活动：<span>外公芳龄48</span></h3>
-                            <h3> 当前状态：A</h3>
+                            <h3> 当前活动：<span class="danmu-partyName">{{partyName}}</span> 当前状态：<span class="danmuCheck-link-status">{{link_Status}}</span></h3>
+                            <!--
+                            <h3> 当前状态：<span class="danmuCheck-link-status">{{link_Status}}</span></h3>
+                            -->
                         </div>
                         <!-- /widget-header -->
-                        <div class="widget-content">
+                        <div class="widget-content" style=" overflow-x:auto;">
                             <table class="table table-striped table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>发送时间</th>
+                                    <th width="20%">发送时间</th>
                                     <th>昵称</th>
-                                    <th>消息</th>
+                                    <th width="20%">消息</th>
                                     <th>图片</th>
-                                    <th>剩余时间</th>
-                                    <th class="td-actions"></th>
+                                    <th>秒数</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td> Fresh Web Development Resources</td>
-                                    <td> http://www.cssmoban.com/</td>
-                                    <td> Fresh Web Development Resources</td>
-                                    <td> http://www.cssmoban.com/</td>
-                                    <td> Fresh Web Development Resources</td>
-                                    <td class="td-actions"><a href="javascript:;" class="btn btn-small btn-success"><i
-                                            class="btn-icon-only icon-ok"> </i></a><a href="javascript:;"
-                                                                                      class="btn btn-danger btn-small"><i
-                                            class="btn-icon-only icon-remove"> </i></a></td>
+                                    <td> 2016-11-10 15:35:04 </td>
+                                    <td> 一条龙 </td>
+                                    <td >222222222222222</td>
+                                    <td> <img src="https://ss0.baidu.com/94o3dSag_xI4khGko9WTAnF6hhy/image/h%3D360/sign=9bb90992550fd9f9bf17536f152cd42b/9a504fc2d5628535959cf4cf94ef76c6a6ef63db.jpg" style="width: 50px; height: 50px;"/></td>
+                                    <td> 3秒 </td>
+                                    <td >
+                                        <a href="javascript:;" class="btn btn-danger btn-small">删除</a>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -107,10 +108,9 @@
                                 <li>
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
                                         <h3 style="margin-right: 1em;width: 98px;">播放器控制</h3>
-
-                                        <button class="btn btn-danger " title="关闭客户端" onclick="operateScreenHandler(0)">关闭</button>
-                                        <button class="btn btn-info " title="显示视频" onclick="operateScreenHandler(1)"> 视频</button>
-                                        <button class="btn btn-success " title="显示弹幕" onclick="operateScreenHandler(2)">弹幕</button>
+                                        <button class="btn btn-info " title="关闭客户端" onclick="operateScreenHandler(0)"  ng-class="{'disabled':playerStatus==0}">关闭</button>
+                                        <button class="btn btn-info " title="显示视频" onclick="operateScreenHandler(1)" ng-class="{'disabled':playerStatus==1}"> 视频</button>
+                                        <button class="btn btn-info " title="显示弹幕" onclick="operateScreenHandler(2)" ng-class="{'disabled':playerStatus==2}">弹幕</button>
                                     </div>
                                 </li>
                             </ul>
