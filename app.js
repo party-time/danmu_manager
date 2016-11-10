@@ -24,6 +24,28 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+var authorize = function(req, res, next){
+     if(!req.cookies.auth_key){
+        res.redirect('/login');
+        next();
+      } else {
+        next();
+      }
+}
+
+
+
+app.use(function(req,res,next){
+console.log('Request URL:', req.originalUrl);
+    if("/login" != req.originalUrl){
+        authorize(req,res,next);
+    }else{
+        next();
+    }
+
+});
+
 app.use('/', route);
 
 // catch 404 and forward to error handler
@@ -43,5 +65,9 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
+
+
 
 module.exports = app;

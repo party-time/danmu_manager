@@ -7,16 +7,43 @@ $.ajaxSetup({
     },
     //请求失败遇到异常触发
     error: function (xhr, status, e) {
-        console.log('error invoke!' + data + '<br/>');
+        console.log('error invoke!' + e + '<br/>');
     },
     //完成请求后触发。即在success或error触发后触发
     complete: function (xhr, status) {
         console.log('complete invoke! status:' + status + '<br/>');
+        if (xhr.status == 444) {
+            window.location = '/login';
+            return;
+        }
     },
     //发送请求前触发
     beforeSend: function (xhr) {
         //可以设置自定义标头
-        xhr.setRequestHeader('Content-Type', 'application/xml;charset=utf-8');
+        //xhr.setRequestHeader('Content-Type', 'application/xml;charset=utf-8');
         console.log('beforeSend invoke!' +'<br/>');
     },
 })
+
+var setAdminNick = function(){
+    var nick = $.cookie('nick');
+    var adminNickHtml = '<a href="#" class="dropdown-toggle" data-toggle="dropdown" > <i class="icon-user"></i>'+nick+
+   '<b class="caret"></b> </a><ul class="dropdown-menu"><li><a href="javascript:;">修改密码</a></li><li><a href="javascript:;" onclick="logout()">登出</a></li></ul>';
+    $('.adminNick').html(adminNickHtml);
+}
+
+var logout = function(){
+    $.ajax({
+            url:"/v1/logout",
+            type: "get",
+            dataType: "json",
+    }).done(function (data) {
+        if (data.result == 200) {
+            window.location.href='/login';
+        } else {
+            alert(data.result_msg);
+        };
+    });
+
+}
+
