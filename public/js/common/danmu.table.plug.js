@@ -9,8 +9,8 @@
                 height: 550,
                 striped: true,  //表格显示条纹
                 pagination: true, //启动分页
-                pageSize: 10,  //每页显示的记录数
-                pageNumber: 1, //当前第几页
+                pageSize: (queryParamObject.pageSize!=null)?queryParamObject.pageSize:10,  //每页显示的记录数
+                pageNumber: (queryParamObject.pageNumber!=null)?queryParamObject.pageNumber:1, //当前第几页
                 pageList: [5, 10, 15, 20, 25],  //记录数可选列表
                 search: false,  //是否启用查询
                 //showColumns: true,  //显示下拉框勾选要显示的列
