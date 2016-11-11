@@ -1,10 +1,10 @@
 (function () {
     var app = angular.module('danmuCheckApp', []);
-    app.controller('danmuCheckCtrl', function ($scope) {
+    app.controller('danmuCheckCtrl', function ($scope,$interval) {
 
 
-        $scope.partyId = "581a9dc50cf2852c417a9b31";
-        $scope.addressId = "580078b30cf28b271aea44e5";
+        $scope.partyId = "5825685d0cf234b532cb823f";
+        $scope.addressId = "580855800cf2c73403935868";
 
 
         $scope.partyName;//活动名称
@@ -26,7 +26,8 @@
         $scope.adminCount = 0;
 
 
-        $scope.danmuList = [];
+
+        $scope.danmuList = [];//弹幕猎豹
 
         $scope.type = {
             type_init: 'init',
@@ -91,15 +92,16 @@
                 $scope.preStatus = json.data.preDanmu;
                 //测试模式
                 $scope.testModel = json.data.testIsOpen;
-                if ($scope.testModel) {
+                /*if ($scope.testModel) {
                     ws.send($.objectCovertJson({
                         type: 'test',
                         partyId: $scope.partyId,
                         addressId: $scope.addressId,
                         "status": $scope.testModel
                     }));
-                }
-
+                }*/
+                //刷新弹幕频率
+                $interval(refreshDanmuList, 1000);
             } else if (json.type == $scope.type.type_adminCount) {
                 $scope.adminCount = json.data;
             } else if(json.type == $scope.type.type_modeltest){
@@ -107,11 +109,11 @@
             }else if (json.type == $scope.type.type_testDanmu) {
                 var danmu = json.data;
                 danmu.s = 10;
-                danmu.createTime = new Date().getTime() + 1000;
+                danmu.createTime = new Date().getTime()+1000;
                 $scope.danmuList.unshift(setDanmuLeftTime(danmu, new Date().getTime()));
-                if ($scope.danmuList.length > 1000) {
+                /*if ($scope.danmuList.length > 1000) {
                     $scope.clearAndTurnUp();
-                }
+                }*/
             }
         }
 
@@ -152,9 +154,34 @@
         }
 
 
+        $scope.setDanmuBlocked = function (id) {
+            if (webSocketIsConnect()) {
+                for (var i = 0; i < $scope.danmuList.length; i++) {
+                    var danmu = $scope.danmuList[i];
+                    if (danmu.id == id) {
+                        danmu.isBlocked = true;
+                        danmu.s = -10;
+                        /*client.send(JSON.stringify({
+                            type: 'blockDanmu',
+                            partyId: $scope.partyId,
+                            addressId: $scope.addressId,
+                            danmuId: danmu.id
+                        }));
+                        break;*/
+                    }
+                }
+            }
+        };
+        /**
+         * 测试模式处理
+         * @param state
+         */
         $scope.setTestModelHandler = function (state) {
             if (webSocketIsConnect()) {
                 webSocketSendMessage({type: $scope.type.type_modeltest,partyId: $scope.partyId,addressId: $scope.addressId, "status": state})
+                if(!state){
+                    $scope.danmuList = [];
+                }
             }
         }
 
@@ -199,6 +226,17 @@
             //alert('服务器连接异常!');
             return false;
         }
+
+        //刷新弹幕列表的时间
+        var refreshDanmuList = function () {
+            if ($scope.danmuList && $scope.danmuList.length > 0) {
+                var nowTime = new Date().getTime();
+                for (var i = 0; i < $scope.danmuList.length; i++) {
+                    setDanmuLeftTime($scope.danmuList[i], nowTime)
+                }
+                //$scope.danmuListScrollTop = danmuListE.scrollTop;
+            }
+        };
         var setDanmuLeftTime = function (danmu, nowTime) {
             if (!danmu.s || danmu.s > 0) {
                 if (!danmu.createTime) {
@@ -207,14 +245,14 @@
                 danmu.s = parseInt($scope.delaySecond - ( nowTime - danmu.createTime) / 1000);
                 if (danmu.s == 0) {
                     danmu.s = -1;
-                    client.send(JSON.stringify({
+                    /*client.send(JSON.stringify({
                         "type": danmu.type,
                         "msg": danmu.msg,
                         "partyId": $scope.partyId,
                         "addressId": $scope.addressId,
                         "color": danmu.color,
                         "openId": danmu.openId
-                    }));
+                    }));*/
                 }
             }
             return danmu;
