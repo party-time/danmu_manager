@@ -24,6 +24,10 @@ router.get('/partyResource', function(req, res, next) {
   res.render('pary/partyResource');
 });
 
+router.get('/addParty', function(req, res, next) {
+  res.render('party/addParty');
+});
+
 
 /**地址管理*/
 router.get('/cinema', function(req, res, next) {

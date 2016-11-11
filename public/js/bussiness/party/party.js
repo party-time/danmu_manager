@@ -38,7 +38,7 @@ var columnsArray = [
                 }
             }
             selectHtml += '</select>';
-            return '<button type="button" class = "sendPrize" id="row_' + row.id + '">删除</button>'+
+            return '<button type="button" class = "sendPrize" onclick="delParty(\''+row.id+'\',\''+row.name+'\')">删除</button>'+
             '<button type="button" class = "sendPrize" id="row_' + row.id + '">弹幕审核</button>'+
             '<button type="button" class = "sendPrize" id="row_' + row.id + '">资源管理</button>'+
             '<button type="button" class = "sendPrize" id="row_' + row.id + '">定时弹幕</button>'+selectHtml;
@@ -83,6 +83,30 @@ var changeDanmuLibrary = function(partyId){
         }, function (data) {
             console.log(data);
         });
+}
+
+var delParty = function(id,name){
+    if(confirm('确定要删除'+name+'活动吗？')){
+        var obj = {
+            'id':id
+        }
+        $.danmuAjax('/v1/api/admin/party/del', 'GET','json',obj, function (data) {
+
+            if( data.result == 200){
+                $.initTable('tableList', columnsArray, quaryObject, tableUrl);
+            }else{
+                alert('更新失败')
+            }
+
+        }, function (data) {
+            console.log(data);
+        });
+    }
+
+};
+
+var addParty = function(){
+    window.location.href="addParty";
 }
 
 getAllDanmuLibrary();
