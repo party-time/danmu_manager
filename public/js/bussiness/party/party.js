@@ -26,7 +26,7 @@ var columnsArray = [
         field: 'danmuLibraryId', title: '操作',
         align: 'center',
         formatter: function (value, row, index) {
-            var selectHtml = '<select id="dl_'+row.id+'" onchange="changeDanmuLibrary(\''+row.id+'\')">';
+            var selectHtml = '<select id="dl_'+row.id+'" onchange="changeDanmuLibrary(\''+row.id+'\')" style="width: 100px;margin-bottom: 0px;">';
             if( null != danmuLibraryList){
                 for( var i=0;i<danmuLibraryList.length;i++){
                         if(value == danmuLibraryList[i].id){
