@@ -15,40 +15,39 @@
                                         <fieldset>
 
                                             <div class="control-group" style="margin-top: 18px;">
-                                                <label class="control-label" for="firstname">活动名称</label>
+                                                <label class="control-label" for="name">活动名称</label>
                                                 <div class="controls">
-                                                    <input type="text" class="span6" id="firstname" value="John">
-                                                    <p class="help-block">Your username is for logging in and cannot be changed.</p>
+                                                    <input type="text" class="span6" id="name" placeholder="弹幕电影" maxlength="15" onblur="findPartyByName()">
                                                 </div> <!-- /controls -->
                                             </div> <!-- /control-group -->
 
 
                                             <div class="control-group">
-                                                <label class="control-label" for="lastname">开始时间</label>
+                                                <label class="control-label" for="startTime">开始时间</label>
                                                 <div class="controls">
-                                                    <input type="text" class="span6" id="lastname" value="yyyy-MM-dd HH:mm">
+                                                    <input type="text" class="span6" id="startTime" placeholder="yyyy-MM-dd HH:mm" onblur="checkStartTime()">
                                                 </div> <!-- /controls -->
                                             </div> <!-- /control-group -->
 
 
                                             <div class="control-group">
-                                                <label class="control-label" for="email">结束时间</label>
+                                                <label class="control-label" for="endTime">结束时间</label>
                                                 <div class="controls">
-                                                    <input type="text" class="span4" id="email" value="yyyy-MM-dd HH:mm">
+                                                    <input type="text" class="span4" id="endTime" placeholder="yyyy-MM-dd HH:mm" onblur="checkEndTime()">
                                                 </div> <!-- /controls -->
                                             </div> <!-- /control-group -->
 
                                             <div class="control-group">
-                                                <label class="control-label" for="email">活动拼音首字母</label>
+                                                <label class="control-label" for="shortName">活动名称简写</label>
                                                 <div class="controls">
-                                                    <input type="text" class="span4" id="shortName">
+                                                    <input type="text" class="span4" id="shortName" placeholder="dmdy" maxlength="10" onblur="findPartyByShortName()">
                                                 </div> <!-- /controls -->
                                             </div> <!-- /control-group -->
 
                                             <br>
 
                                             <div class="form-actions">
-                                                <button type="submit" class="btn btn-primary">Save</button> <button class="btn">Cancel</button>
+                                                <a class="btn btn-primary" id="saveParty" onclick="saveParty();">保存</a> <a class="btn" onclick="returnPartyList();">返回列表</a>
                                             </div>
                                         </fieldset>
                                     </form>

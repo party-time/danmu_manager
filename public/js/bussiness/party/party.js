@@ -91,7 +91,6 @@ var delParty = function(id,name){
             'id':id
         }
         $.danmuAjax('/v1/api/admin/party/del', 'GET','json',obj, function (data) {
-
             if( data.result == 200){
                 $.initTable('tableList', columnsArray, quaryObject, tableUrl);
             }else{
@@ -106,7 +105,7 @@ var delParty = function(id,name){
 };
 
 var addParty = function(){
-    window.location.href="addParty";
+    window.location.href="/party/add";
 }
 
 getAllDanmuLibrary();

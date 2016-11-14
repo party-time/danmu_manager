@@ -24,7 +24,7 @@ router.get('/partyResource', function(req, res, next) {
   res.render('pary/partyResource');
 });
 
-router.get('/addParty', function(req, res, next) {
+router.get('/party/add', function(req, res, next) {
   res.render('party/addParty');
 });
 

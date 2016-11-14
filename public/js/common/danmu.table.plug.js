@@ -3,7 +3,7 @@
  */
 (function ($) {
         $.initTable = function (id, columnsArray, queryParamObject, url) {
-            $('#' + id).bootstrapTable({
+            $('#' + id).bootstrapTable('destroy').bootstrapTable({
                 url: url,
                 columns: columnsArray,
                 height: 550,
