@@ -38,11 +38,11 @@ var columnsArray = [
                 }
             }
             selectHtml += '</select>';
-            return '<button type="button" class = "sendPrize" onclick="delParty(\''+row.id+'\',\''+row.name+'\')">删除</button>'+
-            '<button type="button" class = "sendPrize" id="row_' + row.id + '">弹幕审核</button>'+
-            '<button type="button" class = "sendPrize" id="row_' + row.id + '">资源管理</button>'+
-            '<a class="btn" " data-toggle="modal" role="button" onclick="openAddress(\''+row.name+'\',\''+row.id+'\')">场地管理</a>'+
-            '<button type="button" class = "sendPrize" id="row_' + row.id + '">定时弹幕</button>'+selectHtml;
+            return '<a class="btn" onclick="delParty(\''+row.id+'\',\''+row.name+'\')">删除</a>'+
+            '<a class="btn" >弹幕审核</a>'+
+            '<a class="btn">资源管理</a>'+
+            '<a class="btn" data-toggle="modal" role="button" onclick="openAddress(\''+row.name+'\',\''+row.id+'\')">场地管理</a>'+
+            '<a class="btn">定时弹幕</a>'+selectHtml;
 
         },
         events: 'operateEvents'
