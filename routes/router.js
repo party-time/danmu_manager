@@ -34,6 +34,14 @@ router.get('/cinema', function(req, res, next) {
   res.render('cinema/cinema');
 });
 
+router.get('/cinema/add', function(req, res, next) {
+  res.render('cinema/addAddress');
+});
+
+router.get('/cinema/update', function(req, res, next) {
+  res.render('cinema/addAddress');
+});
+
 /**屏蔽词管理*/
 router.get('/blockword', function(req, res, next) {
   res.render('blockword/blockword');
