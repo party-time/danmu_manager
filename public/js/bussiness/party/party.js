@@ -41,6 +41,7 @@ var columnsArray = [
             return '<button type="button" class = "sendPrize" onclick="delParty(\''+row.id+'\',\''+row.name+'\')">删除</button>'+
             '<button type="button" class = "sendPrize" id="row_' + row.id + '">弹幕审核</button>'+
             '<button type="button" class = "sendPrize" id="row_' + row.id + '">资源管理</button>'+
+            '<a class="btn" " data-toggle="modal" role="button" onclick="openAddress(\''+row.name+'\',\''+row.id+'\')">场地管理</a>'+
             '<button type="button" class = "sendPrize" id="row_' + row.id + '">定时弹幕</button>'+selectHtml;
 
         },
@@ -106,6 +107,107 @@ var delParty = function(id,name){
 
 var addParty = function(){
     window.location.href="/party/add";
+}
+
+var openAddress = function(partyName,partyId){
+    var addressTableUrl = '/v1/api/admin/address/queryByPartyId';
+    var addressQueryObject = {
+        partyId:partyId,
+        pageSize: 6
+    }
+    var addressColumnsArray =[
+        {
+            field: 'name',
+            title: '名称',
+            align: 'center'
+        },
+        {
+           field: 'id', title: '操作',
+           align: 'center',
+           formatter: function (value, row, index) {
+                return '<a class="btn" onclick="delAddress(\''+partyName+'\',\''+row.name+'\',\''+partyId+'\',\''+row.id+'\')">删除</a>';
+           }
+        }
+    ];
+    $.initTable('addressTableList', addressColumnsArray, addressQueryObject, addressTableUrl);
+    $('#myModalLabel').html(partyName+'的场地管理');
+    var buttonHtml = '<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>' +
+    '<button class="btn btn-primary" onclick="openMoreAddress(\''+partyName+'\',\''+partyId+'\')">查看更多场地</button>';
+    $('.modal-footer').html(buttonHtml);
+    $('.modal-body').find('.pull-left').remove();
+    $('#myModal').modal('show');
+}
+
+var openMoreAddress = function(partyName,partyId){
+    var addressTableUrl = '/v1/api/admin/address/queryNoParty';
+    var addressQueryObject = {
+        partyId:partyId,
+        pageSize: 6
+    }
+    var addressColumnsArray =[
+        {
+            field: 'name',
+            title: '名称',
+            align: 'center'
+        },
+        {
+           field: 'id', title: '操作',
+           align: 'center',
+           formatter: function (value, row, index) {
+                return '<a class="btn" onclick="selectAddress(\''+partyName+'\',\''+partyId+'\',\''+row.id+'\')">添加</a>';
+           }
+        }
+    ];
+
+    var tableSuccess = function(){
+        $('.modal-body').find('.pull-left').remove();
+    }
+    $.initTable('addressTableList', addressColumnsArray, addressQueryObject, addressTableUrl,tableSuccess);
+
+    var buttonHtml = '<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>' +
+    '<button class="btn btn-primary" onclick="openAddress(\''+partyName+'\',\''+partyId+'\')">本活动的场地</button>';
+    $('.modal-footer').html(buttonHtml);
+}
+
+
+var selectAddress = function(partyName,partyId,addressId){
+    var obj = {
+        partyId:partyId,
+        addressId:addressId
+    }
+    $.danmuAjax('/v1/api/admin/partyAddressRelation/save', 'GET','json',obj, function (data) {
+        if(data.result == 200) {
+          console.log(data);
+          openAddress(partyName,partyId);
+          alert('添加成功');
+         }else{
+            alert('添加失败');
+         }
+    }, function (data) {
+        console.log(data);
+    });
+
+}
+
+var delAddress = function(partyName,addressName,partyId,addressId){
+    if(confirm('确定要删除'+addressName+'吗？')){
+        var obj = {
+            partyId:partyId,
+            addressId:addressId
+        }
+        $.danmuAjax('/v1/api/admin/partyAddressRelation/delByPartyIdAndAddressId', 'GET','json',obj, function (data) {
+            if(data.result == 200) {
+              console.log(data);
+              openAddress(partyName,partyId);
+              alert('删除成功');
+             }else{
+                alert('删除失败');
+             }
+        }, function (data) {
+            console.log(data);
+        });
+    }
+
 }
 
 getAllDanmuLibrary();

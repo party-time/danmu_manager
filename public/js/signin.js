@@ -22,7 +22,7 @@ var login = function(){
         }
     }).done(function (data) {
         if (data.result == 200) {
-            window.location.href='/';
+            window.location.href='/party';
         } else {
             alert(data.result_msg);
         };
