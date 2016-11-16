@@ -64,6 +64,9 @@ var navbarSelect = function(){
     if( url.indexOf('/predanmu')!=-1){
         $('.icon-list-alt').parent().parent().attr('class','active');
     }
+    if( url.indexOf('/wechat')!=-1){
+        $('.icon-camera').parent().parent().attr('class','active');
+    }
 
 }
 

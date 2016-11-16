@@ -47,6 +47,10 @@ router.get('/blockword', function(req, res, next) {
   res.render('blockword/blockword');
 });
 
+router.get('/wechat', function(req, res, next) {
+  res.render('wechat/wechatReply');
+});
+
 /**定时弹幕管理*/
 router.get('/timerDanmu', function(req, res, next) {
   res.render('danmu/timerDanmu');

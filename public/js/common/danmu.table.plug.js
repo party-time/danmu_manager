@@ -26,7 +26,7 @@
                 },
                 onLoadSuccess:function(data) {
                     if(onLoadSuccessFunc){
-                        onLoadSuccessFunc();
+                        onLoadSuccessFunc(data);
                     }
 
                 }

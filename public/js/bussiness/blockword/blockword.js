@@ -23,7 +23,7 @@ var columnsArray = [
     }
 ];
 var quaryObject = {
-    pageSize: 30
+    pageSize: 20
 };
 
 var queryTableUrl = '/v1/api/admin/blockKeywords/find';
@@ -33,7 +33,7 @@ var findWordLike = function(){
     if( word != ''){
         var quaryTableObject = {
             word:word,
-            pageSize: 30
+            pageSize: 20
         };
         $.initTable('tableList', columnsArray, quaryTableObject, queryTableUrl);
     }else{
