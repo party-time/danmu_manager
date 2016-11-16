@@ -5,22 +5,47 @@
     <div class="main-inner">
         <div class="container">
             <div class="row">
-                <div class="span12">
-                    <div class="widget widget-table action-table">
+                <div class="span8">
+                    <div class="widget widget-nopad">
+                        <div class="widget-header"> <i class="icon-list-alt"></i>
+                            <h3> 定时弹幕时间分布图</h3>
+                        </div>
+                        <!-- /widget-header -->
+                        <div class="widget-content">
+                            <div id="container" style="min-width: 310px; min-height: 300px; margin: 0 auto"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /span8 -->
+                <div class="span4">
+                    <div class="widget widget-nopad">
+                        <div class="widget-header"> <i class="icon-list-alt"></i>
+                            <h3> 弹幕添加</h3>
+                        </div>
+                        <!-- /widget-header -->
+                        <div class="widget-content">
+                                2222222222222222
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span8">
+                    <div class="widget widget-nopad">
+                        <div class="widget-header"> <i class="icon-list-alt"></i>
+                            <h3> 弹幕列表</h3>
+                        </div>
                         <!-- /widget-header -->
                         <div class="widget-content">
                             <table id="tableList" class="table table-striped"
                                    data-pagination-first-text="第一页"
                                    data-pagination-pre-text="前一页"
                                    data-pagination-next-text="下一页"
-                                   data-pagination-last-text="最后一页"></table>
+                                   data-pagination-last-text="最后一页"  table-height="40%" >
                             </table>
                         </div>
-                        <!-- /widget-content -->
                     </div>
-                    <!-- /widget -->
                 </div>
-                <!-- /span6 -->
+                <!-- /span68 -->
             </div>
             <!-- /row -->
         </div>
@@ -28,8 +53,17 @@
     </div>
     <!-- /main-inner -->
 </div>
+
 <link href="/plug/bootstrapTable/bootstrap-table.min.css" rel="stylesheet"/>
 <script src="/plug/bootstrapTable/bootstrap-table.min.js"></script>
 <script src="/plug/bootstrapTable/locale/bootstrap-table-zh-CN.min.js"></script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="/js/common/danmu.table.plug.js"></script>
+<script src="/js/common/danmu.ajax.plug.js"></script>
+<script src="/js/bussiness/danmu/danmu.timerdanmu.js"></script>
+
+
 
 <% include ../common/bottom.html %>

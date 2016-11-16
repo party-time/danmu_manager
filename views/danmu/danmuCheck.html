@@ -14,7 +14,7 @@
                         <span id="stime" style="color:red;"><button type="button" class="btn btn-sm btn-info" ng-click="filmStart(2)">电影开始</button></span>
                         <span id="etime" style="color:red;"><button type="button" class="btn btn-sm btn-danger" ng-click="filmStart(3)">电影结束</button></span>
                     </h4>
-                    <div class="widget widget-table action-table">
+                    <div class="widget widget-table">
                         <div class="widget-header"><i class="icon-th-list"></i>
                             <h3>弹幕列表   <span class="danmuCheck-link-status">{{danmuList.length}}</span>条</h3>
                         </div>
@@ -145,8 +145,8 @@
                         <!-- /widget-header -->
                         <div class="widget-content">
                            <span ng-repeat="specialVideo in specialVideos" ng-if="specialVideos.length > 0">
-                                <button type="button" class="btn btn-sm btn-default" ng-click="showSpecialVideo(specialVideo,specialVideo.status)" ng-if="specialVideo.status==0">{{specialVideo.resourceName}}</button>
-                                <button type="button" class="btn btn-sm btn-danger" ng-click="showSpecialVideo(specialVideo,specialVideo.status)" ng-if="specialVideo.status==1">{{specialVideo.resourceName}}</button>
+                                <button type="button" class="btn btn-sm btn-default" ng-click="showSpecialVideo(specialVideo,specialVideo.status)" ng-if="specialVideo.status==0" title="{{specialVideo.resourceName}}">{{specialVideo.resourceName}}</button>
+                                <button type="button" class="btn btn-sm btn-danger" ng-click="showSpecialVideo(specialVideo,specialVideo.status)" ng-if="specialVideo.status==1" title="{{specialVideo.resourceName}}">{{specialVideo.resourceName}}</button>
                         </span>
                         </div>
                         <!-- /widget-content -->
