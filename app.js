@@ -26,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 var authorize = function(req, res, next){
+
      if(!req.cookies.auth_key){
         res.redirect('/login');
         next();
