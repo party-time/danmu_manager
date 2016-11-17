@@ -1,5 +1,4 @@
 var tableUrl = '/v1/api/admin/blockKeywords';
-var blockwordIndex = 0;
 var columnsArray = [
     {
         title: '序号',

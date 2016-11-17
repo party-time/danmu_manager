@@ -1,22 +1,69 @@
 <% include ../common/header.html %>
 <% include ../common/navbar.html %>
 <!-- /subnavbar -->
+<style type="text/css">
+.list-group-item{
+    list-style-type:none;
+}
+
+.list-span-text{
+     border: solid 2px #f5f5f5;
+}
+
+</style>
 <div class="main">
     <div class="main-inner">
         <div class="container">
+            <div>
+                弹幕库名称:<input type="text" style="margin-left:10px;" id="dlName"/>
+                <select id="selectedDl" style="width:100px;margin-left:10px;" onchange="getDanmuLibraryPage()"></select>
+                <button type="button" class="btn btn-primary" onclick="saveDanmuLibrary()" style="margin-bottom:10px;margin-left:10px;">保存弹幕库</button>
+            </div>
             <div class="row">
-                <div class="span12">
+                <div class="span4 history">
                     <div class="widget widget-table action-table">
                         <!-- /widget-header -->
                         <div class="widget-content">
-                            <table id="tableList" class="table table-striped"
-                                   data-pagination-first-text="第一页"
-                                   data-pagination-pre-text="前一页"
-                                   data-pagination-next-text="下一页"
-                                   data-pagination-last-text="最后一页"></table>
-                            </table>
+                            <ul style="margin-left: 0px;margin-bottom: 0px;" id="historyDm">
+
+                            </ul>
+
                         </div>
                         <!-- /widget-content -->
+                    </div>
+                    <!-- /widget -->
+                </div>
+                <div class="span4">
+                    <div class="widget widget-table action-table">
+                        <!-- /widget-header -->
+                        <div class="widget-content">
+                            <ul style="margin-left: 0px;margin-bottom: 0px;" id="dlDm">
+
+                            </ul>
+                        </div>
+                        <!-- /widget-content -->
+                    </div>
+                    <!-- /widget -->
+                </div>
+                <div class="span4">
+                    <div class="widget widget-table action-table">
+                        <div class="form-horizontal">
+                            <div class="controls">
+                                <textarea  placeholder="请输入弹幕内容..."></textarea>
+                            </div>
+                            <div class="controls">
+                                <div>弹幕颜色：</div>
+                                <div class="clearfix">
+
+                                </div>
+                            </div>
+                            <div class="controls">
+                                <button type="button" class="btn btn-primary" ng-class="{disabled:danmuMsg.length>40}" ng-click="addNewDanmu()">
+                                    发送
+                                </button>
+
+                            </div>
+                        </div>
                     </div>
                     <!-- /widget -->
                 </div>
@@ -31,5 +78,7 @@
 <link href="/plug/bootstrapTable/bootstrap-table.min.css" rel="stylesheet"/>
 <script src="/plug/bootstrapTable/bootstrap-table.min.js"></script>
 <script src="/plug/bootstrapTable/locale/bootstrap-table-zh-CN.min.js"></script>
-
+<script src="/js/common/danmu.table.plug.js"></script>
+<script src="/js/common/danmu.ajax.plug.js"></script>
+<script src="/js/bussiness/danmu/danmu.predanmu.js"></script>
 <% include ../common/bottom.html %>
