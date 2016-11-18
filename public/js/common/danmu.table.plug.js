@@ -2,7 +2,7 @@
  * danmu.table.plug v1.0.0
  */
 (function ($) {
-        $.initTable = function (id, columnsArray, queryParamObject, url,onLoadSuccessFunc) {
+        $.initTable = function (id, columnsArray, queryParamObject, url,onLoadSuccessFunc,formatNoMatches) {
             var tableHeight = $('#'+id).attr('table-height');
             $('#' + id).bootstrapTable('destroy').bootstrapTable({
                 url: url,
@@ -35,7 +35,16 @@
                             onLoadSuccessFunc(data);
                         }
                     }
+                },
+                formatNoMatches:function(){
+                    if( null != formatNoMatches && ''!=formatNoMatches){
+                        return formatNoMatches;
+                    }else{
+                        return '没有找到匹配的记录';
+                    }
+
                 }
+
             });
         }
 })(jQuery);

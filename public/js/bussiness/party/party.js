@@ -39,10 +39,10 @@ var columnsArray = [
             }
             selectHtml += '</select>';
             return '<a class="btn" onclick="delParty(\''+row.id+'\',\''+row.name+'\')">删除</a>'+
-            '<a class="btn" >弹幕审核</a>'+
+            '<a class="btn" href="#" onclick="openDanmuCheck(\''+row.name+'\',\''+row.id+'\')">弹幕审核</a>'+
             '<a class="btn">资源管理</a>'+
-            '<a class="btn" data-toggle="modal" role="button" onclick="openAddress(\''+row.name+'\',\''+row.id+'\')">场地管理</a>'+
-            '<a class="btn">定时弹幕</a>'+selectHtml;
+            '<a class="btn" data-toggle="modal" role="button" href="#" onclick="openAddress(\''+row.name+'\',\''+row.id+'\')">场地管理</a>'+
+            '<a class="btn" href="#" onclick="openTimerDanmu(\''+row.id+'\')">定时弹幕</a>'+selectHtml;
 
         },
         events: 'operateEvents'
@@ -208,6 +208,42 @@ var delAddress = function(partyName,addressName,partyId,addressId){
         });
     }
 
+}
+
+var openNewWindow = function(url){
+    window.open(url);
+}
+
+var openDanmuCheck = function(partyName,partyId){
+    var addressTableUrl = '/v1/api/admin/address/queryByPartyId';
+    var addressQueryObject = {
+        partyId:partyId,
+        pageSize: 6
+    }
+    var addressColumnsArray =[
+        {
+            field: 'name',
+            title: '名称',
+            align: 'center'
+        },
+        {
+           field: 'id', title: '操作',
+           align: 'center',
+           formatter: function (value, row, index) {
+                return '<a class="btn" onclick="openNewWindow(\'/party/danmuCheck?partyId='+partyId+'&addressId='+row.id+'\')">审核</a>';
+           }
+        }
+    ];
+    $.initTable('addressTableList', addressColumnsArray, addressQueryObject, addressTableUrl,null,'还没有添加场地，请去添加场地');
+    $('#myModalLabel').html(partyName+'的弹幕审核');
+    var buttonHtml = '<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>';
+    $('.modal-footer').html(buttonHtml);
+    $('.modal-body').find('.pull-left').remove();
+    $('#myModal').modal('show');
+}
+
+var openTimerDanmu = function(partyId){
+       openNewWindow('/party/timerDanmu?partyId='+partyId);
 }
 
 getAllDanmuLibrary();
