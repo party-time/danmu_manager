@@ -11,27 +11,17 @@
         $scope.baseUrl="http://testimages.party-time.cn/upload";
 
         $scope.partyName;//活动名称
-        $scope.link_Status;//连接状态
+        $scope.link_Status="未连接";//连接状态
 
+        $scope.testModel;//测试模式
+        $scope.preStatus;//预制弹幕
 
-
-
-
-        /*************测试模式***************************/
-        $scope.testModel;
-
-        /*************预制弹幕*******************************/
-        $scope.preStatus;
-
-        $scope.webSocketStatus = 3;//连接状态
         $scope.danmuDensity = 0;//弹幕密度
         $scope.delaySecond = 0;//延迟时间
         $scope.playerStatus;//播放器状态
 
         $scope.adminCount = 0;//管理员数量
         $scope.delayHour=0;
-
-
         $scope.colors = [];//颜色列表
         $scope.blingColors = [];//闪光字颜色
         $scope.danmuList = [];//弹幕
@@ -41,7 +31,7 @@
         $scope.specialVideo;//正在开启的动画特效
         $scope.specialVideos=[];//图片特效
 
-
+        $scope.key;
 
         $scope.danmuMsg="";//弹幕
         $scope.danmuColor="#ffffff";// 弹幕颜色
@@ -69,36 +59,27 @@
             //初始化websocket
             if(WebSocket){
                 ws = new WebSocket(websoctAddress);
-
-                /**
-                 *     0  CONNECTING        连接尚未建立
-                 *     1  OPEN            WebSocket的链接已经建立
-                 *     2  CLOSING            连接正在关闭
-                 *     3  CLOSED            连接已经关闭或不可用
-                 */
-                /*if (ws.readyState == 1) {
-
-                 }*/
                 ws.onopen = function (event) {
                     //设置连接状态
                     setLinkStatus();
                     //获取初始化信息
-                    webSocketSendMessage({type: $scope.type.type_init, partyId: $scope.partyId, addressId: $scope.addressId});
+                    webSocketSendMessage({type: $scope.type.type_init});
                     sendHeartbeat();
-                }
-                ws.onmessage = function (event) {
-                    //收到消息后处理
-                    acceptMessageHandler(event);
-                    $scope.$apply();
-                }
-                ws.onerror = function (event) {
-                    return;
-                }
-                ws.onclose = function (event) {
-                    //设置连接状态
-                    setLinkStatus();
-                    $scope.$apply();
-                    return false;
+
+                    ws.onmessage = function (event) {
+                        //收到消息后处理
+                        acceptMessageHandler(event);
+                        $scope.$apply();
+                    }
+                    ws.onerror = function (event) {
+                        return;
+                    }
+                    ws.onclose = function (event) {
+                        //设置连接状态
+                        setLinkStatus();
+                        $scope.$apply();
+                        return false;
+                    }
                 }
             }else{
                 alert('浏览器不支持webscoket，请使用支持html5的浏览器');
@@ -124,14 +105,6 @@
                 $scope.preStatus = json.data.preDanmu;
                 //测试模式
                 $scope.testModel = json.data.testIsOpen;
-                /*if ($scope.testModel) {
-                 ws.send($.objectCovertJson({
-                 type: 'test',
-                 partyId: $scope.partyId,
-                 addressId: $scope.addressId,
-                 "status": $scope.testModel
-                 }));
-                 }*/
 
                 //延迟时间
                 $scope.delayHour=0;
@@ -268,7 +241,7 @@
          */
         $scope.setDanmuDensity = function () {
             if (webSocketIsConnect()) {
-                webSocketSendMessage({type: $scope.type.type_danmuDensity, partyId: $scope.partyId, addressId: $scope.addressId, danmuDensity:$scope.danmuDensity});
+                webSocketSendMessage({type: $scope.type.type_danmuDensity, danmuDensity:$scope.danmuDensity});
             }
         }
         
@@ -282,13 +255,13 @@
                 return;
             }
             //电影开始
-            webSocketSendMessage({type: $scope.type.type_partyActive, partyId: $scope.partyId, addressId: $scope.addressId, status: status});
+            webSocketSendMessage({type: $scope.type.type_partyActive,  status: status});
         }
 
         //增减延迟时间
         $scope.setDelaySecond = function (status) {
             if (webSocketIsConnect()) {
-                webSocketSendMessage({type: $scope.type.type_delaySecond, partyId: $scope.partyId, addressId: $scope.addressId, status: status});
+                webSocketSendMessage({type: $scope.type.type_delaySecond,  status: status});
             }
         };
         /**
@@ -302,7 +275,7 @@
                     if (danmu.id == id) {
                         danmu.isBlocked = true;
                         danmu.s = -10;
-                        webSocketSendMessage({type: $scope.type.type_blockDanmu, partyId: $scope.partyId, addressId: $scope.addressId, danmuId: danmu.id})
+                        webSocketSendMessage({type: $scope.type.type_blockDanmu, danmuId: danmu.id})
                         break;
                     }
                 }
@@ -315,7 +288,7 @@
          */
         $scope.setTestModelHandler = function (status) {
             if (webSocketIsConnect()) {
-                webSocketSendMessage({type: $scope.type.type_modeltest, partyId: $scope.partyId, addressId: $scope.addressId, status: status});
+                webSocketSendMessage({type: $scope.type.type_modeltest, status: status});
                 if (!status) {
                     $scope.danmuList = [];
                 }
@@ -328,7 +301,7 @@
          */
         $scope.setPreDanmuHandler = function (status) {
             if (webSocketIsConnect()) {
-                webSocketSendMessage({partyId: $scope.partyId, addressId: $scope.addressId, type: $scope.type.type_preDanmu, status: status});
+                webSocketSendMessage({type: $scope.type.type_preDanmu, status: status});
             }
         }
 
@@ -338,7 +311,7 @@
          */
         $scope.operateScreenHandler = function (status) {
             if (webSocketIsConnect()) {
-                webSocketSendMessage({type: $scope.type.type_playerStatus, partyId: $scope.partyId, addressId: $scope.addressId, status: status});
+                webSocketSendMessage({type: $scope.type.type_playerStatus, status: status});
             }
         }
 
@@ -350,7 +323,7 @@
         $scope.showSpecialImage = function (specialImage) {
             if (webSocketIsConnect()) {
                 if (confirm("确定开启图片特效？")) {
-                    webSocketSendMessage({type: $scope.type.type_picture, partyId: $scope.partyId, addressId: $scope.addressId, id: specialImage.id});
+                    webSocketSendMessage({type: $scope.type.type_picture, id: specialImage.id});
                 }
             }
         };
@@ -358,7 +331,7 @@
         $scope.showExpression = function (expression) {
             if (webSocketIsConnect()) {
                 if (confirm("是否发送表情特效？")) {
-                    webSocketSendMessage({type: $scope.type.type_expression, partyId: $scope.partyId, addressId: $scope.addressId, name: expression.name, id: expression.id});
+                    webSocketSendMessage({type: $scope.type.type_expression, name: expression.name, id: expression.id});
                 }
             }
         };
@@ -421,7 +394,7 @@
         }
 
         var startSpecialVedio = function (specialVideo, status) {
-            webSocketSendMessage({type: $scope.type.type_specialVideo, id: specialVideo.id, partyId: $scope.partyId, addressId: $scope.addressId, status: status});
+            webSocketSendMessage({type: $scope.type.type_specialVideo, id: specialVideo.id,  status: status});
         }
         /**
          * 设置动画特效按钮的状态
@@ -441,22 +414,12 @@
         };
 
         /**
-         * 控制所有按钮状态
-         */
-        function setAllButtonStatus() {
-            if (ws.readyState == 1) {
-                $.setControlDisabledStateByType('button', false);
-                $.setControlDisabledStateByType('input', false);
-            } else {
-                $.setControlDisabledStateByType('button', true);
-                $.setControlDisabledStateByType('input', true);
-            }
-        }
-
-        /**
          * 发送消息
          */
         function webSocketSendMessage(object) {
+            object.partyId = $scope.partyId;
+            object.key = getCookieValue("auth_key");
+            object.addressId= $scope.addressId;
             if (webSocketIsConnect()) {
                 ws.send($.objectCovertJson(object));
             }
@@ -467,11 +430,11 @@
          * 设置连接状态
          */
         function setLinkStatus() {
-            if (webSocketIsConnect()) {
+            if (ws.readyState == 1) {
                 $scope.link_Status = '已连接';
-            } else {
+            } else  {
                 //setAllButtonStatus();
-                $scope.link_Status = '连接断开';
+                $scope.link_Status = '连接关闭';
             }
         }
 
@@ -479,7 +442,6 @@
             if (ws.readyState == 1) {
                 return true;
             }
-            //alert('服务器连接异常!');
             return false;
         }
 
@@ -513,14 +475,7 @@
                 danmu.s = parseInt($scope.delaySecond - ( nowTime - danmu.createTime) / 1000);
                 if (danmu.s == 0) {
                     danmu.s = -1;
-                    webSocketSendMessage({
-                        "type": danmu.type,
-                        "msg": danmu.msg,
-                        "partyId": $scope.partyId,
-                        "addressId": $scope.addressId,
-                        "color": danmu.color,
-                        "openId": danmu.openId
-                    });
+                    webSocketSendMessage({type: danmu.type, msg: danmu.msg, color: danmu.color, openId: danmu.openId});
                 }
             }
             return danmu;
@@ -531,7 +486,7 @@
          */
         $scope.sendBlingDm = function () {
             if (webSocketIsConnect()) {
-                webSocketSendMessage({type: $scope.type.type_bing, msg: $scope.blingDanmuMsg, partyId: $scope.partyId, addressId: $scope.addressId, color: $scope.blingColor});
+                webSocketSendMessage({type: $scope.type.type_bing, msg: $scope.blingDanmuMsg,color: $scope.blingColor});
                 $scope.blingDanmuMsg = "";
             }
         };
@@ -552,18 +507,6 @@
                     },function (data) {
                         console.log(data);
                     })
-
-                    /*$http.post('/v1/api/sendDanmu', msgObject)
-                        .success(function (data) {
-                            $scope.danmuMsg = "";
-                            if (data.result == "403") {
-                                alert("弹幕含有屏蔽词,禁止发送!");
-                                return;
-                            }
-                            console.log(data);
-                        }).error(function (data, status, headers, config) {
-                        console.log(data);
-                    });*/
                 }
             }
         };
@@ -633,6 +576,25 @@
 
         }
 
+        function getCookieValue(cookieName) {
+            var cookieValue = document.cookie;
+            var cookieStartAt = cookieValue.indexOf(""+cookieName+"=");
+            if(cookieStartAt==-1) {
+                cookieStartAt = cookieValue.indexOf(cookieName+"=");
+            }
+            if(cookieStartAt==-1) {
+                cookieValue = null;
+            } else {
+                cookieStartAt = cookieValue.indexOf("=",cookieStartAt)+1;
+                cookieEndAt = cookieValue.indexOf(";",cookieStartAt);
+                if(cookieEndAt==-1)
+                {
+                    cookieEndAt = cookieValue.length;
+                }
+                cookieValue = unescape(cookieValue.substring(cookieStartAt,cookieEndAt));//解码latin-1
+            }
+            return cookieValue;
+        }
         var initPage = function () {
             ajaxInit();
             webSocketInit();

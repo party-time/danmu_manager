@@ -145,8 +145,8 @@
                         <!-- /widget-header -->
                         <div class="widget-content">
                            <span ng-repeat="specialVideo in specialVideos" ng-if="specialVideos.length > 0">
-                                <button type="button" class="btn btn-sm btn-default" ng-click="showSpecialVideo(specialVideo,specialVideo.status)" ng-if="specialVideo.status==0" title="{{specialVideo.resourceName}}">{{specialVideo.resourceName}}</button>
-                                <button type="button" class="btn btn-sm btn-danger" ng-click="showSpecialVideo(specialVideo,specialVideo.status)" ng-if="specialVideo.status==1" title="{{specialVideo.resourceName}}">{{specialVideo.resourceName}}</button>
+                                <button type="button"   style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " class="btn btn-sm btn-default" ng-click="showSpecialVideo(specialVideo,specialVideo.status)" ng-if="specialVideo.status==0" title="{{specialVideo.resourceName}}">{{specialVideo.resourceName.substring(0,4)}}</button>
+                                <button type="button"    style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " class="btn btn-sm btn-danger" ng-click="showSpecialVideo(specialVideo,specialVideo.status)" ng-if="specialVideo.status==1" title="{{specialVideo.resourceName}}">{{specialVideo.resourceName.substring(0,4)}}</button>
                         </span>
                         </div>
                         <!-- /widget-content -->
