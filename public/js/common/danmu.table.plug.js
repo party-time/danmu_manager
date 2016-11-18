@@ -25,10 +25,16 @@
                     return queryParamObject;
                 },
                 onLoadSuccess:function(data) {
-                    if(onLoadSuccessFunc){
-                        onLoadSuccessFunc(data);
+                    if(data.total>0 && data.rows==null){
+                        if(queryParamObject.pageNumber>1){
+                            queryParamObject.pageNumber = queryParamObject.pageNumber-1;
+                            $.initTable(id, columnsArray, queryParamObject, url,onLoadSuccessFunc);
+                        }
+                    }else{
+                        if(onLoadSuccessFunc){
+                            onLoadSuccessFunc(data);
+                        }
                     }
-
                 }
             });
         }
