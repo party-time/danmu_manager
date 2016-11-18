@@ -31,4 +31,18 @@
         $('#'+id).prop('disabled', state);
     }
 
+    /**
+     * 根据空间类型设置控件的状态
+     * @param type
+     * @param state
+     */
+    $.setControlDisabledStateByCss = function (css, state) {
+        if(state){
+            $('.'+css).addClass('disabled');
+        }else{
+            $('.'+css).removeClass('disabled');
+        }
+        $('.'+css).prop('disabled', state);
+    }
+
 })(jQuery);

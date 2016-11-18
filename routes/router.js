@@ -51,23 +51,26 @@ router.get('/wechat', function(req, res, next) {
   res.render('wechat/wechatReply');
 });
 
-/**定时弹幕管理*/
-router.get('/timerDanmu', function(req, res, next) {
-  res.render('danmu/timerDanmu');
-});
 
 /**预制弹幕*/
 router.get('/predanmu', function(req, res, next) {
   res.render('danmu/predanmu');
 });
 
+
+/**定时弹幕管理*/
+router.get('/party/timerDanmu', function(req, res, next) {
+  res.render('danmu/timerDanmu');
+});
+
+
 /**历史弹幕*/
-router.get('/historyDanmu', function(req, res, next) {
+router.get('/party/historyDanmu', function(req, res, next) {
   res.render('danmu/historyDanmu');
 });
 
 /**跳转弹幕审核*/
-router.get('/danmuCheck', function(req, res, next) {
+router.get('/party/danmuCheck', function(req, res, next) {
   res.render('danmu/danmuCheck');
 });
 

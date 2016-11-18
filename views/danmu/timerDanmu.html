@@ -51,26 +51,26 @@
                                     </div>
                                 </li>
                                 <li style="padding-top: 1em;">
-                                    <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
+                                    <div class="danmucheck-items-widget-header" style="line-height: 0px;"><i class="icon-bookmark"></i>
                                         <h3 style="margin-right: 1em;">发送时间</h3>
-                                        <input type="text" style="width: 40px;" maxlength="2" id="minutes"/>(分)<input type="text" style="width: 40px;" maxlength="2" id="seconds"/>(秒)
+                                        <input type="text" class="dataFormat" style="width: 40px;" maxlength="2" id="minutes"/>(分)<input type="text" class="dataFormat" style="width: 40px;" maxlength="2" id="seconds"/>(秒)
                                     </div>
                                 </li>
                                 <li id="danmu_li_0">
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
-                                        <h3 style="margin-right: 1em;width: 98px;">普通弹幕</h3> 你还可以输入的字数:<span style="color: red;">40</span>
+                                        <h3 style="margin-right: 1em;width: 98px;">普通弹幕</h3> <span style="color: red;" id="danmuMsgCount">你还可以输入的字数:40</span>
                                     </div>
                                     <div >
                                             <textarea class="danmuTextArea" placeholder="请输入弹幕（40个字以内）" style="width: 260px;height: 80px;outline:none;resize:none; margin-left: 1em;" id="danmuMsg" ></textarea>
                                             <div style="padding-left: 1em;" class="danmuColor"></div>
                                     </div>
-                                    <button type="button" class="btn btn-info" style="margin-left: 1em; margin-top: 1em;" onclick="danmuAddOperateHandler()" >发送</button>
+                                    <button type="button" class="btn btn-info sendDanmuButton" style="margin-left: 1em; margin-top: 1em;" onclick="danmuAddOperateHandler()" >发送</button>
                                 </li>
                                 <li  id="danmu_li_1">
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
                                         <h3 style="margin-right: 1em;width: 98px;">动画</h3>
                                     </div>
-                                    <div class="videoDanmu"></div>
+                                    <div class="videoDanmu" style="padding-left: 1em;"></div>
                                     <button type="button" class="btn btn-info" style="margin-left: 1em; margin-top: 1em;" onclick="danmuAddOperateHandler()">发送</button>
                                 </li>
                                 <li  id="danmu_li_2">
@@ -82,13 +82,13 @@
                                 </li>
                                 <li id="danmu_li_3">
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
-                                        <h3 style="margin-right: 1em;width: 98px;">闪光字</h3>
+                                        <h3 style="margin-right: 1em;width: 98px;">闪光字</h3> <span style="color: red;" id="blingMsgCount">你还可以输入的字数:8</span>
                                     </div>
                                     <div >
                                         <textarea class="form-control" rows="3" ng-model="danmuMsg" placeholder="请输入弹幕（40个字以内）" style="width: 260px;height: 80px;outline:none;resize:none; margin-left: 1em;" id="blingMsg"></textarea>
                                         <div style="padding-left: 1em;" class="danmuColor"></div>
                                     </div>
-                                    <button type="button" class="btn btn-info" style="margin-left: 1em; " onclick="danmuAddOperateHandler()">发送</button>
+                                    <button type="button" class="btn btn-info sendBlingDanmuButton" style="margin-left: 1em; " onclick="danmuAddOperateHandler()">发送</button>
                                 </li>
                                 <li id="danmu_li_4" >
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>

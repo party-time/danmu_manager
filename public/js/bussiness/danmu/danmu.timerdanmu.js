@@ -34,27 +34,37 @@ var initDanmuTypeDiv = function (type) {
 
 
 var columnsArray = [
-    {field: '', title: '编号', align: 'center', formatter: function (value, row, index) {return index + 1;}},
-    {field: 'typeName', title: '内容', align: 'center'},
-    {field: 'content', title: '内容', halign: "center", align: "left", formatter: function (value, row, index) {
-            if (row.type == 0 || row.type == 3) {
-                return '<span style="background-color: ' + row.color + '"> ' + row.content + '</span>';
-            } else if (row.type == 4 || row.type == 2) {
-                return ' <img src="' + baseUrl + row.content + '" style="width: 30px;height: 30px;"/>'
-            } else if (row.type != 0 && row.type != 3 && row.type != 4 && row.type != 2) {
-                return row.content;
-            }
-        }
+    {
+        field: '', title: '编号', align: 'center', formatter: function (value, row, index) {
+        return index + 1;
+    }
     },
-    {field: 'time', title: '时间', align: 'center', formatter: function (value, row, index) {return parseInt(row.time / 60) + "分" + row.time % 60 + "秒";}},
-    {field: 'operate', title: '删除', align: 'center', formatter: function (value, row, index) {
+    {field: 'typeName', title: '内容', align: 'center'},
+    {
+        field: 'content', title: '内容', halign: "center", align: "left", formatter: function (value, row, index) {
+        if (row.type == 0 || row.type == 3) {
+            return '<span style="background-color: ' + row.color + '"> ' + row.content + '</span>';
+        } else if (row.type == 4 || row.type == 2) {
+            return ' <img src="' + baseUrl + row.content + '" style="width: 30px;height: 30px;"/>'
+        } else if (row.type != 0 && row.type != 3 && row.type != 4 && row.type != 2) {
+            return row.content;
+        }
+    }
+    },
+    {
+        field: 'time', title: '时间', align: 'center', formatter: function (value, row, index) {
+        return parseInt(row.time / 60) + "分" + row.time % 60 + "秒";
+    }
+    },
+    {
+        field: 'operate', title: '删除', align: 'center', formatter: function (value, row, index) {
         return "<a class='icon-remove-sign remove' href='javascript:void(0)' title='remove'></a>";
-        },events: 'operateEvents'
+    }, events: 'operateEvents'
     }
 ];
 window.operateEvents = {
     'click .remove': function (e, value, row, index) {
-        $.danmuAjax('/v1/api/admin/timerDanmu/delete', 'GET','json',{danmuId:row.id}, function (data) {
+        $.danmuAjax('/v1/api/admin/timerDanmu/delete', 'GET', 'json', {danmuId: row.id}, function (data) {
             if (data.result == 200) {
                 initable();
                 initCarts();
@@ -120,7 +130,9 @@ var getAllDanmuLibrary = function () {
             var videoDanmuArray = data.data.specialVideos;
             for (var i = 0; i < videoDanmuArray.length; i++) {
                 var specialVideo = videoDanmuArray[i];
-                html += '<button type="button" class="btn btn-sm btn-default" style="margin-left: 1em" onclick="setElement(\'' + specialVideo.resourceName + '\',\'' + specialVideo.id + '\')" >' + specialVideo.resourceName + '</button>';
+                //html += '<button type="button" class="btn btn-sm btn-default" style="margin-left: 1em" onclick="setElement(\'' + specialVideo.resourceName + '\',\'' + specialVideo.id + '\')" >' + specialVideo.resourceName + '</button>';
+                var buttonName = specialVideo.resourceName.substring(4)
+                html += '<button class="btn"  style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " onclick="setElement(\'' + specialVideo.resourceName + '\',\'' + specialVideo.id + '\')" title="' + specialVideo.resourceName + '">' + buttonName + '</button>';
             }
             $(".videoDanmu").empty().html(html);
         } else {
@@ -129,6 +141,8 @@ var getAllDanmuLibrary = function () {
     });
 }
 getAllDanmuLibrary();
+
+
 
 
 //设置动画
@@ -158,21 +172,120 @@ var setElement = function (content, id) {
     }
 
 }
+
+
+$("#danmuMsg").keydown(function () {
+    var size = 40-$("#danmuMsg").val().length;
+
+    if(size<0){
+        $.setControlDisabledStateByCss('sendDanmuButton',true);
+        $("#danmuMsgCount").html('别输了，字数超过上限了');
+    }else{
+        $("#danmuMsgCount").html('你还可以输入的字数:'+size);
+        $.setControlDisabledStateByCss('sendDanmuButton',false);
+    }
+
+
+})
+$("#danmuMsg").keyup(function () {
+    var size = 40-$("#danmuMsg").val().length;
+    if(size<0){
+        $.setControlDisabledStateByCss('sendDanmuButton',true);
+        $("#danmuMsgCount").html('别输了，字数超过上限了');
+    }else{
+        $("#danmuMsgCount").html('你还可以输入的字数:'+size);
+        $.setControlDisabledStateByCss('sendDanmuButton',false);
+    }
+})
+
+
+
+$("#blingMsg").keydown(function () {
+    var size = 8-$("#blingMsg").val().length;
+
+    if(size<0){
+        $.setControlDisabledStateByCss('sendBlingDanmuButton',true);
+        $("#blingMsgCount").html('别输了，字数超过上限了');
+    }else{
+        $("#blingMsgCount").html('你还可以输入的字数:'+size);
+        $.setControlDisabledStateByCss('sendBlingDanmuButton',false);
+    }
+
+
+})
+$("#blingMsg").keyup(function () {
+    var size = 8-$("#blingMsg").val().length;
+    if(size<0){
+        $.setControlDisabledStateByCss('sendBlingDanmuButton',true);
+        $("#blingMsgCount").html('别输了，字数超过上限了');
+    }else{
+        $("#blingMsgCount").html('你还可以输入的字数:'+size);
+        $.setControlDisabledStateByCss('sendBlingDanmuButton',false);
+    }
+})
+
 var danmuAddOperateHandler = function () {
 
-    insertData.partyId=partyId;
+    insertData.partyId = partyId;
     var minute = $("#minutes").val();
     var seconds = $("#seconds").val();
+
+    if (minute = "") {
+        minute = 0;
+    }
+    if(seconds==""){
+        alert("请填写时间,最少填写个秒");
+        return;
+    }
+
+    if (isNaN(minute)) {
+        alert('分钟请填写数字');
+        return;
+    } else {
+        $(".error").empty();
+    }
+    if (isNaN(seconds)) {
+        alert('秒请填写数字');
+        return;
+    } else {
+        $(".error").empty();
+    }
+
+    //var data = [{id: 0, text: '普通弹幕'}, {id: 1, text: '动画'}, {id: 2, text: '图片'}, {id: 3, text: '闪光字'}, {id: 4, text: '表情'}];
     var time = parseInt(minute * 60) + parseInt(seconds);
     insertData.time = time;
     if (divIndex == 0) {
-        insertData.content = $("#danmuMsg").val();
+        if($("#danmuMsg").val()==null || $("#danmuMsg").val()==""){
+            alert('请填写弹幕');
+            return;
+        }else{
+            insertData.content =$("#danmuMsg").val();
+        }
+
     } else if (divIndex == 3) {
-        insertData.content = $("#blingMsg").val();
+        if($("#blingMsg").val()==null || $("#blingMsg").val()==""){
+            alert('请填写闪光字');
+            return;
+        }else{
+            insertData.content =$("#blingMsg").val();
+        }
+    }else if (divIndex == 1) {
+        if(insertData.content==null){
+            alert('请选择动画');
+            return;
+        }
+    }else if (divIndex == 2) {
+        if(insertData.content==null){
+            alert('请选择图片');
+            return;
+        }
+    }else if (divIndex == 4) {
+        if(insertData.content==null){
+            alert('请选择表情');
+            return;
+        }
     }
 
-    //alert($.objectCovertJson(insertData));
-    //clearValue();
     $.danmuAjax(danmuAddUrl, 'POST', 'json', insertData, function (data) {
         quaryObject.pageNumber = 1
         if (data.result == 200) {
@@ -185,12 +298,16 @@ var danmuAddOperateHandler = function () {
 }
 
 var clearValue = function () {
+    $("#danmuMsg").val('');
+    $("#blingMsg").val('');
+    $("#blingMsgCount").html('你还可以输入的字数:'+40);
+    $("#danmuMsgCount").html('你还可以输入的字数:'+40);
     insertData = new Object();
 }
 
 
 function initHighcharts(data) {
-    if(data==null){
+    if (data == null) {
         $('#container').html("没有数据!");
         return;
     }
