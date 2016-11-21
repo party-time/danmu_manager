@@ -1,1 +1,1 @@
-_baseUrl='127.0.0.1:8070';
+_baseImageUrl='http://testimages.party-time.cn';
