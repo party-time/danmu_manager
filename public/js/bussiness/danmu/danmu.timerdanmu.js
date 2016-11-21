@@ -4,7 +4,9 @@ var chartUrl = '/v1/api/admin/timerDanmu/chart';
 var baseUrl = "http://testimages.party-time.cn/upload";
 var danmuAddUrl = '/v1/api/admin/timerDanmu/save';
 var divIndex = 0;
-var partyId = "582a86620cf2d2a9f936ce77";
+//var partyId = "582a86620cf2d2a9f936ce77";
+//var partyId='582a86620cf2d2a9f936ce77';
+var partyId;
 var insertData = new Object();
 
 
@@ -58,7 +60,7 @@ var columnsArray = [
     },
     {
         field: 'operate', title: '删除', align: 'center', formatter: function (value, row, index) {
-        return "<a class='icon-remove-sign remove' href='javascript:void(0)' title='remove'></a>";
+        return "<button class='btn btn-danger remove' href='javascript:void(0)' title='remove'>删除</button>";
     }, events: 'operateEvents'
     }
 ];
@@ -87,6 +89,8 @@ var initCarts = function () {
     });
 }
 var getAllDanmuLibrary = function () {
+    var url = location.href.substring(location.href.indexOf("?")+1);
+    quaryObject.partyId = url.substr(url.indexOf('=') + 1);
     initable();
     initCarts();
     initDanmuTypeDiv(divIndex);
@@ -104,7 +108,7 @@ var getAllDanmuLibrary = function () {
         }
     });
 
-    $.danmuAjax('/v1/api/admin/initResource', 'GET', 'json', {partyId: partyId}, function (data) {
+    $.danmuAjax('/v1/api/admin/initResource', 'GET', 'json', quaryObject, function (data) {
         if (data.result == 200) {
             //$scope.expressions = data.data.expressions;
             //$scope.specialImages = data.data.specialImages;
@@ -230,7 +234,7 @@ var danmuAddOperateHandler = function () {
     var minute = $("#minutes").val();
     var seconds = $("#seconds").val();
 
-    if (minute = "") {
+    if (minute == "") {
         minute = 0;
     }
     if(seconds==""){
@@ -241,18 +245,18 @@ var danmuAddOperateHandler = function () {
     if (isNaN(minute)) {
         alert('分钟请填写数字');
         return;
-    } else {
-        $(".error").empty();
     }
     if (isNaN(seconds)) {
         alert('秒请填写数字');
         return;
-    } else {
-        $(".error").empty();
+    }else{
+        if(seconds>59){
+            alert('秒数请限制在0~59秒之间');
+            return;
+        }
     }
 
-    //var data = [{id: 0, text: '普通弹幕'}, {id: 1, text: '动画'}, {id: 2, text: '图片'}, {id: 3, text: '闪光字'}, {id: 4, text: '表情'}];
-    var time = parseInt(minute * 60) + parseInt(seconds);
+    var time = parseInt(minute*60) + parseInt(seconds);
     insertData.time = time;
     if (divIndex == 0) {
         if($("#danmuMsg").val()==null || $("#danmuMsg").val()==""){

@@ -5,8 +5,8 @@
 
         var websoctAddress = "ws://192.168.1.118:7070/ws";
         var ws;
-        $scope.partyId = "582a86620cf2d2a9f936ce77";
-        $scope.addressId = "580078b30cf28b271aea44e5";
+        $scope.partyId;
+        $scope.addressId;
 
         $scope.baseUrl="http://testimages.party-time.cn/upload";
 
@@ -596,6 +596,13 @@
             return cookieValue;
         }
         var initPage = function () {
+
+            var url = location.href;
+            if (url.indexOf('partyId=') != -1) {
+                var param = url.substr(url.indexOf('?') + 1).split("&");
+                $scope.partyId = param[0].substr(param[0].indexOf('=') + 1);
+                $scope.addressId = param[1].substr(param[1].indexOf('=') + 1);
+            }
             ajaxInit();
             webSocketInit();
         }
