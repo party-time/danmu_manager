@@ -1,0 +1,90 @@
+<% include ../common/header.html %>
+<% include ../common/navbar.html %>
+<!-- /subnavbar -->
+<div class="main">
+    <div class="main-inner">
+        <div class="container">
+            <div class="row">
+                <div class="span12">
+                    <div>
+                        <h3>资源管理</h3>
+                        <p>图片类支持的格式为png,jpg,gif,视频类支持的格式为mp4,mov,flv,fla</p>
+                        <p>h5背景图片名称为xxx.hb.jpg,表情大图的名称为xxx.ex.big.jpg,表情小图xxx.ex.small.jpg,特效图片为xxx.spe.jpg,特效视频xxx.video.mp4</p>
+                    </div>
+                    <div class="widget">
+                        <div class="widget-header">
+                            <i class="icon-list-alt"></i>
+                            <h3>选择H5背景图</h3>
+                        </div>
+                        <div class="widget-content" id="h5Html">
+
+                        </div>
+                        <!-- /widget-content -->
+                    </div>
+                    <!-- /widget -->
+
+                    <div class="widget">
+                        <div class="widget-header">
+                            <i class="icon-list-alt"></i>
+                            <h3>选择表情</h3>
+                        </div>
+                        <div class="widget-content" id="expressions">
+
+                        </div>
+                        <!-- /widget-content -->
+                    </div>
+
+                    <div class="widget">
+                        <div class="widget-header">
+                            <i class="icon-list-alt"></i>
+                            <h3>选择特效图片</h3>
+                        </div>
+                        <div class="widget-content" id="specialImages">
+
+                        </div>
+                        <!-- /widget-content -->
+                    </div>
+
+                    <div class="widget">
+                        <div class="widget-header">
+                            <i class="icon-list-alt"></i>
+                            <h3>选择特效视频</h3>
+                        </div>
+                        <div class="widget-content" id="specialVideos">
+
+                        </div>
+                        <!-- /widget-content -->
+                    </div>
+
+                    <div class="form-actions">
+                        <a class="btn btn-primary" id="saveParty" onclick="saveParty();">保存</a> <a class="btn" onclick="returnPartyList();">上传新图</a>
+                    </div>
+                </div>
+                <!-- /span6 -->
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /main-inner -->
+</div>
+<div id="myModal" class="hide fade">
+    <div class="modal">
+        <div class="modal-dialog ">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel"></h3>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/common/danmu.ajax.plug.js"></script>
+<script src="/js/bussiness/resource/resource.js"></script>
+
+<% include ../common/bottom.html %>

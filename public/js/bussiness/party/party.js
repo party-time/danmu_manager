@@ -40,8 +40,8 @@ var columnsArray = [
             selectHtml += '</select>';
             return '<a class="btn" onclick="delParty(\''+row.id+'\',\''+row.name+'\')">删除</a>'+
             '<a class="btn" href="#" onclick="openDanmuCheck(\''+row.name+'\',\''+row.id+'\')">弹幕审核</a>'+
-            '<a class="btn">资源管理</a>'+
-            '<a class="btn" data-toggle="modal" role="button" href="#" onclick="openAddress(\''+row.name+'\',\''+row.id+'\')">场地管理</a>'+
+            '<a class="btn" href="#" onclick="openPartyResource(\''+row.id+'\')">资源管理</a>'+
+            '<a class="btn" href="#" onclick="openAddress(\''+row.name+'\',\''+row.id+'\')">场地管理</a>'+
             '<a class="btn" href="#" onclick="openTimerDanmu(\''+row.id+'\')">定时弹幕</a>'+selectHtml;
 
         },
@@ -244,6 +244,10 @@ var openDanmuCheck = function(partyName,partyId){
 
 var openTimerDanmu = function(partyId){
        openNewWindow('/party/timerDanmu?partyId='+partyId);
+}
+
+var openPartyResource = function(partyId){
+       openNewWindow('/party/resource?partyId='+partyId);
 }
 
 getAllDanmuLibrary();

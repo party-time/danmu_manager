@@ -19,9 +19,10 @@ router.get('/user', function(req, res, next) {
 router.get('/party', function(req, res, next) {
   res.render('party/party');
 });
+
 /**跳转到活动资源*/
-router.get('/partyResource', function(req, res, next) {
-  res.render('pary/partyResource');
+router.get('/party/resource', function(req, res, next) {
+  res.render('party/resource');
 });
 
 router.get('/party/add', function(req, res, next) {
