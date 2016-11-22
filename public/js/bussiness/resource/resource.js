@@ -223,5 +223,13 @@ var openSpecVideos = function(){
     getSpecVideosPage(1);
 }
 
+var openUpload = function(){
+    var fileUploadUrl = _baseUploadUrl+'/v1/api/admin/resource/h5BackgroundUpload';
+    $('#myModalLabel').html('文件上传');
+    var flashStr = '<embed src="/swf/download.swf?uploadUrl='+fileUploadUrl+'" width="600px" height="390px"></embed>';
+    $('.modal-body').html(flashStr);
+    $('#myModal').modal('show');
+}
+
 
 initPartyResource();
