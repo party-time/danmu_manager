@@ -1,31 +1,53 @@
-var data = [{id: 0, text: '普通弹幕'}, {id: 1, text: '动画'}, {id: 2, text: '图片'}, {id: 3, text: '闪光字'}, {id: 4, text: '表情'}];
+var danmuTypeArray = [{id: 0, text: '普通弹幕'}, {id: 1, text: '动画'}, {id: 2, text: '图片'}, {id: 3, text: '闪光字'}, {id: 4, text: '表情'}];
+var positionArray = [{id: 0, text: '全部'}, {id: 1, text: '左上'}, {id: 2, text: '顶部'}, {id: 3, text: '右上'}, {id: 4, text: '左下'}, {id: 5, text: '底部'}, {id: 6, text: '右下'}];
+
 var tableUrl = '/v1/api/admin/timerDanmu/page';
 var chartUrl = '/v1/api/admin/timerDanmu/chart';
 var baseUrl = "http://testimages.party-time.cn/upload";
 var danmuAddUrl = '/v1/api/admin/timerDanmu/save';
 var divIndex = 0;
+var direction=-1 ;//方位
 //var partyId = "582a86620cf2d2a9f936ce77";
 //var partyId='582a86620cf2d2a9f936ce77';
 var partyId;
 var insertData = new Object();
 
 
-$(".js-example-data-array").select2({
-    data: data,
-    minimumResultsForSearch: -1,
-});
 
-$(".js-example-data-array").select2('val', '0');
-$(".js-example-data-array").change(function (data) {
+
+
+$(".danmuType-array").change(function (data) {
     //var aaa = $(".js-example-data-array  option:selected").val();
     //alert(aaa);
-    divIndex = data.target.selectedIndex;
+    divIndex = data.target.value;
     initDanmuTypeDiv(divIndex);
+    if(divIndex==4){
+        $(".danmuPositionDiv").hide();
+    }else{
+        $(".danmuPositionDiv").show();
+        $(".danmuPosition-array").val(null).select2({data: positionArray, minimumResultsForSearch: -1});
+        direction=-1;
+    }
+
+    //选择普通弹幕
+    if(divIndex==0){
+        //触发aajx设置弹幕类型
+    }
 });
 
+$(".danmuPosition-array").change(function (data) {
+    direction = data.target.value;
+
+});
+
+
+
+
+
+
 var initDanmuTypeDiv = function (type) {
-    for (var i = 0; i < data.length; i++) {
-        var id = data[i].id;
+    for (var i = 0; i < danmuTypeArray.length; i++) {
+        var id = danmuTypeArray[i].id;
         if (type == id) {
             $("#danmu_li_" + id).show();
         } else {
@@ -55,8 +77,19 @@ var columnsArray = [
     },
     {
         field: 'time', title: '时间', align: 'center', formatter: function (value, row, index) {
-        return parseInt(row.time / 60) + "分" + row.time % 60 + "秒";
-    }
+            return parseInt(row.time / 60) + "分" + row.time % 60 + "秒";
+        }
+    },
+    {
+        field: 'direction', title: '位置', align: 'center', formatter: function (value, row, index) {
+            var direction = row.direction;
+            for(var i=0; i<positionArray.length; i++){
+                if(direction== positionArray[i].id){
+                    return positionArray[i].text;
+                }
+            }
+            return '';
+        }
     },
     {
         field: 'operate', title: '删除', align: 'center', formatter: function (value, row, index) {
@@ -90,7 +123,8 @@ var initCarts = function () {
 }
 var getAllDanmuLibrary = function () {
     var url = location.href.substring(location.href.indexOf("?")+1);
-    quaryObject.partyId = url.substr(url.indexOf('=') + 1);
+    partyId =  url.substr(url.indexOf('=') + 1);
+    quaryObject.partyId = partyId;
     initable();
     initCarts();
     initDanmuTypeDiv(divIndex);
@@ -115,34 +149,62 @@ var getAllDanmuLibrary = function () {
 
             var html = '';
             var expressionArray = data.data.expressions;
-            var imageArray = data.data.specialImages;
-            for (var i = 0; i < expressionArray.length; i++) {
-                var expression = expressionArray[i];
-                html += '<img src="' + baseUrl + expression.smallFileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;" onclick="setElement(\'' + expression.smallFileUrl + '\',\'' + expression.id + '\')"/>';
+            if(expressionArray!=null){
+                for (var i = 0; i < expressionArray.length; i++) {
+                    var expression = expressionArray[i];
+                    html += '<img src="' + baseUrl + expression.smallFileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;" onclick="setElement(\'' + expression.smallFileUrl + '\',\'' + expression.id + '\')"/>';
+                }
+                $(".expressionDanmu").empty().html(html);
+            }else{
+                $("#danmu_li_4").empty();
+                removeFormTypeArray(4);
             }
-            $(".expressionDanmu").empty().html(html);
+
 
             html = '';
             var imageArray = data.data.specialImages;
-            for (var i = 0; i < imageArray.length; i++) {
-                var image = imageArray[i];
-                html += '<img src="' + baseUrl + image.fileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;" title="' + image.resourceName + '" onclick="setElement(\'' + image.fileUrl + '\',\'' + image.id + '\')"/>';
+            if(imageArray!=null){
+                for (var i = 0; i < imageArray.length; i++) {
+                    var image = imageArray[i];
+                    html += '<img src="' + baseUrl + image.fileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;" title="' + image.resourceName + '" onclick="setElement(\'' + image.fileUrl + '\',\'' + image.id + '\')"/>';
+                }
+                $(".imageDanmu").empty().html(html);
+            }else{
+                $("#danmu_li_2").empty();
+                removeFormTypeArray(2);
             }
-            $(".imageDanmu").empty().html(html);
+
 
             html = '';
             var videoDanmuArray = data.data.specialVideos;
-            for (var i = 0; i < videoDanmuArray.length; i++) {
-                var specialVideo = videoDanmuArray[i];
-                //html += '<button type="button" class="btn btn-sm btn-default" style="margin-left: 1em" onclick="setElement(\'' + specialVideo.resourceName + '\',\'' + specialVideo.id + '\')" >' + specialVideo.resourceName + '</button>';
-                var buttonName = specialVideo.resourceName.substring(0,4);
-                html += '<button class="btn"  style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " onclick="setElement(\'' + specialVideo.resourceName + '\',\'' + specialVideo.id + '\')" title="' + specialVideo.resourceName + '">' + buttonName + '</button>';
+            if(videoDanmuArray!=null){
+                for (var i = 0; i < videoDanmuArray.length; i++) {
+                    var specialVideo = videoDanmuArray[i];
+                    //html += '<button type="button" class="btn btn-sm btn-default" style="margin-left: 1em" onclick="setElement(\'' + specialVideo.resourceName + '\',\'' + specialVideo.id + '\')" >' + specialVideo.resourceName + '</button>';
+                    var buttonName = specialVideo.resourceName.substring(0,4);
+                    html += '<button class="btn"  style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " onclick="setElement(\'' + specialVideo.resourceName + '\',\'' + specialVideo.id + '\')" title="' + specialVideo.resourceName + '">' + buttonName + '</button>';
+                }
+                $(".videoDanmu").empty().html(html);
+            }else{
+                $("#danmu_li_1").empty();
+                removeFormTypeArray(1);
             }
-            $(".videoDanmu").empty().html(html);
         } else {
             alert("资源加载失败")
         }
+        $(".danmuType-array").select2({data: danmuTypeArray, minimumResultsForSearch: -1});
+        $(".danmuPosition-array").select2({data: positionArray, minimumResultsForSearch: -1});
     });
+}
+
+function removeFormTypeArray(id){
+    var tempArray = [];
+    for(var i=0; i<danmuTypeArray.length; i++){
+        if(id!=danmuTypeArray[i].id){
+            tempArray.push(danmuTypeArray[i]);
+        }
+    }
+    danmuTypeArray = tempArray;
 }
 getAllDanmuLibrary();
 
@@ -153,21 +215,21 @@ getAllDanmuLibrary();
 var setElement = function (content, id) {
     insertData.type = divIndex;
     switch (divIndex) {
-        case 0:
+        case '0':
             insertData.color = content;
             break;
-        case 1:
+        case '1':
             insertData.code = id;
             insertData.content = content;
             break;
-        case 2:
+        case '2':
             insertData.code = id;
             insertData.content = content;
             break;
-        case 3:
+        case '3':
             insertData.color = content;
             break;
-        case 4:
+        case '4':
             insertData.code = id;
             insertData.content = content;
             break;
@@ -256,6 +318,14 @@ var danmuAddOperateHandler = function () {
         }
     }
 
+    if(divIndex!=0 && divIndex!=4){
+        if(direction<0){
+            alert('请设置弹幕位置!');
+            return;
+        }
+        insertData.direction=direction;
+    }
+
     var time = parseInt(minute*60) + parseInt(seconds);
     insertData.time = time;
     if (divIndex == 0) {
@@ -289,6 +359,8 @@ var danmuAddOperateHandler = function () {
             return;
         }
     }
+
+
 
     $.danmuAjax(danmuAddUrl, 'POST', 'json', insertData, function (data) {
         quaryObject.pageNumber = 1
