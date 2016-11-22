@@ -3,12 +3,13 @@
     app.controller('danmuCheckCtrl', function ($scope,$http,$interval) {
 
 
-        var websoctAddress = "ws://192.168.1.118:7070/ws";
+        //var websoctAddress = "ws://192.168.1.118:7070/ws";
+        var websoctAddress;
         var ws;
         $scope.partyId;
         $scope.addressId;
 
-        $scope.baseUrl="http://testimages.party-time.cn/upload";
+        $scope.baseUrl=_baseImageUrl;
 
         $scope.partyName;//活动名称
         $scope.link_Status="未连接";//连接状态
@@ -604,7 +605,19 @@
                 $scope.addressId = param[1].substr(param[1].indexOf('=') + 1);
             }
             ajaxInit();
-            webSocketInit();
+
+            $.danmuAjax('/distribute/adminTask/socketAddress','GET','json',{},function (data) {
+                console.log(data);
+                if(data.code==200){
+                    //websoctAddress = "ws://192.168.1.118:7070/ws";
+                    websoctAddress = "ws://"+data.serverInfo.ip+":"+data.serverInfo.port+"/ws"
+                    webSocketInit();
+                }
+            },function (data) {
+                console.log(data);
+            });
+
+
         }
         initPage();
     });
