@@ -6,7 +6,7 @@ var chartUrl = '/v1/api/admin/timerDanmu/chart';
 var baseUrl = "http://testimages.party-time.cn/upload";
 var danmuAddUrl = '/v1/api/admin/timerDanmu/save';
 var divIndex = 0;
-var direction=-1 ;//方位
+var direction=0 ;//方位
 //var partyId = "582a86620cf2d2a9f936ce77";
 //var partyId='582a86620cf2d2a9f936ce77';
 var partyId;
@@ -26,7 +26,7 @@ $(".danmuType-array").change(function (data) {
     }else{
         $(".danmuPositionDiv").show();
         $(".danmuPosition-array").val(null).select2({data: positionArray, minimumResultsForSearch: -1});
-        direction=-1;
+        direction=0;
     }
 
     //选择普通弹幕
@@ -78,17 +78,6 @@ var columnsArray = [
     {
         field: 'time', title: '时间', align: 'center', formatter: function (value, row, index) {
             return parseInt(row.time / 60) + "分" + row.time % 60 + "秒";
-        }
-    },
-    {
-        field: 'direction', title: '位置', align: 'center', formatter: function (value, row, index) {
-            var direction = row.direction;
-            for(var i=0; i<positionArray.length; i++){
-                if(direction== positionArray[i].id){
-                    return positionArray[i].text;
-                }
-            }
-            return '';
         }
     },
     {
@@ -365,6 +354,9 @@ var danmuAddOperateHandler = function () {
     $.danmuAjax(danmuAddUrl, 'POST', 'json', insertData, function (data) {
         quaryObject.pageNumber = 1
         if (data.result == 200) {
+            //direction =parseInt(data.data);
+            //alert(direction)
+            //$(".danmuPosition-array").select2('val',"'"+direction+"'");
             initable();
             initCarts();
             clearValue();
