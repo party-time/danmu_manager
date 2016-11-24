@@ -1,5 +1,5 @@
 $.ajaxSetup({
-    timeout: 3000,
+    timeout: 10000,
     dataType: 'html',
     //请求成功后触发
     success: function (data) {

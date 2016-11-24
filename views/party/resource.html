@@ -9,12 +9,12 @@
                     <div>
                         <h3>资源管理</h3>
                         <p>图片类支持的格式为png,jpg,gif,视频类支持的格式为mp4,mov,flv,fla</p>
-                        <p>h5背景图片名称为xxx.hb.jpg,表情大图的名称为xxx.ex.big.jpg,表情小图xxx.ex.small.jpg,特效图片为xxx.spe.jpg,特效视频xxx.video.mp4</p>
+                        <p>h5背景图片名称为hb_xxx.jpg,表情大图的名称为ex_xxx.jpg,特效图片为si_xxx.jpg,特效视频sv_xxx.mp4</p>
                     </div>
                     <div class="widget">
                         <div class="widget-header">
                             <i class="icon-list-alt"></i>
-                            <a href="#" onclick="openH5()"><h3>选择H5背景图</h3></a>
+                            <h3><a href="javascript:void(0);" onclick="openH5()">选择H5背景图</a></h3>
                         </div>
                         <div class="widget-content" id="h5Html">
 
@@ -26,7 +26,7 @@
                     <div class="widget">
                         <div class="widget-header">
                             <i class="icon-list-alt"></i>
-                            <a href="#" onclick="openExpressions()"><h3>选择表情</h3></a>
+                            <h3><a href="javascript:void(0);" onclick="openExpressions()">选择表情</a></h3>
                         </div>
                         <div class="widget-content" id="expressions">
 
@@ -37,7 +37,7 @@
                     <div class="widget">
                         <div class="widget-header">
                             <i class="icon-list-alt"></i>
-                            <a href="#" onclick="openSpecImages()"><h3>选择特效图片</h3></a>
+                            <h3><a href="javascript:void(0);" onclick="openSpecImages()">选择特效图片</a></h3>
                         </div>
                         <div class="widget-content" id="specialImages">
 
@@ -48,7 +48,7 @@
                     <div class="widget">
                         <div class="widget-header">
                             <i class="icon-list-alt"></i>
-                            <a href="#" onclick="openSpecVideos()"><h3>选择特效视频</h3></a>
+                            <h3><a href="javascript:void(0);" onclick="openSpecVideos()">选择特效视频</a></h3>
                         </div>
                         <div class="widget-content" id="specialVideos">
 
@@ -85,7 +85,7 @@
     </div>
 </div>
 
-
+<input id='hiddenFile' type='file' onchange='uploadSmallFile()' class="hide"/>
 
 
 <script src="/js/common/danmu.ajax.plug.js"></script>
