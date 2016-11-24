@@ -47,13 +47,20 @@
                                 <li>
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
                                         <h3 style="margin-right: 1em;">弹幕类型</h3>
-                                        <select class="js-example-data-array" style="width: 120px;"></select>
+                                        <select class="danmuType-array" style="width: 120px;">
+                                        </select>
                                     </div>
                                 </li>
                                 <li style="padding-top: 1em;">
                                     <div class="danmucheck-items-widget-header" style="line-height: 0px;"><i class="icon-bookmark"></i>
                                         <h3 style="margin-right: 1em;">发送时间</h3>
                                         <input type="text" class="dataFormat" style="width: 40px;" id="minutes"/>(分)<input type="text" class="dataFormat" style="width: 40px;" maxlength="2" id="seconds"/>(秒)
+                                    </div>
+                                </li>
+                                <li style="padding-top: 1em;" class="danmuPositionDiv">
+                                    <div class="danmucheck-items-widget-header" style="line-height: 0px;"><i class="icon-bookmark"></i>
+                                        <h3 style="margin-right: 1em;">弹幕位置</h3>
+                                        <select class="danmuPosition-array" style="width: 120px;"></select>
                                     </div>
                                 </li>
                                 <li id="danmu_li_0">
@@ -92,7 +99,7 @@
                                 </li>
                                 <li id="danmu_li_4" >
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
-                                        <h3 style="margin-right: 1em;width: 98px;">图片特效</h3>
+                                        <h3 style="margin-right: 1em;width: 98px;">表情特效</h3>
                                     </div>
                                     <div class="expressionDanmu"></div>
                                     <button type="button" class="btn btn-info" style="margin-left: 1em; " onclick="danmuAddOperateHandler()">发送</button>
