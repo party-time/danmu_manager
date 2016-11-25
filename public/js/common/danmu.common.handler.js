@@ -124,12 +124,11 @@ var navbarSelect = function(){
     if( url.indexOf('/wechat')!=-1){
         $('.icon-camera').parent().parent().attr('class','active');
     }
-    var nick = $.cookie('nick');
-    if(nick == 'admin'){
-        if( url.indexOf('/adminmanager')!=-1){
-            $('.icon-bold').parent().parent().attr('class','active');
-        }
+
+    if( url.indexOf('/adminmanager')!=-1){
+        $('.icon-bold').parent().parent().attr('class','active');
     }
+
 
 }
 
