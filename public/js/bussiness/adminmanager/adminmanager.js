@@ -38,7 +38,7 @@ var openCreateAdminUser = function(){
    '<label class="control-label" style="width:50px">名称</label><div class="controls" style="margin-left:60px;">'+
    '<input type="text" class="span4" id="nick" maxlength="6" /></div><br>'+
    '<label class="control-label" style="width:50px">账号</label><div class="controls" style="margin-left:60px;">'+
-       '<input type="text" class="span4" id="userName"  maxlength="10" ></div><br>'+
+       '<input type="text" class="span4" id="userName"  maxlength="30" ></div><br>'+
    '<label class="control-label" style="width:50px">密码</label><div class="controls" style="margin-left:60px;">'+
           '<input type="text" class="span4" id="password" maxlength="10" autocomplete="off">'+
    '</div></div></form>';
@@ -109,7 +109,7 @@ var openUpdateAdminUser = function(id,nick,userName){
    '<label class="control-label" style="width:50px">名称</label><div class="controls" style="margin-left:60px;">'+
    '<input type="text" class="span4" id="nick" maxlength="10" value="'+nick+'"/></div><br>'+
    '<label class="control-label" style="width:50px">账号</label><div class="controls" style="margin-left:60px;">'+
-       '<input type="text" class="span4" id="userName"  maxlength="10" value="'+userName+'"></div><br>'+
+       '<input type="text" class="span4" id="userName"  maxlength="30" value="'+userName+'"></div><br>'+
    '<label class="control-label" style="width:50px">密码</label><div class="controls" style="margin-left:60px;">'+
           '<input type="password" class="span4" id="password" maxlength="10" autocomplete="off">'+
    '</div></div></form>';
