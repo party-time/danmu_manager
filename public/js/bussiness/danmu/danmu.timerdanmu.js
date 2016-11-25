@@ -307,13 +307,15 @@ var danmuAddOperateHandler = function () {
         }
     }
 
-    if(divIndex!=0 && divIndex!=4){
+    /*if(divIndex!=0 && divIndex!=4){
         if(direction<0){
             alert('请设置弹幕位置!');
             return;
         }
         insertData.direction=direction;
-    }
+    }*/
+
+     insertData.direction=direction;
 
     var time = parseInt(minute*60) + parseInt(seconds);
     insertData.time = time;

@@ -6,20 +6,40 @@
         <div class="container">
             <div class="row">
                 <div class="span8">
-                    <h4> 活动：<span class="danmu-partyName">{{partyName}}</span>
-                        状态：<span class="danmuCheck-link-status">{{link_Status}}</span>
-                        在线管理员：<span class="danmuCheck-link-status">{{adminCount}}</span>
-                        活动状态：
-                        <span id="ptime" style="color:red;text-align: center;"><button type="button" class="btn btn-sm btn-info" ng-click="filmStart(1)">活动开始</button></span>
-                        <span id="stime" style="color:red;"><button type="button" class="btn btn-sm btn-info" ng-click="filmStart(2)">电影开始</button></span>
-                        <span id="etime" style="color:red;"><button type="button" class="btn btn-sm btn-danger" ng-click="filmStart(3)">电影结束</button></span>
-                    </h4>
-                    <div class="widget widget-table">
-                        <div class="widget-header"><i class="icon-th-list"></i>
-                            <h3>弹幕列表   <span class="danmuCheck-link-status">{{danmuList.length}}</span>条</h3>
+                    <div class="widget widget-nopad">
+                        <div class="widget-header"><i class="icon-list-alt"></i>
+                            <h3> 活动信息</h3>
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFirst">
+                                展开
+                            </a>
                         </div>
                         <!-- /widget-header -->
-                        <div id="mainDiv" class="widget-content" style=" overflow-x:auto;overflow-y: scroll; max-height: 800px">
+                        <div class="widget-content" id="collapseFirst">
+                            <ul class="danmucheck-items">
+                                <li style="height: 20px; padding-left: 2em;">
+                                    <h4>
+                                        活动：<span class="danmu-partyName">{{partyName}}</span>
+                                        状态：<span class="danmuCheck-link-status">{{link_Status}}</span>
+                                        <span id="stime"></span>
+                                    </h4>
+                                </li>
+                                <li style="height: 30px;padding-top:10px; padding-left: 2em;">
+                                    <h4>
+                                        在线管理员：<span class="danmuCheck-link-status">{{adminCount}}</span>
+                                        在线客户端：<span class="danmuCheck-link-status">{{adminCount}}</span>
+                                    </h4>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /widget-content -->
+                    </div>
+                    <div class="widget widget-table">
+                        <div class="widget-header"><i class="icon-th-list"></i>
+                            <h3>弹幕列表 <span class="danmuCheck-link-status">{{danmuList.length}}</span>条</h3>
+                        </div>
+                        <!-- /widget-header -->
+                        <div id="mainDiv" class="widget-content"
+                             style=" overflow-x:auto;overflow-y: scroll; max-height: 800px">
                             <div style="position: fixed;bottom:20px;" ng-if="danmuList.length>10">
                                 <button type="button" class="btn btn-info" ng-click="clearAndTurnUp()">
                                     清理！(弹幕数{{danmuList.length}})
@@ -90,16 +110,33 @@
                             <ul class="danmucheck-items">
                                 <li>
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
+                                        <h3 style="margin-right: 1em;width: 98px;">活动时间</h3>
+                                        <button type="button" class="btn btn-sm btn-info" id="partyStartButton" ng-click="filmStart(1)" title="活动开始">活动</button>
+                                        <button type="button" id="filmStartButton" class="btn btn-sm btn-info" ng-click="filmStart(2)" title="电影开始">电影</button>
+                                        <button type="button" class="btn btn-sm btn-danger" id="filmEndButton" ng-click="filmStart(3)" title="活动结束">结束</button>
+                                        <span id="partyStatus"></span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
                                         <h3 style="margin-right: 1em;width: 98px;">延长活动时间</h3>
-                                        <input type="text" id="delayHour" style="position: relative;line-height: 18px;top: 3px;width: 40px;" maxlength="2" ng-model="delayHour"/>(h)
-                                        <button class="btn btn-info btn-partyDelay" style="margin-left: 0em;" ng-disabled="delayHour==0" ng-click="delayParty()">确定</button>
+                                        <input type="text" id="delayHour"
+                                               style="position: relative;line-height: 18px;top: 3px;width: 40px;"
+                                               maxlength="2" ng-model="delayHour"/>(h)
+                                        <button class="btn btn-info btn-partyDelay" style="margin-left: 0em;"
+                                                ng-disabled="delayHour==0" ng-click="delayParty()">确定
+                                        </button>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
                                         <h3 style="margin-right: 1em;width: 98px;">弹幕密度</h3>
-                                        <input type="text" id="txt_btn-density" style="position: relative;line-height: 18px;top: 3px;width: 40px;" maxlength="2" ng-model="danmuDensity"/>
-                                        <button class="btn btn-info btn-density" style="margin-left: 0em;" ng-disabled="danmuDensity==0" ng-click="setDanmuDensity()">确定</button>
+                                        <input type="text" id="txt_btn-density"
+                                               style="position: relative;line-height: 18px;top: 3px;width: 40px;"
+                                               maxlength="2" ng-model="danmuDensity"/>
+                                        <button class="btn btn-info btn-density" style="margin-left: 0em;"
+                                                ng-disabled="danmuDensity==0" ng-click="setDanmuDensity()">确定
+                                        </button>
                                     </div>
                                 </li>
                                 <li>
@@ -107,113 +144,144 @@
 
                                         <i class="icon-bookmark"></i>
                                         <h3 style="margin-right: 1em;width: 98px;">延迟时间</h3>
-                                        <button class="btn btn-sm btn-default" type="button" ng-disabled="delaySecond==0" ng-click="setDelaySecond(false)">-</button>
+                                        <button class="btn btn-sm btn-default" type="button"
+                                                ng-disabled="delaySecond==0" ng-click="setDelaySecond(false)">-
+                                        </button>
                                         <button type="button" class="btn btn-sm btn-default">{{delaySecond}}</button>
-                                        <button class="btn btn-sm btn-default" type="button" ng-disabled="delaySecond>99" ng-click="setDelaySecond(true)">+</button>
+                                        <button class="btn btn-sm btn-default" type="button"
+                                                ng-disabled="delaySecond>99" ng-click="setDelaySecond(true)">+
+                                        </button>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
                                         <h3 style="margin-right: 1em;width: 98px;">测试弹幕控制</h3>
-                                        <button type="button" class="btn btn-sm btn-danger"  ng-disabled="testModel==false" ng-click="setTestModelHandler(false)">关闭</button>
-                                        <button type="button" class="btn btn-sm btn-info" ng-disabled="testModel" ng-click="setTestModelHandler(true)">开启</button>
+                                        <button type="button" class="btn btn-sm btn-danger"
+                                                ng-disabled="testModel==false" ng-click="setTestModelHandler(false)">关闭
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-info" ng-disabled="testModel"
+                                                ng-click="setTestModelHandler(true)">开启
+                                        </button>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
                                         <h3 style="margin-right: 1em;width: 98px;">预制弹幕控制</h3>
-                                        <button type="button" class="btn btn-sm btn-danger" ng-disabled="preStatus==false" ng-click="setPreDanmuHandler(false)">关闭</button>
-                                        <button type="button" class="btn btn-sm btn-info" ng-disabled="preStatus" ng-click="setPreDanmuHandler(true)">开启</button>
+                                        <button type="button" class="btn btn-sm btn-danger"
+                                                ng-disabled="preStatus==false" ng-click="setPreDanmuHandler(false)">关闭
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-info" ng-disabled="preStatus"
+                                                ng-click="setPreDanmuHandler(true)">开启
+                                        </button>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
                                         <h3 style="margin-right: 1em;width: 98px;">播放器控制</h3>
-                                        <button class="btn btn-danger " id="playerStatus_0" title="关闭客户端" ng-click="operateScreenHandler(0)" ng-disabled="playerStatus==0">关闭</button>
-                                        <button class="btn btn-info " id="playerStatus_1" title="显示视频" ng-click="operateScreenHandler(1)" ng-disabled="playerStatus==1"> 视频</button>
-                                        <button class="btn btn-info " id="playerStatus_2" title="显示弹幕" ng-click="operateScreenHandler(2)" ng-disabled="playerStatus==2">弹幕</button>
+                                        <button class="btn btn-danger " id="playerStatus_0" title="关闭客户端"
+                                                ng-click="operateScreenHandler(0)" ng-disabled="playerStatus==0">关闭
+                                        </button>
+                                        <button class="btn btn-info " id="playerStatus_1" title="显示视频"
+                                                ng-click="operateScreenHandler(1)" ng-disabled="playerStatus==1"> 视频
+                                        </button>
+                                        <button class="btn btn-info " id="playerStatus_2" title="显示弹幕"
+                                                ng-click="operateScreenHandler(2)" ng-disabled="playerStatus==2">弹幕
+                                        </button>
                                     </div>
                                 </li>
                             </ul>
                         </div>
                         <!-- /widget-content -->
                     </div>
-                    <div class="widget">
+
+                    <div class="widget widget-nopad">
+                        <div class="widget-header"><i class="icon-bookmark"></i>
+                            <h3>普通弹幕</h3>
+                        </div>
+
+                        <!-- /widget-header -->
+                        <div class="widget-content">
+                            <ul class="danmucheck-items">
+                                <li style="padding-left: 1em;">
+                                    <span style="margin-right: 5px;">位置</span>
+                                    <select class="danmuPosition-array" style="width: 120px;"></select>
+                                    <button type="button" class="btn btn-info" ng-click="setDirection()" id="direction">
+                                        确定
+                                    </button>
+                                </li>
+                                <li style="padding-left: 1em;">
+                                    <h3>闪光字发送：</h3>
+                                    <textarea class="form-control" rows="3" ng-model="blingDanmuMsg"
+                                              placeholder="请输入闪光（8个字以内）"
+                                              style="width: 260px;height: 80px;outline:none;resize:none;"></textarea>
+                                    <div>
+                                        <button class="btn" ng-style="{background:e}" ng-class="{active:color==$index}"
+                                                ng-repeat="e in colors" ng-click="setBlingColor(e)"
+                                                style="width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em;"></button>
+                                    </div>
+                                    <button type="button" style="margin-top: 2px;" class="btn btn-info"
+                                            ng-disabled="blingDanmuMsg.length>8 || blingDanmuMsg.length<1"
+                                            ng-click="sendBlingDm()">发送
+                                    </button>
+                                </li>
+                                <li style="padding-left: 1em;">
+                                    <h3>普通弹幕发送：</h3>
+                                    <textarea class="form-control" rows="3" ng-model="danmuMsg"
+                                              placeholder="请输入弹幕（40个字以内）"
+                                              style="width: 260px;height: 80px;outline:none;resize:none;"></textarea>
+                                    <div>
+                                        <button class="btn" ng-style="{background:e}" ng-class="{active:color==$index}"
+                                                ng-repeat="e in colors" ng-click="setDanmuColor(e)"
+                                                style="width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em;"></button>
+                                    </div>
+                                    <button type="button" style="margin-top: 2px;" class="btn btn-info"
+                                            ng-disabled="danmuMsg.length>40 || danmuMsg.length==0" ng-click="sendDm()">
+                                        发送
+                                    </button>
+                                </li>
+                                <li style="padding-left: 1em;" ng-if="expressions.length>0">
+                                    <h3>表情发送：</h3>
+                                    <img ng-src="{{baseUrl}}{{e.smallFileUrl}}" class="expression"
+                                         ng-repeat="e in expressions" ng-click="showExpression(e)"
+                                         style="width: 50px; height: 50px; margin-right: 1em; margin-bottom: 0.5em;"/>
+                                </li>
+                            </ul>
+
+                        </div>
+                        <!-- /widget-content -->
+                    </div>
+                    <!-- /widget -->
+                    <div class="widget" ng-if="specialVideos.length > 0">
                         <div class="widget-header"><i class="icon-bookmark"></i>
                             <h3>视频特效</h3>
                         </div>
                         <!-- /widget-header -->
                         <div class="widget-content">
                            <span ng-repeat="specialVideo in specialVideos" ng-if="specialVideos.length > 0">
-                                <button type="button"   style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " class="btn btn-sm btn-default" ng-click="showSpecialVideo(specialVideo,specialVideo.status)" ng-if="specialVideo.status==0" title="{{specialVideo.resourceName}}">{{specialVideo.resourceName.substring(0,4)}}</button>
-                                <button type="button"    style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " class="btn btn-sm btn-danger" ng-click="showSpecialVideo(specialVideo,specialVideo.status)" ng-if="specialVideo.status==1" title="{{specialVideo.resourceName}}">{{specialVideo.resourceName.substring(0,4)}}</button>
+                                <button type="button"
+                                        style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; "
+                                        class="btn btn-sm btn-default"
+                                        ng-click="showSpecialVideo(specialVideo,specialVideo.status)"
+                                        ng-if="specialVideo.status==0" title="{{specialVideo.resourceName}}">{{specialVideo.resourceName.substring(0,4)}}</button>
+                                <button type="button"
+                                        style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; "
+                                        class="btn btn-sm btn-danger"
+                                        ng-click="showSpecialVideo(specialVideo,specialVideo.status)"
+                                        ng-if="specialVideo.status==1" title="{{specialVideo.resourceName}}">{{specialVideo.resourceName.substring(0,4)}}</button>
                         </span>
                         </div>
                         <!-- /widget-content -->
                     </div>
                     <!-- /widget -->
-                    <div class="widget">
+                    <div class="widget" ng-if="specialImages.length>0">
                         <div class="widget-header"><i class="icon-bookmark"></i>
                             <h3>图片特效</h3>
                         </div>
                         <!-- /widget-header -->
                         <div class="widget-content">
-                            <img ng-src="{{baseUrl}}{{e.fileUrl}}" class="expression" ng-repeat="e in specialImages" ng-click="showSpecialImage(e)" style="width: 50px; height: 50px;margin-left: 1em;" title="{{specialImage.resourceName}}"/>
-                        </div>
-                        <!-- /widget-content -->
-                    </div>
-                    <!-- /widget -->
-                    <div class="widget">
-                        <div class="widget-header"><i class="icon-bookmark"></i>
-                            <h3>表情特效</h3>
-                        </div>
-                        <!-- /widget-header -->
-                        <div class="widget-content">
-                            <img ng-src="{{baseUrl}}{{e.smallFileUrl}}" class="expression" ng-repeat="e in expressions" ng-click="showExpression(e)" style="width: 50px; height: 50px; margin-left: 1em;"/>
-                        </div>
-                        <!-- /widget-content -->
-                    </div>
-                    <!-- /widget -->
-                    <div class="widget">
-                        <div class="widget-header"><i class="icon-bookmark"></i>
-                            <h3>闪光字</h3>
-                        </div>
-                        <!-- /widget-header -->
-                        <div class="widget-content">
-                            <div class="form-group">
-                                <textarea class="form-control" rows="3" ng-model="blingDanmuMsg" placeholder="请输入闪光（8个字以内）" style="width: 260px;height: 80px;outline:none;resize:none;"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <div style="height: 60px;">
-                                    <button class="btn" ng-style="{background:e}" ng-class="{active:color==$index}" ng-repeat="e in colors" ng-click="setBlingColor(e)" style="width: 70px;margin-right: 0.5em;">{{e}}</button>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <button type="button" class="btn btn-info" ng-disabled="blingDanmuMsg.length>8 || blingDanmuMsg.length<1" ng-click="sendBlingDm()">发送</button>
-                            </div>
-                        </div>
-                        <!-- /widget-content -->
-                    </div>
-                    <!-- /widget -->
-                    <div class="widget">
-                        <div class="widget-header"><i class="icon-bookmark"></i>
-                            <h3>弹幕发送</h3>
-                        </div>
-                        <!-- /widget-header -->
-                        <div class="widget-content">
-                            <div class="form-group">
-                                <textarea class="form-control" rows="3" ng-model="danmuMsg" placeholder="请输入弹幕（40个字以内）" style="width: 260px;height: 80px;outline:none;resize:none;"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <div style="height: 60px;">
-                                    <button class="btn" ng-style="{background:e}" ng-class="{active:color==$index}" ng-repeat="e in colors" ng-click="setDanmuColor(e)" style="width: 70px;margin-right: 0.5em;">
-                                      {{e}}
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <button type="button" class="btn btn-info" ng-disabled="danmuMsg.length>40 || danmuMsg.length==0" ng-click="sendDm()">发送</button>
-                            </div>
+                            <img ng-src="{{baseUrl}}{{e.fileUrl}}" class="expression" ng-repeat="e in specialImages"
+                                 ng-click="showSpecialImage(e)" style="width: 50px; height: 50px;margin-left: 1em;"
+                                 title="{{specialImage.resourceName}}"/>
                         </div>
                         <!-- /widget-content -->
                     </div>
@@ -230,9 +298,11 @@
 
 <link rel="stylesheet" href="/plug/bootstrap-switch/css/bootstrap-switch.css"/>
 <link rel="stylesheet" href="/css/danmu/danmu.danmucheck.css"/>
+<link href="/plug/select2/css/select2.min.css" rel="stylesheet"/>
 <script src="/plug/angular/angular.min.js"></script>
 <script src="/js/bussiness/danmu/danmu.danmucheck.js"></script>
 <script src="/js/common/danmu.ajax.plug.js"></script>
+<script src="/plug/select2/js/select2.js"></script>
 
 
 <% include ../common/bottom.html %>

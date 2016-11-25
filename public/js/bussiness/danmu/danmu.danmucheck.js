@@ -1,18 +1,22 @@
 (function () {
     var app = angular.module('danmuCheckApp', []);
-    app.controller('danmuCheckCtrl', function ($scope,$http,$interval) {
+    app.controller('danmuCheckCtrl', function ($scope, $http, $interval) {
 
 
         //var websoctAddress = "ws://192.168.1.118:7070/ws";
+        var positionArray = [{id: 0, text: '全部'}, {id: 1, text: '左上'}, {id: 2, text: '顶部'}, {id: 3, text: '右上'}, {
+            id: 4,
+            text: '左下'
+        }, {id: 5, text: '底部'}, {id: 6, text: '右下'}];
         var websoctAddress;
         var ws;
         $scope.partyId;
         $scope.addressId;
 
-        $scope.baseUrl=_baseImageUrl;
+        $scope.baseUrl = _baseImageUrl;
 
         $scope.partyName;//活动名称
-        $scope.link_Status="未连接";//连接状态
+        $scope.link_Status = "未连接";//连接状态
 
         $scope.testModel;//测试模式
         $scope.preStatus;//预制弹幕
@@ -22,43 +26,45 @@
         $scope.playerStatus;//播放器状态
 
         $scope.adminCount = 0;//管理员数量
-        $scope.delayHour=0;
+        $scope.delayHour = 0;
         $scope.colors = [];//颜色列表
         $scope.blingColors = [];//闪光字颜色
         $scope.danmuList = [];//弹幕
 
-        $scope.expressions=[];//表情特效
-        $scope.specialVideos=[];//视频特效
+        $scope.expressions = [];//表情特效
+        $scope.specialVideos = [];//视频特效
         $scope.specialVideo;//正在开启的动画特效
-        $scope.specialVideos=[];//图片特效
+        $scope.specialVideos = [];//图片特效
 
         $scope.key;
 
-        $scope.danmuMsg="";//弹幕
-        $scope.danmuColor="#ffffff";// 弹幕颜色
-        $scope.blingDanmuMsg="";//闪光字
-        $scope.blingColor="#ffffff";//闪光字颜色
+        $scope.danmuMsg = "";//弹幕
+        $scope.danmuColor = "#ffffff";// 弹幕颜色
+        $scope.blingDanmuMsg = "";//闪光字
+        $scope.blingColor = "#ffffff";//闪光字颜色
+        $scope.direction;//弹幕位置
 
         $scope.type = {
             type_init: 'init',
             type_modeltest: 'test',
             type_testDanmu: 'testDanmu',
             type_adminCount: 'adminCount',
-            type_preDanmu:'preDanmu',
-            type_playerStatus:'playerStatus',
-            type_delaySecond:'delaySecond',
-            type_partyActive:'partyActive',
-            type_blockDanmu:'blockDanmu',
-            type_specialVideo:'specialVideo',
-            type_picture:'picture',
-            type_expression:'expression',
-            type_bing:'bling',
-            type_danmuDensity:'danmuDensity'
+            type_preDanmu: 'preDanmu',
+            type_playerStatus: 'playerStatus',
+            type_delaySecond: 'delaySecond',
+            type_partyActive: 'partyActive',
+            type_blockDanmu: 'blockDanmu',
+            type_specialVideo: 'specialVideo',
+            type_picture: 'picture',
+            type_expression: 'expression',
+            type_bing: 'bling',
+            type_danmuDensity: 'danmuDensity',
+            type_danmuDirection: 'danmuDirection'
         };
 
-        var webSocketInit = function() {
+        var webSocketInit = function () {
             //初始化websocket
-            if(WebSocket){
+            if (WebSocket) {
                 ws = new WebSocket(websoctAddress);
                 ws.onopen = function (event) {
                     //设置连接状态
@@ -82,12 +88,10 @@
                         return false;
                     }
                 }
-            }else{
+            } else {
                 alert('浏览器不支持webscoket，请使用支持html5的浏览器');
             }
         }
-
-
 
 
         /**
@@ -108,7 +112,7 @@
                 $scope.testModel = json.data.testIsOpen;
 
                 //延迟时间
-                $scope.delayHour=0;
+                $scope.delayHour = 0;
                 //审核延迟时间
                 $scope.delaySecond = json.data.delaySecond;
                 //弹幕密度
@@ -117,24 +121,30 @@
                 //电影状态
                 $scope.partyActive = json.data.partyActive;
                 if ($scope.partyActive == 1) {
-                    $("#ptime").hide();
-                    $("#stime").show();
-                    $("#etime").show();
+                    $("#partyStartButton").hide();
+                    $("#filmStartButton").show();
+                    $("#filmEndButton").show();
+                    $("#stime").hide();
                 } else if ($scope.partyActive == 2) {
-                    $("#ptime").hide();
-                    //$("#stime").hide();
-                    $("#etime").show();
+                    $("#partyStartButton").hide();
+                    $("#filmStartButton").hide();
+                    $("#filmEndButton").show();
                     $scope.time = json.data.time;
                     restDate($scope.partyActive);
                 } else if ($scope.partyActive == 3) {
                     //活动结束
-                    $("#ptime").hide();
+                    $("#partyStartButton").hide();
+                    $("#filmStartButton").hide();
+                    $("#filmEndButton").hide();
+                    $("#partyStatus").html('活动已经结束!');
                     $("#stime").hide();
-                    $("#etime").html("活动已经结束");
+                    ws.close();
                 } else {
-                    $("#ptime").show();
-                    $("#stime").show();
-                    $("#etime").hide();
+                    $("#partyStartButton").show();
+                    $("#filmStartButton").show();
+                    $("#filmEndButton").hide();
+                    $("#stime").hide();
+
                 }
                 //动画特效
                 $scope.specialVideo = json.data.specialVideo;
@@ -156,43 +166,45 @@
                 if ($scope.danmuList.length > 1000) {
                     $scope.clearAndTurnUp();
                 }
-            }else if(json.type==$scope.type.type_preDanmu){
+            } else if (json.type == $scope.type.type_preDanmu) {
                 //预制弹幕开启关闭处理
                 $scope.preStatus = json.data.status;
-            }else if (json.type == $scope.type.type_playerStatus) {
+            } else if (json.type == $scope.type.type_playerStatus) {
                 //屏幕控制处理
                 $scope.playerStatus = json.data;
             } else if (json.type == $scope.type.type_delaySecond) {
                 $scope.delaySecond = parseInt(json.data);
-            }else if (json.type ==  $scope.type.type_partyActive) {
+            } else if (json.type == $scope.type.type_partyActive) {
                 $scope.partyActive = json.data.status;
                 if ($scope.partyActive == 1) {
-                    $("#ptime").hide();
-                    $("#stime").show();
-                    $("#etime").show();
+                    $("#partyStartButton").hide();
+                    $("#filmStartButton").show();
+                    $("#filmEndButton").show();
                 } else if ($scope.partyActive == 2) {
-                    $("#ptime").hide();
-                    //$("#stime").hide();
-                    $("#etime").show();
+                    $("#partyStartButton").hide();
+                    $("#filmStartButton").hide();
+                    $("#filmEndButton").show();
                     $scope.time = json.data.time;
                     restDate($scope.partyActive);
+                    $("#stime").show();
                 } else if ($scope.partyActive == 3) {
                     //活动结束
-                    $("#ptime").hide();
-                    $("#stime").hide();
-                    $("#etime").html("活动已经结束");
+                    $("#partyStartButton").hide();
+                    $("#filmStartButton").hide();
+                    $("#filmEndButton").hide();
+                    $("#partyStatus").html('活动已经结束!')
                 } else if ($scope.partyActive == 4) {
                     alert("当前场地正在进行" + json.data.partyName + "活动，等活动结束后,再开始" + $scope.partyName + "活动");
                     return;
                 }
-            }else if (json.type == $scope.type.type_specialVideo) {
+            } else if (json.type == $scope.type.type_specialVideo) {
                 if (json.data.status == 0) {
                     specialVideoJudge(json.data.id, 1);
                 } else if (json.data.status == 1) {
                     specialVideoJudge(json.data.id, 0);
                 }
                 $scope.specialVideo = json.data.id;
-            }else if (json.type == 'normalDanmu') {
+            } else if (json.type == 'normalDanmu') {
                 var danmu = json.data;
                 danmu.s = 10;
                 danmu.createTime = new Date().getTime() + 1000;
@@ -200,7 +212,7 @@
                 if ($scope.danmuList.length > 1000) {
                     $scope.clearAndTurnUp();
                 }
-            }else {
+            } else {
                 return;
             }
         }
@@ -222,16 +234,16 @@
          * 延长活动时间
          * @param hour
          */
-        $scope.delayParty=function () {
+        $scope.delayParty = function () {
             if (confirm('你确定要延迟活动时间吗？确定后不可更改!')) {
                 var msgObject = {
                     partyId: $scope.partyId,
                     addressId: $scope.addressId,
                     delayHour: $scope.delayHour
                 };
-                $.danmuAjax('/v1/api/admin/party/delayParty','post','json',msgObject,function (data) {
+                $.danmuAjax('/v1/api/admin/party/delayParty', 'post', 'json', msgObject, function (data) {
                     console.log(data);
-                },function (data) {
+                }, function (data) {
                     console.log(data);
                 });
             }
@@ -242,10 +254,13 @@
          */
         $scope.setDanmuDensity = function () {
             if (webSocketIsConnect()) {
-                webSocketSendMessage({type: $scope.type.type_danmuDensity, danmuDensity:$scope.danmuDensity});
+                webSocketSendMessage({
+                    type: $scope.type.type_danmuDensity,
+                    density: {danmuDensity: $scope.danmuDensity}
+                });
             }
         }
-        
+
         /**
          * 设置电影状态
          * @param status
@@ -256,13 +271,13 @@
                 return;
             }
             //电影开始
-            webSocketSendMessage({type: $scope.type.type_partyActive,  status: status});
+            webSocketSendMessage({type: $scope.type.type_partyActive, partyCtrl: {status: status}});
         }
 
         //增减延迟时间
         $scope.setDelaySecond = function (status) {
             if (webSocketIsConnect()) {
-                webSocketSendMessage({type: $scope.type.type_delaySecond,  status: status});
+                webSocketSendMessage({type: $scope.type.type_delaySecond, delayTime: {status: status}});
             }
         };
         /**
@@ -276,7 +291,7 @@
                     if (danmu.id == id) {
                         danmu.isBlocked = true;
                         danmu.s = -10;
-                        webSocketSendMessage({type: $scope.type.type_blockDanmu, danmuId: danmu.id})
+                        webSocketSendMessage({type: $scope.type.type_blockDanmu, blockDanmu: {id: danmu.id}})
                         break;
                     }
                 }
@@ -289,7 +304,7 @@
          */
         $scope.setTestModelHandler = function (status) {
             if (webSocketIsConnect()) {
-                webSocketSendMessage({type: $scope.type.type_modeltest, status: status});
+                webSocketSendMessage({type: $scope.type.type_modeltest, testDanmu: {status: status}});
                 if (!status) {
                     $scope.danmuList = [];
                 }
@@ -302,7 +317,7 @@
          */
         $scope.setPreDanmuHandler = function (status) {
             if (webSocketIsConnect()) {
-                webSocketSendMessage({type: $scope.type.type_preDanmu, status: status});
+                webSocketSendMessage({type: $scope.type.type_preDanmu, preDanmu: {status: status}});
             }
         }
 
@@ -312,7 +327,7 @@
          */
         $scope.operateScreenHandler = function (status) {
             if (webSocketIsConnect()) {
-                webSocketSendMessage({type: $scope.type.type_playerStatus, status: status});
+                webSocketSendMessage({type: $scope.type.type_playerStatus, playStatus: {status: status}});
             }
         }
 
@@ -324,7 +339,7 @@
         $scope.showSpecialImage = function (specialImage) {
             if (webSocketIsConnect()) {
                 if (confirm("确定开启图片特效？")) {
-                    webSocketSendMessage({type: $scope.type.type_picture, id: specialImage.id});
+                    webSocketSendMessage({type: $scope.type.type_picture, picture: {id: specialImage.id}});
                 }
             }
         };
@@ -332,7 +347,10 @@
         $scope.showExpression = function (expression) {
             if (webSocketIsConnect()) {
                 if (confirm("是否发送表情特效？")) {
-                    webSocketSendMessage({type: $scope.type.type_expression, name: expression.name, id: expression.id});
+                    webSocketSendMessage({
+                        type: $scope.type.type_expression,
+                        expression: {name: expression.name, id: expression.id}
+                    });
                 }
             }
         };
@@ -375,6 +393,15 @@
             $scope.blingColor = object;
         };
 
+
+        $("#direction").click(function () {
+            webSocketSendMessage({type: $scope.type.type_danmuDirection,direction:{direction: $scope.direction}});
+        });
+        //设置方位
+        $(".danmuPosition-array").change(function (data) {
+            $scope.direction = data.target.value;
+        });
+
         /**
          * 设置弹幕颜色
          * @param object
@@ -395,7 +422,7 @@
         }
 
         var startSpecialVedio = function (specialVideo, status) {
-            webSocketSendMessage({type: $scope.type.type_specialVideo, id: specialVideo.id,  status: status});
+            webSocketSendMessage({type: $scope.type.type_specialVideo, video: {id: specialVideo.id, status: status}});
         }
         /**
          * 设置动画特效按钮的状态
@@ -420,7 +447,7 @@
         function webSocketSendMessage(object) {
             object.partyId = $scope.partyId;
             object.key = getCookieValue("auth_key");
-            object.addressId= $scope.addressId;
+            object.addressId = $scope.addressId;
             if (webSocketIsConnect()) {
                 ws.send($.objectCovertJson(object));
             }
@@ -433,7 +460,7 @@
         function setLinkStatus() {
             if (ws.readyState == 1) {
                 $scope.link_Status = '已连接';
-            } else  {
+            } else {
                 //setAllButtonStatus();
                 $scope.link_Status = '连接关闭';
             }
@@ -443,6 +470,7 @@
             if (ws.readyState == 1) {
                 return true;
             }
+            alert('未连接上服务器');
             return false;
         }
 
@@ -476,7 +504,10 @@
                 danmu.s = parseInt($scope.delaySecond - ( nowTime - danmu.createTime) / 1000);
                 if (danmu.s == 0) {
                     danmu.s = -1;
-                    webSocketSendMessage({type: danmu.type, msg: danmu.msg, color: danmu.color, openId: danmu.openId});
+                    webSocketSendMessage({
+                        type: danmu.type,
+                        danmu: {message: danmu.msg, color: danmu.color, openId: danmu.openId}
+                    });
                 }
             }
             return danmu;
@@ -487,7 +518,10 @@
          */
         $scope.sendBlingDm = function () {
             if (webSocketIsConnect()) {
-                webSocketSendMessage({type: $scope.type.type_bing, msg: $scope.blingDanmuMsg,color: $scope.blingColor});
+                webSocketSendMessage({
+                    type: $scope.type.type_bing,
+                    bling: {message: $scope.blingDanmuMsg, color: $scope.blingColor}
+                });
                 $scope.blingDanmuMsg = "";
             }
         };
@@ -498,14 +532,19 @@
             if (webSocketIsConnect()) {
                 if ($scope.danmuMsg && $scope.danmuMsg.length <= 40 && (!$scope.testModel || confirm('当前为测试模式,确认要发送吗？'))) {
 
-                    $.danmuAjax('/v1/api/sendDanmu','post','json',{msg: $scope.danmuMsg, partyId: $scope.partyId, addressId: $scope.addressId, color: $scope.danmuColor},function (data) {
+                    $.danmuAjax('/v1/api/sendDanmu', 'post', 'json', {
+                        msg: $scope.danmuMsg,
+                        partyId: $scope.partyId,
+                        addressId: $scope.addressId,
+                        color: $scope.danmuColor
+                    }, function (data) {
                         $scope.danmuMsg = "";
                         if (data.result == "403") {
                             alert("弹幕含有屏蔽词,禁止发送!");
                             return;
                         }
                         console.log(data);
-                    },function (data) {
+                    }, function (data) {
                         console.log(data);
                     })
                 }
@@ -537,7 +576,7 @@
                 var leave3 = time3 / 1000;     //计算分钟数后剩余的毫秒数
                 var seconds = parseInt(leave3);
 
-                document.getElementById("stime").innerHTML = hours + "时" + minutes + "分" + seconds + "秒";
+                document.getElementById("stime").innerHTML = "活动时间:<span style='color: red;'>"+hours + "时" + minutes + "分" + seconds + "秒</span>";
 
                 if (t) {
                     clearTimeout(t);
@@ -554,13 +593,13 @@
         var ajaxInit = function () {
             //获取颜色信息
             $http.get('/v1/api/admin/colors').success(function (data) {
-                    if (data.result == 200) {
-                        $scope.colors = data.data.danmuColors;
-                        $scope.blingColors = data.data.flashWordColors;
-                    } else {
-                        alert("资源加载失败")
-                    }
-                }).error(function (data, status, headers, config) {
+                if (data.result == 200) {
+                    $scope.colors = data.data.danmuColors;
+                    $scope.blingColors = data.data.flashWordColors;
+                } else {
+                    alert("资源加载失败")
+                }
+            }).error(function (data, status, headers, config) {
             });
             //获取图片信息
             $http.get('/v1/api/admin/initResource?partyId=' + $scope.partyId)
@@ -579,25 +618,25 @@
 
         function getCookieValue(cookieName) {
             var cookieValue = document.cookie;
-            var cookieStartAt = cookieValue.indexOf(""+cookieName+"=");
-            if(cookieStartAt==-1) {
-                cookieStartAt = cookieValue.indexOf(cookieName+"=");
+            var cookieStartAt = cookieValue.indexOf("" + cookieName + "=");
+            if (cookieStartAt == -1) {
+                cookieStartAt = cookieValue.indexOf(cookieName + "=");
             }
-            if(cookieStartAt==-1) {
+            if (cookieStartAt == -1) {
                 cookieValue = null;
             } else {
-                cookieStartAt = cookieValue.indexOf("=",cookieStartAt)+1;
-                cookieEndAt = cookieValue.indexOf(";",cookieStartAt);
-                if(cookieEndAt==-1)
-                {
+                cookieStartAt = cookieValue.indexOf("=", cookieStartAt) + 1;
+                cookieEndAt = cookieValue.indexOf(";", cookieStartAt);
+                if (cookieEndAt == -1) {
                     cookieEndAt = cookieValue.length;
                 }
-                cookieValue = unescape(cookieValue.substring(cookieStartAt,cookieEndAt));//解码latin-1
+                cookieValue = unescape(cookieValue.substring(cookieStartAt, cookieEndAt));//解码latin-1
             }
             return cookieValue;
         }
-        var initPage = function () {
 
+        var initPage = function () {
+            $(".danmuPosition-array").val(null).select2({data: positionArray, minimumResultsForSearch: -1});
             var url = location.href;
             if (url.indexOf('partyId=') != -1) {
                 var param = url.substr(url.indexOf('?') + 1).split("&");
@@ -606,14 +645,13 @@
             }
             ajaxInit();
 
-            $.danmuAjax('/distribute/adminTask/socketAddress','GET','json',{},function (data) {
+            $.danmuAjax('/distribute/adminTask/socketAddress', 'GET', 'json', {}, function (data) {
                 console.log(data);
-                if(data.code==200){
-                    //websoctAddress = "ws://192.168.1.118:7070/ws";
-                    websoctAddress = "ws://"+data.serverInfo.ip+":"+data.serverInfo.port+"/ws"
+                if (data.code == 200) {
+                    websoctAddress = "ws://" + data.serverInfo.ip + ":" + data.serverInfo.port + "/ws"
                     webSocketInit();
                 }
-            },function (data) {
+            }, function (data) {
                 console.log(data);
             });
 
