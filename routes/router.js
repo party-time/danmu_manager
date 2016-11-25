@@ -75,6 +75,11 @@ router.get('/party/danmuCheck', function(req, res, next) {
   res.render('danmu/danmuCheck');
 });
 
+/**管理员*/
+router.get('/adminmanager', function(req, res, next) {
+  res.render('adminmanager/index');
+});
+
 
 
 

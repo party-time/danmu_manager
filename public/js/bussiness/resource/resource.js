@@ -238,9 +238,11 @@ var getSpecImagesPage = function(pageNo){
         for(var i=0;i<data.rows.length;i++){
             var fileUrl = _baseImageUrl+data.rows[i].fileUrl;
             var isHave = false;
-            for(var j=0;j<g_specialImages.length;j++){
-                if(data.rows[i].id == g_specialImages[j].id){
-                    isHave = true;
+            if(g_specialImages){
+                for(var j=0;j<g_specialImages.length;j++){
+                    if(data.rows[i].id == g_specialImages[j].id){
+                        isHave = true;
+                    }
                 }
             }
             if( i == 0){
@@ -296,9 +298,11 @@ var getSpecVideosPage = function(pageNo){
     $.danmuAjax('/v1/api/admin/resource/page', 'GET','json',obj, function (data) {
         for(var i=0;i<data.rows.length;i++){
             var isHave = false;
-            for( var j=0;j<g_specialVideos.length;j++){
-                if(data.rows[i].id == g_specialVideos[j].id){
-                    isHave = true;
+            if(g_specialVideos){
+                for( var j=0;j<g_specialVideos.length;j++){
+                    if(data.rows[i].id == g_specialVideos[j].id){
+                        isHave = true;
+                    }
                 }
             }
             if( i % 6  == 0){
@@ -361,7 +365,9 @@ var openSpecVideos = function(){
 var openUpload = function(){
     var fileUploadUrl = _baseUploadUrl+'/v1/api/admin/resource/upload&partyId='+g_partyId;
     $('#myModalLabel').html('文件上传');
-    var flashStr = '<embed src="/swf/download.swf?uploadUrl='+fileUploadUrl+'" width="600px" height="390px"></embed>';
+    var flashStr = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="ExternalInterfaceExample" width="600" height="390"'+
+                 'codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab"><param name="movie" value="/swf/download.swf?uploadUrl='+fileUploadUrl+'" /><param name="quality" value="high" />';
+    flashStr += '<embed src="/swf/download.swf?uploadUrl='+fileUploadUrl+'" width="600px" height="390px"  play="true" loop="false" quality="high" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" ></embed></object>';
     $('.modal-body').html(flashStr);
     $('.modal-footer').html('');
     $('#myModal').modal('show');

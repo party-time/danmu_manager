@@ -28,9 +28,10 @@ $.ajaxSetup({
 var setAdminNick = function(){
     var nick = $.cookie('nick');
     var adminNickHtml = '<a href="#" class="dropdown-toggle" data-toggle="dropdown" > <i class="icon-user"></i>'+nick+
-   '<b class="caret"></b> </a><ul class="dropdown-menu"><li><a href="javascript:;">修改密码</a></li><li><a href="javascript:;" onclick="logout()">登出</a></li></ul>';
+   '<b class="caret"></b> </a><ul class="dropdown-menu"><li><a href="javascript:;" onclick="">修改密码</a></li><li><a href="javascript:;" onclick="logout()">登出</a></li></ul>';
     $('.adminNick').html(adminNickHtml);
 }
+
 
 var logout = function(){
     $.ajax({
@@ -66,6 +67,9 @@ var navbarSelect = function(){
     }
     if( url.indexOf('/wechat')!=-1){
         $('.icon-camera').parent().parent().attr('class','active');
+    }
+    if( url.indexOf('/adminmanager')!=-1){
+        $('.icon-bold').parent().parent().attr('class','active');
     }
 
 }
