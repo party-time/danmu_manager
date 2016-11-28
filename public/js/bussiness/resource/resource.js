@@ -52,16 +52,20 @@ var initPartyResource = function(){
         g_expressions = expressions;
         var html = '';
         for(var i=0;i<expressions.length;i++){
-            var fileurl = _baseImageUrl+expressions[i].fileUrl;
+            var fileurl = _baseImageUrl+expressions[i].fileUrl+'?v='+Math.random();
+
             html += '<div style="width:15%; border: 1px solid green;display:inline-block;margin:1ex;">'+
                     '<img style="width:90%" src="'+fileurl+'"/><p style="word-wrap: break-word">'+parseInt(expressions[i].fileSize/1000)+'KB</p>';
 
             if(expressions[i].smallFileUrl ){
-                var smallFileUrl = _baseImageUrl+expressions[i].smallFileUrl;
+
+                var smallFileUrl = _baseImageUrl+expressions[i].smallFileUrl+'?v='+Math.random();
+
                 html +='<img style="width:50%;" src="'+smallFileUrl+'" /><p style="word-wrap: break-word">'+parseInt(expressions[i].smallFileSize/1000)+'KB</p>';
             }
             html +='<a class="btn" onclick="delPartyResource(\''+expressions[i].id+'\',1)">删除</a><a class="btn" onclick="openFile(\''+expressions[i].id+'\')">小表情</a></div>';
         }
+
         $('#expressions').html(html);
     }else{
          $('#expressions').html('<h4>还没有表情，可以<a href="javascript:void(0);" onclick="openExpressions()">选择表情</a>也可以按照文件名规则上传</h4>');
@@ -104,7 +108,7 @@ var drawSpecVideos = function(specialVideos){
 
 var geth5BackgroundPage = function(pageNo){
     g_h5bg_pageNo = pageNo
-    $('.modal-body').html('正在加载中......');
+    $('#flashBody').html('正在加载中......');
     $('#myModal').modal('show');
     var obj={
         fileType:4,
@@ -131,7 +135,7 @@ var geth5BackgroundPage = function(pageNo){
 
         }
         imgHtml += '</div>';
-        $('.modal-body').html(imgHtml);
+        $('#flashBody').html(imgHtml);
         $('.modal').css({width:'50%'});
         var totalPageNo =  parseInt((data.total  + obj.pageSize -1) / obj.pageSize);
         var footer='<div>';
@@ -146,7 +150,7 @@ var geth5BackgroundPage = function(pageNo){
         }else{
             footer += '<a onclick="geth5BackgroundPage('+last+')">上一页</a>第'+obj.pageNo+'页<a onclick="geth5BackgroundPage('+next+')">下一页</a> 共'+totalPageNo+'页</div>';
         }
-        $('.modal-footer').html(footer);
+        $('#modalFooter').html(footer);
     }, function (data) {
         console.log(data);
     });
@@ -158,7 +162,7 @@ var openH5 = function(){
 
 var getExpressions = function(pageNo){
     g_expressions_pageNo = pageNo;
-    $('.modal-body').html('正在加载中......');
+    $('#flashBody').html('正在加载中......');
     $('#myModal').modal('show');
     var obj={
         fileType:1,
@@ -198,7 +202,7 @@ var getExpressions = function(pageNo){
         if(data.rows.length < 18){
             htmlStr += '</div>';
         }
-        $('.modal-body').html(htmlStr);
+        $('#flashBody').html(htmlStr);
         $('.modal').css({width:'50%'});
         var totalPageNo =  parseInt((data.total  + obj.pageSize -1) / obj.pageSize);
         var footer='<div>';
@@ -213,7 +217,7 @@ var getExpressions = function(pageNo){
         }else{
             footer += '<a onclick="getExpressions('+last+')">上一页</a>第'+obj.pageNo+'页<a onclick="getExpressions('+next+')">下一页</a> 共'+totalPageNo+'页</div>';
         }
-        $('.modal-footer').html(footer);
+        $('#modalFooter').html(footer);
     }, function (data) {
         console.log(data);
     });
@@ -226,7 +230,7 @@ var openExpressions = function(){
 
 var getSpecImagesPage = function(pageNo){
     g_specialImages_pageNo = pageNo;
-    $('.modal-body').html('正在加载中......');
+    $('#flashBody').html('正在加载中......');
     $('#myModal').modal('show');
     var obj={
         fileType:2,
@@ -260,7 +264,7 @@ var getSpecImagesPage = function(pageNo){
             }
         }
         imgHtml += '</div>';
-        $('.modal-body').html(imgHtml);
+        $('#flashBody').html(imgHtml);
         $('.modal').css({width:'50%'});
         var totalPageNo =  parseInt((data.total  + obj.pageSize -1) / obj.pageSize);
         var footer='<div>';
@@ -275,7 +279,7 @@ var getSpecImagesPage = function(pageNo){
         }else{
             footer += '<a onclick="getSpecImagesPage('+last+')">上一页</a>第'+obj.pageNo+'页<a onclick="getSpecImagesPage('+next+')">下一页</a> 共'+totalPageNo+'页</div>';
         }
-        $('.modal-footer').html(footer);
+        $('#modalFooter').html(footer);
     }, function (data) {
         console.log(data);
     });
@@ -287,7 +291,7 @@ var openSpecImages = function(){
 
 var getSpecVideosPage = function(pageNo){
     g_specialVideos_pageNo = pageNo;
-    $('.modal-body').html('正在加载中......');
+    $('#flashBody').html('正在加载中......');
     $('#myModal').modal('show');
     var obj={
         fileType:3,
@@ -336,7 +340,7 @@ var getSpecVideosPage = function(pageNo){
         if(data.rows.length < 18){
             htmlStr += '</div>';
         }
-        $('.modal-body').html(htmlStr);
+        $('#flashBody').html(htmlStr);
         $('.modal').css({width:'50%'});
         var totalPageNo =  parseInt((data.total  + obj.pageSize -1) / obj.pageSize);
         var footer='<div>';
@@ -351,7 +355,7 @@ var getSpecVideosPage = function(pageNo){
         }else{
             footer += '<a onclick="getSpecVideosPage('+last+')">上一页</a>第'+obj.pageNo+'页<a onclick="getSpecVideosPage('+next+')">下一页</a> 共'+totalPageNo+'页</div>';
         }
-        $('.modal-footer').html(footer);
+        $('#modalFooter').html(footer);
     }, function (data) {
         console.log(data);
     });
@@ -368,8 +372,8 @@ var openUpload = function(){
     var flashStr = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="ExternalInterfaceExample" width="600" height="390"'+
                  'codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab"><param name="movie" value="/swf/download.swf?uploadUrl='+fileUploadUrl+'" /><param name="quality" value="high" />';
     flashStr += '<embed src="/swf/download.swf?uploadUrl='+fileUploadUrl+'" width="600px" height="390px"  play="true" loop="false" quality="high" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" ></embed></object>';
-    $('.modal-body').html(flashStr);
-    $('.modal-footer').html('');
+    $('#flashBody').html(flashStr);
+    $('#modalFooter').html('');
     $('#myModal').modal('show');
 }
 
