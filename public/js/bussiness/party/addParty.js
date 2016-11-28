@@ -216,11 +216,14 @@ var initAddParty = function(){
         dd = '0'+dd;
     }
     var hour = now.getHours();
+    if( hour < 24 ){
+        hour = hour + 1;
+    }
     if(hour<10){
         hour = '0'+hour;
     }
+
     var minute = now.getMinutes();
-    minute = minute+10;
     if( minute<10){
         minute = '0'+minute;
     }
