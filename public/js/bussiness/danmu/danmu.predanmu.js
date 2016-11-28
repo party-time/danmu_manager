@@ -83,7 +83,7 @@ var getDanmuPage = function(pageNumber){
     $.danmuAjax('/v1/api/admin/historyDMList', 'GET','json',obj, function (data) {
           console.log(data);
           for(var i=0;i<data.rows.length;i++){
-            $('#historyDm').append('<li class="list-group-item" ><span style="border: solid 2px #f5f5f5;width:80%;float:left;background-color:'+data.rows[i].color+'">'+data.rows[i].msg+'</span><span style="float:left;border:solid 2px #FFFFFF;"><a href="#" onclick="addPreDanmu(\''+data.rows[i].id+'\')">添加</a></span></li>');
+            $('#historyDm').append('<li class="list-group-item" ><span style="border: solid 2px #f5f5f5;width:80%;float:left;background-color:'+data.rows[i].color+'">'+data.rows[i].msg+'</span><span style="float:left;border:solid 2px #FFFFFF;"><a href="javascript:void(0)" preDanmuId="'+data.rows[i].id+'" onclick="addPreDanmu(this)" class="addPreDanmu">添加</a></span></li>');
           }
           $('#historyDm').after(paginationCount(obj.pageNumber,obj.pageSize,data.total,'danmuGoto'));
     }, function (data) {
@@ -163,7 +163,7 @@ var getDanmuLibraryPage = function(pageNo){
     $.danmuAjax('/v1/api/admin/preDMList', 'GET','json',obj, function (data) {
           console.log(data);
           for(var i=0;i<data.data.content.length;i++){
-            $('#dlDm').append('<li class="list-group-item" ><span style="border: solid 2px #f5f5f5;width:80%;float:left;background-color:'+data.data.content[i].color+'">'+data.data.content[i].msg+'</span><span style="float:left;border:solid 2px #FFFFFF;"><a href="#" onclick="deletePreDanmu(\''+data.data.content[i].id+'\')">删除</a></span></li>');
+            $('#dlDm').append('<li class="list-group-item" ><span style="border: solid 2px #f5f5f5;width:80%;float:left;background-color:'+data.data.content[i].color+'">'+data.data.content[i].msg+'</span><span style="float:left;border:solid 2px #FFFFFF;"><a href="javascript:void(0)" onclick="deletePreDanmu(\''+data.data.content[i].id+'\')">删除</a></span></li>');
 
           }
           $('#dlDm').after(dlPaginationCount(obj.pageNo,obj.pageSize,data.data.totalElements));
@@ -220,17 +220,23 @@ var deletePreDanmu = function (preDanmuId) {
      * 添加预制弹幕
      * @param id
      */
-var addPreDanmu = function (id) {
+var addPreDanmu = function (obj) {
     if( $('#selectedDl').val() == 0 ){
         alert('请先选择一个弹幕库');
         return false;
     }
+
+    var id = $(obj).attr('preDanmuId');
+    $('.addPreDanmu').removeAttr('href');
+    $('.addPreDanmu').removeAttr('onclick');
     var obj={
         dmId:id,
         dlId:$('#selectedDl').val()
     }
     $.danmuAjax('/v1/api/admin/addPreDm', 'GET','json',obj, function (data) {
         getDanmuLibraryPage(1);
+        $('.addPreDanmu').attr('href','javascript:void(0)');
+        $('.addPreDanmu').attr('onclick','addPreDanmu(this)');
     }, function (data) {
         console.log(data);
     });
@@ -241,7 +247,7 @@ var initColor = function () {
     $.danmuAjax('/v1/api/admin/colors', 'GET','json',null, function (data) {
         var colorHtml = '';
         for(var i=0;i<data.data.danmuColors.length;i++){
-            colorHtml += '<a class="shortcut" href="#" style="background:'+data.data.danmuColors[i]+'" onclick="setEx(\''+data.data.danmuColors[i]+'\')"><span class="shortcut-label">'+data.data.danmuColors[i]+'</span></a>';
+            colorHtml += '<a class="shortcut" href="javascript:void(0)" style="background:'+data.data.danmuColors[i]+'" onclick="setEx(\''+data.data.danmuColors[i]+'\')"><span class="shortcut-label">'+data.data.danmuColors[i]+'</span></a>';
         }
         $('#colors').html(colorHtml);
     }, function (data) {

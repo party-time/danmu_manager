@@ -115,8 +115,11 @@ var openScreenDialog = function(addressName,addressId){
         addressId:g_addressId,
         pageSize: 6
     };
-    $.initTable('screenTableList', screenColumnsArray, screenQueryObject, screenTableUrl);
+    $.initTable('screenTableList', screenColumnsArray, screenQueryObject, screenTableUrl,function(){
+        $('#modalBody').find('.pull-left').remove();
+    });
     $('#myModalLabel').html(addressName+'的屏幕管理，<a onclick="openSaveScreen()">创建新屏幕</a>');
+    $('#modalBody').find('.pull-left').remove();
     $('#myModal').modal('show');
 }
 
@@ -150,22 +153,52 @@ var openSaveScreen = function(){
        '<label class="control-label" style="width:50px">有效期(不填为永久)</label><div class="controls" style="margin-left:60px;">'+
            '<input type="text" class="span4" id="overdue" placeholder="yyyy-MM-dd" maxlength="10" ></div></div></form>';
 
-    $('.modal-body').html(htmlStr);
+    $('#modalBody').html(htmlStr);
     var footerHtml = '<a class="btn btn-primary" onclick="saveScreen()">创建</a><a class="btn" onclick="cancelSaveScreen()">取消</a>';
-    $('.modal-footer').html(footerHtml);
+    $('#modalFooter').html(footerHtml);
 }
 
 var cancelSaveScreen = function(){
     var htmlStr = '<table id="screenTableList" class="table table-striped" table-height="360"></table>';
-    $('.modal-body').html(htmlStr);
-    $('.modal-footer').empty();
+    $('#modalBody').html(htmlStr);
+    $('#modalFooter').empty();
     var screenQueryObject = {
       addressId:g_addressId,
       pageSize: 6
   };
-    $.initTable('screenTableList', screenColumnsArray, screenQueryObject, screenTableUrl);
+    $.initTable('screenTableList', screenColumnsArray, screenQueryObject, screenTableUrl,function(){
+                                 $('#modalBody').find('.pull-left').remove();
+    });
 }
+
+var checkDateTime = function(str){
+    var reg=/^(\d+)-(\d{1,2})-(\d{1,2})$/;
+    var r=str.match(reg);
+    if(r==null) return false;
+    var d= new Date(r[1],r[2],r[3],r[4],r[5]);
+    if(d.getFullYear()!=r[1]) return false;
+    if(d.getMonth()!=r[2]) return false;
+    if(d.getDate()!=r[3]) return false;
+    return true;
+}
+
 var saveScreen = function () {
+    var screenName = $('#screenName').val();
+    var overdue = $('#overdue').val();
+    if( '' ==screenName){
+        alert('名称不能为空');
+        return;
+    }
+    if( screenName.length < 2){
+        alert('名称最小长度大于1个字符');
+        return;
+    }
+
+    if('' != overdue && !checkDateTime(overdue)){
+        alert('日期格式错误');
+        return;
+    }
+
     var obj = {
         'addressId':g_addressId,
         'name': $('#screenName').val(),
