@@ -447,3 +447,15 @@ function initHighcharts(data) {
         }]
     });
 }
+
+$(".timeDanmuButton").click(function(){
+   //alert(partyId);
+    $.danmuAjax('/v1/api/admin/timerDanmu/creatTimerDanmuFile', 'GET', 'json', {partyId:partyId}, function (data) {
+        if (data.result == 200) {
+            //initable();
+            //initCarts();
+        }
+    }, function (data) {
+        console.log(data);
+    });
+});
