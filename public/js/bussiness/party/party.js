@@ -131,7 +131,7 @@ var openAddress = function(partyName,partyId){
     ];
     $.initTable('addressTableList', addressColumnsArray, addressQueryObject, addressTableUrl);
     $('#myModalLabel').html(partyName+'的场地管理');
-    var buttonHtml = '<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>' +
+    var buttonHtml = '<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>' +
     '<button class="btn btn-primary" onclick="openMoreAddress(\''+partyName+'\',\''+partyId+'\')">查看更多场地</button>';
     $('.modal-footer').html(buttonHtml);
     $('.modal-body').find('.pull-left').remove();
@@ -164,7 +164,7 @@ var openMoreAddress = function(partyName,partyId){
     }
     $.initTable('addressTableList', addressColumnsArray, addressQueryObject, addressTableUrl,tableSuccess);
 
-    var buttonHtml = '<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>' +
+    var buttonHtml = '<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>' +
     '<button class="btn btn-primary" onclick="openAddress(\''+partyName+'\',\''+partyId+'\')">本活动的场地</button>';
     $('.modal-footer').html(buttonHtml);
 }
@@ -236,7 +236,7 @@ var openDanmuCheck = function(partyName,partyId){
     ];
     $.initTable('addressTableList', addressColumnsArray, addressQueryObject, addressTableUrl,null,'还没有添加场地，请去添加场地');
     $('#myModalLabel').html(partyName+'的弹幕审核');
-    var buttonHtml = '<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>';
+    var buttonHtml = '<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>';
     $('.modal-footer').html(buttonHtml);
     $('.modal-body').find('.pull-left').remove();
     $('#myModal').modal('show');
