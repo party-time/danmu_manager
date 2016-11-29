@@ -272,6 +272,10 @@
             }
             //电影开始
             webSocketSendMessage({type: $scope.type.type_partyActive, partyCtrl: {status: status}});
+
+            if(status==3){
+                window.location.reload();
+            }
         }
 
         //增减延迟时间
@@ -470,7 +474,7 @@
             if (ws.readyState == 1) {
                 return true;
             }
-            alert('未连接上服务器');
+            alert('与服务器断开连接！');
             return false;
         }
 
