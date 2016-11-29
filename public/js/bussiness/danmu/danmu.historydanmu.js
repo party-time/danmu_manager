@@ -1,5 +1,5 @@
-var tableUrl = '/api/historyDanmu/page';
-var sendPrizeUrl = '/api/historyDanmu/addPrize';
+var tableUrl = '/v1/api/admin/historyDanmu/page';
+var sendPrizeUrl = '/api/api/admin/historyDanmu/addPrize';
 var columnsArray = [
     {
         field: 'nick',
@@ -33,12 +33,17 @@ var columnsArray = [
         events: 'operateEvents'
     }
 ];
-var quaryObject = {
-    addressId: '580078b30cf28b271aea44e5',
-    partyId: '581a9dc50cf2852c417a9b31'
-};
+var quaryObject = {};
 //加载表格数据
-$.initTable('tableList', columnsArray, quaryObject, tableUrl);
+var initable = function () {
+    var url = location.href;
+    if (url.indexOf('partyId=') != -1) {
+        var param = url.substr(url.indexOf('?') + 1).split("&");
+        quaryObject.partyId = param[0].substr(param[0].indexOf('=') + 1);
+        quaryObject.addressId = param[1].substr(param[1].indexOf('=') + 1);
+        $.initTable('tableList', columnsArray, quaryObject, tableUrl);
+    }
+}
 
 window.operateEvents = {
     'click .sendPrize': function (e, value, row, index) {
@@ -64,3 +69,5 @@ function sucess(data) {
 function error(data) {
     alert(data);
 }
+
+initable();
