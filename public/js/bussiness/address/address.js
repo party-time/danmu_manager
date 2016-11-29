@@ -175,7 +175,7 @@ var checkDateTime = function(str){
     var reg=/^(\d+)-(\d{1,2})-(\d{1,2})$/;
     var r=str.match(reg);
     if(r==null) return false;
-    var d= new Date(r[1],r[2],r[3],r[4],r[5]);
+    var d= new Date(r[1],r[2],r[3]);
     if(d.getFullYear()!=r[1]) return false;
     if(d.getMonth()!=r[2]) return false;
     if(d.getDate()!=r[3]) return false;

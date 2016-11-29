@@ -36,15 +36,15 @@ var openCreateAdminUser = function(){
     $('#myModalLabel').html('新建账号信息');
     var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">'+
    '<label class="control-label" style="width:50px">名称</label><div class="controls" style="margin-left:60px;">'+
-   '<input type="text" class="span4" id="nick" maxlength="6" /></div><br>'+
+   '<input type="text" class="span4" id="nick" maxlength="6" onblur="checkNick()"/></div><br>'+
    '<label class="control-label" style="width:50px">账号</label><div class="controls" style="margin-left:60px;">'+
-       '<input type="text" class="span4" id="userName"  maxlength="30" ></div><br>'+
+       '<input type="text" class="span4" id="userName"  maxlength="30" onblur="checkUserName()"></div><br>'+
    '<label class="control-label" style="width:50px">密码</label><div class="controls" style="margin-left:60px;">'+
           '<input type="text" class="span4" id="password" maxlength="10" autocomplete="off">'+
    '</div></div></form>';
-    $('.modal-body').html(htmlStr);
-    var footerHtml = '<a class="btn btn-primary" onclick="createAdminUser()">保存</a>';
-    $('.modal-footer').html(footerHtml);
+    $('#modalBody').html(htmlStr);
+    var footerHtml = '<button class="btn btn-primary" onclick="createAdminUser()" id="saveAdmin">保存</button>';
+    $('#modalFooter').html(footerHtml);
     $('#myModal').modal('show');
 }
 var createAdminUser = function(){
@@ -102,20 +102,23 @@ var createAdminUser = function(){
     });
 }
 
-
+var g_nick = '';
+var g_userName = '';
 var openUpdateAdminUser = function(id,nick,userName){
+    g_nick = nick;
+    g_userName = userName;
     $('#myModalLabel').html('修改账号信息');
     var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">'+
    '<label class="control-label" style="width:50px">名称</label><div class="controls" style="margin-left:60px;">'+
-   '<input type="text" class="span4" id="nick" maxlength="10" value="'+nick+'"/></div><br>'+
+   '<input type="text" class="span4" id="nick" maxlength="10" value="'+nick+'" onblur="updateCheckNIck()"/></div><br>'+
    '<label class="control-label" style="width:50px">账号</label><div class="controls" style="margin-left:60px;">'+
-       '<input type="text" class="span4" id="userName"  maxlength="30" value="'+userName+'"></div><br>'+
+       '<input type="text" class="span4" id="userName"  maxlength="30" value="'+userName+'" onblur="updateCheckUserName()"></div><br>'+
    '<label class="control-label" style="width:50px">密码</label><div class="controls" style="margin-left:60px;">'+
           '<input type="password" class="span4" id="password" maxlength="10" autocomplete="off">'+
    '</div></div></form>';
-    $('.modal-body').html(htmlStr);
-    var footerHtml = '<a class="btn btn-primary" onclick="updateAdminUser(\''+id+'\')">修改</a>';
-    $('.modal-footer').html(footerHtml);
+    $('#modalBody').html(htmlStr);
+    var footerHtml = '<button class="btn btn-primary" onclick="updateAdminUser(\''+id+'\')" id="saveAdmin">修改</button>';
+    $('#modalFooter').html(footerHtml);
     $('#myModal').modal('show');
 }
 
@@ -192,6 +195,58 @@ var delAdminUser = function(id,nick){
         }, function (data) {
             console.log(data);
         });
+    }
+}
+
+
+var checkNick = function(){
+
+    var nick = $('#nick').val();
+    if( '' != nick ){
+        $.danmuAjax('/v1/api/admin/adminUser/getUser?nick='+nick, 'GET','json',null, function (data) {
+          if (data.result == 200) {
+              console.log(data);
+              $('#saveAdmin').removeAttr('disabled');
+          }else{
+             alert(data.result_msg);
+             $('#saveAdmin').attr('disabled','true');
+             return;
+          }
+        }, function (data) {
+            console.log(data);
+        });
+    }
+}
+
+var updateCheckNIck = function(){
+    var nick = $('#nick').val();
+    if( nick != g_nick){
+        checkNick();
+    }
+}
+
+var checkUserName = function(){
+    var userName = $('#userName').val();
+    if( '' != userName){
+        $.danmuAjax('/v1/api/admin/adminUser/getUser?userName='+userName, 'GET','json',null, function (data) {
+          if (data.result == 200) {
+              console.log(data);
+              $('#saveAdmin').removeAttr('disabled');
+          }else{
+             alert(data.result_msg);
+             $('#saveAdmin').attr('disabled','true');
+             return;
+          }
+        }, function (data) {
+            console.log(data);
+        });
+    }
+}
+
+var updateCheckUserName  = function(){
+    var userName = $('#userName').val();
+    if( userName != g_userName){
+        checkUserName();
     }
 }
 
