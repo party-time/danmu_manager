@@ -73,6 +73,7 @@ var checkDateTime = function(str){
     var reg=/^(\d+)-(\d{1,2})-(\d{1,2}) (\d{1,2}):(\d{1,2})$/;
     var r=str.match(reg);
     if(r==null) return false;
+    r[2] = r[2]-1;
     var d= new Date(r[1],r[2],r[3],r[4],r[5]);
     if(d.getFullYear()!=r[1]) return false;
     if(d.getMonth()!=r[2]) return false;
@@ -144,10 +145,13 @@ var initEndTime = function(){
 
 var checkEndTime = function(){
     var endTime = $('#endTime').val();
+
         var helpBlock = ''
         if( '' == endTime){
             initEndTime();
-        }else if(!checkDateTime(endTime)){
+        }
+
+        if(!checkDateTime(endTime)){
             helpBlock = '结束时间格式错误';
         }else if(!dateAfter(new Date($('#startTime').val()),new Date(endTime))){
             helpBlock = '结束时间必须要晚于开始时间';
