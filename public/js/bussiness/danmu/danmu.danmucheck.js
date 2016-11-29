@@ -55,7 +55,7 @@
             type_preDanmu: 'preDanmu',
             type_playerStatus: 'playerStatus',
             type_delaySecond: 'delaySecond',
-            type_partyActive: 'partyActive',
+            type_partyActive: 'partyStatus',
             type_blockDanmu: 'blockDanmu',
             type_specialVideo: 'specialVideo',
             type_picture: 'picture',
@@ -74,7 +74,7 @@
                     setLinkStatus();
                     //获取初始化信息
                     webSocketSendMessage({type: $scope.type.type_init});
-                    sendHeartbeat();
+                    //sendHeartbeat();
 
                     ws.onmessage = function (event) {
                         //收到消息后处理
@@ -122,7 +122,7 @@
                 $scope.danmuDensity = json.data.danmuDensity;
 
                 //电影状态
-                $scope.partyStatus = json.data.partyActive;
+                $scope.partyStatus = json.data.partyStatus;
                 if ($scope.partyStatus == 1) {
                     $("#partyStartButton").hide();
                     $("#filmStartButton").show();
@@ -215,6 +215,8 @@
                 if ($scope.danmuList.length > 1000) {
                     $scope.clearAndTurnUp();
                 }
+            }else if (json.type == 'error') {
+                alert(json.data.message);
             } else {
                 return;
             }
@@ -224,13 +226,13 @@
         /**
          * 发送心跳
          */
-        var sendHeartbeat = function () {
+        /*var sendHeartbeat = function () {
             setInterval(function () {
                 if (ws.readyState == 1) {
                     webSocketSendMessage({type: 'isOk'});
                 }
             }, 3 * 1000);
-        }
+        }*/
 
 
         /**
@@ -271,7 +273,7 @@
          * @param status
          */
         $scope.filmStart = function (status) {
-            if ($scope.partyStatus == 0 && !status) {
+            if ($scope.partyStatus == 0) {
                 alert('活动没有开始!');
                 return;
             }
