@@ -204,21 +204,21 @@ getAllDanmuLibrary();
 var setElement = function (content, id) {
     insertData.type = divIndex;
     switch (divIndex) {
-        case '0':
+        case 0:
             insertData.color = content;
             break;
-        case '1':
+        case 1:
             insertData.code = id;
             insertData.content = content;
             break;
-        case '2':
+        case 2:
             insertData.code = id;
             insertData.content = content;
             break;
-        case '3':
+        case 3:
             insertData.color = content;
             break;
-        case '4':
+        case 4:
             insertData.code = id;
             insertData.content = content;
             break;
