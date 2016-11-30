@@ -203,6 +203,7 @@ getAllDanmuLibrary();
 //设置动画
 var setElement = function (content, id) {
     insertData.type = parseInt(divIndex);
+    var value = parseInt(divIndex);
     switch (divIndex) {
         case 0:
             insertData.color = content;
