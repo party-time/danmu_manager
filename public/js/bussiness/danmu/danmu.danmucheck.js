@@ -26,6 +26,7 @@
         $scope.playerStatus;//播放器状态
 
         $scope.adminCount = 0;//管理员数量
+        $scope.clientCount=0;//客户端数量
         $scope.delayHour = 0;
         $scope.colors = [];//颜色列表
         $scope.blingColors = [];//闪光字颜色
@@ -62,7 +63,8 @@
             type_expression: 'expression',
             type_bing: 'bling',
             type_danmuDensity: 'danmuDensity',
-            type_danmuDirection: 'danmuDirection'
+            type_danmuDirection: 'danmuDirection',
+            type_findclientList:'findclientList'
         };
 
         var webSocketInit = function () {
@@ -219,6 +221,10 @@
                 }
             }else if (json.type == 'error') {
                 alert(json.data.message);
+            } else if (json.type == $scope.type.type_findclientList) {
+                if (json.data != null) {
+                    $scope.clientCount = json.data.length;
+                }
             } else {
                 return;
             }
@@ -235,6 +241,10 @@
                 }
             }, 3 * 1000);
         }
+
+        setInterval(function () {
+            webSocketSendMessage({type:$scope.type.type_findclientList});
+        }, 30 * 1000);
 
 
         /**
