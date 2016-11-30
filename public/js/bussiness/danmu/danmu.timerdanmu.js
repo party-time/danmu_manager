@@ -202,7 +202,6 @@ getAllDanmuLibrary();
 
 //设置动画
 var setElement = function (content, id) {
-    insertData.type = parseInt(divIndex);
     var value = parseInt(divIndex);
     switch (value) {
         case 0:
@@ -282,6 +281,7 @@ $("#blingMsg").keyup(function () {
 
 var danmuAddOperateHandler = function () {
 
+    insertData.type = parseInt(divIndex);
     insertData.partyId = partyId;
     var minute = $("#minutes").val();
     var seconds = $("#seconds").val();
