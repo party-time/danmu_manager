@@ -244,7 +244,7 @@
 
         setInterval(function () {
             webSocketSendMessage({type:$scope.type.type_findclientList});
-        }, 30 * 1000);
+        }, 3 * 1000);
 
 
         /**
