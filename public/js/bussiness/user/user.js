@@ -43,7 +43,7 @@ var columnsArray = [
         formatter: function (value, row, index) {
             if(row.subscribeState == 0){
                 return '关注中';
-            }else if(row.sex == 1){
+            }else if(row.subscribeState == 1){
                  return '取消关注';
             }else{
                 return '未知';
