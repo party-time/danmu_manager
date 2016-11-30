@@ -74,7 +74,7 @@
                     setLinkStatus();
                     //获取初始化信息
                     webSocketSendMessage({type: $scope.type.type_init});
-                    //sendHeartbeat();
+                    sendHeartbeat();
 
                     ws.onmessage = function (event) {
                         //收到消息后处理
@@ -207,6 +207,8 @@
                     specialVideoJudge(json.data.id, 0);
                 }
                 $scope.specialVideo = json.data.id;
+            } else if(json.type==$scope.type.type_danmuDensity){
+                $scope.danmuDensity= json.data;
             } else if (json.type == 'normalDanmu') {
                 var danmu = json.data;
                 danmu.s = 10;
@@ -226,13 +228,13 @@
         /**
          * 发送心跳
          */
-        /*var sendHeartbeat = function () {
+        var sendHeartbeat = function () {
             setInterval(function () {
                 if (ws.readyState == 1) {
                     webSocketSendMessage({type: 'isOk'});
                 }
             }, 3 * 1000);
-        }*/
+        }
 
 
         /**
@@ -273,16 +275,12 @@
          * @param status
          */
         $scope.filmStart = function (status) {
-            if ($scope.partyStatus == 0) {
-                alert('活动没有开始!');
-                return;
-            }
             //电影开始
             webSocketSendMessage({type: $scope.type.type_partyActive, partyCtrl: {status: status}});
 
-            if(status==3){
+            /*if(status==3){
                 window.location.reload();
-            }
+            }*/
         }
 
         //增减延迟时间
@@ -487,7 +485,12 @@
             if (ws.readyState == 1) {
                 $scope.link_Status = '已连接';
             } else {
-                //setAllButtonStatus();
+                $("#partyStartButton").hide();
+                $("#filmStartButton").hide();
+                $("#filmEndButton").hide();
+                $("#partyStatus").html('活动已经结束!');
+                clearTimeout(t);
+                $("#stime").html("");
                 $scope.link_Status = '连接关闭';
             }
         }
