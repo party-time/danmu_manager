@@ -204,7 +204,7 @@ getAllDanmuLibrary();
 var setElement = function (content, id) {
     insertData.type = parseInt(divIndex);
     var value = parseInt(divIndex);
-    switch (divIndex) {
+    switch (value) {
         case 0:
             insertData.color = content;
             break;
