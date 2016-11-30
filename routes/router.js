@@ -80,6 +80,11 @@ router.get('/adminmanager', function(req, res, next) {
   res.render('adminmanager/index');
 });
 
+/**打赏**/
+router.get('/reward', function(req, res, next) {
+  res.render('reward/reward');
+});
+
 
 
 

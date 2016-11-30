@@ -37,6 +37,20 @@ var columnsArray = [
         }
     },
     {
+        field: 'subscribeState',
+        title: '关注状态',
+        align: 'center',
+        formatter: function (value, row, index) {
+            if(row.subscribeState == 0){
+                return '关注中';
+            }else if(row.subscribeState == 1){
+                 return '取消关注';
+            }else{
+                return '未知';
+            }
+        }
+    },
+    {
         field: 'id', title: '操作',
         align: 'center',
         formatter: function (value, row, index) {
