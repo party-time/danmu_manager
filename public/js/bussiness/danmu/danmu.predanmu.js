@@ -29,7 +29,7 @@ var paginationCount = function(pageNumber,pageSize,totalCount,idName){
      lastStr = '';
   }else{
      var lastNo = pageNumber-1;
-     lastStr = '<a style="margin-left:10px;" onclick="getDanmuPage('+lastNo+')">&laquo;上一页</a>';
+     lastStr = '<a style="margin-left:10px;" onclick="getDanmuPage('+lastNo+')" href="javascript:void(0)">&laquo;上一页</a>';
   }
 
   var nextStr = '';
@@ -40,7 +40,7 @@ var paginationCount = function(pageNumber,pageSize,totalCount,idName){
 
   if(totalPageNo > pageNumber){
     var nextNo = pageNumber+1;
-    nextStr= '<a style="margin-left:10px;" onclick="getDanmuPage('+nextNo+')">下一页&raquo;</a>';
+    nextStr= '<a style="margin-left:10px;" onclick="getDanmuPage('+nextNo+')" href="javascript:void(0)">下一页&raquo;</a>';
   }
 
   var pageStr = '<div class="diyPagination" style="float:left;">'+lastStr+'<span style="margin-left:10px;">第'+pageNumber+'页</span>'+nextStr+
@@ -101,7 +101,7 @@ var dlPaginationCount = function(pageNumber,pageSize,totalCount){
      lastStr = '';
   }else{
      var lastNo = pageNumber-1;
-     lastStr = '<a style="margin-left:10px;" onclick="getDanmuLibraryPage('+lastNo+')">&laquo;上一页</a>';
+     lastStr = '<a style="margin-left:10px;" onclick="getDanmuLibraryPage('+lastNo+')" href="javascript:void(0)">&laquo;上一页</a>';
   }
 
   var nextStr = '';
@@ -112,7 +112,7 @@ var dlPaginationCount = function(pageNumber,pageSize,totalCount){
 
   if(totalPageNo > pageNumber){
     var nextNo = pageNumber+1;
-    nextStr= '<a style="margin-left:10px;" onclick="getDanmuLibraryPage('+nextNo+')">下一页&raquo;</a>';
+    nextStr= '<a style="margin-left:10px;" onclick="getDanmuLibraryPage('+nextNo+')" href="javascript:void(0)">下一页&raquo;</a>';
   }
 
   var pageStr = '<div class="diyPagination" style="float:left;">'+lastStr+'<span style="margin-left:10px;">第'+pageNumber+'页</span>'+nextStr+
