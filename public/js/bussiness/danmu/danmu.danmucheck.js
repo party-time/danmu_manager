@@ -242,9 +242,9 @@
             }, 3 * 1000);
         }
 
-        setInterval(function () {
+        /*setInterval(function () {
             webSocketSendMessage({type:$scope.type.type_findclientList});
-        }, 3 * 1000);
+        }, 3 * 1000);*/
 
 
         /**
@@ -464,11 +464,13 @@
          * @param status
          */
         var specialVideoJudge = function (id, status) {
+            var otherSatauts = 0;
             if ($scope.specialVideos != null && $scope.specialVideos.length > 0) {
                 for (var i = 0; i < $scope.specialVideos.length; i++) {
                     if (id == $scope.specialVideos[i].id) {
                         $scope.specialVideos[i].status = status;
-                        break;
+                    }else{
+                        $scope.specialVideos[i].status = otherSatauts;
                     }
                 }
             }
