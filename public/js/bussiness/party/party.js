@@ -129,7 +129,10 @@ var openAddress = function(partyName,partyId){
            }
         }
     ];
-    $.initTable('addressTableList', addressColumnsArray, addressQueryObject, addressTableUrl);
+    var tableSuccess = function(){
+        $('#modalBody').find('.pull-left').remove();
+    }
+    $.initTable('addressTableList', addressColumnsArray, addressQueryObject, addressTableUrl,tableSuccess);
     $('#myModalLabel').html(partyName+'的场地管理');
     var buttonHtml = '<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>' +
     '<button class="btn btn-primary" onclick="openMoreAddress(\''+partyName+'\',\''+partyId+'\')">查看更多场地</button>';
