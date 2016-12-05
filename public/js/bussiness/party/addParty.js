@@ -149,9 +149,7 @@ var checkEndTime = function(){
         var helpBlock = ''
         if( '' == endTime){
             initEndTime();
-        }
-
-        if(!checkDateTime(endTime)){
+        }else if(!checkDateTime(endTime)){
             helpBlock = '结束时间格式错误';
         }else if(!dateAfter(new Date($('#startTime').val()),new Date(endTime))){
             helpBlock = '结束时间必须要晚于开始时间';
