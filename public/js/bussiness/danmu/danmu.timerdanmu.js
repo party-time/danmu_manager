@@ -53,6 +53,11 @@ var initDanmuTypeDiv = function (type) {
         } else {
             $("#danmu_li_" + id).hide();
         }
+        if(type==1){
+            $("#danmu_li_endTime").show();
+        }else{
+            $("#danmu_li_endTime").hide();
+        }
     }
 }
 
@@ -76,8 +81,16 @@ var columnsArray = [
     }
     },
     {
-        field: 'time', title: '时间', align: 'center', formatter: function (value, row, index) {
-            return parseInt(row.time / 60) + "分" + row.time % 60 + "秒";
+        field: 'beginTime', title: '时间', align: 'center', formatter: function (value, row, index) {
+            return parseInt(row.beginTime / 60) + "分" + row.beginTime % 60 + "秒";
+        }
+    },
+    {
+        field: 'endTime', title: '结束时间', align: 'center', formatter: function (value, row, index) {
+            if(row.endTime!=null){
+                return parseInt(row.endTime / 60) + "分" + row.endTime % 60 + "秒";
+            }
+            return "";
         }
     },
     {
@@ -286,6 +299,7 @@ var danmuAddOperateHandler = function () {
     var minute = $("#minutes").val();
     var seconds = $("#seconds").val();
 
+
     if (minute == "") {
         minute = 0;
     }
@@ -308,18 +322,10 @@ var danmuAddOperateHandler = function () {
         }
     }
 
-    /*if(divIndex!=0 && divIndex!=4){
-        if(direction<0){
-            alert('请设置弹幕位置!');
-            return;
-        }
-        insertData.direction=direction;
-    }*/
-
      insertData.direction=direction;
 
-    var time = parseInt(minute*60) + parseInt(seconds);
-    insertData.time = time;
+    var beginTime = parseInt(minute*60) + parseInt(seconds);
+    insertData.beginTime = beginTime;
     if (divIndex == 0) {
         if($("#danmuMsg").val()==null || $("#danmuMsg").val()==""){
             alert('请填写弹幕');
@@ -340,6 +346,32 @@ var danmuAddOperateHandler = function () {
             alert('请选择动画');
             return;
         }
+        var endMinutes = $("#endMinutes").val();
+        var endSeconds = $("#endSeconds").val();
+        if (endMinutes == "") {
+            endMinutes = 0;
+        }
+        if(endSeconds==""){
+            alert("请填写时间,最少填写个秒");
+            return;
+        }
+
+        if (isNaN(endMinutes)) {
+            alert('分钟请填写数字');
+            return;
+        }
+        if (isNaN(endSeconds)) {
+            alert('秒请填写数字');
+            return;
+        }else{
+            if(endSeconds>59){
+                alert('秒数请限制在0~59秒之间');
+                return;
+            }
+        }
+        var endTime = parseInt(endMinutes*60) + parseInt(endSeconds);
+        insertData.endTime = endTime;
+
     }else if (divIndex == 2) {
         if(insertData.content==null){
             alert('请选择图片');
