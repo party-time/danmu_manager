@@ -671,6 +671,31 @@
 
         }
 
+
+        var initPage = function () {
+            $(".danmuPosition-array").val(null).select2({data: positionArray, minimumResultsForSearch: -1});
+            var url = location.href;
+            if (url.indexOf('partyId=') != -1) {
+                var param = url.substr(url.indexOf('?') + 1).split("&");
+                $scope.partyId = param[0].substr(param[0].indexOf('=') + 1);
+                $scope.addressId = param[1].substr(param[1].indexOf('=') + 1);
+            }
+            ajaxInit();
+
+            $.danmuAjax('/distribute/adminTask/socketAddress', 'GET', 'json', {}, function (data) {
+                console.log(data);
+                if (data.code == 200) {
+                    var key = getCookieValue("auth_key");
+                    websoctAddress = "ws://" + data.serverInfo.ip + ":" + data.serverInfo.port + "/ws?key="+key;
+                    webSocketInit();
+                }
+            }, function (data) {
+                console.log(data);
+            });
+
+
+        }
+
         function getCookieValue(cookieName) {
             var cookieValue = document.cookie;
             var cookieStartAt = cookieValue.indexOf("" + cookieName + "=");
@@ -688,29 +713,6 @@
                 cookieValue = unescape(cookieValue.substring(cookieStartAt, cookieEndAt));//解码latin-1
             }
             return cookieValue;
-        }
-
-        var initPage = function () {
-            $(".danmuPosition-array").val(null).select2({data: positionArray, minimumResultsForSearch: -1});
-            var url = location.href;
-            if (url.indexOf('partyId=') != -1) {
-                var param = url.substr(url.indexOf('?') + 1).split("&");
-                $scope.partyId = param[0].substr(param[0].indexOf('=') + 1);
-                $scope.addressId = param[1].substr(param[1].indexOf('=') + 1);
-            }
-            ajaxInit();
-
-            $.danmuAjax('/distribute/adminTask/socketAddress', 'GET', 'json', {}, function (data) {
-                console.log(data);
-                if (data.code == 200) {
-                    websoctAddress = "ws://" + data.serverInfo.ip + ":" + data.serverInfo.port + "/ws"
-                    webSocketInit();
-                }
-            }, function (data) {
-                console.log(data);
-            });
-
-
         }
         initPage();
     });

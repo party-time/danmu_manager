@@ -91,15 +91,21 @@ var delParty = function(id,name){
         var obj = {
             'id':id
         }
-        $.danmuAjax('/v1/api/admin/party/del', 'GET','json',obj, function (data) {
-            if( data.result == 200){
-                $.initTable('tableList', columnsArray, quaryObject, tableUrl);
-            }else{
-                alert('更新失败')
-            }
+        $.danmuAjax('/v1/api/admin/party/checkPartyIsOver', 'GET','json',obj, function (data) {
+            if(data.result == 200){
+                $.danmuAjax('/v1/api/admin/party/del', 'GET','json',obj, function (data) {
+                    if( data.result == 200){
+                        $.initTable('tableList', columnsArray, quaryObject, tableUrl);
+                    }else{
+                        alert('更新失败')
+                    }
 
-        }, function (data) {
-            console.log(data);
+                }, function (data) {
+                    console.log(data);
+                });
+            }else{
+                alert("活动未结束")
+            }
         });
     }
 
