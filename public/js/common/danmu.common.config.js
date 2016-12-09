@@ -1,2 +1,2 @@
-_baseImageUrl='http://testimages.party-time.cn/upload';
-_baseUploadUrl='http://test.party-time.cn';
+_baseImageUrl='http://images.party-time.cn/upload';
+_baseUploadUrl='http://wwww.party-time.cn';
