@@ -3,7 +3,7 @@ var positionArray = [{id: 0, text: '全部'}, {id: 1, text: '左上'}, {id: 2, t
 
 var tableUrl = '/v1/api/admin/timerDanmu/page';
 var chartUrl = '/v1/api/admin/timerDanmu/chart';
-var baseUrl = "http://testimages.party-time.cn/upload";
+var baseUrl = _baseImageUrl;
 var danmuAddUrl = '/v1/api/admin/timerDanmu/save';
 var divIndex = 0;
 var direction=0 ;//方位
