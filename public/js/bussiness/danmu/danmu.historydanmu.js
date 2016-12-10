@@ -50,8 +50,8 @@ window.operateEvents = {
         var object = {
             'openId': row.openId,
             'danmuId': row.id,
-            'addressId': '580078b30cf28b271aea44e5',
-            'partyId': '581a9dc50cf2852c417a9b31'
+            'addressId': quaryObject.addressId,
+            'partyId': quaryObject.partyId
         }
         $.danmuAjax(sendPrizeUrl, 'GET','json',object, function (data) {
             if (data.result == 200) {
