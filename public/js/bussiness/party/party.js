@@ -7,6 +7,21 @@ var columnsArray = [
         align: 'center'
     },
     {
+        title: '类型',
+        align: 'center',
+        formatter: function (value, row, index) {
+            if( null != row.type){
+                if( row.type == 0){
+                    return "活动";
+                }else{
+                    return "电影";
+                }
+            }else{
+                return "活动";
+            }
+        }
+    },
+    {
         field: 'startTimeStr',
         title: '开始时间',
         halign: "center",
@@ -251,6 +266,14 @@ var openTimerDanmu = function(partyId){
 
 var openPartyResource = function(partyId){
        openNewWindow('/party/resource?partyId='+partyId);
+}
+
+var searchParty = function(){
+    var quaryObject = {
+        pageSize: 20,
+        type:$('#searchType').val()
+    };
+    $.initTable('tableList', columnsArray, quaryObject, tableUrl);
 }
 
 getAllDanmuLibrary();

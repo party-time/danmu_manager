@@ -173,17 +173,31 @@ var checkEndTime = function(){
 
 
 var saveParty = function(){
-    var obj = {
-        'name': $('#name').val(),
-        'startTimeStr':$('#startTime').val(),
-        'endTimeStr':$('#endTime').val(),
-        'shortName':$('#shortName').val()
+    var partyType = $('#partyType').val();
+    if( partyType == 0){
+        var obj = {
+            'name': $('#name').val(),
+            'type':partyType,
+            'startTimeStr':$('#startTime').val(),
+            'endTimeStr':$('#endTime').val(),
+            'shortName':$('#shortName').val()
+        }
+
+        findPartyByName();
+        findPartyByShortName();
+        checkStartTime();
+        checkEndTime();
+    }else{
+        var obj = {
+            'name': $('#name').val(),
+            'type':partyType,
+            'movieAlias': $('#movieAlias').val(),
+            'shortName':$('#shortName').val()
+        }
+        findPartyByName();
+        findPartyByShortName();
     }
 
-    findPartyByName();
-    findPartyByShortName();
-    checkStartTime();
-    checkEndTime();
 
     if(!$('.help-block').html()){
         $.danmuAjax('/v1/api/admin/party/save', 'POST','json',obj, function (data) {
@@ -231,5 +245,34 @@ var initAddParty = function(){
     }
     $('#startTime').val(now.getFullYear()+'-'+month+'-'+dd+' '+hour+':'+minute);
 }
+
+var selectMovie = function(){
+    var partyType = $('#partyType').val();
+    if(partyType == 0){
+        $('#movieTable').hide();
+        $('#partyTable').show();
+    }else{
+        $('#movieTable').show();
+        $('#partyTable').hide();
+    }
+
+}
+
+var initMovieAlias = function(){
+    $.danmuAjax('/v1/api/admin/party/movieAlias', 'GET','json',null, function (data) {
+        if( data.result == 200){
+            var movieAliasList = data.data;
+            for(var i=0;i<movieAliasList.length;i++){
+                $('#movieAlias').append("<option value='"+movieAliasList[i].value+"'>"+movieAliasList[i].name+"</option>");
+            }
+        }
+    }, function (data) {
+        console.log(data);
+    });
+}
+
+
+
+initMovieAlias();
 
 initAddParty();
