@@ -1,6 +1,11 @@
 var tableUrl = '/v1/api/admin/address/page';
 var columnsArray = [
     {
+        field: 'id',
+        title: 'ID',
+        align: 'center'
+    },
+    {
         field: 'name',
         title: '名称',
         align: 'center'
