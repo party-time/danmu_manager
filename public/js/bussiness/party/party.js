@@ -286,3 +286,8 @@ getAllDanmuLibrary();
 
 //加载表格数据
 $.initTable('tableList', columnsArray, quaryObject, tableUrl);
+
+
+function filmCheck(){
+    openNewWindow('/film/danmuCheck')
+}

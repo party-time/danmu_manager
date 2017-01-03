@@ -74,6 +74,11 @@ router.get('/party/historyDanmu', function(req, res, next) {
 router.get('/party/danmuCheck', function(req, res, next) {
   res.render('danmu/danmuCheck');
 });
+/**跳转弹幕审核*/
+router.get('/film/danmuCheck', function(req, res, next) {
+    res.render('danmu/filmDanmuCheck');
+});
+
 
 /**管理员*/
 router.get('/adminmanager', function(req, res, next) {

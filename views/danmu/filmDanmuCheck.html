@@ -1,0 +1,108 @@
+<% include ../common/header.html %>
+<% include ../common/navbar.html %>
+<!-- /subnavbar -->
+<div class="main" ng-app="danmuCheckApp" ng-controller="danmuCheckCtrl">
+    <div class="main-inner">
+        <div class="container">
+            <div class="row">
+                <div class="span12">
+                    <div class="widget widget-nopad">
+                        <div class="widget-header"><i class="icon-list-alt"></i>
+                            <h3> 活动信息</h3>
+                        </div>
+                        <!-- /widget-header -->
+                        <div class="widget-content" id="collapseFirst">
+                            <ul class="danmucheck-items">
+                                <li style="height: 40px; padding-left: 2em;">
+                                    <h4>
+                                        状态：<span class="danmuCheck-link-status">{{link_Status}}</span>
+                                        在线管理员：<span class="danmuCheck-link-status">{{adminCount}}</span>
+                                        在线客户端：<span class="danmuCheck-link-status">{{clientCount}}</span>
+                                    </h4>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /widget-content -->
+                    </div>
+                    <div class="widget widget-table">
+                        <div class="widget-header"><i class="icon-th-list"></i>
+                            <h3>弹幕列表 <span class="danmuCheck-link-status">{{danmuList.length}}</span>条</h3>
+                        </div>
+                        <!-- /widget-header -->
+                        <div id="mainDiv" class="widget-content"
+                             style=" overflow-x:auto;overflow-y: scroll; max-height: 800px">
+                            <div style="position: fixed;bottom:20px;" ng-if="danmuList.length>10">
+                                <button type="button" class="btn btn-info" ng-click="clearAndTurnUp()">
+                                    清理！(弹幕数{{danmuList.length}})
+                                </button>
+                            </div>
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th width="20%">发送时间</th>
+                                    <th width="20%">昵称</th>
+                                    <th>消息</th>
+                                    <th width="10%">图片</th>
+                                    <th width="10%">秒数</th>
+                                    <th width="10%"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="danmu in danmuList" class="dataTr">
+                                    <td>
+                                        {{danmu.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}
+                                    </td>
+                                    <td>
+                                        <span ng-if="danmu.nick!=null">{{danmu.nick}}</span>
+                                        <span ng-if="danmu.nick==null">&nbsp;</span>
+                                    </td>
+                                    <td>
+                                        <span ng-if="!danmu.isBlocked">{{danmu.msg}}</span>
+                                        <span ng-if="danmu.isBlocked"><del> {{danmu.msg}}</del></span>
+                                    </td>
+                                    <td>
+                                        <img ng-if="danmu.imgUrl!=null" ng-src="{{danmu.imgUrl}}"
+                                             style="width: 30px;height: 30px;"/>
+                                        <span ng-if="danmu.imgUrl==null">&nbsp;</span>
+                                    </td>
+                                    <td>
+                                        <span ng-if="!danmu.s||danmu.s>0">{{danmu.s}}秒</span>
+                                        <span ng-if="danmu.s<=0&&danmu.s>-10">已发送</span>
+                                        <span ng-if="danmu.s<=-10">未发送</span>
+                                    </td>
+                                    <td>
+                                        <span ng-if="danmu.isBlocked">已删除</span>
+                                        <button ng-if="(!danmu.s||danmu.s>0)&&!danmu.isBlocked" type="button"
+                                                class="btn btn-danger btn-sm" ng-click="setDanmuBlocked(danmu.id)">删除
+                                        </button>
+                                        <button ng-if="danmu.s<=0&&danmu.s>-10" type="button"
+                                                class="btn btn-danger btn-sm" disabled>删除
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /widget-content -->
+                    </div>
+                    <!-- /widget -->
+                </div>
+                <!-- /span8 -->
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /main-inner -->
+</div>
+
+<link rel="stylesheet" href="/plug/bootstrap-switch/css/bootstrap-switch.css"/>
+<link rel="stylesheet" href="/css/danmu/danmu.danmucheck.css"/>
+<link href="/plug/select2/css/select2.min.css" rel="stylesheet"/>
+<script src="/plug/angular/angular.min.js"></script>
+<script src="/js/bussiness/danmu/danmu.filmDanmuCheck.js"></script>
+<script src="/js/common/danmu.ajax.plug.js"></script>
+<script src="/plug/select2/js/select2.js"></script>
+
+
+<% include ../common/bottom.html %>
