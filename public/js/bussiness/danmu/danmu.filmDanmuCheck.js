@@ -159,56 +159,6 @@
                 $interval(refreshDanmuList, 500);
             } else if (json.type == $scope.type.type_adminCount) {
                 $scope.adminCount = json.data;
-            } else if (json.type == $scope.type.type_modeltest) {
-                //测试弹幕开启关闭处理
-                $scope.testModel = json.data;
-            } else if (json.type == $scope.type.type_testDanmu) {
-                //接收测试弹幕处理
-                var danmu = json.data;
-                danmu.s = 10;
-                danmu.createTime = new Date().getTime() + 1000;
-                $scope.danmuList.unshift(setDanmuLeftTime(danmu, new Date().getTime()));
-                if ($scope.danmuList.length > 1000) {
-                    $scope.clearAndTurnUp();
-                }
-            } else if (json.type == $scope.type.type_preDanmu) {
-                //预制弹幕开启关闭处理
-                $scope.preStatus = json.data.status;
-            } else if (json.type == $scope.type.type_playerStatus) {
-                //屏幕控制处理
-                $scope.playerStatus = json.data;
-            } else if (json.type == $scope.type.type_delaySecond) {
-                $scope.delaySecond = parseInt(json.data);
-            } else if (json.type == $scope.type.type_partyActive) {
-                $scope.partyStatus = json.data.status;
-                if ($scope.partyStatus == 1) {
-                    $("#partyStartButton").hide();
-                    $("#filmStartButton").show();
-                    $("#filmEndButton").show();
-                } else if ($scope.partyStatus == 2) {
-                    $("#partyStartButton").hide();
-                    $("#filmStartButton").hide();
-                    $("#filmEndButton").show();
-                    $scope.time = json.data.time;
-                    restDate($scope.partyStatus);
-                    $("#stime").show();
-                } else if ($scope.partyStatus == 3) {
-                    //活动结束
-                    $("#partyStartButton").hide();
-                    $("#filmStartButton").hide();
-                    $("#filmEndButton").hide();
-                    $("#partyStatus").html('活动已经结束!')
-                } else if ($scope.partyStatus == 4) {
-                    alert("当前场地正在进行" + json.data.partyName + "活动，等活动结束后,再开始" + $scope.partyName + "活动");
-                    return;
-                }
-            } else if (json.type == $scope.type.type_specialVideo) {
-                if (json.data.status == 0) {
-                    specialVideoJudge(json.data.id, 1);
-                } else if (json.data.status == 1) {
-                    specialVideoJudge(json.data.id, 0);
-                }
-                $scope.specialVideo = json.data.id;
             } else if(json.type==$scope.type.type_danmuDensity){
                 $scope.danmuDensity= json.data;
             } else if (json.type == 'normalDanmu') {
@@ -556,7 +506,7 @@
                 if (!danmu.createTime) {
                     danmu.createTime = new Date().getTime();
                 }
-                danmu.s = parseInt($scope.delaySecond - ( nowTime - danmu.createTime) / 1000);
+                danmu.s = parseInt(5 - ( nowTime - danmu.createTime) / 1000);
                 if (danmu.s == 0) {
                     danmu.s = -1;
                     webSocketSendMessage({
