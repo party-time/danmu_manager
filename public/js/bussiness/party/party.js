@@ -38,29 +38,68 @@ var columnsArray = [
         align: 'center',
     },
     {
+        field: 'status',
+        title: '状态',
+        align: 'center',
+        formatter: function(value,row,index){
+            if(row.status == 0){
+                return "未开始";
+            }else if(row.status == 1){
+                return "活动开始";
+            }else if(row.status == 2){
+                return "电影开始";
+            }else if(row.status == 3){
+                return "电影结束";
+            }else if(row.status == 4){
+                return "电影下线";
+            }else{
+                return "未知";
+            }
+        }
+     },
+    {
         field: 'danmuLibraryId', title: '操作',
         align: 'center',
         formatter: function (value, row, index) {
-            var selectHtml = '<select id="dl_'+row.id+'" onchange="changeDanmuLibrary(\''+row.id+'\')" style="width: 100px;margin-bottom: 0px;">';
-            if( null != danmuLibraryList){
-                for( var i=0;i<danmuLibraryList.length;i++){
-                        if(value == danmuLibraryList[i].id){
-                            selectHtml += '<option value='+danmuLibraryList[i].id+' selected="selected">'+danmuLibraryList[i].name+'</option>';
-                        }else{
-                            selectHtml += '<option value='+danmuLibraryList[i].id+'>'+danmuLibraryList[i].name+'</option>';
-                        }
+        var selectHtml = '<select id="dl_'+row.id+'" onchange="changeDanmuLibrary(\''+row.id+'\')" style="width: 100px;margin-bottom: 0px;">';
+        if( null != danmuLibraryList){
+            for( var i=0;i<danmuLibraryList.length;i++){
+                    if(value == danmuLibraryList[i].id){
+                        selectHtml += '<option value='+danmuLibraryList[i].id+' selected="selected">'+danmuLibraryList[i].name+'</option>';
+                    }else{
+                        selectHtml += '<option value='+danmuLibraryList[i].id+'>'+danmuLibraryList[i].name+'</option>';
+                    }
 
-                }
             }
-            selectHtml += '</select>';
-            return '<a class="btn" onclick="delParty(\''+row.id+'\',\''+row.name+'\')">删除</a>'+
-            '<a class="btn" href="#" onclick="openDanmuCheck(\''+row.name+'\',\''+row.id+'\')">弹幕审核</a>'+
-            '<a class="btn" href="#" onclick="openPartyResource(\''+row.id+'\')">资源管理</a>'+
-            '<a class="btn" href="#" onclick="openAddress(\''+row.name+'\',\''+row.id+'\')">场地管理</a>'+
-            '<a class="btn" href="#" onclick="openTimerDanmu(\''+row.id+'\')">定时弹幕</a>'+selectHtml;
-
+        }
+        selectHtml += '</select>';
+        var str = '';
+        if(row.type == 0){
+               str = '<a class="btn" href="#" onclick="openDanmuCheck(\''+row.name+'\',\''+row.id+'\')">弹幕审核</a>';
+        }
+        return str+'<a class="btn" href="#" onclick="openPartyResource(\''+row.id+'\')">资源管理</a>'+
+            '<a class="btn" href="#" onclick="openAddress(\''+row.name+'\',\''+row.id+'\')">场地管理</a>'+'<a class="btn" href="#" onclick="openTimerDanmu(\''+row.id+'\')">定时弹幕</a>'+selectHtml;
         },
-        events: 'operateEvents'
+        events:'operateEvents'
+    },
+    {
+        title: '特殊',
+        align: 'center',
+        formatter: function (value, row, index) {
+            var str = '';
+            if(row.type == 0){
+                   str = '<a class="btn" onclick="delParty(\''+row.id+'\',\''+row.name+'\')">删除</a>';
+            }else if(row.type==1){
+                if(row.status==4){
+                    str = '<a class="btn" onclick="delMovie(\''+row.id+'\',\''+row.name+'\')">删除</a>';
+                }else{
+                    str = '<a class="btn" href="#" onclick="offline(\''+row.name+'\',\''+row.id+'\')">下线</a>';
+                }
+
+            }
+            return str;
+        },
+        events:'operateEvents'
     }
 ];
 var quaryObject = {
@@ -231,7 +270,6 @@ var delAddress = function(partyName,addressName,partyId,addressId){
             console.log(data);
         });
     }
-
 }
 
 var openNewWindow = function(url){
@@ -281,6 +319,45 @@ var searchParty = function(){
     };
     $.initTable('tableList', columnsArray, quaryObject, tableUrl);
 }
+
+var offline = function(partyName,partyId){
+    if(confirm('确定要下线'+partyName+'吗？')){
+        var obj = {
+            partyId:partyId
+        }
+        $.danmuAjax('/v1/api/admin/party/offline', 'GET','json',obj, function (data) {
+            if(data.result == 200) {
+              console.log(data);
+                $.initTable('tableList', columnsArray, quaryObject, tableUrl);
+             }else{
+                alert('操作失败');
+             }
+        }, function (data) {
+            console.log(data);
+        });
+    }
+}
+
+var delMovie = function(id,name){
+    if(confirm('确定要删除'+name+'吗？')){
+        var obj = {
+            'id':id
+        }
+
+        $.danmuAjax('/v1/api/admin/party/del', 'GET','json',obj, function (data) {
+            if( data.result == 200){
+                $.initTable('tableList', columnsArray, quaryObject, tableUrl);
+            }else{
+                alert('更新失败')
+            }
+
+        }, function (data) {
+            console.log(data);
+        });
+
+    }
+};
+
 
 getAllDanmuLibrary();
 
