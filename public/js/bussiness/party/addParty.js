@@ -204,7 +204,12 @@ var saveParty = function(){
             if( data.result == 200){
                 window.location.href='/party';
             }else{
-                alert('保存失败')
+                if(data.result_msg){
+                    alert(data.result_msg)
+                }else{
+                    alert('保存失败')
+                }
+
             }
 
         }, function (data) {
