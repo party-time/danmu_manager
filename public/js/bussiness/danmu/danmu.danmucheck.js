@@ -561,7 +561,7 @@
                     danmu.s = -1;
                     webSocketSendMessage({
                         type: danmu.type,
-                        danmu: {message: danmu.msg, color: danmu.color, openId: danmu.openId}
+                        danmu: {message: danmu.msg, color: danmu.color, openId: danmu.openId,id:danmu.id}
                     });
                 }
             }
