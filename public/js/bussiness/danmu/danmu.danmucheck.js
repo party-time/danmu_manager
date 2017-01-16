@@ -286,11 +286,20 @@
          */
         $scope.filmStart = function (status) {
             //电影开始
-            webSocketSendMessage({type: $scope.type.type_partyActive, partyCtrl: {status: status}});
 
-            /*if(status==3){
-                window.location.reload();
-            }*/
+            var statusStr = ""
+            if(status==1){
+                statusStr ="活动开始";
+            } if(status==1){
+                statusStr ="电影开始";
+            }else{
+                statusStr ="结束活动";
+            }
+            var alertStr = "你是否决定要"+statusStr+"，操作后不能撤销!!!"
+            if (confirm(alertStr)) {
+                webSocketSendMessage({type: $scope.type.type_partyActive, partyCtrl: {status: status}});
+            }
+
         }
 
         //增减延迟时间
