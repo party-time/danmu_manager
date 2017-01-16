@@ -290,7 +290,7 @@
             var statusStr = ""
             if(status==1){
                 statusStr ="活动开始";
-            } if(status==1){
+            } if(status==2){
                 statusStr ="电影开始";
             }else{
                 statusStr ="结束活动";
