@@ -182,6 +182,21 @@ var openAddress = function(partyName,partyId){
             align: 'center'
         },
         {
+            field: 'id', title: '广告',
+            align: 'center',
+            formatter: function (value, row, index) {
+                if(row.adName!=null){
+                    var name = row.adName;
+                    if(name.length>4){
+                        name = name.substring(0,2);
+                    }
+                    return '<a class="btn" onclick="openAdModel(\''+partyName+'\',\''+partyId+'\',\''+row.id+'\')" title="'+name+'">'+name+'</a>'+'<br/><a class="btn" >生成文件</a>'
+                }else{
+                    return '<a class="btn" onclick="openAdModel(\''+partyName+'\',\''+partyId+'\',\''+row.id+'\')">添加</a>';
+                }
+            }
+        },
+        {
            field: 'id', title: '操作',
            align: 'center',
            formatter: function (value, row, index) {
@@ -231,6 +246,56 @@ var openMoreAddress = function(partyName,partyId){
     '<button class="btn btn-primary" onclick="openAddress(\''+partyName+'\',\''+partyId+'\')">本活动的场地</button>';
     $('#modalFooter').html(buttonHtml);
 }
+
+
+var adAdd = function (partyName,partyId,addressId,id) {
+    var obj = {
+        partyId:partyId,
+        addressId:addressId,
+        poolId:id
+    }
+    $.danmuAjax('/v1/api/admin/partyAddressAdRelation/save', 'GET','json',obj, function (data) {
+        if(data.result == 200) {
+            console.log(data);
+            openAddress(partyName,partyId,addressId);
+            alert('添加成功');
+        }else{
+            alert('添加失败');
+        }
+    }, function (data) {
+        console.log(data);
+    });
+}
+
+var openAdModel = function(partyName,partyId,addressId){
+    var addressTableUrl = '/v1/api/admin/adDanmuLibrary/list';
+    var addressQueryObject = {
+        pageSize: 6
+    }
+    var addressColumnsArray =[
+        {
+            field: 'name',
+            title: '名称',
+            align: 'center'
+        },
+        {
+            field: 'id', title: '操作',
+            align: 'center',
+            formatter: function (value, row, index) {
+                return '<a class="btn" onclick="adAdd(\''+partyName+'\',\''+partyId+'\',\''+addressId+'\',\''+row.id+'\')">添加</a>';
+            }
+        }
+    ];
+    var tableSuccess = function(){
+        $('#modalBody').find('.pull-left').remove();
+    }
+    $.initTable('addressTableList', addressColumnsArray, addressQueryObject, addressTableUrl,tableSuccess);
+    $('#myModalLabel').html('广告');
+    var buttonHtml = '<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>';
+    $('#modalFooter').html(buttonHtml);
+}
+
+
 
 
 var selectAddress = function(partyName,partyId,addressId){

@@ -90,7 +90,16 @@ router.get('/reward', function(req, res, next) {
   res.render('reward/reward');
 });
 
+router.get('/adDanmuLibrary', function(req, res, next) {
+    res.render('addanmu/adDanmuLibrary');
+});
 
+router.get('/adDanmuLibrary/add', function(req, res, next) {
+    res.render('addanmu/adDanmuLibraryAdd');
+});
 
+router.get('/adDanmuLibrary/edit', function(req, res, next) {
+    res.render('addanmu/adDanmu');
+});
 
 module.exports = router;

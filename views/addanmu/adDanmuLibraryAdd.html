@@ -1,0 +1,48 @@
+<% include ../common/header.html %>
+<% include ../common/navbar.html %>
+<!-- /subnavbar -->
+<div class="main">
+    <div class="main-inner">
+        <div class="container">
+            <div class="row">
+                <div class="span12">
+                    <div class="widget widget-table action-table">
+                        <!-- /widget-header -->
+                        <div class="widget-content">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="formcontrols">
+                                    <form id="edit-profile" class="form-horizontal">
+                                        <fieldset>
+
+                                            <div class="control-group" style="margin-top: 18px;">
+                                                <label class="control-label" for="adDanmuLibraryName">弹幕库名称</label>
+                                                <div class="controls">
+                                                    <input type="text" class="span6" id="adDanmuLibraryName" placeholder="名称" maxlength="15" onblur="findPartyByName()">
+                                                </div> <!-- /controls -->
+                                            </div> <!-- /control-group -->
+                                            <br>
+                                            <div class="form-actions">
+                                                <a class="btn btn-primary" id="saveParty" onclick="saveAdDanmuLibrary();">保存</a> <a class="btn" onclick="returnPartyList();">返回列表</a>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- /widget-content -->
+                    </div>
+                    <!-- /widget -->
+                </div>
+                <!-- /span6 -->
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /main-inner -->
+</div>
+
+<script src="/js/common/danmu.ajax.plug.js"></script>
+<script src="/js/bussiness/addanmu/adDanmuLibraryAdd.js"></script>
+<% include ../common/bottom.html %>
