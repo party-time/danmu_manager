@@ -1,6 +1,10 @@
 var url_pre = '/v1/api/admin/adDanmuLibrary';
 var tableUrl = url_pre+'/list';
-var danmuLibraryList = [];
+var quaryObject = {
+    pageSize: 20,
+    flg:1
+};
+
 var columnsArray = [
     {
         field: 'id',
@@ -18,20 +22,32 @@ var columnsArray = [
         align: 'center',
         formatter: function (value, row, index) {
             if (row.isDelete == 1) {
-                return "已经删除";
+                return  "<button class='btn' href='javascript:void(0)'  onclick='danmuLibraryRecovery(\""+row.id+"\",\""+row.name+"\")' title='remove'>还原</button>";
             }else{
                 var str="";
-                str+="<button class='btn btn-danger remove' href='javascript:void(0)'  onclick='delAdDanmuLibrary(\""+row.id+"\",\""+row.name+"\")' title='remove'>删除</button> &nbsp;";
-                str+="<a class='btn btn-info remove' href='/adDanmuLibrary/edit?id="+row.id+"' title='remove'>编辑</a>";
+                str+="<a class='btn btn-info remove' href='/adDanmuLibrary/add?id="+row.id+"' title='remove'>编辑</a> &nbsp;";
+                str+="<a class='btn btn-info remove' href='/adDanmuLibrary/edit?id="+row.id+"' title='remove'>弹幕编辑</a> &nbsp;";
+                str+="<button class='btn btn-danger remove' href='javascript:void(0)'  onclick='delAdDanmuLibrary(\""+row.id+"\",\""+row.name+"\")' title='remove'>删除</button>";
                 return str;
             }
         }, events:'operateEvents'
     }
 ];
-var quaryObject = {
-    pageSize: 20
-};
 
+var danmuLibraryRecovery = function (id,name) {
+    if (confirm('确定要还原' + name + '广告弹幕库吗？')) {
+        var obj = {
+            'id': id
+        }
+        $.danmuAjax(url_pre+'/recovery', 'GET', 'json', obj, function (data) {
+            if (data.result == 200) {
+                window.location.href='/adDanmuLibrary';
+            } else {
+                alert("活动未结束")
+            }
+        });
+    }
+}
 
 var delAdDanmuLibrary = function (id,name) {
     if (confirm('确定要删除' + name + '广告弹幕库吗？')) {

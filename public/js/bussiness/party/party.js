@@ -190,9 +190,11 @@ var openAddress = function(partyName,partyId){
                     if(name.length>4){
                         name = name.substring(0,2);
                     }
-                    return '<a class="btn" onclick="openAdModel(\''+partyName+'\',\''+partyId+'\',\''+row.id+'\')" title="'+name+'">'+name+'</a>'+'<br/><a class="btn" >生成文件</a>'
+                    var str = '<a class="btn" onclick="openAdModel(\''+partyName+'\',\''+partyId+'\',\''+row.id+'\')" title="'+name+'">'+name+'</a>';
+                        str+='<br/><br/><button type="button" class="btn btn-danger" onclick="delPartyAd(\''+partyName+'\',\''+partyId+'\',\''+row.id+'\',\''+row.name+'\')" >删除</button>';
+                        return str;
                 }else{
-                    return '<a class="btn" onclick="openAdModel(\''+partyName+'\',\''+partyId+'\',\''+row.id+'\')">添加</a>';
+                    return '<a class="btn" onclick="openAdModel(\''+partyName+'\',\''+partyId+'\',\''+row.id+'\')" title="'+name+'">添加</a>'
                 }
             }
         },
@@ -215,6 +217,34 @@ var openAddress = function(partyName,partyId){
     $('#modalody').find('.pull-left').remove();
     $('#myModal').modal('show');
 }
+
+
+/**
+ * 删除活的动场地广告
+ * @param partyName
+ * @param partyId
+ * @param id
+ */
+var delPartyAd = function(partyName,partyId,addressId,addressName){
+    if(confirm('确定要删除活动:'+partyName+'场地:'+addressName+'的广告吗？')){
+        var obj = {
+            partyId:partyId,
+            addressId:addressId
+        }
+        $.danmuAjax('/v1/api/admin/partyAddressAdRelation/delete', 'GET','json',obj, function (data) {
+            if(data.result == 200) {
+                console.log(data);
+                openAddress(partyName,partyId);
+                alert('删除成功');
+            }else{
+                alert('删除失败');
+            }
+        }, function (data) {
+            console.log(data);
+        });
+    }
+}
+
 
 var openMoreAddress = function(partyName,partyId){
     var addressTableUrl = '/v1/api/admin/address/queryNoParty';
@@ -270,7 +300,8 @@ var adAdd = function (partyName,partyId,addressId,id) {
 var openAdModel = function(partyName,partyId,addressId){
     var addressTableUrl = '/v1/api/admin/adDanmuLibrary/list';
     var addressQueryObject = {
-        pageSize: 6
+        pageSize: 6,
+        flg:0
     }
     var addressColumnsArray =[
         {

@@ -261,7 +261,7 @@
          * @param id
          */
         $scope.setDanmuBlocked = function (id) {
-            if (webSocketIsConnect() && checkPatyIsBegin()) {
+            if (webSocketIsConnect()) {
                 for (var i = 0; i < $scope.danmuList.length; i++) {
                     var danmu = $scope.danmuList[i];
                     if (danmu.id == id) {
