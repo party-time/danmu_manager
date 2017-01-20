@@ -27,7 +27,13 @@ var columnsArray = [
             if (row.send) {
                 return '已发送';
             } else {
-                return '<button type="button" class = "sendPrize" id="row_' + row.id + '">发奖品</button>';
+                var str = '';
+                if(row.blocked){
+                    str='<button type="button" onclick="unblocked(\''+row.id+'\')">解除屏蔽</button>';
+                }else{
+                    str='<button type="button" onclick="blocked(\''+row.id+'\')">屏蔽</button>';
+                }
+                return str+'<button type="button" class = "sendPrize" id="row_' + row.id + '">发奖品</button>';
             }
         },
         events: 'operateEvents'
@@ -68,6 +74,25 @@ function sucess(data) {
 }
 function error(data) {
     alert(data);
+}
+
+var blocked = function(id){
+    if(confirm('确定要屏蔽吗？')){
+        var obj = {
+            id:id
+        }
+        $.danmuAjax('/v1/api/admin/historyDanmu/block', 'GET','json',obj, function (data) {
+            if(data.result == 200) {
+              console.log(data);
+                initable();
+             }else{
+                alert('操作失败');
+             }
+        }, function (data) {
+            console.log(data);
+        });
+    }
+
 }
 
 initable();

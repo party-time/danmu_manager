@@ -416,6 +416,7 @@ var uploadSmallFile = function(){
 }
 
 var delResource = function(resourceId,type){
+ if(confirm('确定要删除吗？')){
     var obj = {
         id:resourceId
     }
@@ -438,6 +439,7 @@ var delResource = function(resourceId,type){
     }, function (data) {
         console.log(data);
     });
+ }
 }
 
 
@@ -470,20 +472,21 @@ var selectResource = function(resourceId,type){
 }
 
 var delPartyResource = function(resourceId,type){
-    var obj = {
-        partyId:g_partyId,
-        resourceId:resourceId
-    }
-    $.danmuAjax('/v1/api/admin/resource/delPartyResource', 'GET','json',obj, function (data) {
-        if(data.result ==200){
-            getResourceFileType(type);
-        }else{
-            alert('选择失败');
+    if(confirm('确定要删除吗？')){
+        var obj = {
+            partyId:g_partyId,
+            resourceId:resourceId
         }
-    }, function (data) {
-        console.log(data);
-    });
-
+        $.danmuAjax('/v1/api/admin/resource/delPartyResource', 'GET','json',obj, function (data) {
+            if(data.result ==200){
+                getResourceFileType(type);
+            }else{
+                alert('选择失败');
+            }
+        }, function (data) {
+            console.log(data);
+        });
+    }
 }
 
 var getResourceFileType = function(type){
