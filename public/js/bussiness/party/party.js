@@ -76,6 +76,8 @@ var columnsArray = [
         var str = '';
         if(row.type == 0){
                str = '<a class="btn" href="#" onclick="openDanmuCheck(\''+row.name+'\',\''+row.id+'\')">弹幕审核</a>';
+        }else if(row.type == 1){
+            str = '<a class="btn" href="#" onclick="openMovieSchedule(\''+row.id+'\')">电影场次</a>'
         }
         return str+'<a class="btn" href="#" onclick="openPartyResource(\''+row.id+'\')">资源管理</a>'+
             '<a class="btn" href="#" onclick="openAddress(\''+row.name+'\',\''+row.id+'\')">场地管理</a>'+'<a class="btn" href="#" onclick="openTimerDanmu(\''+row.id+'\')">定时弹幕</a>'+selectHtml;
@@ -454,6 +456,83 @@ var delMovie = function(id,name){
     }
 };
 
+Date.prototype.format = function(f){
+    var o ={
+        "M+" : this.getMonth()+1, //month
+        "d+" : this.getDate(),    //day
+        "h+" : this.getHours(),   //hour
+        "m+" : this.getMinutes(), //minute
+        "s+" : this.getSeconds(), //second
+        "q+" : Math.floor((this.getMonth()+3)/3),  //quarter
+        "S" : this.getMilliseconds() //millisecond
+    }
+    if(/(y+)/.test(f))f=f.replace(RegExp.$1,(this.getFullYear()+"").substr(4 - RegExp.$1.length));
+    for(var k in o)
+        if(new RegExp("("+ k +")").test(f))f = f.replace(RegExp.$1,RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));return f
+}
+
+var openMovieSchedule = function(partyId){
+    var movieScheduleTableUrl = '/v1/api/admin/movieSchedule/list';
+    var movieScheduleQueryObject = {
+        partyId:partyId,
+        pageSize: 6
+    }
+    var movieScheduleColumnsArray =[
+        {
+            field: 'danmuAddress.name',
+            title: '地址',
+            align: 'center'
+        },
+        {
+            field: 'movieSchedule.startTime',
+            title: '广告开始时间',
+            align: 'center',
+            formatter: function (value, row, index) {
+                  return new Date(parseInt(row.movieSchedule.startTime)).format('yyyy-MM-dd hh:mm:ss');
+            }
+        },
+        {
+            field: 'movieSchedule.moviceStartTime',
+            title: '电影开始时间',
+            align: 'center',
+            formatter: function (value, row, index) {
+                  if( null == row.movieSchedule.moviceStartTime){
+                    return "电影未开始";
+                  }else{
+                    return new Date(parseInt(row.movieSchedule.moviceStartTime)).format('yyyy-MM-dd hh:mm:ss');
+                  }
+
+            }
+        },
+        {
+            field: 'movieSchedule.endTime',
+            title: '电影结束时间',
+            align: 'center',
+            formatter: function (value, row, index) {
+                if( null == row.movieSchedule.endTime){
+                    return "电影未结束";
+                }else{
+                    return new Date(parseInt(row.movieSchedule.endTime)).format('yyyy-MM-dd hh:mm:ss');
+                }
+
+            }
+        },
+        {
+           field: 'id', title: '操作',
+           align: 'center',
+           formatter: function (value, row, index) {
+                return '<a class="btn" target="_blank" href="/party/historyDanmu?partyId='+partyId+'&addressId='+row.danmuAddress.id+'">历史弹幕</a>';
+           }
+        }
+    ];
+    $('#myModalLabel').html('电影场次');
+    var tableSuccess = function(){
+        $('#modalBody').find('.pull-left').remove();
+    }
+    $.initTable('addressTableList', movieScheduleColumnsArray, movieScheduleQueryObject, movieScheduleTableUrl,tableSuccess);
+    $('#myModal').modal('show');
+
+}
 
 getAllDanmuLibrary();
 
