@@ -29,6 +29,8 @@
                                     <h4>
                                         在线管理员：<span class="danmuCheck-link-status">{{adminCount}}</span>
                                         在线客户端：<span class="danmuCheck-link-status">{{clientCount}}</span>
+                                        <button type="button" class="btn btn-info" ng-disabled="autoCheck==0" ng-click="setAutoCheck(0)">关闭自动审核</button>
+                                        <button type="button" class="btn btn-info" ng-disabled="autoCheck==1" ng-click="setAutoCheck(1)">开启自动审核</button>
                                     </h4>
                                 </li>
                             </ul>
@@ -76,19 +78,27 @@
                                              style="width: 30px;height: 30px;"/>
                                         <span ng-if="danmu.imgUrl==null">&nbsp;</span>
                                     </td>
-                                    <td>
-                                        <span ng-if="!danmu.s||danmu.s>0">{{danmu.s}}秒</span>
-                                        <span ng-if="danmu.s<=0&&danmu.s>-10">已发送</span>
-                                        <span ng-if="danmu.s<=-10">未发送</span>
+                                    <td ng-if="autoCheck==1">
+                                        <span ng-if="(!danmu.s||danmu.s>0) && !danmu.isSend">{{danmu.s}}秒</span>
+                                        <span ng-if="danmu.isSend">已发送</span>
+                                        <span ng-if="danmu.isBlocked && !danmu.isSend">未发送</span>
                                     </td>
-                                    <td>
+                                    <td ng-if="autoCheck==0">
+                                        <span ng-if="danmu.isSend">已发送</span>
+                                        <span ng-if="danmu.isBlocked && !danmu.isSend">未发送</span>
+                                        <button class="btn btn-info" ng-if="!danmu.isSend && !danmu.isBlocked" ng-click="sendDanmu(danmu)">发送</button>
+                                    </td>
+                                    <td  ng-if="autoCheck==1">
                                         <span ng-if="danmu.isBlocked">已删除</span>
-                                        <button ng-if="(!danmu.s||danmu.s>0)&&!danmu.isBlocked" type="button"
-                                                class="btn btn-danger btn-sm" ng-click="setDanmuBlocked(danmu.id)">删除
+                                        <button ng-if="!danmu.isSend && !danmu.isBlocked" type="button" class="btn btn-danger btn-sm" ng-click="setDanmuBlocked(danmu.id)">删除
                                         </button>
-                                        <button ng-if="danmu.s<=0&&danmu.s>-10" type="button"
-                                                class="btn btn-danger btn-sm" disabled>删除
+                                        <button ng-if="danmu.isSend" type="button" class="btn btn-danger btn-sm" disabled>删除</button>
+                                    </td>
+                                    <td ng-if="autoCheck==0">
+                                        <span ng-if="danmu.isBlocked">已删除</span>
+                                        <button ng-if="!danmu.isSend && !danmu.isBlocked" type="button" class="btn btn-danger btn-sm" ng-click="setDanmuBlocked(danmu.id)">删除
                                         </button>
+                                        <button ng-if="danmu.isSend" type="button" class="btn btn-danger btn-sm" disabled>删除</button>
                                     </td>
                                 </tr>
                                 </tbody>

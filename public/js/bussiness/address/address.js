@@ -34,8 +34,7 @@ var columnsArray = [
         align: 'center',
         formatter: function (value, row, index) {
             return '<a class="btn" onclick="delAddress(\''+row.name+'\',\''+row.id+'\')">删除</a><a class="btn" onclick="updateAddress(\''+row.id+'\')">修改</a>'+
-            '<a class="btn" onclick="openScreenDialog(\''+row.name+'\',\''+row.id+'\')">屏幕管理</a>'+
-                '<a class="btn" onclick="openScreenDialog(\''+row.name+'\',\''+row.id+'\')">广告管理</a>';;
+            '<a class="btn" onclick="openScreenDialog(\''+row.name+'\',\''+row.id+'\')">屏幕管理</a>';
         },
         events: 'operateEvents'
     }

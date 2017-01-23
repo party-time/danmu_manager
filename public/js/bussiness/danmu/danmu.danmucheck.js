@@ -47,6 +47,7 @@
 
 
         $scope.partyStatus;
+        $scope.autoCheck=0;
 
         $scope.type = {
             type_init: 'init',
@@ -156,7 +157,7 @@
                 //设置动画特效
                 specialVideoJudge($scope.specialVideo, 1);
                 //刷新弹幕频率
-                $interval(refreshDanmuList, 500);
+                $interval(refreshDanmuList, 1000);
             } else if (json.type == $scope.type.type_adminCount) {
                 $scope.adminCount = json.data;
             } else if (json.type == $scope.type.type_modeltest) {
@@ -215,6 +216,8 @@
                 var danmu = json.data;
                 danmu.s = 10;
                 danmu.createTime = new Date().getTime() + 1000;
+                danmu.timeCount = $scope.delaySecond+1;
+                danmu.isSend=false;
                 $scope.danmuList.unshift(setDanmuLeftTime(danmu, new Date().getTime()));
                 if ($scope.danmuList.length > 1000) {
                     $scope.clearAndTurnUp();
@@ -246,7 +249,22 @@
             webSocketSendMessage({type:$scope.type.type_findclientList});
         }, 3 * 1000);*/
 
+        $scope.setAutoCheck=function (value) {
+            if(value==0){
+                $scope.autoCheck =0;
+            }else{
+                $scope.autoCheck =1;
+            }
+        }
 
+        $scope.sendDanmu=function (danmu) {
+            danmu.s = -1;
+            danmu.isSend=true;
+            webSocketSendMessage({
+                type: danmu.type,
+                danmu: {message: danmu.msg, color: danmu.color, openId: danmu.openId}
+            });
+        }
         /**
          * 延长活动时间
          * @param hour
@@ -562,16 +580,17 @@
         };
         var setDanmuLeftTime = function (danmu, nowTime) {
             if (!danmu.s || danmu.s > 0) {
-                if (!danmu.createTime) {
-                    danmu.createTime = new Date().getTime();
-                }
-                danmu.s = parseInt($scope.delaySecond - ( nowTime - danmu.createTime) / 1000);
-                if (danmu.s == 0) {
-                    danmu.s = -1;
-                    webSocketSendMessage({
-                        type: danmu.type,
-                        danmu: {message: danmu.msg, color: danmu.color, openId: danmu.openId,id:danmu.id}
-                    });
+                if($scope.autoCheck==1){
+                    danmu.s = danmu.timeCount-1;
+                    danmu.timeCount = danmu.s;
+                    if (danmu.s == 0) {
+                        danmu.s = -1;
+                        danmu.isSend=true;
+                        webSocketSendMessage({
+                            type: danmu.type,
+                            danmu: {message: danmu.msg, color: danmu.color, openId: danmu.openId}
+                        });
+                    }
                 }
             }
             return danmu;
