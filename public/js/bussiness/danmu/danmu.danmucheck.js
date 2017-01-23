@@ -168,6 +168,8 @@
                 var danmu = json.data;
                 danmu.s = 10;
                 danmu.createTime = new Date().getTime() + 1000;
+                danmu.timeCount = $scope.delaySecond+1;
+                danmu.isSend=false;
                 $scope.danmuList.unshift(setDanmuLeftTime(danmu, new Date().getTime()));
                 if ($scope.danmuList.length > 1000) {
                     $scope.clearAndTurnUp();
