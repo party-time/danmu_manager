@@ -240,50 +240,6 @@ var getAllDanmuLibrary = function () {
     getSpecImagesPage(1);
     getExpressionPage(1);
     getVideoPage(1)
-    /*$.danmuAjax('/v1/api/admin/initResource', 'GET', 'json', quaryObject, function (data) {
-        if (data.result == 200) {
-            //$scope.expressions = data.data.expressions;
-            //$scope.specialImages = data.data.specialImages;
-
-            var html = '';
-            var expressionArray = data.data.expressions;
-            if(expressionArray!=null){
-                for (var i = 0; i < expressionArray.length; i++) {
-                    var expression = expressionArray[i];
-                    html += '<img src="' + baseUrl + expression.smallFileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;" onclick="setElement(\'' + expression.smallFileUrl + '\',\'' + expression.id + '\')"/>';
-                }
-                $(".expressionDanmu").empty().html(html);
-            }
-
-
-            html = '';
-            var imageArray = data.data.specialImages;
-            if(imageArray!=null){
-                for (var i = 0; i < imageArray.length; i++) {
-                    var image = imageArray[i];
-                    html += '<img src="' + baseUrl + image.fileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;" title="' + image.resourceName + '" onclick="setElement(\'' + image.fileUrl + '\',\'' + image.id + '\')"/>';
-                }
-                $(".imageDanmu").empty().html(html);
-            }
-
-
-            html = '';
-            var videoDanmuArray = data.data.specialVideos;
-            if(videoDanmuArray!=null){
-                for (var i = 0; i < videoDanmuArray.length; i++) {
-                    var specialVideo = videoDanmuArray[i];
-                    //html += '<button type="button" class="btn btn-sm btn-default" style="margin-left: 1em" onclick="setElement(\'' + specialVideo.resourceName + '\',\'' + specialVideo.id + '\')" >' + specialVideo.resourceName + '</button>';
-                    var buttonName = specialVideo.resourceName.substring(0,4);
-                    html += '<button class="btn"  style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " onclick="setElement(\'' + specialVideo.resourceName + '\',\'' + specialVideo.id + '\')" title="' + specialVideo.resourceName + '">' + buttonName + '</button>';
-                }
-                $(".videoDanmu").empty().html(html);
-            }
-        } else {
-            alert("资源加载失败")
-        }
-        $(".danmuType-array").select2({data: danmuTypeArray, minimumResultsForSearch: -1});
-        $(".danmuPosition-array").select2({data: positionArray, minimumResultsForSearch: -1});
-    });*/
 }
 
 function removeFormTypeArray(id){
@@ -296,8 +252,6 @@ function removeFormTypeArray(id){
     danmuTypeArray = tempArray;
 }
 getAllDanmuLibrary();
-
-
 
 
 //设置动画
@@ -569,7 +523,7 @@ function initHighcharts(data) {
 }
 
 $(".timeDanmuButton").click(function(){
-    $.danmuAjax('/v1/api/admin/timerDanmu/creatTimerDanmuFile', 'GET', 'json', {libraryId:libraryId}, function (data) {
+    $.danmuAjax('/v1/api/admin/adDanmu/createFile', 'GET', 'json', {libraryId:libraryId}, function (data) {
         if (data.result == 200) {
             //initable();
             //initCarts();
