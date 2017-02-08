@@ -31,7 +31,20 @@ var columnsArray = [
 var quaryObject = {
     pageSize: 20
 };
-
+var findRole = function(){
+    $.danmuAjax('/v1/api/admin/adminUser/findRole', 'GET','json',null, function (data) {
+      if (data.result == 200) {
+          console.log(data);
+          $('#myModal').modal('hide');
+          $.initTable('tableList', columnsArray, quaryObject, tableUrl);
+          alert('创建成功')
+      }else{
+         alert('创建失败')
+      }
+    }, function (data) {
+        console.log(data);
+    });
+}
 var openCreateAdminUser = function(){
     $('#myModalLabel').html('新建账号信息');
     var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">'+
@@ -40,17 +53,33 @@ var openCreateAdminUser = function(){
    '<label class="control-label" style="width:50px">账号</label><div class="controls" style="margin-left:60px;">'+
        '<input type="text" class="span4" id="userName"  maxlength="30" onblur="checkUserName()"></div><br>'+
    '<label class="control-label" style="width:50px">密码</label><div class="controls" style="margin-left:60px;">'+
-          '<input type="text" class="span4" id="password" maxlength="10" autocomplete="off">'+
-   '</div></div></form>';
-    $('#modalBody').html(htmlStr);
-    var footerHtml = '<button class="btn btn-primary" onclick="createAdminUser()" id="saveAdmin">保存</button>';
-    $('#modalFooter').html(footerHtml);
-    $('#myModal').modal('show');
+          '<input type="text" class="span4" id="password" maxlength="10" autocomplete="off"></div><br>';
+
+    $.danmuAjax('/v1/api/admin/adminUser/findRole', 'GET','json',null, function (data) {
+      if (data.result == 200) {
+          htmlStr += '<label class="control-label" style="width:50px">角色</label><div class="controls" style="margin-left:60px;">';
+          htmlStr += '<select id="roleId">';
+          for(var i=0;i<data.data.length;i++){
+            htmlStr += '<option value="'+data.data[i].id+'">'+data.data[i].roleName+'</option>';
+          }
+          htmlStr += '</select>';
+      }
+      htmlStr += '</div></div></form>';
+        $('#modalBody').html(htmlStr);
+        var footerHtml = '<button class="btn btn-primary" onclick="createAdminUser()" id="saveAdmin">保存</button>';
+        $('#modalFooter').html(footerHtml);
+        $('#myModal').modal('show');
+    }, function (data) {
+        console.log(data);
+    });
+
+
 }
 var createAdminUser = function(){
     var nick = $('#nick').val();
     var userName = $('#userName').val();
     var password = $('#password').val();
+    var roleId = $('#roleId').val();
     if( '' == nick){
         alert('姓名不能为空');
         return;
@@ -61,6 +90,11 @@ var createAdminUser = function(){
     }
     if( '' == password){
         alert('密码不能为空');
+        return;
+    }
+
+    if( '' == roleId){
+        alert('角色不能为空');
         return;
     }
 
@@ -85,7 +119,8 @@ var createAdminUser = function(){
     var obj = {
         nick:nick,
         name:userName,
-        password:password
+        password:password,
+        roleId:roleId
     }
 
     $.danmuAjax('/v1/api/admin/adminUser/save', 'POST','json',obj, function (data) {
@@ -107,19 +142,48 @@ var g_userName = '';
 var openUpdateAdminUser = function(id,nick,userName){
     g_nick = nick;
     g_userName = userName;
-    $('#myModalLabel').html('修改账号信息');
-    var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">'+
-   '<label class="control-label" style="width:50px">名称</label><div class="controls" style="margin-left:60px;">'+
-   '<input type="text" class="span4" id="nick" maxlength="10" value="'+nick+'" onblur="updateCheckNIck()"/></div><br>'+
-   '<label class="control-label" style="width:50px">账号</label><div class="controls" style="margin-left:60px;">'+
-       '<input type="text" class="span4" id="userName"  maxlength="30" value="'+userName+'" onblur="updateCheckUserName()"></div><br>'+
-   '<label class="control-label" style="width:50px">密码</label><div class="controls" style="margin-left:60px;">'+
-          '<input type="password" class="span4" id="password" maxlength="10" autocomplete="off">'+
-   '</div></div></form>';
-    $('#modalBody').html(htmlStr);
-    var footerHtml = '<button class="btn btn-primary" onclick="updateAdminUser(\''+id+'\')" id="saveAdmin">修改</button>';
-    $('#modalFooter').html(footerHtml);
-    $('#myModal').modal('show');
+
+    $.danmuAjax('/v1/api/admin/adminUser/findById', 'GET','json','id='+id, function (data) {
+      if (data.result == 200) {
+          $('#myModalLabel').html('修改账号信息');
+          var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">'+
+         '<label class="control-label" style="width:50px">名称</label><div class="controls" style="margin-left:60px;">'+
+         '<input type="text" class="span4" id="nick" maxlength="10" value="'+nick+'" onblur="updateCheckNIck()"/></div><br>'+
+         '<label class="control-label" style="width:50px">账号</label><div class="controls" style="margin-left:60px;">'+
+             '<input type="text" class="span4" id="userName"  maxlength="30" value="'+userName+'" onblur="updateCheckUserName()"></div><br>'+
+         '<label class="control-label" style="width:50px">密码</label><div class="controls" style="margin-left:60px;">'+
+                '<input type="password" class="span4" id="password" maxlength="10" autocomplete="off"></div><br>';
+
+          $.danmuAjax('/v1/api/admin/adminUser/findRole', 'GET','json',null, function (data1) {
+            if (data.result == 200) {
+                htmlStr += '<label class="control-label" style="width:50px">角色</label><div class="controls" style="margin-left:60px;">';
+                htmlStr += '<select id="roleId">';
+                for(var i=0;i<data1.data.length;i++){
+                  if(data1.data[i].id == data.data.roleId){
+                    htmlStr += '<option value="'+data1.data[i].id+'" selected="selected">'+data1.data[i].roleName+'</option>';
+                  }else{
+                    htmlStr += '<option value="'+data1.data[i].id+'">'+data1.data[i].roleName+'</option>';
+                  }
+
+                }
+                htmlStr += '</select>';
+            }
+            htmlStr += '</div></div></form>';
+             $('#modalBody').html(htmlStr);
+             var footerHtml = '<button class="btn btn-primary" onclick="updateAdminUser(\''+id+'\')" id="saveAdmin">修改</button>';
+             $('#modalFooter').html(footerHtml);
+             $('#myModal').modal('show');
+          }, function (data) {
+              console.log(data);
+          });
+
+
+      }
+    }, function (data) {
+        console.log(data);
+    });
+
+
 }
 
 
@@ -140,10 +204,7 @@ var updateAdminUser = function(id){
         alert('账号不能为空');
         return;
     }
-    if( '' == password){
-        alert('密码不能为空');
-        return;
-    }
+
 
     if(nick.length<2){
         alert('姓名长度要大于2个字符');
@@ -153,20 +214,23 @@ var updateAdminUser = function(id){
         alert('账号长度要大于4个字符');
         return;
     }
-    if( password.length < 6){
-        alert('密码长度需要大于6位');
-        return;
-    }
-    var passwordPattern = /^(?![a-zA-z]+$)(?!\d+$)(?![!@#$%^&*]+$)(?![a-zA-z\d]+$)(?![a-zA-z!@#$%^&*]+$)(?![\d!@#$%^&*]+$)[a-zA-Z\d!@#$%^&*]+$/;
-    if( passwordPattern.exec(password)){
-        alert('密码中只能为字母数字和特殊英文符号');
-        return;
+    if( '' != password){
+        if( password.length < 6){
+            alert('密码长度需要大于6位');
+            return;
+        }
+        var passwordPattern = /^(?![a-zA-z]+$)(?!\d+$)(?![!@#$%^&*]+$)(?![a-zA-z\d]+$)(?![a-zA-z!@#$%^&*]+$)(?![\d!@#$%^&*]+$)[a-zA-Z\d!@#$%^&*]+$/;
+        if( passwordPattern.exec(password)){
+            alert('密码中只能为字母数字和特殊英文符号');
+            return;
+        }
     }
     var obj = {
         id:id,
         nick:nick,
         name:userName,
-        password:password
+        password:password,
+        roleId:$('#roleId').val()
     }
     $.danmuAjax('/v1/api/admin/adminUser/update', 'POST','json',obj, function (data) {
       if (data.result == 200) {

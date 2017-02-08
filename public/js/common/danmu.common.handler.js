@@ -16,6 +16,10 @@ $.ajaxSetup({
             window.location = '/login';
             return;
         }
+        if (xhr.status == 443) {
+            window.location = '/film/danmuCheck';
+            return;
+        }
     },
     //发送请求前触发
     beforeSend: function (xhr) {
