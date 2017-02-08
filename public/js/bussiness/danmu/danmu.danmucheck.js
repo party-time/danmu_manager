@@ -225,7 +225,7 @@
                     $scope.clearAndTurnUp();
                 }
             }else if (json.type == 'error') {
-                alert(json.data.message);
+                alert(json.data);
             } else if (json.type == $scope.type.type_findclientList) {
                 if (json.data != null) {
                     $scope.clientCount = json.data.length;
@@ -310,7 +310,7 @@
             var statusStr = ""
             if(status==1){
                 statusStr ="活动开始";
-            } if(status==2){
+            }else if(status==2){
                 statusStr ="电影开始";
             }else{
                 statusStr ="结束活动";
