@@ -18,8 +18,16 @@
                                         状态：<span class="danmuCheck-link-status">{{link_Status}}</span>
                                         在线管理员：<span class="danmuCheck-link-status">{{adminCount}}</span>
                                         在线客户端：<span class="danmuCheck-link-status">{{clientCount}}</span>
-                                        <button type="button" class="btn btn-info" ng-disabled="autoCheck==0" ng-click="setAutoCheck(0)">关闭自动审核</button>
-                                        <button type="button" class="btn btn-info" ng-disabled="autoCheck==1" ng-click="setAutoCheck(1)">开启自动审核</button>
+                                        <button type="button" class="btn btn-info" ng-disabled="autoCheck==0" ng-click="setAutoCheck(0)">手动</button>
+                                        <button type="button" class="btn btn-info" ng-disabled="autoCheck==1" ng-click="setAutoCheck(1)">自动</button>
+                                        延迟时间：
+                                        <button class="btn btn-sm btn-default" type="button"
+                                                ng-disabled="delaySecond==0" ng-click="setDelaySecond(false)">-
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-default">{{delaySecond}}</button>
+                                        <button class="btn btn-sm btn-default" type="button"
+                                                ng-disabled="delaySecond>99" ng-click="setDelaySecond(true)">+
+                                        </button>
                                     </h4>
                                 </li>
                             </ul>

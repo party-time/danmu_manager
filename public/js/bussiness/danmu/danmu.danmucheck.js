@@ -325,14 +325,20 @@
         //增减延迟时间
         $scope.setDelaySecond = function (status) {
             if (webSocketIsConnect() && checkPatyIsBegin()) {
-                if(!status){
+                /*if(!status){
                     if($scope.delaySecond>0){
                         webSocketSendMessage({type: $scope.type.type_delaySecond, delayTime: {status: status}});
                     }
                 }else{
                     webSocketSendMessage({type: $scope.type.type_delaySecond, delayTime: {status: status}});
+                }*/
+                if(!status){
+                    if($scope.delaySecond>0){
+                        $scope.delaySecond = $scope.delaySecond-1;
+                    }
+                }else{
+                    $scope.delaySecond = $scope.delaySecond+1;
                 }
-
             }
         };
         /**

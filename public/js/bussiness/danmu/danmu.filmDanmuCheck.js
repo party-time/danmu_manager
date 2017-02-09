@@ -46,6 +46,7 @@
         $scope.direction;//弹幕位置
 
         $scope.autoCheck=0;
+        $scope.delaySecond=0;
 
 
         $scope.partyStatus;
@@ -110,11 +111,7 @@
                 //弹幕密度
                 $scope.danmuDensity = json.data.danmuDensity;
                 //延迟时间
-                $scope.delayHour = 0;
-                //弹幕密度
-                $scope.danmuDensity = json.data.danmuDensity;
-
-
+                $scope.delaySecond = 5;
                 //刷新弹幕频率
                 $interval(refreshDanmuList, 1000);
             } else if (json.type == $scope.type.type_adminCount) {
@@ -125,7 +122,7 @@
                 var danmu = json.data;
                 danmu.s = 5;
                 danmu.createTime = new Date().getTime() + 1000;
-                danmu.timeCount = 6;
+                danmu.timeCount = $scope.delaySecond+1;
                 danmu.isSend=false;
                 $scope.danmuList.unshift(setDanmuLeftTime(danmu, new Date().getTime()));
                 if ($scope.danmuList.length > 1000) {
@@ -133,6 +130,8 @@
                 }
             }else if (json.type == 'error') {
                 alert(json.data.message);
+            } else if (json.type == $scope.type.type_delaySecond) {
+                $scope.delaySecond = parseInt(json.data);
             } else if (json.type == $scope.type.type_findclientList) {
                 if (json.data != null) {
                     $scope.clientCount = json.data.length;
@@ -171,13 +170,22 @@
          * 设置弹幕密度
          */
         $scope.setDanmuDensity = function () {
-            if (webSocketIsConnect()) {
                 webSocketSendMessage({
                     type: $scope.type.type_danmuDensity,
                     density: {danmuDensity: $scope.danmuDensity}
                 });
-            }
         }
+
+        //增减延迟时间
+        $scope.setDelaySecond = function (status) {
+                if(!status){
+                    if($scope.delaySecond>0){
+                        $scope.delaySecond = $scope.delaySecond-1;
+                    }
+                }else{
+                    $scope.delaySecond = $scope.delaySecond+1;
+                }
+        };
 
         /**
          * 屏蔽弹幕
@@ -302,6 +310,7 @@
 
 
         }
+
 
         function getCookieValue(cookieName) {
             var cookieValue = document.cookie;
