@@ -168,13 +168,13 @@ var getExpressionPage = function(pageNo){
         var next = pageNo+1;
         var last = pageNo -1;
         if(pageNo == 1 && totalPageNo > 1){
-            footer += '第'+obj.pageNo+'页<a onclick="getSpecImagesPage('+next+')">下一页</a> 共'+totalPageNo+'页</div>';
+            footer += '第'+obj.pageNo+'页<a onclick="getExpressionPage('+next+')">下一页</a> 共'+totalPageNo+'页</div>';
         }else if(pageNo == totalPageNo &&totalPageNo>1){
-            footer += '<a onclick="getSpecImagesPage('+last+')">上一页</a>第'+obj.pageNo+'页 共'+totalPageNo+'页</div>';
+            footer += '<a onclick="getExpressionPage('+last+')">上一页</a>第'+obj.pageNo+'页 共'+totalPageNo+'页</div>';
         }else if(totalPageNo == 1){
             footer += '第'+obj.pageNo+'页';
         }else{
-            footer += '<a onclick="getSpecImagesPage('+last+')">上一页</a>第'+obj.pageNo+'页<a onclick="getSpecImagesPage('+next+')">下一页</a> 共'+totalPageNo+'页</div>';
+            footer += '<a onclick="getExpressionPage('+last+')">上一页</a>第'+obj.pageNo+'页<a onclick="getExpressionPage('+next+')">下一页</a> 共'+totalPageNo+'页</div>';
         }
         $(".expressionDanmu").html(html+"<br/>"+footer);
     }, function (data) {
@@ -201,13 +201,13 @@ var getVideoPage = function(pageNo){
         var next = pageNo+1;
         var last = pageNo -1;
         if(pageNo == 1 && totalPageNo > 1){
-            footer += '第'+obj.pageNo+'页<a onclick="getSpecImagesPage('+next+')">下一页</a> 共'+totalPageNo+'页</div>';
+            footer += '第'+obj.pageNo+'页<a onclick="getVideoPage('+next+')">下一页</a> 共'+totalPageNo+'页</div>';
         }else if(pageNo == totalPageNo &&totalPageNo>1){
-            footer += '<a onclick="getSpecImagesPage('+last+')">上一页</a>第'+obj.pageNo+'页 共'+totalPageNo+'页</div>';
+            footer += '<a onclick="getVideoPage('+last+')">上一页</a>第'+obj.pageNo+'页 共'+totalPageNo+'页</div>';
         }else if(totalPageNo == 1){
             footer += '第'+obj.pageNo+'页';
         }else{
-            footer += '<a onclick="getSpecImagesPage('+last+')">上一页</a>第'+obj.pageNo+'页<a onclick="getSpecImagesPage('+next+')">下一页</a> 共'+totalPageNo+'页</div>';
+            footer += '<a onclick="getVideoPage('+last+')">上一页</a>第'+obj.pageNo+'页<a onclick="getVideoPage('+next+')">下一页</a> 共'+totalPageNo+'页</div>';
         }
         $(".videoDanmu").html(html+"<br/>"+footer);
     }, function (data) {
