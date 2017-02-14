@@ -77,6 +77,7 @@ var openUpdateAddress = function (addressId) {
                 $('#peopleNum').val(data.data.peopleNum);
                 $('#addressId').val(data.data.id);
                 $('#range').val(data.data.range);
+                $('#addressType').val(data.data.type);
             }, function (data) {
                      console.log(data);
                  });
@@ -137,7 +138,8 @@ var saveAddress = function(){
         'contacts': $('#contacts').val(),
         'phoneNum': $('#phoneNum').val(),
         'peopleNum': $('#peopleNum').val(),
-        'range': $('#range').val()
+        'range': $('#range').val(),
+        'type':$('#addressType').val()
     };
 
     $.danmuAjax(postUrl, 'POST','json',object, function (data) {

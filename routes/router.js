@@ -102,4 +102,8 @@ router.get('/adDanmuLibrary/edit', function(req, res, next) {
     res.render('addanmu/adDanmu');
 });
 
+router.get('/version', function(req, res, next) {
+    res.render('version/version');
+});
+
 module.exports = router;
