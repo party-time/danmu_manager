@@ -76,7 +76,7 @@ var addVersion = function(){
             $.initTable('tableList', columnsArray, quaryObject, tableUrl);
         }else{
             if(data.result_msg){
-                alert(data.result_msg)
+                alert(data.result_msg);
             }else{
                 alert('保存失败')
             }
