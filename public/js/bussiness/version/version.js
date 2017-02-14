@@ -37,6 +37,8 @@ var openAddVersion = function(){
    '<input type="text" class="span4" id="versionName" maxlength="6" /></div><br>'+
    '<label class="control-label" style="width:65px">版本号</label><div class="controls" style="margin-left:60px;">'+
        '<input type="text" class="span4" id="version"  maxlength="30" placeholder="xxx.xxx.xxx例如1.0.0" onblur="checkVersion()"></div><br>'+
+   '<label class="control-label" style="width:65px">类型</label><div class="controls" style="margin-left:60px;">'+
+        '<select id="versionType" onchange="checkVersion()"><option value="0">java</option><option value="1">flash</option></select></div><br>'+
    '<label class="control-label" style="width:65px">版本描述</label><div class="controls" style="margin-left:60px;">'+
           '<textarea class="span4" id="describe"></textarea></div><br>';
 
@@ -52,17 +54,21 @@ var addVersion = function(){
     var versionName = $("#versionName").val();
     var versionNum = $("#version").val();
     var describe = $("#describe").val();
+    var versionType = $("#versionType").val();
 
     if( '' == versionName){
         alert("版本名称不能为空");
         return;
     }
 
-    checkVersion();
+    var a = checkVersion();
+
+
     var obj= {
         name:versionName,
         version:versionNum,
-        describe,describe
+        type:versionType,
+        describe:describe
     }
     $.danmuAjax('/v1/api/admin/version/save', 'POST','json',obj, function (data) {
         if( data.result == 200){
@@ -95,35 +101,35 @@ var delVersion = function(id,versionNum){
         }
 }
 
-var checkVersion = function(version){
+var checkVersion = function(version,type){
+    $('#addVersion').attr('disabled','true');
     var versionNum = $("#version").val();
     if( ''== versionNum){
-            $('#addVersion').attr('disabled','true');
             alert("版本号不能为空");
-            return;
+            return false;
     }else{
         var reg = new RegExp("^([0-9]{1}).([0-9]{1}).([0-9]{1})$");
         var r=versionNum.match(reg);
         if( r == null){
-            $('#addVersion').attr('disabled','true');
             alert("版本号不正确");
-            return;
+            return false;
         }
     }
     var obj = {
-        version:versionNum
+        version:versionNum,
+        type:$('#versionType').val()
     }
     $.danmuAjax('/v1/api/admin/version/checkVersion', 'GET','json',obj, function (data) {
         if( data.result != 200){
             if(data.result_msg){
-                $('#addVersion').attr('disabled','true');
                 alert(data.result_msg);
-                return;
+                return false;
             }else{
                 alert('查询失败')
             }
         }else{
             $('#addVersion').removeAttr('disabled');
+            return true;
         }
     }, function (data) {
         console.log(data);
