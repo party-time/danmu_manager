@@ -23,13 +23,25 @@ var columnsArray = [
     },
     {
         field: 'startTimeStr',
-        title: '开始时间',
+        title: '开始时间/结束时间',
         halign: "center",
-        align: "left"
+        formatter: function (value, row, index) {
+            var str = '';
+            if(null!= row.startTimeStr ){
+                str += row.startTimeStr;
+            }
+            if( str != ''){
+                str += '/';
+            }
+            if(null!= row.endTimeStr ){
+                str += row.endTimeStr;
+            }
+            return str;
+        }
     },
     {
-        field: 'endTimeStr',
-        title: '结束时间',
+        field: 'movieAlias',
+        title: 'tms指令',
         align: 'center',
     },
     {

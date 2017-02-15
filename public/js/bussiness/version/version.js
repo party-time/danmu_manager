@@ -18,6 +18,18 @@ var columnsArray = [
         align: 'center'
     },
     {
+        title: '类型',
+        align: 'center',
+        formatter: function (value, row, index) {
+            if(row.type==0){
+                return 'java';
+            }else if(row.type ==1){
+                return 'flash';
+            }
+
+        }
+    },
+    {
         field: 'id', title: '操作',
         align: 'center',
         formatter: function (value, row, index) {
