@@ -262,14 +262,29 @@ var openUpdateDialog = function(addressName,addressId){
             align: 'center',
             formatter: function (value, row, index) {
                 var str = '';
-                if(row.updatePlan.status == 0){
-                    str = '未更新';
-                }else if(row.updatePlan.status == 1){
-                    str = '更新成功';
-                }else if(row.updatePlan.status == 2){
-                    str = '更新失败';
+                var updatePlanMachineList = row.updatePlan.updatePlanMachineList;
+                if(updatePlanMachineList){
+                    for(var i=0;i<updatePlanMachineList.length;i++){
+                        var updatePlanMachine = updatePlanMachineList[i];
+                        if(updatePlanMachine.machineNum == 1){
+                            str += '左边墙壁';
+                        }else{
+                            str += '右边墙壁';
+                        }
+                        if(updatePlanMachine.status==0){
+                             str += '未更新';
+                        }else if(updatePlanMachine.status == 1){
+                             str += '更新成功';
+                         }else if(updatePlanMachine.status == 2){
+                             str += '更新失败';
+                         }else if(updatePlanMachine.status == 3){
+                             str += '开始更新';
+                         }else{
+                             str += '未知状态';
+                         }
+                    }
                 }else{
-                    str = '未知';
+                    str = '未更新';
                 }
                return str;
             }
