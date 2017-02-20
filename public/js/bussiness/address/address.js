@@ -239,6 +239,18 @@ var openUpdateDialog = function(addressName,addressId){
     }
     var updatePlanArray =[
         {
+            title: '版本名称',
+            align: 'center',
+            formatter: function (value, row, index) {
+                if(row.version){
+                    return row.version.name;
+                }else{
+                    return '';
+                }
+
+            }
+        },
+        {
             title: '版本号',
             align: 'center',
             formatter: function (value, row, index) {
