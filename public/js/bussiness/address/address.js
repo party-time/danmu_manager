@@ -291,7 +291,9 @@ var openUpdateDialog = function(addressName,addressId){
                              str += '更新失败';
                          }else if(updatePlanMachine.status == 3){
                              str += '开始更新';
-                         }else{
+                         }else if(updatePlanMachine.status == 4){
+                            str += '版本回滚';
+                        }else{
                              str += '未知状态';
                          }
                     }
