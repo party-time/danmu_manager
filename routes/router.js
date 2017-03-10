@@ -106,4 +106,8 @@ router.get('/version', function(req, res, next) {
     res.render('version/version');
 });
 
+router.get('/param', function(req, res, next) {
+    res.render('param/param');
+});
+
 module.exports = router;

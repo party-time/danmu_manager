@@ -10,7 +10,8 @@ var drawNavbar = function(){
     var role = $.cookie('role');
     if(role == '589a98cd77c8afdcbdeaeeb4'){
         htmlStr +=  '<li><a href="/adminmanager"><i class="icon-bold"></i><span>管理员管理</span> </a> </li>';
-        htmlStr +=  '<li><a href="/version"><i class="icon-list"></i><span>版本管理</span> </a> </li>';
+        htmlStr +=  '<li><a href="/version"><i class="icon-list"></i><span>版本管理</span> </a> </li>'
+        htmlStr +=  '<li><a href="/param"><i class="icon-picture"></i><span>参数管理</span> </a> </li>';
     }
 
     if(role != '589a98cd77c8afdcbdeaeeb6'){

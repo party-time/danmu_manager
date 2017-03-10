@@ -80,7 +80,7 @@ var screenTableUrl = '/v1/api/admin/client/page';
 var g_addressName ='';
 var g_addressId = '';
 
-
+var g_paramTemplate = [];
 
 var screenColumnsArray =[
   {
@@ -111,27 +111,83 @@ var screenColumnsArray =[
       }
   },
   {
+        title: '客户端模版',
+        align: 'center',
+        formatter: function (value, row, index) {
+            if( null != g_paramTemplate){
+                var shtml = '<select style="width:112px;" id="pt_'+row.id+'" onchange="selectParamTemplate(\''+row.id+'\')">';
+                if( null == row.paramTemplateId){
+                    shtml += '<option selected>无模版</option>';
+                }else{
+                    shtml += '<option>无模版</option>';
+                }
+                for(var i=0;i<g_paramTemplate.length;i++){
+                    shtml += '<option ';
+                    if(row.paramTemplateId == g_paramTemplate[i].id){
+                         shtml += 'selected';
+                    }
+                    shtml +=' value="'+g_paramTemplate[i].id+'">'+g_paramTemplate[i].name+'</option>';
+                }
+                shtml += '</select>';
+                return shtml;
+            }
+        }
+  },
+  {
      field: 'id', title: '操作',
      align: 'center',
      formatter: function (value, row, index) {
-          return '<a class="btn" onclick="delScreen(\''+g_addressId+'\',\''+row.id+'\',\''+row.name+'\')">删除</a>';
+          return '<a class="btn" >改参数</a><a class="btn" onclick="delScreen(\''+g_addressId+'\',\''+row.id+'\',\''+row.name+'\')">删除</a>';
      }
   }
 ];
 
+
 var openScreenDialog = function(addressName,addressId){
     g_addressName = addressName;
     g_addressId = addressId;
-    var screenQueryObject = {
-        addressId:g_addressId,
-        pageSize: 6
-    };
-    $.initTable('screenTableList', screenColumnsArray, screenQueryObject, screenTableUrl,function(){
-        $('#modalBody').find('.pull-left').remove();
+
+    $.danmuAjax('/v1/api/admin/paramTemplate/all', 'GET','json',null, function (data) {
+        if(data.result == 200) {
+          console.log(data);
+
+          g_paramTemplate = data.data;
+          var screenQueryObject = {
+              addressId:g_addressId,
+              pageSize: 6
+          };
+
+          $.initTable('screenTableList', screenColumnsArray, screenQueryObject, screenTableUrl,function(){
+              $('#modalBody').find('.pull-left').remove();
+          });
+          $('#myModalLabel').html(addressName+'的屏幕管理，<a onclick="openSaveScreen()">创建新屏幕</a>');
+          $('#modalBody').find('.pull-left').remove();
+          $('#myModal').modal('show');
+         }else{
+            alert('删除失败');
+         }
+    }, function (data) {
+        console.log(data);
     });
-    $('#myModalLabel').html(addressName+'的屏幕管理，<a onclick="openSaveScreen()">创建新屏幕</a>');
-    $('#modalBody').find('.pull-left').remove();
-    $('#myModal').modal('show');
+
+
+}
+
+var selectParamTemplate = function(id){
+    var obj = {
+        id:id,
+        paramTemplateId:$("#pt_"+id).val()
+    };
+    $.danmuAjax('/v1/api/admin/client/selectParam', 'GET','json',obj, function (data) {
+        if (data.result == 200) {
+
+          $.initTable('screenTableList', screenColumnsArray, screenQueryObject, screenTableUrl);
+          }else{
+             alert('选择失败')
+          }
+    }, function (data) {
+        console.log(data);
+    });
 }
 
 var delScreen = function (addressId,screenId, screenName) {
@@ -139,7 +195,20 @@ var delScreen = function (addressId,screenId, screenName) {
         var obj = {
             id:screenId
         };
-        del
+        $.danmuAjax('/v1/api/admin/client/del', 'GET','json',obj, function (data) {
+            if (data.result == 200) {
+              console.log(data);
+              var screenQueryObject = {
+                  addressId:g_addressId,
+                  pageSize: 6
+              };
+              $.initTable('screenTableList', screenColumnsArray, screenQueryObject, screenTableUrl);
+              }else{
+                 alert('删除失败')
+              }
+        }, function (data) {
+            console.log(data);
+        });
     }
 }
 
@@ -148,8 +217,18 @@ var openSaveScreen = function(){
     var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">'+
        '<label class="control-label" style="width:50px">名称</label><div class="controls" style="margin-left:60px;">'+
        '<input type="text" class="span4" id="screenName" maxlength="10" ></div><br>'+
-       '<label class="control-label" style="width:50px">有效期(不填为永久)</label><div class="controls" style="margin-left:60px;">'+
-           '<input type="text" class="span4" id="overdue" placeholder="yyyy-MM-dd" maxlength="10" ></div></div></form>';
+       '<label class="control-label" style="width:50px">有效期</label><div class="controls" style="margin-left:60px;">'+
+           '<input type="text" class="span4" id="overdue" placeholder="不填为永久,填写格式yyyy-MM-dd" maxlength="10" ></div><br>'+
+       '<label class="control-label" style="width:50px">参数模版</label><div class="controls" style="margin-left:60px;">';
+
+       var shtml = '<select class="span4" id="paramTemplateId">';
+      for(var i=0;i<g_paramTemplate.length;i++){
+          shtml += '<option ';
+          shtml +=' value="'+g_paramTemplate[i].id+'">'+g_paramTemplate[i].name+'</option>';
+      }
+      shtml += '</select></div>';
+
+      htmlStr+= shtml+'</div></form>';
 
     $('#modalBody').html(htmlStr);
     var footerHtml = '<a class="btn btn-primary" onclick="saveScreen()">创建</a><a class="btn" onclick="cancelSaveScreen()">取消</a>';
@@ -201,7 +280,8 @@ var saveScreen = function () {
     var obj = {
         'addressId':g_addressId,
         'name': $('#screenName').val(),
-        'overdueStr': $('#overdue').val()
+        'overdueStr': $('#overdue').val(),
+        'paramTemplateId':$('#paramTemplateId').val()
     };
      $.danmuAjax('/v1/api/admin/client/save', 'POST','json',obj, function (data) {
         if (data.result == 200) {

@@ -134,8 +134,20 @@ var navbarSelect = function(){
         $('.icon-camera').parent().parent().attr('class','active');
     }
 
+    if( url.indexOf('/reward')!=-1){
+        $('.icon-font').parent().parent().attr('class','active');
+    }
+
     if( url.indexOf('/adminmanager')!=-1){
         $('.icon-bold').parent().parent().attr('class','active');
+    }
+
+    if( url.indexOf('/version')!=-1){
+        $('.icon-list').parent().parent().attr('class','active');
+    }
+
+    if( url.indexOf('/param')!=-1){
+        $('.icon-picture').parent().parent().attr('class','active');
     }
 
 
