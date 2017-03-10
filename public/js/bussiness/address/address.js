@@ -142,7 +142,6 @@ var screenColumnsArray =[
   }
 ];
 
-
 var openScreenDialog = function(addressName,addressId){
     g_addressName = addressName;
     g_addressId = addressId;
