@@ -139,7 +139,20 @@ var delScreen = function (addressId,screenId, screenName) {
         var obj = {
             id:screenId
         };
-        del
+        $.danmuAjax('/v1/api/admin/client/del', 'GET','json',obj, function (data) {
+            if (data.result == 200) {
+                console.log(data);
+                var screenQueryObject = {
+                    addressId:g_addressId,
+                    pageSize: 6
+                };
+                $.initTable('screenTableList', screenColumnsArray, screenQueryObject, screenTableUrl);
+            }else{
+                alert('删除失败')
+            }
+        }, function (data) {
+            console.log(data);
+        });
     }
 }
 
