@@ -483,7 +483,27 @@ Date.prototype.format = function(f){
         if(new RegExp("("+ k +")").test(f))f = f.replace(RegExp.$1,RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));return f
 }
 
-var openMovieSchedule = function(partyId){
+var delMovieSchedule = function(id,partyId){
+    if(confirm('确定要删除吗？')){
+        var obj = {
+            'id':id
+        }
+
+        $.danmuAjax('/v1/api/admin/movieSchedule/del', 'GET','json',obj, function (data) {
+            if( data.result == 200){
+                movieSchedulePage(partyId);
+            }else{
+                alert('更新失败')
+            }
+
+        }, function (data) {
+            console.log(data);
+        });
+
+    }
+};
+
+var movieSchedulePage = function(partyId){
     var movieScheduleTableUrl = '/v1/api/admin/movieSchedule/list';
     var movieScheduleQueryObject = {
         partyId:partyId,
@@ -533,15 +553,21 @@ var openMovieSchedule = function(partyId){
            field: 'id', title: '操作',
            align: 'center',
            formatter: function (value, row, index) {
-                return '<a class="btn" target="_blank" href="/party/historyDanmu?partyId='+partyId+'&addressId='+row.danmuAddress.id+'">历史弹幕</a>';
+                return '<a class="btn" target="_blank" href="/party/historyDanmu?partyId='+partyId+'&addressId='+row.danmuAddress.id+'">历史弹幕</a><a class="btn" onclick="delMovieSchedule(\''+row.id+'\',\''+partyId+'\')">删除</a>';
            }
         }
     ];
-    $('#myModalLabel').html('电影场次');
     var tableSuccess = function(){
         $('#modalBody').find('.pull-left').remove();
     }
     $.initTable('addressTableList', movieScheduleColumnsArray, movieScheduleQueryObject, movieScheduleTableUrl,tableSuccess);
+}
+
+var openMovieSchedule = function(partyId){
+
+    $('#myModalLabel').html('电影场次');
+
+    movieSchedulePage(partyId);
     $('#myModal').modal('show');
 
 }
