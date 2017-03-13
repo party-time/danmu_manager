@@ -553,7 +553,7 @@ var movieSchedulePage = function(partyId){
            field: 'id', title: '操作',
            align: 'center',
            formatter: function (value, row, index) {
-                return '<a class="btn" target="_blank" href="/party/historyDanmu?partyId='+partyId+'&addressId='+row.danmuAddress.id+'">历史弹幕</a><a class="btn" onclick="delMovieSchedule(\''+row.id+'\',\''+partyId+'\')">删除</a>';
+                return '<a class="btn" target="_blank" href="/party/historyDanmu?partyId='+partyId+'&addressId='+row.danmuAddress.id+'">历史弹幕</a><a class="btn" onclick="delMovieSchedule(\''+row.movieSchedule.id+'\',\''+partyId+'\')">删除</a>';
            }
         }
     ];
