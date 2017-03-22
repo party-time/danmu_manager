@@ -31,12 +31,17 @@ var columnsArray = [
         align: 'center'
     },
     {
-        field: 'id',
         title: '操作',
         align: 'center',
         formatter: function (value, row, index) {
-            var buttonStr =  '<a class="btn" onclick="delAddress(\''+row.name+'\',\''+row.id+'\')">删除</a><a class="btn" onclick="updateAddress(\''+row.id+'\')">修改</a>'+
-            '<a class="btn" onclick="openScreenDialog(\''+row.name+'\',\''+row.id+'\')">屏幕管理</a>';
+            var buttonStr =  '<a class="btn" onclick="delAddress(\''+row.name+'\',\''+row.id+'\')">删除</a><a class="btn" onclick="updateAddress(\''+row.id+'\')">修改</a>';
+            if($.cookie('role')=='589a98cd77c8afdcbdeaeeb4' || $.cookie('role')=='589a98cd77c8afdcbdeaeeb5'){
+                buttonStr += '<a class="btn" onclick="openScreenDialog(\''+row.name+'\',\''+row.id+'\')">屏幕管理</a>';
+            }
+            if($.cookie('role')=='589a98cd77c8afdcbdeaeeb4'){
+                buttonStr += '<a class="btn" onclick="openDeviceDialog(\''+row.name+'\',\''+row.id+'\')">设备管理</a>';
+                buttonStr += '<a class="btn" onclick="openScreenDialog(\''+row.name+'\',\''+row.id+'\')">控制台</a>';
+            }
             if(row.type ==0 && $.cookie('role')=='589a98cd77c8afdcbdeaeeb4'){
                 buttonStr += '<a class="btn" onclick="openUpdateDialog(\''+row.name+'\',\''+row.id+'\')">版本升级</a>';
             }
@@ -54,7 +59,7 @@ var delAddress = function(name,id){
         var obj = {
                 id:id
         }
-        $.danmuAjax('/v1/api/admin/address/del', 'GET','json',obj, function (data) {
+        $.danmuAjax('/v1/api/admin/address/del', 'GET','json','',obj, function (data) {
             if (data.result == 200) {
               console.log(data);
               $.initTable('tableList', columnsArray, quaryObject, tableUrl);
@@ -146,7 +151,7 @@ var openScreenDialog = function(addressName,addressId){
     g_addressName = addressName;
     g_addressId = addressId;
 
-    $.danmuAjax('/v1/api/admin/paramTemplate/all', 'GET','json',null, function (data) {
+    $.danmuAjax('/v1/api/admin/paramTemplate/all', 'GET','json','',null, function (data) {
         if(data.result == 200) {
           console.log(data);
 
@@ -169,6 +174,100 @@ var openScreenDialog = function(addressName,addressId){
         console.log(data);
     });
 
+}
+
+var openDeviceDialog = function(addressName,addressId){
+    var obj ={
+        addressId:addressId
+    }
+    $.danmuAjax('/v1/api/admin/device/find', 'GET','json','',obj, function (data) {
+        if(data.result ==200){
+            $('#myModalLabel').html(addressName+'的设备管理');
+            var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">';
+            if(data.data && data.data.length >0){
+                var ip1,ip2,ip3,ip4 = '';var port1,port2='';var id1,id2,id3,id4='';
+                if(data.data[0]){
+                    ip1 = data.data[0].ip;
+                    id1 = data.data[0].id;
+                }
+                if(data.data[1]){
+                    ip2 = data.data[1].ip;
+                    id2 = data.data[1].id;
+                }
+                if(data.data[2]){
+                    ip3 = data.data[2].ip;
+                    port1 = data.data[2].port;
+                    id3 = data.data[2].id;
+                }
+                if(data.data[3]){
+                    ip4 = data.data[3].ip;
+                    port2 = data.data[3].port;
+                    id4 = data.data[3].id;
+                }
+                htmlStr +='<label class="control-label" style="width:60px">左投影IP</label><div class="controls" style="margin-left:60px;">'+
+                '<input type="text" class="device span3"  maxlength="16" deviceType="0" value="'+ip1+'" deviceId="'+id1+'"> </div><br>'+
+                '<label class="control-label" style="width:60px">右投影IP</label><div class="controls" style="margin-left:60px;">'+
+                '<input type="text" class="device span3"  maxlength="16" deviceType="0" value="'+ip2+'" deviceId="'+id2+'"> </div><br>'+
+                '<label class="control-label" style="width:60px">左javaIP</label><div class="controls" style="margin-left:60px;">'+
+                '<input type="text" class="device span3"  maxlength="16" deviceType="1" value="'+ip3+'" deviceId="'+id3+'"> port：<input type="text" class="port span1" value="'+port1+'"></div><br>'+
+                '<label class="control-label" style="width:60px">右javaIP</label><div class="controls" style="margin-left:60px;">'+
+                '<input type="text" class="device span3"  maxlength="16" deviceType="1" value="'+ip4+'" deviceId="'+id4+'"> port：<input type="text" class="port span1" value="'+port2+'"></div><br>';
+
+            }else{
+                 htmlStr +='<label class="control-label" style="width:60px">左投影IP</label><div class="controls" style="margin-left:60px;">'+
+                '<input type="text" class="device span3"  maxlength="16" deviceType="0"> </div><br>'+
+                '<label class="control-label" style="width:60px">右投影IP</label><div class="controls" style="margin-left:60px;">'+
+                '<input type="text" class="device span3"  maxlength="16" deviceType="0"> </div><br>'+
+                '<label class="control-label" style="width:60px">左javaIP</label><div class="controls" style="margin-left:60px;">'+
+                '<input type="text" class="device span3"  maxlength="16" deviceType="1"> port：<input type="text" class="port span1"></div><br>'+
+                '<label class="control-label" style="width:60px">右javaIP</label><div class="controls" style="margin-left:60px;">'+
+                '<input type="text" class="device span3"  maxlength="16" deviceType="1"> port：<input type="text" class="port span1"></div><br>';
+
+            }
+            htmlStr+='</div></div></form>';
+            $('#modalBody').html(htmlStr);
+            var buttonHtml = '<button class="btn btn-primary" onclick="saveDevice(\''+addressId+'\')">保存</button>';
+             $('#modalFooter').html(buttonHtml);
+            $('#myModal').modal('show');
+        }else{
+            alert('失败');
+
+        }
+
+    }, function (data) {
+        console.log(data);
+    });
+}
+
+var saveDevice = function(addressId){
+    var ipList = $('.device.span3');
+    if( ipList && ipList.length>0){
+        var deviceInfoList = new Array();
+        for(var i=0;i<ipList.length;i++){
+            var deviceInfo = new Object();
+            deviceInfo.ip=$(ipList[i]).val();
+            if($(ipList[i]).attr("deviceType")==1){
+                deviceInfo.port = $(ipList[i]).parent().find(".port.span1").val();
+            }
+            deviceInfo.type=$(ipList[i]).attr("deviceType");
+            deviceInfo.addressId=addressId;
+            if($(ipList[i]).attr("deviceId")){
+                deviceInfo.id = $(ipList[i]).attr("deviceId");
+            }
+            deviceInfoList.push(deviceInfo);
+        }
+        $.danmuAjax('/v1/api/admin/device/save', 'POST','json','', JSON.stringify(deviceInfoList), function (data) {
+                if(data.result == 200) {
+                    console.log(data);
+                    $('#myModal').modal('hide');
+                    alert('创建成功');
+                }else{
+                    alert('创建失败');
+                }
+            }, function (data) {
+                console.log(data);
+            });
+    }
 
 }
 
@@ -177,7 +276,7 @@ var selectParamTemplate = function(id){
         id:id,
         paramTemplateId:$("#pt_"+id).val()
     };
-    $.danmuAjax('/v1/api/admin/client/selectParam', 'GET','json',obj, function (data) {
+    $.danmuAjax('/v1/api/admin/client/selectParam', 'GET','json','',obj, function (data) {
         if (data.result == 200) {
 
           $.initTable('screenTableList', screenColumnsArray, screenQueryObject, screenTableUrl);
@@ -194,7 +293,7 @@ var delScreen = function (addressId,screenId, screenName) {
         var obj = {
             id:screenId
         };
-        $.danmuAjax('/v1/api/admin/client/del', 'GET','json',obj, function (data) {
+        $.danmuAjax('/v1/api/admin/client/del', 'GET','json','',obj, function (data) {
             if (data.result == 200) {
               console.log(data);
               var screenQueryObject = {
@@ -282,7 +381,7 @@ var saveScreen = function () {
         'overdueStr': $('#overdue').val(),
         'paramTemplateId':$('#paramTemplateId').val()
     };
-     $.danmuAjax('/v1/api/admin/client/save', 'POST','json',obj, function (data) {
+     $.danmuAjax('/v1/api/admin/client/save', 'POST','json','',obj, function (data) {
         if (data.result == 200) {
           console.log(data);
           cancelSaveScreen();
@@ -405,7 +504,7 @@ var delUpdatePlan = function(updatePlanId,addressName,addressId){
              var obj = {
                      id:updatePlanId
              }
-             $.danmuAjax('/v1/api/admin/updateplan/del', 'GET','json',obj, function (data) {
+             $.danmuAjax('/v1/api/admin/updateplan/del', 'GET','json','',obj, function (data) {
                  if (data.result == 200) {
                    console.log(data);
                    openUpdateDialog(addressName,addressId)
@@ -502,7 +601,7 @@ var saveUpdatePlan = function(addressName,addressId,versionId){
         versionId:versionId,
         updateTimeStr:updatePlanTime
     };
-    $.danmuAjax('/v1/api/admin/updateplan/save', 'GET','json',obj, function (data) {
+    $.danmuAjax('/v1/api/admin/updateplan/save', 'GET','json','',obj, function (data) {
         if (data.result == 200) {
           console.log(data);
           $('#modalBody').html('<table id="screenTableList" class="table table-striped" table-height="360"></table>');

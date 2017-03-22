@@ -75,7 +75,7 @@ var drawParamHtml = function(param){
     var paramHtml = '<div class="control-group">'+
            '<label class="control-label" style="width:60px">参数名称</label>'+
            '<div class="controls" style="margin-left:60px;">'+
-               '<input type="text" class="paramName span1" value="'+param.name+'">'+
+               '<input type="text" class="paramName span1" value="'+param.name+'" paramId="'+param.id+'">'+
                '<span style="margin-left: 10px;margin-right: 10px;">类型</span>'+
                '<select class="paramType span1">'+
                    '<option value="0" '+s0+'>整数</option>'+
@@ -116,20 +116,20 @@ var openUpdateParamTemplate = function (id) {
     var obj = {
         id:id
     }
-    $.danmuAjax('/v1/api/admin/paramTemplate/get', 'GET','json',obj, function (data) {
+    $.danmuAjax('/v1/api/admin/paramTemplate/get', 'GET','json','',obj, function (data) {
         if(data.result == 200) {
           console.log(data);
-          $('#myModalLabel').html('修改参数'+data.data.name+'模版');
+          $('#myModalLabel').html('修改参数'+data.data.paramTempName+'模版');
           var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">'+
              '<label class="control-label" style="width:60px">模版名称</label><div class="controls" style="margin-left:60px;">'+
-             '<input type="text" class="span4"  maxlength="16" id="paramTemplateName" value="'+data.data.name+'"> <a class="btn btn-primary" onclick="addParam()">新增参数</a></div><br>';
+             '<input type="text" class="span4"  maxlength="16" id="paramTemplateName" value="'+data.data.paramTempName+'"> <a class="btn btn-primary" onclick="addParam()">新增参数</a></div><br>';
           for(var i=0;i<data.data.paramList.length;i++){
              htmlStr+='<div id="paramList">'+drawParamHtml(data.data.paramList[i]);
              htmlStr+='</div>';
           }
           htmlStr+='</div></form>';
           $('#modalBody').html(htmlStr);
-          var buttonHtml = '<button class="btn btn-primary" onclick="saveParam()">保存</button>';
+          var buttonHtml = '<button class="btn btn-primary" onclick="saveParam(\''+id+'\')">保存</button>';
           $('#modalFooter').html(buttonHtml);
           $('#myModal').modal('show');
          }else{
@@ -167,7 +167,7 @@ var delParam = function(obj){
     }
 }
 
-var saveParam = function(){
+var saveParam = function(id){
     var paramNameList = $('.paramName.span1');
 
     var paramTypeList = $('.paramType.span1');
@@ -213,15 +213,17 @@ var saveParam = function(){
             alert("备注不能为空");
             return;
         }
+        param.id = $(paramNameList[i]).attr('paramId');
         paramList.push(param);
     }
 
     var obj={
-        name:paramTemplateName,
+        paramTempId:id,
+        paramTempName:paramTemplateName,
         paramList:paramList
     }
 
-    $.danmuAjax('/v1/api/admin/paramTemplate/save', 'POST','json', JSON.stringify(obj), function (data) {
+    $.danmuAjax('/v1/api/admin/paramTemplate/save', 'POST','json','', JSON.stringify(obj), function (data) {
         if(data.result == 200) {
             console.log(data);
              $.initTable('tableList', columnsArray, quaryObject, tableUrl);
@@ -244,7 +246,7 @@ var delParamTemplate = function(id,paramName){
         var obj = {
             id:id
         }
-        $.danmuAjax('/v1/api/admin/paramTemplate/del', 'GET','json',obj, function (data) {
+        $.danmuAjax('/v1/api/admin/paramTemplate/del', 'GET','json','',obj, function (data) {
             if(data.result == 200) {
               console.log(data);
               $.initTable('tableList', columnsArray, quaryObject, tableUrl);

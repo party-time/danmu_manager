@@ -2,9 +2,12 @@
  * danmu.ajax.plug v1.0.0
  */
 (function ($) {
-    $.danmuAjax = function (url, method,dataType, data, success, error) {
+    $.danmuAjax = function (url, method,dataType, contentType,data, success, error) {
+        if(''==contentType || null == contentType){
+            contentType = "application/json; charset=utf-8";
+        }
         $.ajax({
-            contentType: "application/json; charset=utf-8",
+            contentType: contentType,//"application/json; charset=utf-8"
             type: method,
             url: url,
             data: data,
