@@ -142,10 +142,99 @@ var screenColumnsArray =[
      field: 'id', title: '操作',
      align: 'center',
      formatter: function (value, row, index) {
-          return '<a class="btn" >改参数</a><a class="btn" onclick="delScreen(\''+g_addressId+'\',\''+row.id+'\',\''+row.name+'\')">删除</a>';
+          return '<a class="btn" onclick="openUpdateParamDialog(\''+row.name+'\',\''+row.id+'\',\''+row.paramTemplateId+'\')" >改参数</a><a class="btn" onclick="delScreen(\''+g_addressId+'\',\''+row.id+'\',\''+row.name+'\')">删除</a>';
      }
   }
 ];
+
+var drawParamHtml = function(param){
+    var s0 = "";
+    if( param.valueType == 0 ){
+        s0 = "数字";
+    }
+    if( param.valueType == 1 ){
+        s0 = "布尔值";
+    }
+    if( param.valueType == 2 ){
+        s0 = "字符串";
+    }
+    if( param.valueType == 3 ){
+        s0 = "数组";
+    }
+
+    var paramHtml = '<div><label class="control-label" style="width:60px">'+param.des+'</label>'+'<span class="span1"  style="color:red;margin-top: 3px;">'+s0+'</span>'+
+           '<input type="text" class="param span3"  maxlength="16" value="'+param.paramValue+'" paramId="'+param.paramId+'" paramValueId="'+param.paramValueId+'"></div><br>';
+
+    return paramHtml;
+}
+
+var openUpdateParamDialog = function(screenName,danmuClientId,paramTemplateId){
+    var obj = {
+        objId:danmuClientId,
+        paramTempId:paramTemplateId
+    }
+    $.danmuAjax('/v1/api/admin/paramTemplate/findByObj', 'GET','json','',obj, function (data) {
+        if(data.result == 200) {
+          console.log(data);
+          $('#myModalLabel').html(screenName+'的参数修改');
+          if(data.data.length ==0){
+            $('#modalBody').html("<div><h1>请先选择参数模版</h1></div>");
+            var footerHtml = '<a class="btn" onclick="cancelSaveScreen()">取消</a>';
+            $('#modalFooter').html(footerHtml);
+          }else{
+              var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">';
+              for(var i=0;i<data.data.length;i++){
+                  htmlStr += drawParamHtml(data.data[i]);
+              }
+              htmlStr+='</div></form>';
+              $('#modalBody').html(htmlStr);
+              var footerHtml = '<a class="btn btn-primary" onclick="saveParam(\''+danmuClientId+'\')">保存</a><a class="btn" onclick="cancelSaveScreen()">取消</a>';
+              $('#modalFooter').html(footerHtml);
+          }
+
+          $('#myModal').modal('show');
+         }else{
+            alert('查询失败');
+         }
+    }, function (data) {
+        console.log(data);
+    });
+
+}
+
+var saveParam = function(danmuClientId){
+    var paramList = $('.param.span3');
+
+    var paramValueList = new Array();
+    for(var i=0;i<paramList.length;i++){
+        var param = new Object();
+        if($(paramList[i]).attr('paramValueId') && 'null' != $(paramList[i]).attr('paramValueId')){
+            param.id=$(paramList[i]).attr('paramValueId');
+        }
+        param.objId=danmuClientId;
+        param.type=0;
+        if($(paramList[i]).attr('paramId') && 'null' != $(paramList[i]).attr('paramId')){
+             param.paramId = $(paramList[i]).attr('paramId');
+        }
+        param.value=$(paramList[i]).val();
+        paramValueList.push(param);
+    }
+
+    $.danmuAjax('/v1/api/admin/paramTemplate/updateParam', 'POST','json','', JSON.stringify(paramValueList), function (data) {
+            if(data.result == 200) {
+                console.log(data);
+
+                alert('修改成功');
+            }else{
+                alert('修改失败');
+            }
+        }, function (data) {
+            console.log(data);
+        });
+
+}
+
+
 
 var openScreenDialog = function(addressName,addressId){
     g_addressName = addressName;

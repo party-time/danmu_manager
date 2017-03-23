@@ -39,11 +39,10 @@ var addParamHtml = function(){
                '<input type="text" class="paramName span1" >'+
                '<span style="margin-left: 10px;margin-right: 10px;">类型</span>'+
                '<select class="paramType span1">'+
-                   '<option value="0">整数</option>'+
-                   '<option value="1">小数</option>'+
-                   '<option value="2">布尔值</option>'+
-                   '<option value="3">字符串</option>'+
-                   '<option value="4">数组</option>'+
+                   '<option value="0">数字</option>'+
+                   '<option value="1">布尔值</option>'+
+                   '<option value="2">字符串</option>'+
+                   '<option value="3">数组</option>'+
                '</select>'+
                '<span style="margin-left: 10px;margin-right: 10px;">默认值</span>'+
                '<input type="text" class="paramDefaultValue span1" >'+
@@ -69,20 +68,17 @@ var drawParamHtml = function(param){
     if( param.valueType == 3 ){
         s3 = "selected";
     }
-    if( param.valueType == 4 ){
-        s4 = "selected";
-    }
+
     var paramHtml = '<div class="control-group">'+
            '<label class="control-label" style="width:60px">参数名称</label>'+
            '<div class="controls" style="margin-left:60px;">'+
                '<input type="text" class="paramName span1" value="'+param.name+'" paramId="'+param.id+'">'+
                '<span style="margin-left: 10px;margin-right: 10px;">类型</span>'+
                '<select class="paramType span1">'+
-                   '<option value="0" '+s0+'>整数</option>'+
-                   '<option value="1" '+s1+'>小数</option>'+
-                   '<option value="2" '+s2+'>布尔值</option>'+
-                   '<option value="3" '+s3+'>字符串</option>'+
-                   '<option value="4" '+s4+'>数组</option>'+
+                   '<option value="0" '+s0+'>数字</option>'+
+                   '<option value="1" '+s1+'>布尔值</option>'+
+                   '<option value="2" '+s2+'>字符串</option>'+
+                   '<option value="3" '+s3+'>数组</option>'+
                '</select>'+
                '<span style="margin-left: 10px;margin-right: 10px;">默认值</span>'+
                '<input type="text" class="paramDefaultValue span1" value="'+param.defaultValue+'" >'+
