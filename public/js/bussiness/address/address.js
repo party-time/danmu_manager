@@ -150,7 +150,7 @@ var screenColumnsArray =[
 var openScreenDialog = function(addressName,addressId){
     g_addressName = addressName;
     g_addressId = addressId;
-
+    $('#modalBody').html('<table id="screenTableList" class="table table-striped" table-height="360"></table>');
     $.danmuAjax('/v1/api/admin/paramTemplate/all', 'GET','json','',null, function (data) {
         if(data.result == 200) {
           console.log(data);
