@@ -296,7 +296,8 @@ var getSpecVideosPage = function(pageNo){
     var obj={
         fileType:3,
         pageNo:pageNo,
-        pageSize:18
+        pageSize:18,
+        resourceName:$('#specVideoName').val()
     };
     var htmlStr = '';
     $.danmuAjax('/v1/api/admin/resource/page', 'GET','json',obj, function (data) {
@@ -362,7 +363,11 @@ var getSpecVideosPage = function(pageNo){
 }
 
 var openSpecVideos = function(){
-    $('#myModalLabel').html('特效视频选择');
+    $('#myModalLabel').html('<div><span>特效视频选择</span><input type="text" id="specVideoName"/><a class="btn" onclick="searchSpecVideos()">搜索</a></div>');
+    getSpecVideosPage(1);
+}
+
+var searchSpecVideos = function(){
     getSpecVideosPage(1);
 }
 

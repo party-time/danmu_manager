@@ -51,9 +51,11 @@ var openCreateAdminUser = function(){
    '<label class="control-label" style="width:50px">名称</label><div class="controls" style="margin-left:60px;">'+
    '<input type="text" class="span4" id="nick" maxlength="6" onblur="checkNick()"/></div><br>'+
    '<label class="control-label" style="width:50px">账号</label><div class="controls" style="margin-left:60px;">'+
-       '<input type="text" class="span4" id="userName"  maxlength="30" onblur="checkUserName()"></div><br>'+
+   '<input type="text" class="span4" id="userName"  maxlength="30" onblur="checkUserName()"></div><br>'+
    '<label class="control-label" style="width:50px">密码</label><div class="controls" style="margin-left:60px;">'+
-          '<input type="text" class="span4" id="password" maxlength="10" autocomplete="off"></div><br>';
+   '<input type="text" class="span4" id="password" maxlength="10" autocomplete="off"></div><br>'+
+   '<label class="control-label" style="width:50px">关联微信账号</label><div class="controls" style="margin-left:60px;">'+
+   '<input type="text" class="span4" id="weChatId" ></div><br>';
 
     $.danmuAjax('/v1/api/admin/adminUser/findRole', 'GET','json',null, function (data) {
       if (data.result == 200) {
@@ -80,6 +82,7 @@ var createAdminUser = function(){
     var userName = $('#userName').val();
     var password = $('#password').val();
     var roleId = $('#roleId').val();
+    var weChatId = $('#weChatId').val();
     if( '' == nick){
         alert('姓名不能为空');
         return;
@@ -120,7 +123,8 @@ var createAdminUser = function(){
         nick:nick,
         name:userName,
         password:password,
-        roleId:roleId
+        roleId:roleId,
+        weChatId:weChatId
     }
 
     $.danmuAjax('/v1/api/admin/adminUser/save', 'POST','json',obj, function (data) {
@@ -150,9 +154,11 @@ var openUpdateAdminUser = function(id,nick,userName){
          '<label class="control-label" style="width:50px">名称</label><div class="controls" style="margin-left:60px;">'+
          '<input type="text" class="span4" id="nick" maxlength="10" value="'+nick+'" onblur="updateCheckNIck()"/></div><br>'+
          '<label class="control-label" style="width:50px">账号</label><div class="controls" style="margin-left:60px;">'+
-             '<input type="text" class="span4" id="userName"  maxlength="30" value="'+userName+'" onblur="updateCheckUserName()"></div><br>'+
+         '<input type="text" class="span4" id="userName"  maxlength="30" value="'+userName+'" onblur="updateCheckUserName()"></div><br>'+
          '<label class="control-label" style="width:50px">密码</label><div class="controls" style="margin-left:60px;">'+
-                '<input type="password" class="span4" id="password" maxlength="10" autocomplete="off"></div><br>';
+         '<input type="password" class="span4" id="password" maxlength="10" autocomplete="off"></div><br>'+
+         '<label class="control-label" style="width:50px">关联微信账号</label><div class="controls" style="margin-left:60px;">'+
+         '<input type="text" class="span4" id="weChatId" value="'+data.data.wechatId+'"></div><br>';
 
           $.danmuAjax('/v1/api/admin/adminUser/findRole', 'GET','json',null, function (data1) {
             if (data.result == 200) {
@@ -196,6 +202,7 @@ var updateAdminUser = function(id){
     var nick = $('#nick').val();
     var userName = $('#userName').val();
     var password = $('#password').val();
+    var weChatId = $('#weChatId').val();
     if( '' == nick){
         alert('姓名不能为空');
         return;
@@ -225,12 +232,14 @@ var updateAdminUser = function(id){
             return;
         }
     }
+
     var obj = {
         id:id,
         nick:nick,
         name:userName,
         password:password,
-        roleId:$('#roleId').val()
+        roleId:$('#roleId').val(),
+        weChatId:weChatId
     }
     $.danmuAjax('/v1/api/admin/adminUser/update', 'POST','json',obj, function (data) {
       if (data.result == 200) {

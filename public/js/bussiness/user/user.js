@@ -8,7 +8,11 @@ var columnsArray = [
         }
     },
     {
-        field: 'imgUrl',
+        field: 'id',
+        title: '微信编号',
+        align: 'center',
+    },
+    {
         title: '微信头像',
         align: 'center',
         width:'30%',
@@ -22,7 +26,6 @@ var columnsArray = [
         align: 'center'
     },
     {
-        field: 'sex',
         title: '性别',
         align: 'center',
         formatter: function (value, row, index) {
@@ -37,7 +40,6 @@ var columnsArray = [
         }
     },
     {
-        field: 'subscribeState',
         title: '关注状态',
         align: 'center',
         formatter: function (value, row, index) {
@@ -51,7 +53,7 @@ var columnsArray = [
         }
     },
     {
-        field: 'id', title: '操作',
+        title: '操作',
         align: 'center',
         formatter: function (value, row, index) {
             return '<a class="btn" onclick="delUser(\''+row.id+'\',\''+row.nick+'\')">删除</a>';

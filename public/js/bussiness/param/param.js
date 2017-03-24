@@ -193,9 +193,9 @@ var saveParam = function(id){
             alert("参数名称不能为空");
             return;
         }
-        var reg = /^[a-zA-Z]*$/g;
+        var reg = /^[a-zA-Z0-9]*$/g;
         if(!reg.test(param.name)){
-            alert("参数名称只能为字母");
+            alert("参数名称只能为字母和数字");
             return;
         }
         param.valueType = $(paramTypeList[i]).val();
