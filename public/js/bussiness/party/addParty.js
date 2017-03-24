@@ -180,24 +180,31 @@ var saveParty = function(){
             'type':partyType,
             'startTimeStr':$('#startTime').val(),
             'endTimeStr':$('#endTime').val(),
-            'shortName':$('#shortName').val()
+            'shortName':$('#shortName').val(),
+            'danmuLibraryId':$('#danmuLibraryId').val()
         }
 
         findPartyByName();
         findPartyByShortName();
         checkStartTime();
         checkEndTime();
+
     }else{
         var obj = {
             'name': $('#name').val(),
             'type':partyType,
             'movieAlias': $('#movieAlias').val(),
-            'shortName':$('#shortName').val()
+            'shortName':$('#shortName').val(),
+            'danmuLibraryId':$('#danmuLibraryId').val()
         }
         findPartyByName();
         findPartyByShortName();
     }
 
+    if(obj.danmuLibraryId == 0){
+        alert('请选择弹幕库');
+        return;
+    }
 
     if(!$('.help-block').html()){
         $.danmuAjax('/v1/api/admin/party/save', 'POST','json',obj, function (data) {
@@ -277,7 +284,34 @@ var initMovieAlias = function(){
 }
 
 
+var getAllDanmuLibrary = function() {
+    $.danmuAjax('/v1/api/admin/getAllDanmuLibrary', 'GET','json',null, function (data) {
+        if (data.result == 200) {
+           danmuLibraryList = data.data;
+          var dl = {
+                 id:'0',
+                 name:'选择弹幕库'
+              }
+           danmuLibraryList.unshift(dl);
+
+           var selectHtml = '<select  style="width: 100px;margin-bottom: 0px;" id="danmuLibraryId">';
+           if( null != danmuLibraryList){
+               for( var i=0;i<danmuLibraryList.length;i++){
+                    selectHtml += '<option value='+danmuLibraryList[i].id+'>'+danmuLibraryList[i].name+'</option>';
+               }
+           }
+           selectHtml += '</select>';
+
+           $('#selectPreDm').html(selectHtml);
+        } else {
+            alert(data.result_msg);
+        };
+    }, function (data) {
+        console.log(data);
+    });
+}
 
 initMovieAlias();
 
 initAddParty();
+getAllDanmuLibrary();
