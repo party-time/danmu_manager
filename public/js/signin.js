@@ -28,3 +28,43 @@ var login = function(){
         };
     });
 }
+
+var loginByCode = function(){
+    var userName = $('#username').val();
+    if( userName=='' ){
+        alert('请填写用户名');
+        return;
+    }
+    $.ajax({
+        url:"/v1/loginByWechat",
+        type: "post",
+        dataType: "json",
+        data: {
+            name: userName,
+            code: $('#code').val(),
+        }
+    }).done(function (data) {
+        if (data.result == 200) {
+            window.location.href='/party';
+        } else {
+            alert(data.result_msg);
+        };
+    });
+}
+
+var sendWechatCode = function(){
+    $.ajax({
+        url:"/v1/getWeChatCode",
+        type: "get",
+        dataType: "json",
+        data: {
+            userName: $('#username').val(),
+        }
+    }).done(function (data) {
+        if (data.result == 200) {
+            alert('发送成功！');
+        } else {
+            alert(data.result_msg);
+        };
+    });
+}
