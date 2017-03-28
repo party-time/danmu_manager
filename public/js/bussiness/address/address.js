@@ -577,7 +577,7 @@ var openUpdateDialog = function(addressName,addressId){
             }
         },
         {
-           field: 'id', title: '操作',
+           title: '操作',
            align: 'center',
            formatter: function (value, row, index) {
                 return '<a class="btn" onclick="delUpdatePlan(\''+row.updatePlan.id+'\',\''+addressName+'\',\''+addressId+'\')">删除</a>';
@@ -687,6 +687,12 @@ var saveUpdatePlan = function(addressName,addressId,versionId){
     }
     if(!checkUpdatePlanDateTime(updatePlanTime)){
         alert('更新时间格式错误');
+        return;
+    }
+    var now = new Date();
+    var d1 = new Date(updatePlanTime.replace(/\-/g, "\/"));
+    if(d1<now || d1 == now ){
+        alert('更新时间必须晚于今天');
         return;
     }
     var obj = {
