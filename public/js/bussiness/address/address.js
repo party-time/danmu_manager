@@ -653,7 +653,7 @@ var selectVersion = function(addressId,versionId,addressName,versionNum){
        '<label class="control-label" style="width:80px">版本号</label><div class="controls" style="margin-left:60px;">'+
        '<p class="span4">'+versionNum+'</p></div><br>'+
        '<label class="control-label" style="width:80px">更新时间</label><div class="controls" style="margin-left:60px;">'+
-           '<input type="text" class="span4" id="updatePlanTime" placeholder="yyyy-MM-dd HH:mm" maxlength="16" ></div></div></form>';
+           '<input type="text" class="span4" id="updatePlanTime" placeholder="yyyy-MM-dd" maxlength="16" ></div></div></form>';
 
     $('#modalBody').html(htmlStr);
     $('#myModalLabel').html(addressName+'填写升级时间');
@@ -668,16 +668,14 @@ var cancelSelectVersion = function(addressName,addressId){
 }
 
 var checkUpdatePlanDateTime = function(str){
-    var reg=/^(\d+)-(\d{1,2})-(\d{1,2}) (\d{1,2}):(\d{1,2})$/;
+    var reg=/^(\d+)-(\d{1,2})-(\d{1,2})$/;
     var r=str.match(reg);
     if(r==null) return false;
     r[2] = r[2]-1;
-    var d= new Date(r[1],r[2],r[3],r[4],r[5]);
+    var d= new Date(r[1],r[2],r[3]);
     if(d.getFullYear()!=r[1]) return false;
     if(d.getMonth()!=r[2]) return false;
     if(d.getDate()!=r[3]) return false;
-    if(d.getHours()!=r[4]) return false;
-    if(d.getMinutes()!=r[5]) return false;
     return true;
 }
 
@@ -702,7 +700,7 @@ var saveUpdatePlan = function(addressName,addressId,versionId){
           $('#modalBody').html('<table id="screenTableList" class="table table-striped" table-height="360"></table>');
            openUpdateDialog(addressName,addressId);
           }else{
-             alert('保存失败')
+             alert(data.result_msg)
           }
     }, function (data) {
         console.log(data);
