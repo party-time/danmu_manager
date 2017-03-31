@@ -264,7 +264,7 @@
             danmu.isSend=true;
             webSocketSendMessage({
                 type: danmu.type,
-                danmu: {message: danmu.msg, color: danmu.color, openId: danmu.openId}
+                danmu: {message: danmu.msg, id:danmu.id,color: danmu.color, openId: danmu.openId}
             });
         }
         /**
@@ -596,7 +596,7 @@
                         danmu.isSend=true;
                         webSocketSendMessage({
                             type: danmu.type,
-                            danmu: {message: danmu.msg, color: danmu.color, openId: danmu.openId}
+                            danmu: {message: danmu.msg,id:danmu.id, color: danmu.color, openId: danmu.openId}
                         });
                     }
                 }
