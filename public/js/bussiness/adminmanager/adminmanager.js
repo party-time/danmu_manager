@@ -54,7 +54,7 @@ var openCreateAdminUser = function(){
    '<input type="text" class="span4" id="userName"  maxlength="30" onblur="checkUserName()"></div><br>'+
    '<label class="control-label" style="width:50px">密码</label><div class="controls" style="margin-left:60px;">'+
    '<input type="text" class="span4" id="password" maxlength="10" autocomplete="off"></div><br>'+
-   '<label class="control-label" style="width:50px">关联微信账号</label><div class="controls" style="margin-left:60px;">'+
+   '<label class="control-label" style="width:50px">关联微信编号</label><div class="controls" style="margin-left:60px;">'+
    '<input type="text" class="span4" id="weChatId" ></div><br>';
 
     $.danmuAjax('/v1/api/admin/adminUser/findRole', 'GET','json',null, function (data) {
@@ -157,7 +157,7 @@ var openUpdateAdminUser = function(id,nick,userName){
          '<input type="text" class="span4" id="userName"  maxlength="30" value="'+userName+'" onblur="updateCheckUserName()"></div><br>'+
          '<label class="control-label" style="width:50px">密码</label><div class="controls" style="margin-left:60px;">'+
          '<input type="password" class="span4" id="password" maxlength="10" autocomplete="off"></div><br>'+
-         '<label class="control-label" style="width:50px">关联微信账号</label><div class="controls" style="margin-left:60px;">'+
+         '<label class="control-label" style="width:50px">关联微信编号</label><div class="controls" style="margin-left:60px;">'+
          '<input type="text" class="span4" id="weChatId" value="'+data.data.wechatId+'"></div><br>';
 
           $.danmuAjax('/v1/api/admin/adminUser/findRole', 'GET','json',null, function (data1) {
