@@ -722,6 +722,7 @@ var saveUpdatePlan = function(addressName,addressId,versionId){
  * teamViewStart1,teamViewStart2 开启teamView  teamViewClose1,teamViewClose2 关闭teamView
  */
 var openControlDialog = function(addressName,addressId){
+    g_addressId = addressId;
     var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">';
     htmlStr +='<label class="control-label" style="width:60px">投影相关</label><div class="controls" style="margin-left:60px;">'+
                     '<a class="btn" onclick="sendControl(\'projectStart\')">投影开启</a> <a class="btn" onclick="sendControl(\'projectClose\')">投影关闭</a> <a class="btn" onclick="sendControl(\'projectChange\')">投影切白</a></div><br>'+
@@ -743,7 +744,8 @@ var openControlDialog = function(addressName,addressId){
 
 var sendControl = function(cmd){
     var obj = {
-        cmd:cmd
+        cmd:cmd,
+        addressId:g_addressId
     }
     $.danmuAjax('/v1/api/admin/clientControl/control', 'GET','json','',obj, function (data) {
           if(data.result == 200) {
