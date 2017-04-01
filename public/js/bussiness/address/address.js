@@ -719,7 +719,7 @@ var saveUpdatePlan = function(addressName,addressId,versionId){
  * flashUpdate flash更新  flashRollBack  flash回滚  javaUpdate java升级  javaRollBack java回滚
  * videoDown 视频下载   expressionDown 表情下载  specialImgDown 特效图片下载  timerDmDown 定时弹幕下载 adDmDown 广告弹幕下载
  * configCreate 生成配置表
- * teamViewStart1,teamViewStart2 开启teamView  teamViewClose1,teamViewClose2 关闭teamView
+ * teamViewStart1,teamViewStart2 开启teamView  teamViewClose1,teamViewClose2 关闭teamView  screenPic1,screenPic2 截屏
  */
 var openControlDialog = function(addressName,addressId){
     g_addressId = addressId;
@@ -735,7 +735,7 @@ var openControlDialog = function(addressName,addressId){
                     '<label class="control-label" style="width:60px">配置表</label><div class="controls" style="margin-left:60px;">'+
                     '<a class="btn" onclick="sendControl(\'configCreate\')">生成配置表</a></div><br>'+
                     '<label class="control-label" style="width:60px">teamView</label><div class="controls" style="margin-left:60px;">'+
-                    '<a class="btn" onclick="sendControl(\'teamViewStart1\')">开启左侧</a><a class="btn" onclick="sendControl(\'teamViewClose1\')">关闭左侧</a><a class="btn" onclick="sendControl(\'teamViewStart2\')">开启右侧</a><a class="btn" onclick="sendControl(\'teamViewClose2\')">关闭右侧</a></div><br>';
+                    '<a class="btn" onclick="sendControl(\'teamViewStart1\')">开启左侧</a><a class="btn" onclick="sendControl(\'screenPic1\')">左侧截图</a><a class="btn" onclick="sendControl(\'teamViewClose1\')">关闭左侧</a><a class="btn" onclick="sendControl(\'teamViewStart2\')">开启右侧</a><a class="btn" onclick="sendControl(\'screenPic2\')">右侧截图</a><a class="btn" onclick="sendControl(\'teamViewClose2\')">关闭右侧</a></div><br>';
     htmlStr+='</div></div></form>';
     $('#myModalLabel').html(addressName+'的控制台');
     $('#modalBody').html(htmlStr);
