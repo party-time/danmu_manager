@@ -9,12 +9,12 @@
                     <div class="widget widget-nopad">
                         <div class="widget-header"><i class="icon-list-alt"></i>
                             <h3> 活动信息</h3>
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFirst">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseFirst" aria-expanded="true">
                                 展开
                             </a>
                         </div>
                         <!-- /widget-header -->
-                        <div class="widget-content" id="collapseFirst">
+                        <div class="widget-content" id="collapseFirst" aria-expanded="true">
                             <ul class="danmucheck-items">
                                 <li style="height: 20px; padding-left: 2em;">
                                     <h4>
@@ -125,7 +125,7 @@
                                         <h3 style="margin-right: 1em;width: 98px;">活动状态</h3>
                                         <button type="button" class="btn btn-sm btn-info" id="partyStartButton" ng-click="filmStart(1)" title="活动开始">活动</button>
                                         <button type="button" id="filmStartButton" class="btn btn-sm btn-info" ng-click="filmStart(2)" title="电影开始">电影</button>
-                                        <button type="button" class="btn btn-sm btn-danger" id="filmEndButton" ng-click="filmStart(3)" title="活动结束">结束</button>
+
                                         <span id="partyStatus"></span>
                                     </div>
                                 </li>
@@ -199,6 +199,13 @@
                                         <button class="btn btn-info " id="playerStatus_2" title="显示弹幕"
                                                 ng-click="operateScreenHandler(2)" ng-disabled="playerStatus==2">弹幕
                                         </button>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
+                                        <h3 style="margin-right: 1em;width: 98px;">活动结束</h3>
+
+                                        <button type="button" class="btn btn-sm btn-danger" id="filmEndButton" ng-click="filmStart(3)" title="活动结束">结束</button>
                                     </div>
                                 </li>
                             </ul>
