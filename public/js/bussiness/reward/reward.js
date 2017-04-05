@@ -23,18 +23,27 @@ var columnsArray = [
         }
     },
     {
-        field: 'wechatUser.imgUrl',
         title: '微信头像',
         align: 'center',
         width:'30%',
         formatter: function (value, row, index) {
-            return '<img width="30%" src="'+row.wechatUser.imgUrl+'" />';
+            if(null != row && null != row.wechatUser){
+                return '<img width="30%" src="'+row.wechatUser.imgUrl+'" />';
+            }else{
+               return "";
+            }
         }
     },
     {
-        field: 'wechatUser.nick',
         title: '微信昵称',
-        align: 'center'
+        align: 'center',
+        formatter: function (value, row, index) {
+            if(null != row && null != row.wechatUser){
+                return row.wechatUser.nick;
+            }else{
+               return "";
+            }
+        }
     },
     {
         title: '活动名称',

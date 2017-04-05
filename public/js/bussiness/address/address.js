@@ -293,9 +293,9 @@ var openDeviceDialog = function(addressName,addressId){
                     port2 = data.data[3].port;
                     id4 = data.data[3].id;
                 }
-                htmlStr +='<label class="control-label" style="width:60px">左投影IP</label><div class="controls" style="margin-left:60px;">'+
+                htmlStr +='<label class="control-label" style="width:60px">左投影URL</label><div class="controls" style="margin-left:60px;">'+
                 '<input type="text" class="device span3"  maxlength="16" deviceType="0" value="'+ip1+'" deviceId="'+id1+'"> </div><br>'+
-                '<label class="control-label" style="width:60px">右投影IP</label><div class="controls" style="margin-left:60px;">'+
+                '<label class="control-label" style="width:60px">右投影URL</label><div class="controls" style="margin-left:60px;">'+
                 '<input type="text" class="device span3"  maxlength="16" deviceType="0" value="'+ip2+'" deviceId="'+id2+'"> </div><br>'+
                 '<label class="control-label" style="width:60px">左javaIP</label><div class="controls" style="margin-left:60px;">'+
                 '<input type="text" class="device span3"  maxlength="16" deviceType="1" value="'+ip3+'" deviceId="'+id3+'"> port：<input type="text" class="port span1" value="'+port1+'"></div><br>'+
@@ -303,9 +303,9 @@ var openDeviceDialog = function(addressName,addressId){
                 '<input type="text" class="device span3"  maxlength="16" deviceType="1" value="'+ip4+'" deviceId="'+id4+'"> port：<input type="text" class="port span1" value="'+port2+'"></div><br>';
 
             }else{
-                 htmlStr +='<label class="control-label" style="width:60px">左投影IP</label><div class="controls" style="margin-left:60px;">'+
+                 htmlStr +='<label class="control-label" style="width:60px">左投影URL</label><div class="controls" style="margin-left:60px;">'+
                 '<input type="text" class="device span3"  maxlength="16" deviceType="0"> </div><br>'+
-                '<label class="control-label" style="width:60px">右投影IP</label><div class="controls" style="margin-left:60px;">'+
+                '<label class="control-label" style="width:60px">右投影URL</label><div class="controls" style="margin-left:60px;">'+
                 '<input type="text" class="device span3"  maxlength="16" deviceType="0"> </div><br>'+
                 '<label class="control-label" style="width:60px">左javaIP</label><div class="controls" style="margin-left:60px;">'+
                 '<input type="text" class="device span3"  maxlength="16" deviceType="1"> port：<input type="text" class="port span1"></div><br>'+
@@ -505,6 +505,8 @@ Date.prototype.format = function(f){
 }
 
 var openUpdateDialog = function(addressName,addressId){
+    $('#modalBody').empty();
+    $('#modalBody').html('<table id="screenTableList" class="table table-striped" table-height="360"></table>');
     var updatePlanTableUrl = '/v1/api/admin/updateplan/page';
     var updatePlanObject = {
         addressId:addressId,
@@ -724,17 +726,17 @@ var saveUpdatePlan = function(addressName,addressId,versionId){
 var openControlDialog = function(addressName,addressId){
     g_addressId = addressId;
     var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">';
-    htmlStr +='<label class="control-label" style="width:60px">投影相关</label><div class="controls" style="margin-left:60px;">'+
+    htmlStr +='<label class="control-label" style="width:80px">投影相关</label><div class="controls" style="margin-left:80px;">'+
                     '<a class="btn" onclick="sendControl(\'projectStart\')">投影开启</a> <a class="btn" onclick="sendControl(\'projectClose\')">投影关闭</a> <a class="btn" onclick="sendControl(\'projectChange\')">投影切白</a></div><br>'+
-                    '<label class="control-label" style="width:60px">app相关</label><div class="controls" style="margin-left:60px;">'+
+                    '<label class="control-label" style="width:80px">app相关</label><div class="controls" style="margin-left:80px;">'+
                     '<a class="btn" onclick="sendControl(\'appRestart\')">重启</a> <a class="btn" onclick="sendControl(\'appStart\')">开启</a> <a class="btn" onclick="sendControl(\'appClose\')">关闭</a></div><br>'+
-                    '<label class="control-label" style="width:60px">升级相关</label><div class="controls" style="margin-left:60px;">'+
+                    '<label class="control-label" style="width:80px">升级相关</label><div class="controls" style="margin-left:80px;">'+
                     '<a class="btn" onclick="sendControl(\'flashUpdate\')">flash升级</a> <a class="btn" onclick="sendControl(\'flashRollBack\')">flash还原</a> <a class="btn" onclick="sendControl(\'javaUpdate\')">java升级</a><a class="btn" onclick="sendControl(\'javaRollBack\')">java还原</a></div><br>'+
-                    '<label class="control-label" style="width:60px">下载相关</label><div class="controls" style="margin-left:60px;">'+
+                    '<label class="control-label" style="width:80px">下载相关</label><div class="controls" style="margin-left:80px;">'+
                     '<a class="btn" onclick="sendControl(\'videoDown\')">特效视频下载</a> <a class="btn" onclick="sendControl(\'expressionDown\')">表情下载</a> <a class="btn" onclick="sendControl(\'specialImgDown\')">特效图片下载</a><a class="btn" onclick="sendControl(\'timerDmDown\')">定时弹幕下载</a><a class="btn" onclick="sendControl(\'adDmDown\')">广告弹幕下载</a></div><br>'+
-                    '<label class="control-label" style="width:60px">配置表</label><div class="controls" style="margin-left:60px;">'+
+                    '<label class="control-label" style="width:80px">配置表</label><div class="controls" style="margin-left:80px;">'+
                     '<a class="btn" onclick="sendControl(\'configCreate\')">生成配置表</a></div><br>'+
-                    '<label class="control-label" style="width:60px">teamView</label><div class="controls" style="margin-left:60px;">'+
+                    '<label class="control-label" style="width:80px">teamView</label><div class="controls" style="margin-left:80px;">'+
                     '<a class="btn" onclick="sendControl(\'teamViewStart1\')">开启左侧</a><a class="btn" onclick="sendControl(\'screenPic1\')">左侧截图</a><a class="btn" onclick="sendControl(\'teamViewClose1\')">关闭左侧</a><a class="btn" onclick="sendControl(\'teamViewStart2\')">开启右侧</a><a class="btn" onclick="sendControl(\'screenPic2\')">右侧截图</a><a class="btn" onclick="sendControl(\'teamViewClose2\')">关闭右侧</a></div><br>';
     htmlStr+='</div></div></form>';
     $('#myModalLabel').html(addressName+'的控制台');
