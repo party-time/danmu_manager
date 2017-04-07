@@ -200,10 +200,7 @@ var saveParam = function(id){
         }
         param.valueType = $(paramTypeList[i]).val();
         param.defaultValue = $(paramDefaultValueList[i]).val();
-        if( '' == param.defaultValue){
-             alert("默认值不能为空");
-             return;
-        }
+
         param.des = $(paramDesList[i]).val();
         if( '' == param.des){
             alert("备注不能为空");
