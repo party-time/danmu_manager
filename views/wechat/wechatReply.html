@@ -40,18 +40,27 @@
         </div>
         <div class="modal-body">
             <div class="form-horizontal">
-            <div class="control-group">
-                <label class="control-label" for="replyWords">关键词</label>
-                <div class="controls">
-                    <input type="text" class="span4" id="addReplyWords" placeholder="多个关键词使用英文逗号 , 分割">
-                </div> <!-- /controls -->
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="message">自动回复内容</label>
-                <div class="controls">
-                    <textarea style="width:300px;height:50px" id="message"></textarea>
-                </div> <!-- /controls -->
-            </div>
+                <div class="control-group">
+                    <label class="control-label" for="replyWords">关键词</label>
+                    <div class="controls">
+                        <input type="text" class="span4" id="addReplyWords" placeholder="多个关键词使用英文逗号 , 分割">
+                    </div> <!-- /controls -->
+                </div>
+                <div class="control-group" id="messageControl">
+                    <label class="control-label" for="message">自动回复内容</label>
+                    <div class="controls">
+                        <textarea style="width:300px;height:50px" id="message"></textarea>
+                    </div> <!-- /controls -->
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="message">关联音频</label>
+                    <div class="controls">
+                        <button class="btn" onclick="openVoice()">关联音频</button>
+                    </div> <!-- /controls -->
+                </div>
+                <div class="control-group" id="voiceControl">
+                     <!-- /controls -->
+                </div>
             </div>
         </div>
         <div class="modal-footer">

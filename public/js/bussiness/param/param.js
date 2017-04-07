@@ -99,11 +99,11 @@ var openAddParamTemplate = function () {
     $('#myModalLabel').html('创建参数模版');
     var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">'+
        '<label class="control-label" style="width:60px">模版名称</label><div class="controls" style="margin-left:60px;">'+
-       '<input type="text" class="span4"  maxlength="16" id="paramTemplateName"> <a class="btn btn-primary" onclick="addParam()">新增参数</a></div><br>';
+       '<input type="text" class="span4"  maxlength="16" id="paramTemplateName"> </div><br>';
     htmlStr+='<div id="paramList">'+addParamHtml();
     htmlStr+='</div></div></form>';
     $('#modalBody').html(htmlStr);
-    var buttonHtml = '<button class="btn btn-primary" onclick="saveParam()">保存</button>';
+    var buttonHtml = '<a class="btn btn-primary" onclick="addParam()">新增参数</a> <button class="btn btn-primary" onclick="saveParam()">保存</button> ';
     $('#modalFooter').html(buttonHtml);
     $('#myModal').modal('show');
 };
@@ -118,14 +118,14 @@ var openUpdateParamTemplate = function (id) {
           $('#myModalLabel').html('修改参数'+data.data.paramTempName+'模版');
           var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">'+
              '<label class="control-label" style="width:60px">模版名称</label><div class="controls" style="margin-left:60px;">'+
-             '<input type="text" class="span4"  maxlength="16" id="paramTemplateName" value="'+data.data.paramTempName+'"> <a class="btn btn-primary" onclick="addParam()">新增参数</a></div><br>';
+             '<input type="text" class="span4"  maxlength="16" id="paramTemplateName" value="'+data.data.paramTempName+'"> </div><br>';
           for(var i=0;i<data.data.paramList.length;i++){
              htmlStr+='<div id="paramList">'+drawParamHtml(data.data.paramList[i]);
              htmlStr+='</div>';
           }
           htmlStr+='</div></form>';
           $('#modalBody').html(htmlStr);
-          var buttonHtml = '<button class="btn btn-primary" onclick="saveParam(\''+id+'\')">保存</button>';
+          var buttonHtml = '<a class="btn btn-primary" onclick="addParam()">新增参数</a> <button class="btn btn-primary" onclick="saveParam(\''+id+'\')">保存</button>';
           $('#modalFooter').html(buttonHtml);
           $('#myModal').modal('show');
          }else{
@@ -200,10 +200,7 @@ var saveParam = function(id){
         }
         param.valueType = $(paramTypeList[i]).val();
         param.defaultValue = $(paramDefaultValueList[i]).val();
-        if( '' == param.defaultValue){
-             alert("默认值不能为空");
-             return;
-        }
+
         param.des = $(paramDesList[i]).val();
         if( '' == param.des){
             alert("备注不能为空");

@@ -737,7 +737,10 @@ var openControlDialog = function(addressName,addressId){
                     '<label class="control-label" style="width:60px">执行脚本</label><div class="controls" style="margin-left:60px;">'+
                     '<a class="btn" onclick="sendControl(\'scriptCreate\')">生成脚本</a></div><br>'+
                     '<label class="control-label" style="width:60px">teamView</label><div class="controls" style="margin-left:60px;">'+
-                    '<a class="btn" onclick="sendControl(\'teamViewStart1\')">开启左侧</a><a class="btn" onclick="sendControl(\'screenPic1\')">左侧截图</a><a class="btn" onclick="sendControl(\'teamViewClose1\')">关闭左侧</a><a class="btn" onclick="sendControl(\'teamViewStart2\')">开启右侧</a><a class="btn" onclick="sendControl(\'screenPic2\')">右侧截图</a><a class="btn" onclick="sendControl(\'teamViewClose2\')">关闭右侧</a></div><br>';
+                    '<a class="btn" onclick="sendControl(\'teamViewStart1\')">开启左侧</a><a class="btn" onclick="sendControl(\'screenPic1\')">左侧截图</a><a class="btn" onclick="sendControl(\'teamViewClose1\')">关闭左侧</a><a class="btn" onclick="sendControl(\'teamViewStart2\')">开启右侧</a><a class="btn" onclick="sendControl(\'screenPic2\')">右侧截图</a><a class="btn" onclick="sendControl(\'teamViewClose2\')">关闭右侧</a></div><br>'+
+                    '<label class="control-label" style="width:60px">模拟指令</label><div class="controls" style="margin-left:60px;">'+
+                    '<select id="selectDmStart"><option>danmu-start-1</option><option>danmu-start-2</option><option>danmu-start-3</option><option>danmu-start-4</option><option>danmu-start-5</option><option>danmu-start-6</option><option>danmu-start-7</option><option>danmu-start-8</option><option>danmu-start-9</option><option>danmu-start-10</option></select>'+
+                    '<a class="btn" onclick="sendControl(\'danmu-start\')">确定</a><a class="btn" onclick="sendControl(\'movie-start\')">电影开始</a><a class="btn" onclick="sendControl(\'movie-close\')">电影结束</a></div><br>';
     htmlStr+='</div></div></form>';
     $('#myModalLabel').html(addressName+'的控制台');
     $('#modalBody').html(htmlStr);
@@ -745,6 +748,9 @@ var openControlDialog = function(addressName,addressId){
 }
 
 var sendControl = function(cmd){
+    if(cmd=='danmu-start'){
+        cmd = $('#selectDmStart').val();
+    }
     var obj = {
         cmd:cmd,
         addressId:g_addressId

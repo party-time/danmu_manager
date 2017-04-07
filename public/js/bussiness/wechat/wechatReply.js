@@ -149,10 +149,51 @@ var g_replyWordsId = ''
 
 var openReplyWords = function(id,words,message){
    g_replyWordsId = id;
+   $('#voiceControl').html('');
    $('#addReplyWords').val(words);
    $('#message').val(message);
    $('#myModal').modal('show');
 
+}
+
+
+var openVoice = function(){
+    $('#voiceControl').html('<table id="voiceTableList" class="table table-striped" table-height="360"></table>');
+    var voiceUrl = '/v1/api/admin/wxmessage/findVoice';
+    var voiceColumnsArray = [
+        {
+            field: 'name',
+            title: '名称',
+            align: 'center'
+        },
+        {
+            field: 'media_id',
+            title: '音频id',
+            align: 'center'
+        },
+        {
+            title: '操作',
+            align: 'center',
+            formatter: function (value, row, index) {
+                return '<a class="btn" onclick="selectVoice(\''+row.name+'\',\''+row.media_id+'\')">选择</a>';
+            },
+            events: 'operateEvents'
+        }
+    ];
+    var voiceQuaryObject = {
+        page:1,
+        size:20
+    };
+    $.initTable('voiceTableList', voiceColumnsArray, voiceQuaryObject, voiceUrl,tableSuccess);
+}
+
+var selectVoice = function(name,media_id){
+    $('#messageControl').html('<label class="control-label" for="message">已经关联语音</label><div class="controls">'+name+'<a onclick="cancelVoice()">取消</a></div>');
+    $('#voiceControl').html('');
+}
+
+var cancelVoice = function(){
+    $('#messageControl').html('<label class="control-label" for="message" id="messageControl">自动回复内容</label><textarea style="width:300px;height:50px" id="message"></textarea></div>');
 }
 
 
