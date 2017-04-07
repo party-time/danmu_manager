@@ -734,6 +734,8 @@ var openControlDialog = function(addressName,addressId){
                     '<a class="btn" onclick="sendControl(\'videoDown\')">特效视频下载</a> <a class="btn" onclick="sendControl(\'expressionDown\')">表情下载</a> <a class="btn" onclick="sendControl(\'specialImgDown\')">特效图片下载</a><a class="btn" onclick="sendControl(\'timerDmDown\')">定时弹幕下载</a><a class="btn" onclick="sendControl(\'adDmDown\')">广告弹幕下载</a></div><br>'+
                     '<label class="control-label" style="width:60px">配置表</label><div class="controls" style="margin-left:60px;">'+
                     '<a class="btn" onclick="sendControl(\'configCreate\')">生成配置表</a></div><br>'+
+                    '<label class="control-label" style="width:60px">执行脚本</label><div class="controls" style="margin-left:60px;">'+
+                    '<a class="btn" onclick="sendControl(\'scriptCreate\')">生成脚本</a></div><br>'+
                     '<label class="control-label" style="width:60px">teamView</label><div class="controls" style="margin-left:60px;">'+
                     '<a class="btn" onclick="sendControl(\'teamViewStart1\')">开启左侧</a><a class="btn" onclick="sendControl(\'screenPic1\')">左侧截图</a><a class="btn" onclick="sendControl(\'teamViewClose1\')">关闭左侧</a><a class="btn" onclick="sendControl(\'teamViewStart2\')">开启右侧</a><a class="btn" onclick="sendControl(\'screenPic2\')">右侧截图</a><a class="btn" onclick="sendControl(\'teamViewClose2\')">关闭右侧</a></div><br>';
     htmlStr+='</div></div></form>';
