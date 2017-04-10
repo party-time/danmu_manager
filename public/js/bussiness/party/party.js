@@ -425,7 +425,8 @@ var openPartyResource = function(partyId){
 var searchParty = function(){
     var quaryObject = {
         pageSize: 20,
-        type:$('#searchType').val()
+        type:$('#searchType').val(),
+        status:$('#searchStatus').val()
     };
     $.initTable('tableList', columnsArray, quaryObject, tableUrl);
 }
@@ -571,6 +572,30 @@ var openMovieSchedule = function(partyId){
     $('#myModal').modal('show');
 
 }
+
+var selectSearchType = function(){
+    var searchType = $('#searchType').val();
+    if( searchType == -1){
+        $('#searchStatus').empty();
+        $('#searchStatus').append('<option value="0">全部</option>');
+        $('#searchStatus').append('<option value="1">未下线或未结束</option>');
+        $('#searchStatus').append('<option value="2">已下线或已结束</option>');
+    }else if( searchType == 0){
+        $('#searchStatus').empty();
+        $('#searchStatus').append('<option value="-1" selected>全部</option>');
+        $('#searchStatus').append('<option value="0">未开始</option>');
+        $('#searchStatus').append('<option value="1">活动开始</option>');
+        $('#searchStatus').append('<option value="2">电影开始</option>');
+        $('#searchStatus').append('<option value="3">电影结束</option>');
+    }else if( searchType == 1){
+        $('#searchStatus').empty();
+        $('#searchStatus').append('<option value="-1" selected>全部</option>');
+        $('#searchStatus').append('<option value="0">未下线</option>');
+        $('#searchStatus').append('<option value="4">已下线</option>');
+    }
+}
+
+
 
 getAllDanmuLibrary();
 
