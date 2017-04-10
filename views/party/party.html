@@ -8,9 +8,11 @@
                 <div class="span12">
                     <div class="widget widget-table action-table">
                         <!-- /widget-header -->
-                        <div>
+                        <div style="margin-bottom:10px;">
                             <button type="button" class="btn btn-primary" onclick="addParty()">新增活动</button>
-                            <select id="searchType"><option value="0">活动</option><option value="1">电影</option></select><button class="btn btn-primary" style="margin-bottom:10px;margin-left:10px;" onclick="searchParty()">搜索</button>
+                            <select id="searchType" onchange="" style="margin-bottom:0px;"><option value="0" selected>全部</option><option value="1">活动</option><option value="2">电影</option></select>
+                            <select id="searchStatus" style="margin-bottom:0px;"><option value="0">全部</option><option value="1" selected>未下线或未结束</option><option value="1">已下线或已结束</option></select>
+                            <button class="btn btn-primary" style="margin-bottom:0px;margin-left:10px;" onclick="searchParty()">搜索</button>
                             <button type="button" class="btn btn-primary" onclick="filmCheck()">电影审核</button>
                         </div>
                         <div class="widget-content">

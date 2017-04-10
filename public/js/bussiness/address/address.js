@@ -294,9 +294,9 @@ var openDeviceDialog = function(addressName,addressId){
                     id4 = data.data[3].id;
                 }
                 htmlStr +='<label class="control-label" style="width:60px">左投影URL</label><div class="controls" style="margin-left:60px;">'+
-                '<input type="text" class="device span3"  maxlength="16" deviceType="0" value="'+ip1+'" deviceId="'+id1+'"> </div><br>'+
+                '<input type="text" class="device span3" deviceType="0" value="'+ip1+'" deviceId="'+id1+'"> </div><br>'+
                 '<label class="control-label" style="width:60px">右投影URL</label><div class="controls" style="margin-left:60px;">'+
-                '<input type="text" class="device span3"  maxlength="16" deviceType="0" value="'+ip2+'" deviceId="'+id2+'"> </div><br>'+
+                '<input type="text" class="device span3" deviceType="0" value="'+ip2+'" deviceId="'+id2+'"> </div><br>'+
                 '<label class="control-label" style="width:60px">左javaIP</label><div class="controls" style="margin-left:60px;">'+
                 '<input type="text" class="device span3"  maxlength="16" deviceType="1" value="'+ip3+'" deviceId="'+id3+'"> port：<input type="text" class="port span1" value="'+port1+'"></div><br>'+
                 '<label class="control-label" style="width:60px">右javaIP</label><div class="controls" style="margin-left:60px;">'+
@@ -304,9 +304,9 @@ var openDeviceDialog = function(addressName,addressId){
 
             }else{
                  htmlStr +='<label class="control-label" style="width:60px">左投影URL</label><div class="controls" style="margin-left:60px;">'+
-                '<input type="text" class="device span3"  maxlength="16" deviceType="0"> </div><br>'+
+                '<input type="text" class="device span3" deviceType="0"> </div><br>'+
                 '<label class="control-label" style="width:60px">右投影URL</label><div class="controls" style="margin-left:60px;">'+
-                '<input type="text" class="device span3"  maxlength="16" deviceType="0"> </div><br>'+
+                '<input type="text" class="device span3" deviceType="0"> </div><br>'+
                 '<label class="control-label" style="width:60px">左javaIP</label><div class="controls" style="margin-left:60px;">'+
                 '<input type="text" class="device span3"  maxlength="16" deviceType="1"> port：<input type="text" class="port span1"></div><br>'+
                 '<label class="control-label" style="width:60px">右javaIP</label><div class="controls" style="margin-left:60px;">'+
@@ -337,7 +337,7 @@ var saveDevice = function(addressId){
         for(var i=0;i<ipList.length;i++){
             var deviceInfo = new Object();
             deviceInfo.ip=$(ipList[i]).val();
-            if(!reg.test(deviceInfo.ip)){
+            if($(ipList[i]).attr("deviceType")==1 && !reg.test(deviceInfo.ip)){
                 alert("ip地址格式不正确，请重新填写");
                 return;
             }
