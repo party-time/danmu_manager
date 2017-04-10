@@ -356,6 +356,7 @@ var saveDevice = function(addressId){
             }
             if($(ipList[i]).attr("deviceType")==0){
                 deviceInfo.url = $(ipList[i]).parent().find(".device.span3").val();
+                deviceInfo.ip='';
             }
             deviceInfo.number = $(ipList[i]).parent().find(".number.span1").val();
             deviceInfo.type=$(ipList[i]).attr("deviceType");
