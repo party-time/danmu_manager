@@ -763,11 +763,12 @@ var openControlDialog = function(addressName,addressId){
 }
 
 var sendControl = function(cmd){
-    if(cmd=='danmu-start'){
+    /*if(cmd=='danmu-start'){
         cmd = $('#selectDmStart').val();
-    }
+    }*/
     var obj = {
-        cmd:cmd,
+        'danmuStart':$('#selectDmStart').val(),
+        'cmd':cmd,
         addressId:g_addressId
     }
     $.danmuAjax('/v1/api/admin/clientControl/control', 'GET','json','',obj, function (data) {
