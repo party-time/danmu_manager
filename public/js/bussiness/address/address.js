@@ -746,7 +746,7 @@ var openControlDialog = function(addressName,addressId){
                     '<label class="control-label" style="width:60px">升级相关</label><div class="controls" style="margin-left:60px;">'+
                     '<a class="btn" onclick="sendControl(\'flashUpdate\')">flash升级</a> <a class="btn" onclick="sendControl(\'flashRollBack\')">flash还原</a> <a class="btn" onclick="sendControl(\'javaUpdate\')">java升级</a><a class="btn" onclick="sendControl(\'javaRollBack\')">java还原</a></div><br>'+
                     '<label class="control-label" style="width:60px">下载相关</label><div class="controls" style="margin-left:60px;">'+
-                    '<a class="btn" onclick="sendControl(\'videoDown\')">特效视频下载</a> <a class="btn" onclick="sendControl(\'expressionDown\')">表情下载</a> <a class="btn" onclick="sendControl(\'specialImgDown\')">特效图片下载</a><a class="btn" onclick="sendControl(\'timerDmDown\')">定时弹幕下载</a><a class="btn" onclick="sendControl(\'adDmDown\')">广告弹幕下载</a></div><br>'+
+                    '<a class="btn" onclick="sendControl(\'videoDown\')">特效视频下载</a> <a class="btn" onclick="sendControl(\'expressionDown\')">表情下载</a> <a class="btn" onclick="sendControl(\'specialImgDown\')">特效图片下载</a><a class="btn" onclick="sendControl(\'timerDmDown\')">定时弹幕下载</a><a class="btn" onclick="sendControl(\'adDmDown\')">广告弹幕下载</a><a class="btn" onclick="sendControl(\'updateClientDown\')">更新客户端下载</a></div><br>'+
                     '<label class="control-label" style="width:60px">配置表</label><div class="controls" style="margin-left:60px;">'+
                     '<a class="btn" onclick="sendControl(\'configCreate\')">生成配置表</a></div><br>'+
                     '<label class="control-label" style="width:60px">执行脚本</label><div class="controls" style="margin-left:60px;">'+
