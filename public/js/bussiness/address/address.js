@@ -40,8 +40,8 @@ var columnsArray = [
             }
             if($.cookie('role')=='589a98cd77c8afdcbdeaeeb4'){
                 buttonStr += '<a class="btn" onclick="openDeviceDialog(\''+row.name+'\',\''+row.id+'\')">设备管理</a>';
-                buttonStr += '<a class="btn" onclick="openControlDialog(\''+row.name+'\',\''+row.id+'\')">控制台</a>';
             }
+            buttonStr += '<a class="btn" onclick="openControlDialog(\''+row.name+'\',\''+row.id+'\')">控制台</a>';
             if(row.type ==0 && $.cookie('role')=='589a98cd77c8afdcbdeaeeb4'){
                 buttonStr += '<a class="btn" onclick="openUpdateDialog(\''+row.name+'\',\''+row.id+'\')">版本升级</a>';
             }
