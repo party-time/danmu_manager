@@ -785,9 +785,11 @@ var openControlDialog = function(addressName,addressId){
     htmlStr +='<label class="control-label" style="width:60px">teamView</label><div class="controls" style="margin-left:60px;">';
     htmlStr +='<a class="btn" onclick="sendControl(\'teamViewStart1\')">开启左侧</a>';
     htmlStr +='<a class="btn" onclick="sendControl(\'screenPic1\')">左侧截图</a>';
+    htmlStr +='<a class="btn" href="/screenpic/'+addressId+'_1.jpg" target="_blank">查看左侧截图</a>';
     htmlStr +='<a class="btn" onclick="sendControl(\'teamViewClose1\')">关闭左侧</a>';
     htmlStr +='<a class="btn" onclick="sendControl(\'teamViewStart2\')">开启右侧</a>';
     htmlStr +='<a class="btn" onclick="sendControl(\'screenPic2\')">右侧截图</a>';
+    htmlStr +='<a class="btn" href="/screenpic/'+addressId+'_2.jpg" target="_blank">查看右侧截图</a>';
     htmlStr +='<a class="btn" onclick="sendControl(\'teamViewClose2\')">关闭右侧</a>';
     htmlStr +='</div><br>';
 
