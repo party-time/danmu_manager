@@ -759,6 +759,7 @@ var openControlDialog = function(addressName,addressId){
     htmlStr +='<a class="btn" onclick="sendControl(\'specialImgDown\')">特效图片下载</a>';
     htmlStr +='<a class="btn" onclick="sendControl(\'timerDmDown\')">定时弹幕下载</a>';
     htmlStr +='<a class="btn" onclick="sendControl(\'adDmDown\')">广告弹幕下载</a>';
+    htmlStr +='<a class="btn" onclick="sendControl(\'resourceAllDown\')">下载所有资源</a>';
     htmlStr +='</div><br>';
 
     htmlStr +='<label class="control-label" style="width:60px">配置表</label><div class="controls" style="margin-left:60px;">';
@@ -768,16 +769,9 @@ var openControlDialog = function(addressName,addressId){
     if(role == '589a98cd77c8afdcbdeaeeb4') {
         htmlStr +='<label class="control-label" style="width:60px">模拟指令</label><div class="controls" style="margin-left:60px;">';
         htmlStr +='<select id="selectDmStart">';
-        htmlStr +='<option>danmu-start-1</option>';
-        htmlStr +='<option>danmu-start-2</option>';
-        htmlStr +='<option>danmu-start-3</option>';
-        htmlStr +='<option>danmu-start-4</option>';
-        htmlStr +='<option>danmu-start-5</option>';
-        htmlStr +='<option>danmu-start-6</option>';
-        htmlStr +='<option>danmu-start-7</option>';
-        htmlStr +='<option>danmu-start-8</option>';
-        htmlStr +='<option>danmu-start-9</option>';
-        htmlStr +='<option>danmu-start-10</option>';
+        for(var i=1; i<11; i++){
+            htmlStr +='<option>danmu-start-'+i+'</option>';
+        }
         htmlStr +='</select>';
         htmlStr +='<a class="btn" onclick="sendControl(\'danmu-start\')">确定</a>';
         htmlStr +='<a class="btn" onclick="sendControl(\'movie-start\')">电影开始</a>';
