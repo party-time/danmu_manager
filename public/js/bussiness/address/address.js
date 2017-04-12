@@ -765,27 +765,25 @@ var openControlDialog = function(addressName,addressId){
     htmlStr +='<a class="btn" onclick="sendControl(\'configCreate\')">生成配置表</a>';
     htmlStr +='</div><br>';
 
-    htmlStr +='<label class="control-label" style="width:60px">模拟指令</label><div class="controls" style="margin-left:60px;">';
-    htmlStr +='<select id="selectDmStart">';
-    htmlStr +='<option>danmu-start-1</option>';
-    htmlStr +='<option>danmu-start-2</option>';
-    htmlStr +='<option>danmu-start-3</option>';
-    htmlStr +='<option>danmu-start-4</option>';
-    htmlStr +='<option>danmu-start-5</option>';
-    htmlStr +='<option>danmu-start-6</option>';
-    htmlStr +='<option>danmu-start-7</option>';
-    htmlStr +='<option>danmu-start-8</option>';
-    htmlStr +='<option>danmu-start-9</option>';
-    htmlStr +='<option>danmu-start-10</option>';
-    htmlStr +='</select>';
-    htmlStr +='<a class="btn" onclick="sendControl(\'danmu-start\')">确定</a>';
-    htmlStr +='<a class="btn" onclick="sendControl(\'movie-start\')">电影开始</a>';
-    htmlStr +='<a class="btn" onclick="sendControl(\'movie-close\')">电影结束</a>';
-    htmlStr +='</div><br>';
-
-
-
     if(role == '589a98cd77c8afdcbdeaeeb4') {
+        htmlStr +='<label class="control-label" style="width:60px">模拟指令</label><div class="controls" style="margin-left:60px;">';
+        htmlStr +='<select id="selectDmStart">';
+        htmlStr +='<option>danmu-start-1</option>';
+        htmlStr +='<option>danmu-start-2</option>';
+        htmlStr +='<option>danmu-start-3</option>';
+        htmlStr +='<option>danmu-start-4</option>';
+        htmlStr +='<option>danmu-start-5</option>';
+        htmlStr +='<option>danmu-start-6</option>';
+        htmlStr +='<option>danmu-start-7</option>';
+        htmlStr +='<option>danmu-start-8</option>';
+        htmlStr +='<option>danmu-start-9</option>';
+        htmlStr +='<option>danmu-start-10</option>';
+        htmlStr +='</select>';
+        htmlStr +='<a class="btn" onclick="sendControl(\'danmu-start\')">确定</a>';
+        htmlStr +='<a class="btn" onclick="sendControl(\'movie-start\')">电影开始</a>';
+        htmlStr +='<a class="btn" onclick="sendControl(\'movie-close\')">电影结束</a>';
+        htmlStr +='</div><br>';
+
         htmlStr += '<label class="control-label" style="width:60px">客户端更新</label><div class="controls" style="margin-left:60px;">';
         htmlStr += '<a class="btn" onclick="sendControl(\'updateClientDown\')">更新客户端下载</a>';
         htmlStr += '<a class="btn" onclick="sendControl(\'updatePlanCreate\')">客户端更新配置下载</a>';
