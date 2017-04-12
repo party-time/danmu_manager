@@ -740,24 +740,76 @@ var saveUpdatePlan = function(addressName,addressId,versionId){
 var openControlDialog = function(addressName,addressId){
     g_addressId = addressId;
     var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">';
-    htmlStr +='<label class="control-label" style="width:60px">投影相关</label><div class="controls" style="margin-left:60px;">'+
-                    '<a class="btn" onclick="sendControl(\'projectStart\')">投影开启</a> <a class="btn" onclick="sendControl(\'projectClose\')">投影关闭</a> <a class="btn" onclick="sendControl(\'projectChange\')">投影切白</a></div><br>'+
-                    '<label class="control-label" style="width:60px">app相关</label><div class="controls" style="margin-left:60px;">'+
-                    '<a class="btn" onclick="sendControl(\'appRestart\')">重启</a> <a class="btn" onclick="sendControl(\'appStart\')">开启</a> <a class="btn" onclick="sendControl(\'appClose\')">关闭</a></div><br>'+
-                    '<label class="control-label" style="width:60px">升级相关</label><div class="controls" style="margin-left:60px;">'+
-                    '<a class="btn" onclick="sendControl(\'flashUpdate\')">flash升级</a> <a class="btn" onclick="sendControl(\'flashRollBack\')">flash还原</a> <a class="btn" onclick="sendControl(\'javaUpdate\')">java升级</a><a class="btn" onclick="sendControl(\'javaRollBack\')">java还原</a></div><br>'+
-                    '<label class="control-label" style="width:60px">下载相关</label><div class="controls" style="margin-left:60px;">'+
-                    '<a class="btn" onclick="sendControl(\'videoDown\')">特效视频下载</a> <a class="btn" onclick="sendControl(\'expressionDown\')">表情下载</a> <a class="btn" onclick="sendControl(\'specialImgDown\')">特效图片下载</a><a class="btn" onclick="sendControl(\'timerDmDown\')">定时弹幕下载</a><a class="btn" onclick="sendControl(\'adDmDown\')">广告弹幕下载</a><a class="btn" onclick="sendControl(\'updateClientDown\')">更新客户端下载</a></div><br>'+
-                    '<label class="control-label" style="width:60px">配置表</label><div class="controls" style="margin-left:60px;">'+
-                    '<a class="btn" onclick="sendControl(\'configCreate\')">生成配置表</a></div><br>'+
-                    '<label class="control-label" style="width:60px">执行脚本</label><div class="controls" style="margin-left:60px;">'+
-                    '<a class="btn" onclick="sendControl(\'scriptCreate\')">生成脚本</a></div><br>'+
-                    '<label class="control-label" style="width:60px">teamView</label><div class="controls" style="margin-left:60px;">'+
-                    '<a class="btn" onclick="sendControl(\'teamViewStart1\')">开启左侧</a><a class="btn" onclick="sendControl(\'screenPic1\')">左侧截图</a><a class="btn" onclick="sendControl(\'teamViewClose1\')">关闭左侧</a><a class="btn" onclick="sendControl(\'teamViewStart2\')">开启右侧</a><a class="btn" onclick="sendControl(\'screenPic2\')">右侧截图</a><a class="btn" onclick="sendControl(\'teamViewClose2\')">关闭右侧</a></div><br>'+
-                    '<label class="control-label" style="width:60px">模拟指令</label><div class="controls" style="margin-left:60px;">'+
-                    '<select id="selectDmStart"><option>danmu-start-1</option><option>danmu-start-2</option><option>danmu-start-3</option><option>danmu-start-4</option><option>danmu-start-5</option><option>danmu-start-6</option><option>danmu-start-7</option><option>danmu-start-8</option><option>danmu-start-9</option><option>danmu-start-10</option></select>'+
-                    '<a class="btn" onclick="sendControl(\'danmu-start\')">确定</a><a class="btn" onclick="sendControl(\'movie-start\')">电影开始</a><a class="btn" onclick="sendControl(\'movie-close\')">电影结束</a></div><br>';
-    htmlStr+='</div></div></form>';
+    htmlStr +='<label class="control-label" style="width:60px">投影相关</label>';
+    htmlStr +='<div class="controls" style="margin-left:60px;">';
+    htmlStr +='<a class="btn" onclick="sendControl(\'projectStart\')">投影开启</a>';
+    htmlStr +='<a class="btn" onclick="sendControl(\'projectClose\')">投影关闭</a>';
+    htmlStr +='<a class="btn" onclick="sendControl(\'projectChange\')">投影切白</a>';
+    htmlStr +='</div><br>';
+
+    htmlStr +='<label class="control-label" style="width:60px">app相关</label><div class="controls" style="margin-left:60px;">';
+    htmlStr +='<a class="btn" onclick="sendControl(\'appRestart\')">重启</a> <a class="btn" onclick="sendControl(\'appStart\')">开启</a>';
+    htmlStr +='<a class="btn" onclick="sendControl(\'appClose\')">关闭</a>';
+    htmlStr +='</div><br>';
+
+    htmlStr +='<label class="control-label" style="width:60px">下载相关</label><div class="controls" style="margin-left:60px;">';
+    htmlStr +='<a class="btn" onclick="sendControl(\'videoDown\')">特效视频下载</a>';
+    htmlStr +='<a class="btn" onclick="sendControl(\'expressionDown\')">表情下载</a>';
+    htmlStr +='<a class="btn" onclick="sendControl(\'specialImgDown\')">特效图片下载</a>';
+    htmlStr +='<a class="btn" onclick="sendControl(\'timerDmDown\')">定时弹幕下载</a>';
+    htmlStr +='<a class="btn" onclick="sendControl(\'adDmDown\')">广告弹幕下载</a>';
+    htmlStr +='</div><br>';
+
+    htmlStr +='<label class="control-label" style="width:60px">配置表</label><div class="controls" style="margin-left:60px;">';
+    htmlStr +='<a class="btn" onclick="sendControl(\'configCreate\')">生成配置表</a>';
+    htmlStr +='</div><br>';
+
+
+
+    htmlStr +='<label class="control-label" style="width:60px">客户端更新</label><div class="controls" style="margin-left:60px;">';
+    htmlStr +='<a class="btn" onclick="sendControl(\'updateClientDown\')">更新客户端下载</a>';
+    htmlStr +='<a class="btn" onclick="sendControl(\'updatePlanCreate\')">客户端更新配置下载</a>';
+    htmlStr +='</div><br>';
+
+    htmlStr +='<label class="control-label" style="width:60px">升级相关</label><div class="controls" style="margin-left:60px;">';
+    htmlStr +='<a class="btn" onclick="sendControl(\'flashUpdate\')">flash升级</a>';
+    htmlStr +='<a class="btn" onclick="sendControl(\'flashRollBack\')">flash还原</a>';
+    htmlStr +='<a class="btn" onclick="sendControl(\'javaUpdate\')">java升级</a>';
+    htmlStr +='<a class="btn" onclick="sendControl(\'javaRollBack\')">java还原</a>';
+    htmlStr +='</div><br>';
+
+    htmlStr +='<label class="control-label" style="width:60px">执行脚本</label><div class="controls" style="margin-left:60px;">';
+    htmlStr +='<a class="btn" onclick="sendControl(\'scriptCreate\')">生成脚本</a>';
+    htmlStr +='</div><br>';
+
+    htmlStr +='<label class="control-label" style="width:60px">teamView</label><div class="controls" style="margin-left:60px;">';
+    htmlStr +='<a class="btn" onclick="sendControl(\'teamViewStart1\')">开启左侧</a>';
+    htmlStr +='<a class="btn" onclick="sendControl(\'screenPic1\')">左侧截图</a>';
+    htmlStr +='<a class="btn" onclick="sendControl(\'teamViewClose1\')">关闭左侧</a>';
+    htmlStr +='<a class="btn" onclick="sendControl(\'teamViewStart2\')">开启右侧</a>';
+    htmlStr +='<a class="btn" onclick="sendControl(\'screenPic2\')">右侧截图</a>';
+    htmlStr +='<a class="btn" onclick="sendControl(\'teamViewClose2\')">关闭右侧</a>';
+    htmlStr +='</div><br>';
+
+    htmlStr +='<label class="control-label" style="width:60px">模拟指令</label><div class="controls" style="margin-left:60px;">';
+    htmlStr +='<select id="selectDmStart">';
+    htmlStr +='<option>danmu-start-1</option>';
+    htmlStr +='<option>danmu-start-2</option>';
+    htmlStr +='<option>danmu-start-3</option>';
+    htmlStr +='<option>danmu-start-4</option>';
+    htmlStr +='<option>danmu-start-5</option>';
+    htmlStr +='<option>danmu-start-6</option>';
+    htmlStr +='<option>danmu-start-7</option>';
+    htmlStr +='<option>danmu-start-8</option>';
+    htmlStr +='<option>danmu-start-9</option>';
+    htmlStr +='<option>danmu-start-10</option>';
+    htmlStr +='</select>';
+    htmlStr +='<a class="btn" onclick="sendControl(\'danmu-start\')">确定</a>';
+    htmlStr +='<a class="btn" onclick="sendControl(\'movie-start\')">电影开始</a>';
+    htmlStr +='<a class="btn" onclick="sendControl(\'movie-close\')">电影结束</a>';
+    htmlStr +='</div><br>';
+    htmlStr	+='</div></div>';
+    htmlStr+='</form>';
     $('#myModalLabel').html(addressName+'的控制台');
     $('#modalBody').html(htmlStr);
     $('#myModal').modal('show');
