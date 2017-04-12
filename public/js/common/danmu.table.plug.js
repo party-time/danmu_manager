@@ -43,6 +43,16 @@
                         return '没有找到匹配的记录';
                     }
 
+                },
+                onLoadError:function(status){
+                    if (status == 444) {
+                        window.location = '/login';
+                        return;
+                    }
+                    if (status == 443) {
+                        window.location = '/film/danmuCheck';
+                        return;
+                    }
                 }
 
             });

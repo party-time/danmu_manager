@@ -812,7 +812,9 @@ var openControlDialog = function(addressName,addressId){
     htmlStr +='</div><br>';
     htmlStr	+='</div></div>';
     htmlStr+='</form>';
-    $('#myModalLabel').html(addressName+'的控制台');
+
+    var titleHtmlStr ='';
+    $('#myModalLabel').html('<div><p><h1>'+addressName+'的控制台</h1></p><div id="deviceStatus" ><h5>java1:正常 java2:断开连接</h5></div></div>');
     $('#modalBody').html(htmlStr);
     $('#myModal').modal('show');
 }
