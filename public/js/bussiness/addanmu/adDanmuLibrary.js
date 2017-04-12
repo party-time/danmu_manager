@@ -50,7 +50,7 @@ var danmuLibraryRecovery = function (id,name) {
 }
 
 var delAdDanmuLibrary = function (id,name) {
-    if (confirm('确定要删除' + name + '广告弹幕库吗？')) {
+    if (confirm('确定要删除' + name + '广告弹幕库吗？如果删除,对应的广告弹幕文件一并被删除!!!')) {
         //判断弹幕库是否被使用
         var obj = {
             'id': id
