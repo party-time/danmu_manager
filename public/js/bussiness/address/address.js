@@ -274,44 +274,54 @@ var openDeviceDialog = function(addressName,addressId){
             $('#myModalLabel').html(addressName+'的设备管理');
             var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">';
             if(data.data && data.data.length >0){
-                var ip1,ip2,ip3,ip4 = '';var port1,port2='';var id1,id2,id3,id4='';
-                if(data.data[0]){
-                    ip1 = data.data[0].ip;
-                    id1 = data.data[0].id;
+                /*var url1,url1=''
+                var ip1,ip2 = '';
+                var port1,port2='';
+                var id1,id2,id3,id4='';*/
+
+                for(var i=0; i<data.data.length; i++){
+                    var type = data.data[i].type;
+                    var id = data.data[i].id;
+                    var ip = data.data[i].ip;
+                    var port= data.data[i].port;
+                    var number=data.data[i].number;
+                    var url=data.data[i].url;
+                    if(type==0){
+                        htmlStr += '<label class="control-label" style="width:80px">投影仪'+number+'</label><div class="controls" style="margin-left:60px;">';
+                        htmlStr += '<input type="text" class="device span3" deviceType="'+type+'" value="'+url+'" deviceId="'+id+'"> ';
+                        htmlStr += '<input type="hidden" value="'+number+'" class="number span1" style="width: 10px;"> ';
+                        htmlStr += '</div><br>';
+                    }else if(type==1){
+                        htmlStr +=  '<label class="control-label" style="width:80px;">javaClient'+number+'</label><div class="controls" style="margin-left:60px;">';
+                        htmlStr += '<input type="text" class="device span3"  maxlength="16" deviceType="'+type+'" value="'+ip+'" deviceId="'+id+'"> ';
+                        htmlStr += 'port：<input type="text" class="port span1" value="'+port+'" style="width: 40px;">';
+                        htmlStr += '<input type="hidden" value="'+number+'" class="number span1" style="width: 10px;"> ';
+                        htmlStr += '</div><br>';
+                    }
                 }
-                if(data.data[1]){
-                    ip2 = data.data[1].ip;
-                    id2 = data.data[1].id;
-                }
-                if(data.data[2]){
-                    ip3 = data.data[2].ip;
-                    port1 = data.data[2].port;
-                    id3 = data.data[2].id;
-                }
-                if(data.data[3]){
-                    ip4 = data.data[3].ip;
-                    port2 = data.data[3].port;
-                    id4 = data.data[3].id;
-                }
-                htmlStr +='<label class="control-label" style="width:60px">左投影URL</label><div class="controls" style="margin-left:60px;">'+
-                '<input type="text" class="device span3" deviceType="0" value="'+ip1+'" deviceId="'+id1+'"> </div><br>'+
-                '<label class="control-label" style="width:60px">右投影URL</label><div class="controls" style="margin-left:60px;">'+
-                '<input type="text" class="device span3" deviceType="0" value="'+ip2+'" deviceId="'+id2+'"> </div><br>'+
-                '<label class="control-label" style="width:60px">左javaIP</label><div class="controls" style="margin-left:60px;">'+
-                '<input type="text" class="device span3"  maxlength="16" deviceType="1" value="'+ip3+'" deviceId="'+id3+'"> port：<input type="text" class="port span1" value="'+port1+'"></div><br>'+
-                '<label class="control-label" style="width:60px">右javaIP</label><div class="controls" style="margin-left:60px;">'+
-                '<input type="text" class="device span3"  maxlength="16" deviceType="1" value="'+ip4+'" deviceId="'+id4+'"> port：<input type="text" class="port span1" value="'+port2+'"></div><br>';
 
             }else{
-                 htmlStr +='<label class="control-label" style="width:60px">左投影URL</label><div class="controls" style="margin-left:60px;">'+
-                '<input type="text" class="device span3" deviceType="0"> </div><br>'+
-                '<label class="control-label" style="width:60px">右投影URL</label><div class="controls" style="margin-left:60px;">'+
-                '<input type="text" class="device span3" deviceType="0"> </div><br>'+
-                '<label class="control-label" style="width:60px">左javaIP</label><div class="controls" style="margin-left:60px;">'+
-                '<input type="text" class="device span3"  maxlength="16" deviceType="1"> port：<input type="text" class="port span1"></div><br>'+
-                '<label class="control-label" style="width:60px">右javaIP</label><div class="controls" style="margin-left:60px;">'+
-                '<input type="text" class="device span3"  maxlength="16" deviceType="1"> port：<input type="text" class="port span1"></div><br>';
+                htmlStr += '<label class="control-label" style="width:80px">投影仪1</label><div class="controls" style="margin-left:60px;">';
+                htmlStr += '<input type="text" class="device span3" deviceType="0"> ';
+                htmlStr += '<input type="hidden" value="1" class="number span1" style="width: 10px;"> ';
+                htmlStr += '</div><br>';
 
+                htmlStr += '<label class="control-label" style="width:80px">投影仪2</label><div class="controls" style="margin-left:60px;">';
+                htmlStr += '<input type="text" class="device span3" deviceType="0"> ';
+                htmlStr += '<input type="hidden" value="2" class="number span1" style="width: 10px;"> ';
+                htmlStr += '</div><br>';
+
+                htmlStr +=  '<label class="control-label" style="width:80px;">javaClient1</label><div class="controls" style="margin-left:60px;">';
+                htmlStr += '<input type="text" class="device span3"  maxlength="16" deviceType="1"> ';
+                htmlStr += 'port：<input type="text" class="port span1" value="" style="width: 40px;">';
+                htmlStr += '<input type="hidden" value="1" class="number span1" style="width: 10px;"> ';
+                htmlStr += '</div><br>';
+
+                htmlStr +=  '<label class="control-label" style="width:80px;">javaClient2</label><div class="controls" style="margin-left:60px;">';
+                htmlStr += '<input type="text" class="device span3"  maxlength="16" deviceType="1"> ';
+                htmlStr += 'port：<input type="text" class="port span1" value="" style="width: 40px;">';
+                htmlStr += '<input type="hidden" value="2" class="number span1" style="width: 10px;"> ';
+                htmlStr += '</div><br>';
             }
             htmlStr+='</div></div></form>';
             $('#modalBody').html(htmlStr);
@@ -344,6 +354,11 @@ var saveDevice = function(addressId){
             if($(ipList[i]).attr("deviceType")==1){
                 deviceInfo.port = $(ipList[i]).parent().find(".port.span1").val();
             }
+            if($(ipList[i]).attr("deviceType")==0){
+                deviceInfo.url = $(ipList[i]).parent().find(".device.span3").val();
+                deviceInfo.ip='';
+            }
+            deviceInfo.number = $(ipList[i]).parent().find(".number.span1").val();
             deviceInfo.type=$(ipList[i]).attr("deviceType");
             deviceInfo.addressId=addressId;
             if($(ipList[i]).attr("deviceId")){
@@ -731,7 +746,7 @@ var openControlDialog = function(addressName,addressId){
                     '<label class="control-label" style="width:60px">升级相关</label><div class="controls" style="margin-left:60px;">'+
                     '<a class="btn" onclick="sendControl(\'flashUpdate\')">flash升级</a> <a class="btn" onclick="sendControl(\'flashRollBack\')">flash还原</a> <a class="btn" onclick="sendControl(\'javaUpdate\')">java升级</a><a class="btn" onclick="sendControl(\'javaRollBack\')">java还原</a></div><br>'+
                     '<label class="control-label" style="width:60px">下载相关</label><div class="controls" style="margin-left:60px;">'+
-                    '<a class="btn" onclick="sendControl(\'videoDown\')">特效视频下载</a> <a class="btn" onclick="sendControl(\'expressionDown\')">表情下载</a> <a class="btn" onclick="sendControl(\'specialImgDown\')">特效图片下载</a><a class="btn" onclick="sendControl(\'timerDmDown\')">定时弹幕下载</a><a class="btn" onclick="sendControl(\'adDmDown\')">广告弹幕下载</a></div><br>'+
+                    '<a class="btn" onclick="sendControl(\'videoDown\')">特效视频下载</a> <a class="btn" onclick="sendControl(\'expressionDown\')">表情下载</a> <a class="btn" onclick="sendControl(\'specialImgDown\')">特效图片下载</a><a class="btn" onclick="sendControl(\'timerDmDown\')">定时弹幕下载</a><a class="btn" onclick="sendControl(\'adDmDown\')">广告弹幕下载</a><a class="btn" onclick="sendControl(\'updateClientDown\')">更新客户端下载</a></div><br>'+
                     '<label class="control-label" style="width:60px">配置表</label><div class="controls" style="margin-left:60px;">'+
                     '<a class="btn" onclick="sendControl(\'configCreate\')">生成配置表</a></div><br>'+
                     '<label class="control-label" style="width:60px">执行脚本</label><div class="controls" style="margin-left:60px;">'+
@@ -748,11 +763,12 @@ var openControlDialog = function(addressName,addressId){
 }
 
 var sendControl = function(cmd){
-    if(cmd=='danmu-start'){
+    /*if(cmd=='danmu-start'){
         cmd = $('#selectDmStart').val();
-    }
+    }*/
     var obj = {
-        cmd:cmd,
+        'danmuStart':$('#selectDmStart').val(),
+        'cmd':cmd,
         addressId:g_addressId
     }
     $.danmuAjax('/v1/api/admin/clientControl/control', 'GET','json','',obj, function (data) {
