@@ -520,6 +520,7 @@ Date.prototype.format = function(f){
 }
 
 var openUpdateDialog = function(addressName,addressId){
+    $('#modalBody').html('<table id="screenTableList" class="table table-striped" table-height="360"></table>');
     var updatePlanTableUrl = '/v1/api/admin/updateplan/page';
     var updatePlanObject = {
         addressId:addressId,
@@ -784,9 +785,11 @@ var openControlDialog = function(addressName,addressId){
     htmlStr +='<label class="control-label" style="width:60px">teamView</label><div class="controls" style="margin-left:60px;">';
     htmlStr +='<a class="btn" onclick="sendControl(\'teamViewStart1\')">开启左侧</a>';
     htmlStr +='<a class="btn" onclick="sendControl(\'screenPic1\')">左侧截图</a>';
+    htmlStr +='<a class="btn" href="/screenpic/'+addressId+'_1.jpg" target="_blank">查看左侧截图</a>';
     htmlStr +='<a class="btn" onclick="sendControl(\'teamViewClose1\')">关闭左侧</a>';
     htmlStr +='<a class="btn" onclick="sendControl(\'teamViewStart2\')">开启右侧</a>';
     htmlStr +='<a class="btn" onclick="sendControl(\'screenPic2\')">右侧截图</a>';
+    htmlStr +='<a class="btn" href="/screenpic/'+addressId+'_2.jpg" target="_blank">查看右侧截图</a>';
     htmlStr +='<a class="btn" onclick="sendControl(\'teamViewClose2\')">关闭右侧</a>';
     htmlStr +='</div><br>';
 
@@ -809,7 +812,9 @@ var openControlDialog = function(addressName,addressId){
     htmlStr +='</div><br>';
     htmlStr	+='</div></div>';
     htmlStr+='</form>';
-    $('#myModalLabel').html(addressName+'的控制台');
+
+    var titleHtmlStr ='';
+    $('#myModalLabel').html('<div><p><h1>'+addressName+'的控制台</h1></p><div id="deviceStatus" ><h5>java1:正常 java2:断开连接</h5></div></div>');
     $('#modalBody').html(htmlStr);
     $('#myModal').modal('show');
 }
