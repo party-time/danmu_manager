@@ -520,6 +520,7 @@ Date.prototype.format = function(f){
 }
 
 var openUpdateDialog = function(addressName,addressId){
+    $('#modalBody').html('<table id="screenTableList" class="table table-striped" table-height="360"></table>');
     var updatePlanTableUrl = '/v1/api/admin/updateplan/page';
     var updatePlanObject = {
         addressId:addressId,
