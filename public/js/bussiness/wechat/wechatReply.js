@@ -7,16 +7,22 @@ var columnsArray = [
         align: 'center'
     },
     {
-        field: 'message',
         title: '自动回复内容',
         align: 'center',
-        width:'60%'
+        width:'60%',
+        formatter: function (value, row, index) {
+            if( null == row.mediaId){
+                return row.message;
+            }else{
+                return "已经关联音频："+row.mediaName;
+            }
+        }
     },
     {
         field: 'id', title: '操作',
         align: 'center',
         formatter: function (value, row, index) {
-            return '<a class="btn" onclick="openReplyWords(\''+row.id+'\',\''+row.words+'\',\''+row.message+'\')">修改</a><a class="btn" onclick="delReplyWords(\''+row.id+'\',\''+row.words+'\')">删除</a>';
+            return '<a class="btn" onclick="openReplyWords(\''+row.id+'\',\''+row.words+'\',\''+row.message+'\',\''+row.mediaId+'\',\''+row.mediaName+'\')">修改</a><a class="btn" onclick="delReplyWords(\''+row.id+'\',\''+row.words+'\')">删除</a>';
         },
         events: 'operateEvents'
     }
@@ -147,17 +153,25 @@ var delReplyWords = function(id,name){
 
 var g_replyWordsId = ''
 
-var openReplyWords = function(id,words,message){
+var openReplyWords = function(id,words,message,mediaId,mediaName){
    g_replyWordsId = id;
    $('#voiceControl').html('');
    $('#addReplyWords').val(words);
-   $('#message').val(message);
+   if( null == mediaId || 'null' == mediaId){
+        $('#message').val(message);
+   }else{
+        $('#messageControl').html('<label class="control-label" for="message">已经关联语音</label><div class="controls">'+mediaName+'<a onclick="cancelVoice(\''+id+'\')">取消</a></div>');
+        $('#voiceControl').html('');
+   }
+   $('#selectVoiceBtn').click(function(){
+            openVoice(g_replyWordsId);
+   });
    $('#myModal').modal('show');
 
 }
 
 
-var openVoice = function(){
+var openVoice = function(msgId){
     $('#voiceControl').html('<table id="voiceTableList" class="table table-striped" table-height="360"></table>');
     var voiceUrl = '/v1/api/admin/wxmessage/findVoice';
     var voiceColumnsArray = [
@@ -175,7 +189,7 @@ var openVoice = function(){
             title: '操作',
             align: 'center',
             formatter: function (value, row, index) {
-                return '<a class="btn" onclick="selectVoice(\''+row.name+'\',\''+row.media_id+'\')">选择</a>';
+                return '<a class="btn" onclick="selectVoice(\''+msgId+'\',\''+row.name+'\',\''+row.media_id+'\')">选择</a>';
             },
             events: 'operateEvents'
         }
@@ -187,13 +201,41 @@ var openVoice = function(){
     $.initTable('voiceTableList', voiceColumnsArray, voiceQuaryObject, voiceUrl,tableSuccess);
 }
 
-var selectVoice = function(name,media_id){
-    $('#messageControl').html('<label class="control-label" for="message">已经关联语音</label><div class="controls">'+name+'<a onclick="cancelVoice()">取消</a></div>');
-    $('#voiceControl').html('');
+var selectVoice = function(msgId,name,media_id){
+    var obj = {
+        id:msgId,
+        mediaId:media_id,
+        mediaName:name
+    }
+    $.danmuAjax('/v1/api/admin/wxmessage/selectVoice', 'GET','json',obj, function (data) {
+        if(data.result == 200) {
+           console.log(data);
+           $('#messageControl').html('<label class="control-label" for="message">已经关联语音</label><div class="controls">'+name+'<a onclick="cancelVoice()">取消</a></div>');
+           $('#voiceControl').html('');
+         }else{
+            alert('删除失败');
+         }
+    }, function (data) {
+        console.log(data);
+    });
 }
 
-var cancelVoice = function(){
-    $('#messageControl').html('<label class="control-label" for="message" id="messageControl">自动回复内容</label><textarea style="width:300px;height:50px" id="message"></textarea></div>');
+var cancelVoice = function(msgId){
+    if(confirm('确定要取消关联音频文件吗？')){
+        var obj = {
+            id:msgId
+        }
+        $.danmuAjax('/v1/api/admin/wxmessage/cancelVoice', 'GET','json',obj, function (data) {
+            if(data.result == 200) {
+              console.log(data);
+              $('#messageControl').html('<label class="control-label" for="message" id="messageControl">自动回复内容</label><textarea style="width:300px;height:50px" id="message"></textarea></div>');
+             }else{
+                alert('删除失败');
+             }
+        }, function (data) {
+            console.log(data);
+        });
+     }
 }
 
 
