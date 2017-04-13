@@ -489,7 +489,6 @@ var delMovieSchedule = function(id,partyId){
         var obj = {
             'id':id
         }
-
         $.danmuAjax('/v1/api/admin/movieSchedule/del', 'GET','json',obj, function (data) {
             if( data.result == 200){
                 movieSchedulePage(partyId);
@@ -505,9 +504,11 @@ var delMovieSchedule = function(id,partyId){
 };
 
 var movieSchedulePage = function(partyId){
+    var msAddressId = $('#movieScheduleAddress').val();
     var movieScheduleTableUrl = '/v1/api/admin/movieSchedule/list';
     var movieScheduleQueryObject = {
         partyId:partyId,
+        addressId:msAddressId,
         pageSize: 6
     }
     var movieScheduleColumnsArray =[
@@ -561,16 +562,41 @@ var movieSchedulePage = function(partyId){
     var tableSuccess = function(){
         $('#modalBody').find('.pull-left').remove();
     }
+    var buttonHtml = '<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>';
+    $('#modalFooter').html(buttonHtml);
+
     $.initTable('addressTableList', movieScheduleColumnsArray, movieScheduleQueryObject, movieScheduleTableUrl,tableSuccess);
 }
 
+var getAddressByParty = function(partyId){
+    var obj = {
+        partyId:partyId
+    }
+    $.danmuAjax('/v1/api/admin/address/getByPartyId', 'GET','json',obj, function (data) {
+        if( data.result == 200){
+            if(data.data && data.data.length >0){
+                $('#movieScheduleAddress').append('<option value="0">全部</option>');
+                for(var i=0;i<data.data.length;i++){
+                    $('#movieScheduleAddress').append('<option value="'+data.data[i].id+'">'+data.data[i].name+'</option>');
+                }
+            }else{
+                 $('#movieScheduleAddress').append('<option value="-1">无</option>');
+            }
+
+        }else{
+            alert('更新失败')
+        }
+
+    }, function (data) {
+        console.log(data);
+    });
+}
+
 var openMovieSchedule = function(partyId){
-
-    $('#myModalLabel').html('电影场次');
-
+    $('#myModalLabel').html('<div><h1 style="float:left;">电影场次</h1> <h5 style="float:left;margin-top:10px;margin-left:10px;">场地：</h5><select id="movieScheduleAddress" style="margin-top:5px;" onchange="movieSchedulePage(\''+partyId+'\')"></select></div>');
+    getAddressByParty(partyId);
     movieSchedulePage(partyId);
     $('#myModal').modal('show');
-
 }
 
 var selectSearchType = function(){
@@ -594,7 +620,6 @@ var selectSearchType = function(){
         $('#searchStatus').append('<option value="4">已下线</option>');
     }
 }
-
 
 
 getAllDanmuLibrary();
