@@ -729,6 +729,7 @@ var saveUpdatePlan = function(addressName,addressId,versionId){
     });
 }
 
+var _picRandom = new Date().getTime();
 /**
  * projectStart 开启投影  projectClose 关闭投影  projectChange 投影切白
  * appRestart app重启  appStart app开启  appClose app关闭
@@ -785,11 +786,11 @@ var openControlDialog = function(addressName,addressId){
     htmlStr +='<label class="control-label" style="width:60px">teamView</label><div class="controls" style="margin-left:60px;">';
     htmlStr +='<a class="btn" onclick="sendControl(\'teamViewStart1\')">开启左侧</a>';
     htmlStr +='<a class="btn" onclick="sendControl(\'screenPic1\')">左侧截图</a>';
-    htmlStr +='<a class="btn" href="/screenpic/'+addressId+'_1.jpg" target="_blank">查看左侧截图</a>';
+    htmlStr +='<a class="btn" onclick="openScreenPic(\''+addressId+'\')">查看左侧截图</a>';
     htmlStr +='<a class="btn" onclick="sendControl(\'teamViewClose1\')">关闭左侧</a>';
     htmlStr +='<a class="btn" onclick="sendControl(\'teamViewStart2\')">开启右侧</a>';
     htmlStr +='<a class="btn" onclick="sendControl(\'screenPic2\')">右侧截图</a>';
-    htmlStr +='<a class="btn" href="/screenpic/'+addressId+'_2.jpg" target="_blank">查看右侧截图</a>';
+    htmlStr +='<a class="btn" onclick="openScreenPic(\''+addressId+'\')">查看右侧截图</a>';
     htmlStr +='<a class="btn" onclick="sendControl(\'teamViewClose2\')">关闭右侧</a>';
     htmlStr +='</div><br>';
 
@@ -819,10 +820,15 @@ var openControlDialog = function(addressName,addressId){
     $('#myModal').modal('show');
 }
 
+var openScreenPic = function(addressId){
+    window.open('/screenpic/'+addressId+'_1.jpg?r='+new Date().getTime());
+}
+
 var sendControl = function(cmd){
     /*if(cmd=='danmu-start'){
         cmd = $('#selectDmStart').val();
     }*/
+    _picRandom = new Date().getTime();
     var obj = {
         'danmuStart':$('#selectDmStart').val(),
         'cmd':cmd,
