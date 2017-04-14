@@ -104,11 +104,20 @@ var columnsArray = [
         }
     },
     {
+        title: '最后获取地理位置时间',
+        align: 'center',
+        formatter: function (value, row, index) {
+            if(row.wechatUserInfo && row.wechatUserInfo.lastGetLocationDate){
+                return new Date(parseInt(row.wechatUserInfo.lastGetLocationDate)).format('yyyy-MM-dd hh:mm:ss');
+            }
+        }
+    },
+    {
         title: '最后登录时间',
         align: 'center',
         formatter: function (value, row, index) {
-            if(row.wechatUserInfo){
-                return new Date(parseInt(row.wechatUserInfo.lastOpenDate)).format('yyyy-MM-dd hh:mm:ss');
+            if(row.wechatUser && row.wechatUser.lastOpenDate){
+                return new Date(parseInt(row.wechatUser.lastOpenDate)).format('yyyy-MM-dd hh:mm:ss');
             }
         }
     },
