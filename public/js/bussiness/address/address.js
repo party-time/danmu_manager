@@ -781,8 +781,8 @@ var openControlDialog = function(addressName,addressId){
         htmlStr +='</div><br>';
 
         htmlStr += '<label class="control-label" style="width:60px">客户端更新</label><div class="controls" style="margin-left:60px;">';
-        htmlStr += '<a class="btn" onclick="sendControl(\'updateClientDown\')">更新客户端下载</a>';
-        htmlStr += '<a class="btn" onclick="sendControl(\'updatePlanCreate\')">客户端更新配置下载</a>';
+        htmlStr += '<a class="btn" onclick="sendControl(\'updateClientDown\')">客户端下载（先）</a>';
+        htmlStr += '<a class="btn" onclick="sendControl(\'updatePlanCreate\')">更新计划（后）</a>';
         htmlStr += '</div><br>';
 
         htmlStr += '<label class="control-label" style="width:60px">升级相关</label><div class="controls" style="margin-left:60px;">';
