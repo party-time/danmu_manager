@@ -491,7 +491,7 @@ var saveScreen = function () {
         'overdueStr': $('#overdue').val(),
         'paramTemplateId':$('#paramTemplateId').val()
     };
-     $.danmuAjax('/v1/api/admin/client/save', 'POST','json','',obj, function (data) {
+     $.danmuAjax('/v1/api/admin/client/save', 'POST','json','application/x-www-form-urlencoded; charset=UTF-8',obj, function (data) {
         if (data.result == 200) {
           console.log(data);
           cancelSaveScreen();
