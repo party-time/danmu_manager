@@ -123,8 +123,17 @@ initable();
 
 function doExport(){
     //window.location="/v1/api/javaClient/download/"+quaryObject.addressId+"/"+quaryObject.partyId;
-    $.danmuAjax("/v1/api/javaClient/download/"+quaryObject.addressId+"/"+quaryObject.partyId, 'GET','json',null, function (data) {
+    /*$.danmuAjax("/v1/api/javaClient/download/"+quaryObject.addressId+"/"+quaryObject.partyId, 'GET','json',null, function (data) {
     }, function (data) {
         console.log(data);
-    });
+    });*/
+        var form=$("<form>");//定义一个form表单
+        form.attr("style","display:none");
+        form.attr("target","");
+        form.attr("method","POST");
+        form.attr("action","/v1/api/javaClient/download/"+quaryObject.addressId+"/"+quaryObject.partyId);
+        $("body").append(form);//将表单放置在web中
+        form.submit();//表单提交
+        //form.remove();
+
 }
