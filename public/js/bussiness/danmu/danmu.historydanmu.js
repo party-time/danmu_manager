@@ -119,3 +119,8 @@ var blocked = function(id){
 }
 
 initable();
+
+
+function doExport(){
+    window.location="/v1/api/javaClient/download/"+quaryObject.addressId+"/"+quaryObject.partyId;
+}
