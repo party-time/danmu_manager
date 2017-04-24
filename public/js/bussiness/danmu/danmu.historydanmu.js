@@ -122,5 +122,9 @@ initable();
 
 
 function doExport(){
-    window.location="/v1/api/javaClient/download/"+quaryObject.addressId+"/"+quaryObject.partyId;
+    //window.location="/v1/api/javaClient/download/"+quaryObject.addressId+"/"+quaryObject.partyId;
+    $.danmuAjax("/v1/api/javaClient/download/"+quaryObject.addressId+"/"+quaryObject.partyId, 'GET','json',null, function (data) {
+    }, function (data) {
+        console.log(data);
+    });
 }
