@@ -492,3 +492,26 @@ $(".timeDanmuButton").click(function(){
         console.log(data);
     });
 });
+
+$(".importDanmuButton").click(function(){
+    //alert(partyId);
+    if ($("#uploadFileId2").val().length > 0) {
+        ajaxFileUpload();
+    } else {
+        alert("请选择文件！");
+    }
+});
+
+function ajaxFileUpload() {
+    $.ajaxFileUpload({
+        url: "/v1/api/admin/timerDanmu/upload/"+partyId, //用于文件上传的服务器端请求地址
+        secureuri: false, //一般设置为false
+        fileElementId: 'uploadFileId2', //文件上传空间的id属性  <input type="file" id="file" name="file" />
+        dataType: 'json', //返回值类型 一般设置为json
+        type:"post",
+        success: function (data,status){
+
+        },
+    });
+    return false;
+}
