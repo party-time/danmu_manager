@@ -40,6 +40,7 @@
                 <select id="selectedDl" style="width:100px;margin-left:10px;" onchange="getDanmuLibraryPage()"></select>
                 <button type="button" class="btn btn-primary" onclick="saveDanmuLibrary()" style="margin-bottom:10px;margin-left:10px;">保存弹幕库</button>
                 <button type="button" class="btn btn-primary" onclick="delDanmuLibrary()" style="margin-bottom:10px;margin-left:10px;">删除弹幕库</button>
+                <button type="button" class="btn btn-info importDanmu">导入弹幕</button>
             </div>
             <div class="row">
                 <div class="span4 history">
@@ -107,10 +108,31 @@
     </div>
     <!-- /main-inner -->
 </div>
+
+
+<div id="myModal" class="hide fade" >
+    <div class="modal-dialog modal">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel"></h3>
+        </div>
+        <div class="modal-body" id="modalBody">
+            <button type="button" class="btn btn-info templetDownButton">模板下载</button>
+            <br/>
+            <input type="file" id="uploadFileId2" name="uploadFileName" />
+            <button type="button" class="btn btn-info importDanmuButton">导入</button>
+
+        </div>
+        <div class="modal-footer" id="modalFooter">
+        </div>
+    </div>
+</div>
+
 <link href="/plug/bootstrapTable/bootstrap-table.min.css" rel="stylesheet"/>
 <script src="/plug/bootstrapTable/bootstrap-table.min.js"></script>
 <script src="/plug/bootstrapTable/locale/bootstrap-table-zh-CN.min.js"></script>
 <script src="/js/common/danmu.table.plug.js"></script>
 <script src="/js/common/danmu.ajax.plug.js"></script>
 <script src="/js/bussiness/danmu/danmu.predanmu.js"></script>
+<script src="/plug/jquery/ajaxfileupload.js"></script>
 <% include ../common/bottom.html %>

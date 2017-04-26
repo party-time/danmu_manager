@@ -317,3 +317,54 @@ var delDanmuLibrary = function () {
 initColor();
 getAllDanmuLibrary();
 getDanmuPage(1);
+
+
+
+$(".importDanmu").click(function () {
+    if($('#selectedDl').val() ==0){
+        alert("请选择一个弹幕库");
+        return;
+    }
+    $('#myModal').modal('show');
+});
+
+
+$(".importDanmuButton").click(function(){
+    //alert(partyId);
+    if ($("#uploadFileId2").val().length > 0) {
+        ajaxFileUpload();
+    } else {
+        alert("请选择文件！");
+    }
+});
+
+function ajaxFileUpload() {
+    $.ajaxFileUpload({
+        url: "/v1/api/admin/preDanmu/upload/"+$('#selectedDl').val(), //用于文件上传的服务器端请求地址
+        secureuri: false, //一般设置为false
+        fileElementId: 'uploadFileId2', //文件上传空间的id属性  <input type="file" id="file" name="file" />
+        dataType: 'json', //返回值类型 一般设置为json
+        type:"post",
+        success: function (data,status){
+            if(data.result==200){
+                alert(data.result_msg);
+                $("#uploadFileId2").val('');
+                $('#myModal').modal('hide');
+                getDanmuLibraryPage(1);
+            }else{
+                alert(data.result_msg);
+            }
+        }
+    });
+    return false;
+}
+
+$(".templetDownButton").click(function () {
+    var form=$("<form>");//定义一个form表单
+    form.attr("style","display:none");
+    form.attr("target","");
+    form.attr("method","POST");
+    form.attr("action","/v1/api/admin/preDanmu/downloadTemplet");
+    $("body").append(form);//将表单放置在web中
+    form.submit();//表单提交
+});
