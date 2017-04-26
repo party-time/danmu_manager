@@ -493,6 +493,11 @@ $(".timeDanmuButton").click(function(){
     });
 });
 
+$(".importDanmu").click(function () {
+    $('#myModal').modal('show');
+});
+
+
 $(".importDanmuButton").click(function(){
     //alert(partyId);
     if ($("#uploadFileId2").val().length > 0) {
@@ -510,8 +515,26 @@ function ajaxFileUpload() {
         dataType: 'json', //返回值类型 一般设置为json
         type:"post",
         success: function (data,status){
-
-        },
+            if(data.result==200){
+                alert(data.result_msg);
+                initable();
+                initCarts();
+                $("#uploadFileId2").val('');
+                $('#myModal').modal('hide');
+            }else{
+                alert(data.result_msg);
+            }
+        }
     });
     return false;
 }
+
+$(".templetDownButton").click(function () {
+    var form=$("<form>");//定义一个form表单
+    form.attr("style","display:none");
+    form.attr("target","");
+    form.attr("method","POST");
+    form.attr("action","/v1/api/admin/timerDanmu/downloadTemplet");
+    $("body").append(form);//将表单放置在web中
+    form.submit();//表单提交
+});

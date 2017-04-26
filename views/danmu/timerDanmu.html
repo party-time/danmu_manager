@@ -21,11 +21,10 @@
 
                 <div class="span8">
                     <div class="widget widget-nopad">
-                        <input type="file" id="uploadFileId2" name="uploadFileName" />
                         <div class="widget-header"> <i class="icon-list-alt"></i>
                             <h3> 弹幕列表</h3>
                             <button type="button" class="btn btn-info timeDanmuButton">生成定时弹幕</button>
-                            <button type="button" class="btn btn-info importDanmuButton">导入弹幕</button>
+                            <button type="button" class="btn btn-info importDanmu">导入弹幕</button>
                         </div>
                         <!-- /widget-header -->
                         <div class="widget-content">
@@ -124,6 +123,24 @@
         <!-- /container -->
     </div>
     <!-- /main-inner -->
+</div>
+
+<div id="myModal" class="hide fade" >
+    <div class="modal-dialog modal">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel"></h3>
+        </div>
+        <div class="modal-body" id="modalBody">
+            <button type="button" class="btn btn-info templetDownButton">模板下载</button>
+            <br/>
+            <input type="file" id="uploadFileId2" name="uploadFileName" />
+            <button type="button" class="btn btn-info importDanmuButton">导入</button>
+
+        </div>
+        <div class="modal-footer" id="modalFooter">
+        </div>
+    </div>
 </div>
 
 <link href="/plug/bootstrapTable/bootstrap-table.min.css" rel="stylesheet"/>
