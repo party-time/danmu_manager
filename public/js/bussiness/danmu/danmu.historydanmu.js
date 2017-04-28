@@ -131,7 +131,7 @@ function doExport(){
         form.attr("style","display:none");
         form.attr("target","");
         form.attr("method","POST");
-        form.attr("action","/v1/api/javaClient/download/"+quaryObject.addressId+"/"+quaryObject.partyId);
+        form.attr("action","/v1/api/admin/historyDanmu/download/"+quaryObject.addressId+"/"+quaryObject.partyId);
         $("body").append(form);//将表单放置在web中
         form.submit();//表单提交
         //form.remove();
