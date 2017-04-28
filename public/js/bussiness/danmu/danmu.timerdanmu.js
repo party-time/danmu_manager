@@ -12,9 +12,7 @@ var direction=0 ;//方位
 var partyId;
 var insertData = new Object();
 
-
-
-
+var updateFlg=false;
 
 $(".danmuType-array").change(function (data) {
     //var aaa = $(".js-example-data-array  option:selected").val();
@@ -37,13 +35,7 @@ $(".danmuType-array").change(function (data) {
 
 $(".danmuPosition-array").change(function (data) {
     direction = data.target.value;
-
 });
-
-
-
-
-
 
 var initDanmuTypeDiv = function (type) {
     for (var i = 0; i < danmuTypeArray.length; i++) {
@@ -95,11 +87,24 @@ var columnsArray = [
     },
     {
         field: 'operate', title: '删除', align: 'center', formatter: function (value, row, index) {
-        return "<button class='btn btn-danger remove' href='javascript:void(0)' title='remove'>删除</button>";
-    }, events: 'operateEvents'
+            var buttonStr = "<a class='btn btn-info edit' onclick='doEdit(\""+row.id+"\")' title='remove'>编辑</a>";
+            buttonStr +="&nbsp;<a class='btn btn-danger remove'  onclick='doDelete(\""+row.id+"\")' title='remove'>删除</a>";
+            return buttonStr;
+            //return "<button class='btn btn-info edit' onclick='doEdit(\''+row.id+'\')' title='remove'>编辑</button>&nbsp;<button class='btn btn-danger remove'  title='remove'>删除</button>";
+        }, events: 'operateEvents'
     }
 ];
-window.operateEvents = {
+var doDelete = function(id){
+    $.danmuAjax('/v1/api/admin/timerDanmu/delete', 'GET', 'json', {danmuId:id}, function (data) {
+        if (data.result == 200) {
+            initable();
+            initCarts();
+        }
+    }, function (data) {
+        console.log(data);
+    });
+}
+/*window.operateEvents = {
     'click .remove': function (e, value, row, index) {
         $.danmuAjax('/v1/api/admin/timerDanmu/delete', 'GET', 'json', {danmuId: row.id}, function (data) {
             if (data.result == 200) {
@@ -110,10 +115,11 @@ window.operateEvents = {
             console.log(data);
         });
     }
-};
+};*/
 var quaryObject = {pageSize: 10, partyId: partyId};
 
 var initable = function () {
+
     $.initTable('tableList', columnsArray, quaryObject, tableUrl);
 }
 var initCarts = function () {
@@ -127,6 +133,18 @@ var getAllDanmuLibrary = function () {
     var url = location.href.substring(location.href.indexOf("?")+1);
     partyId =  url.substr(url.indexOf('=') + 1);
     quaryObject.partyId = partyId;
+
+    $.danmuAjax('/v1/api/admin/party/partyInfo/'+partyId, 'GET', 'json', {}, function (data) {
+        if (data.result == 200) {
+            if(data.data.danmuStartTime>0){
+                setDanmuStartButtonStatus(1);
+            }else{
+                setDanmuStartButtonStatus(0);
+            }
+        } else {
+            alert("资源加载失败")
+        }
+    });
     initable();
     initCarts();
     initDanmuTypeDiv(divIndex);
@@ -136,7 +154,7 @@ var getAllDanmuLibrary = function () {
             var html = ''
             for (var i = 0; i < colorArray.length; i++) {
                 var color = colorArray[i];
-                html += '<button class="btn"  style="width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; background-color: ' + color + '" onclick="setElement(\'' + color + '\')"></button>';
+                html += '<button class="btn"  style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; padding-left: 0px; background-color: ' + color + '" onclick="setElement(\'' + color + '\')">'+color+'</button>';
             }
             $(".danmuColor").empty().html(html);
         } else {
@@ -154,7 +172,7 @@ var getAllDanmuLibrary = function () {
             if(expressionArray!=null){
                 for (var i = 0; i < expressionArray.length; i++) {
                     var expression = expressionArray[i];
-                    html += '<img src="' + baseUrl + expression.smallFileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;" onclick="setElement(\'' + expression.smallFileUrl + '\',\'' + expression.id + '\')"/>';
+                    html += '<img src="' + baseUrl + expression.smallFileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;"  title="' + expression.smallFileUrl + '" onclick="setElement(\'' + expression.smallFileUrl + '\',\'' + expression.id + '\')"/>';
                 }
                 $(".expressionDanmu").empty().html(html);
             }else{
@@ -168,7 +186,7 @@ var getAllDanmuLibrary = function () {
             if(imageArray!=null){
                 for (var i = 0; i < imageArray.length; i++) {
                     var image = imageArray[i];
-                    html += '<img src="' + baseUrl + image.fileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;" title="' + image.resourceName + '" onclick="setElement(\'' + image.fileUrl + '\',\'' + image.id + '\')"/>';
+                    html += '<img src="' + baseUrl + image.fileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;" title="' + image.fileUrl + '" onclick="setElement(\'' + image.fileUrl + '\',\'' + image.id + '\')"/>';
                 }
                 $(".imageDanmu").empty().html(html);
             }else{
@@ -219,21 +237,26 @@ var setElement = function (content, id) {
     switch (value) {
         case 0:
             insertData.color = content;
+            setButtonBorder("danmuColor",content);
             break;
         case 1:
             insertData.code = id;
             insertData.content = content;
+            setSpecialButtonBorder("videoDanmu",content);
             break;
         case 2:
             insertData.code = id;
             insertData.content = content;
+            setImageBorder("imageDanmu",content);
             break;
         case 3:
             insertData.color = content;
+            setButtonBorder("blingDanmuColor",content);
             break;
         case 4:
             insertData.code = id;
             insertData.content = content;
+            setImageBorder("expressionDanmu",content);
             break;
         default:
             return;
@@ -243,45 +266,34 @@ var setElement = function (content, id) {
 
 
 $("#danmuMsg").keydown(function () {
-    var size = 40-$("#danmuMsg").val().length;
-
-    if(size<0){
-        $.setControlDisabledStateByCss('sendDanmuButton',true);
-        $("#danmuMsgCount").html('别输了，字数超过上限了');
-    }else{
-        $("#danmuMsgCount").html('你还可以输入的字数:'+size);
-        $.setControlDisabledStateByCss('sendDanmuButton',false);
-    }
-
-
-})
+    setDanmuButtonStatus();
+});
 $("#danmuMsg").keyup(function () {
-    var size = 40-$("#danmuMsg").val().length;
-    if(size<0){
-        $.setControlDisabledStateByCss('sendDanmuButton',true);
-        $("#danmuMsgCount").html('别输了，字数超过上限了');
-    }else{
-        $("#danmuMsgCount").html('你还可以输入的字数:'+size);
-        $.setControlDisabledStateByCss('sendDanmuButton',false);
-    }
-})
+    setDanmuButtonStatus();
+});
 
 
 
 $("#blingMsg").keydown(function () {
-    var size = 8-$("#blingMsg").val().length;
-
-    if(size<0){
-        $.setControlDisabledStateByCss('sendBlingDanmuButton',true);
-        $("#blingMsgCount").html('别输了，字数超过上限了');
-    }else{
-        $("#blingMsgCount").html('你还可以输入的字数:'+size);
-        $.setControlDisabledStateByCss('sendBlingDanmuButton',false);
-    }
-
-
+    setBlingDanmuButtonStatus();
 })
+
 $("#blingMsg").keyup(function () {
+    setBlingDanmuButtonStatus();
+})
+
+function setDanmuButtonStatus(){
+    var size = 40-$("#danmuMsg").val().length;
+    if(size<0){
+        $.setControlDisabledStateByCss('sendDanmuButton',true);
+        $("#danmuMsgCount").html('别输了，字数超过上限了');
+    }else{
+        $("#danmuMsgCount").html('你还可以输入的字数:'+size);
+        $.setControlDisabledStateByCss('sendDanmuButton',false);
+    }
+}
+
+function setBlingDanmuButtonStatus(){
     var size = 8-$("#blingMsg").val().length;
     if(size<0){
         $.setControlDisabledStateByCss('sendBlingDanmuButton',true);
@@ -290,7 +302,10 @@ $("#blingMsg").keyup(function () {
         $("#blingMsgCount").html('你还可以输入的字数:'+size);
         $.setControlDisabledStateByCss('sendBlingDanmuButton',false);
     }
-})
+}
+
+
+
 
 var danmuAddOperateHandler = function () {
 
@@ -299,13 +314,17 @@ var danmuAddOperateHandler = function () {
     var minute = $("#minutes").val();
     var seconds = $("#seconds").val();
 
+    var movieStatus = $("#movieStatus").val();
+
 
     if (minute == "") {
         minute = 0;
     }
-    if(seconds==""){
+    if(seconds=="" && movieStatus==0){
         alert("请填写时间,最少填写个秒");
         return;
+    }else if(seconds==""){
+        seconds=0;
     }
 
     if (isNaN(minute)) {
@@ -346,31 +365,17 @@ var danmuAddOperateHandler = function () {
             alert('请选择动画');
             return;
         }
-        var endMinutes = $("#endMinutes").val();
-        var endSeconds = $("#endSeconds").val();
-        if (endMinutes == "") {
-            endMinutes = 0;
-        }
-        if(endSeconds==""){
-            alert("请填写时间,最少填写个秒");
+        var lastTime = $("#lastTime").val();
+        if(lastTime==""){
+            alert("亲，最少写个持续时间吧!");
             return;
         }
 
-        if (isNaN(endMinutes)) {
+        if (isNaN(lastTime)) {
             alert('分钟请填写数字');
             return;
         }
-        if (isNaN(endSeconds)) {
-            alert('秒请填写数字');
-            return;
-        }else{
-            if(endSeconds>59){
-                alert('秒数请限制在0~59秒之间');
-                return;
-            }
-        }
-        var endTime = parseInt(endMinutes*60) + parseInt(endSeconds);
-        insertData.endTime = endTime;
+        insertData.lastTime = lastTime;
 
     }else if (divIndex == 2) {
         if(insertData.content==null){
@@ -384,29 +389,24 @@ var danmuAddOperateHandler = function () {
         }
     }
 
-
-
     $.danmuAjax(danmuAddUrl, 'POST', 'json', insertData, function (data) {
         quaryObject.pageNumber = 1
         if (data.result == 200) {
-            //direction =parseInt(data.data);
-            //alert(direction)
-            //$(".danmuPosition-array").select2('val',"'"+direction+"'");
             initable();
             initCarts();
             clearValue();
+
+            if (divIndex == 0) {
+                setButtonBorder("danmuColor","");
+            } else if (divIndex == 3) {
+                setButtonBorder("blingDanmuColor","");
+            }
         }
     });
 
 }
 
-var clearValue = function () {
-    $("#danmuMsg").val('');
-    $("#blingMsg").val('');
-    $("#blingMsgCount").html('你还可以输入的字数:'+40);
-    $("#danmuMsgCount").html('你还可以输入的字数:'+40);
-    insertData = new Object();
-}
+
 
 
 function initHighcharts(data) {
@@ -538,3 +538,168 @@ $(".templetDownButton").click(function () {
     $("body").append(form);//将表单放置在web中
     form.submit();//表单提交
 });
+
+$(".movieStart").click(function () {
+    var status = $("#movieStatus").val();
+    if(status==0){
+        danmuStartFunction(1);
+    }else{
+        danmuStartFunction(0);
+    }
+
+});
+
+$(".addTimeButton").click(function () {
+
+    updateDanmuBeginTime(1);
+    //$("#adjustTime").val(parseInt(time)+1)
+});
+
+$(".minusTimeButton").click(function () {
+    updateDanmuBeginTime(0);
+});
+
+var updateDanmuBeginTime = function(status){
+    $.danmuAjax('/v1/api/admin/timerDanmu/updateDanmuBeginTime/'+partyId+"/"+status, 'GET', 'json', null, function (data) {
+        if (data.result == 200) {
+            //setDanmuStartButtonStatus(status)
+            var time = $("#adjustTime").val();
+            if(status>0){
+                $("#adjustTime").val(parseInt(time)+1);
+            }else{
+                $("#adjustTime").val(parseInt(time)-1);
+            }
+            initable();
+            initCarts();
+        }
+    }, function (data) {
+        console.log(data);
+    });
+}
+
+var danmuStartFunction = function(status){
+    $.danmuAjax('/v1/api/admin/timerDanmu/danmuStart/'+partyId+"/"+status, 'GET', 'json', null, function (data) {
+        if (data.result == 200) {
+            setDanmuStartButtonStatus(status)
+        }
+    }, function (data) {
+        console.log(data);
+    });
+}
+var setDanmuStartButtonStatus=function(status){
+    if(status==1){
+        $(".movieStart").html('电影结束');
+        $(".movieStart").removeClass('btn-info').addClass('btn-danger');
+    }else {
+        $(".movieStart").html('电影开始');
+        $(".movieStart").removeClass('btn-danger').addClass('btn-info');
+    }
+    $("#movieStatus").val(status);
+}
+
+function doEdit(id){
+    updateFlg  = true;
+    $.danmuAjax('/v1/api/admin/timerDanmu/findTimerDanmu/'+id, 'GET', 'json', null, function (data) {
+        if (data.result == 200) {
+            var dataObject = data.data;
+            var type= dataObject.type;
+            var direction= dataObject.direction;
+            $(".danmuType-array").select2().val(type).trigger("change");
+            $(".danmuPosition-array").select2().val(direction).trigger("change");
+            var beginTime = dataObject.beginTime;
+            $("#danmuId").val(dataObject.id);
+            $("#minutes").val(parseInt(beginTime/60));
+            $("#seconds").val(beginTime-parseInt(beginTime/60)*60);
+            var endTime = dataObject.endTime;
+            var color= dataObject.color;
+            var content = dataObject.content;
+            if(type==0){
+                $("#danmuMsg").val(content);
+                setButtonBorder("danmuColor",color);
+            }else if(type==3){
+                $("#blingMsg").val(content);
+                setButtonBorder("blingDanmuColor",color);
+            }else if(type==1){
+                $("#lastTime").val(parseInt(endTime)-parseInt(beginTime))
+                //setButtonBorder("videoDanmu",color);
+                setSpecialButtonBorder("videoDanmu",content);
+            }else if(type==2){
+                setImageBorder("imageDanmu",content);
+            }else if(type==4){
+                setImageBorder("expressionDanmu",content);
+            }
+
+            insertData.id= dataObject.id;
+            insertData.code = id;
+            insertData.content = content;
+            insertData.color=color;
+            updateFlg =false;
+            setDanmuButtonStatus();
+            setBlingDanmuButtonStatus();
+        }
+    }, function (data) {
+        console.log(data);
+    });
+}
+
+var clearValue = function () {
+    $("#danmuId").val('');
+    $("#danmuMsg").val('');
+    $("#blingMsg").val('');
+    $("#minutes").val('');
+    $("#seconds").val('');
+    $("#endMinutes").val('');
+    $("#endSeconds").val('');
+    $("#blingMsgCount").html('你还可以输入的字数:'+40);
+    $("#danmuMsgCount").html('你还可以输入的字数:'+40);
+    insertData = new Object();
+
+    setSpecialButtonBorder()
+    setButtonBorder("danmuColor","null");
+    setButtonBorder("blingDanmuColor","null");
+    setButtonBorder("videoDanmu","null");
+    setImageBorder("imageDanmu","null");
+    setImageBorder("expressionDanmu","null");
+}
+
+
+function setImageBorder(id,name){
+    var buttonArray=$('#'+id).find('img');
+    if(buttonArray!=null &&  buttonArray.length>0){
+        for(var i=0; i<buttonArray.length; i++){
+            var buttonTitle = $(buttonArray[i]).attr("title");
+            if(name==buttonTitle){
+                $(buttonArray[i]).addClass("button-border-color");
+            }else{
+                $(buttonArray[i]).removeClass("button-border-color");
+            }
+        }
+    }
+}
+
+function setSpecialButtonBorder(id,name){
+    var buttonArray=$('#'+id).find('button');
+    if(buttonArray!=null &&  buttonArray.length>0){
+        for(var i=0; i<buttonArray.length; i++){
+            var buttonTitle = $(buttonArray[i]).attr("title");
+            if(name==buttonTitle){
+                $(buttonArray[i]).addClass("button-border-color");
+            }else{
+                $(buttonArray[i]).removeClass("button-border-color");
+            }
+        }
+    }
+}
+function setButtonBorder(id,color){
+    var colorButtonArray=$('#'+id).find('button');
+    if(colorButtonArray!=null &&  colorButtonArray.length>0){
+        for(var i=0; i<colorButtonArray.length; i++){
+            var buttonColor = $(colorButtonArray[i]).html();
+            if(buttonColor==color){
+                $(colorButtonArray[i]).addClass("button-border-color");
+            }else{
+                $(colorButtonArray[i]).removeClass("button-border-color");
+            }
+        }
+    }
+}
