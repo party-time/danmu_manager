@@ -516,12 +516,15 @@ function ajaxFileUpload() {
         type:"post",
         success: function (data,status){
             if(data.result==200){
-                alert(data.result_msg);
+
                 initable();
                 initCarts();
                 $("#uploadFileId2").val('');
                 $('#myModal').modal('hide');
+                alert(data.result_msg);
             }else{
+                $("#uploadFileId2").val('');
+                $('#myModal').modal('hide');
                 alert(data.result_msg);
             }
         }
