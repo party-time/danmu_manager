@@ -58,47 +58,21 @@ var addParamHtml = function(){
            '<input type="text" class="paramDefaultValue span1" >'+
            '<span style="margin-left: 10px;margin-right: 10px;">校验规则</span>'+
            '<input type="text" class="paramDefaultValue span1" >'+
+           '<span style="margin-left: 10px;margin-right: 10px;">是否审核</span>'+
+           '<input type="radio" name="isCheck" onclick="clickRadio(this)">'+
            '<a onclick="delParam(this)">删除</a>'+
            '</div></div>';
     return paramHtml;
 }
 
-
-var drawParamHtml = function(param){
-    var s0,s1,s2,s3,s4 = "";
-    if( param.valueType == 0 ){
-        s0 = "selected";
+var clickRadio = function(obj){
+    var status = $(obj).attr("checked");
+    if(status){
+        $(obj).attr("checked",false);
+    }else{
+        $(obj).attr("checked",true);
     }
-    if( param.valueType == 1 ){
-        s1 = "selected";
-    }
-    if( param.valueType == 2 ){
-        s2 = "selected";
-    }
-    if( param.valueType == 3 ){
-        s3 = "selected";
-    }
-
-    var paramHtml = '<div class="control-group">'+
-           '<label class="control-label" style="width:60px">参数名称</label>'+
-           '<div class="controls" style="margin-left:60px;">'+
-               '<input type="text" class="paramName span1" value="'+param.name+'" paramId="'+param.id+'">'+
-               '<span style="margin-left: 10px;margin-right: 10px;">类型</span>'+
-               '<select class="paramType span1">'+
-                   '<option value="0" '+s0+'>数字</option>'+
-                   '<option value="1" '+s1+'>布尔值</option>'+
-                   '<option value="2" '+s2+'>字符串</option>'+
-                   '<option value="3" '+s3+'>数组</option>'+
-               '</select>'+
-               '<span style="margin-left: 10px;margin-right: 10px;">默认值</span>'+
-               '<input type="text" class="paramDefaultValue span1" value="'+param.defaultValue+'" >'+
-               '<span style="margin-left: 10px;margin-right: 10px;">备注</span>'+
-               '<input type="text" class="paramDes span1" value="'+param.des+'">'+
-               '<a onclick="delParam(this)" paramId="'+param.id+'">删除</a>'+
-           '</div></div>';
-    return paramHtml;
 }
-
 
 var addParam = function(){
     $('#paramList').append(addParamHtml());
