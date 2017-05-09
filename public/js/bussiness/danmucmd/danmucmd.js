@@ -38,8 +38,6 @@ var addParamHtml = function(){
            '<label class="control-label" style="width:60px">排序</label>'+
            '<div class="controls" style="margin-left:60px;">'+
            '<input type="text" class="paramName span1" >'+
-           '<span style="margin-left: 10px;margin-right: 10px;">中文名</span>'+
-           '<input type="text" class="paramName span1" >'+
            '<span style="margin-left: 10px;margin-right: 10px;">英文名</span>'+
            '<input type="text" class="paramName span1" >'+
            '<span style="margin-left: 10px;margin-right: 10px;">页面组件</span>'+
@@ -121,7 +119,10 @@ var openAddCmdTemp = function () {
     var buttonHtml = '<a class="btn btn-primary" onclick="addParam()">新增属性</a> <button class="btn btn-primary" onclick="saveParam()">保存</button> ';
     $('#modalFooter').html(buttonHtml);
 
-    $('#myModal').modal('show');
+    $('#myModal').modal('show').css({
+        display:'inline-block',
+        width:'auto'
+   });
 };
 
 var openUpdateParamTemplate = function (id) {
