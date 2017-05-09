@@ -35,28 +35,32 @@ var quaryObject = {
 
 var addParamHtml = function(){
     var paramHtml = '<div class="control-group">'+
-           '<label class="control-label" style="width:60px">中文名</label>'+
+           '<label class="control-label" style="width:60px">排序</label>'+
            '<div class="controls" style="margin-left:60px;">'+
-               '<input type="text" class="paramName span1" >'+
-               '<span style="margin-left: 10px;margin-right: 10px;">英文名</span>'+
-               '<input type="text" class="paramName span1" >'+
-               '<span style="margin-left: 10px;margin-right: 10px;">页面组件</span>'+
-               '<select class="span1"><option value="0">无</option>';
-               for(var i=0;i<_allComponent.length;i++){
-                    paramHtml += '<option value="'+_allComponent[i].value+'">'+_allComponent[i].name+'</option>';
-               }
+           '<input type="text" class="paramName span1" >'+
+           '<span style="margin-left: 10px;margin-right: 10px;">中文名</span>'+
+           '<input type="text" class="paramName span1" >'+
+           '<span style="margin-left: 10px;margin-right: 10px;">英文名</span>'+
+           '<input type="text" class="paramName span1" >'+
+           '<span style="margin-left: 10px;margin-right: 10px;">页面组件</span>'+
+           '<select class="span1"><option value="0">无</option>';
+           for(var i=0;i<_allComponent.length;i++){
+                paramHtml += '<option value="'+_allComponent[i].value+'">'+_allComponent[i].name+'</option>';
+           }
 
-               paramHtml +='</select>'+
-               '<span style="margin-left: 10px;margin-right: 10px;">类型</span>'+
-               '<select class="paramType span1">'+
-                   '<option value="0">数字</option>'+
-                   '<option value="1">布尔值</option>'+
-                   '<option value="2">字符串</option>'+
-                   '<option value="3">数组</option>'+
-               '</select>'+
-               '<span style="margin-left: 10px;margin-right: 10px;">默认值</span>'+
-               '<input type="text" class="paramDefaultValue span1" >'+
-               '<a onclick="delParam(this)">删除</a>'+
+           paramHtml +='</select>'+
+           '<span style="margin-left: 10px;margin-right: 10px;">类型</span>'+
+           '<select class="paramType span1">'+
+               '<option value="0">数字</option>'+
+               '<option value="1">布尔值</option>'+
+               '<option value="2">字符串</option>'+
+               '<option value="3">数组</option>'+
+           '</select>'+
+           '<span style="margin-left: 10px;margin-right: 10px;">默认值</span>'+
+           '<input type="text" class="paramDefaultValue span1" >'+
+           '<span style="margin-left: 10px;margin-right: 10px;">校验规则</span>'+
+           '<input type="text" class="paramDefaultValue span1" >'+
+           '<a onclick="delParam(this)">删除</a>'+
            '</div></div>';
     return paramHtml;
 }
