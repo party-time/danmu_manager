@@ -110,4 +110,8 @@ router.get('/param', function(req, res, next) {
     res.render('param/param');
 });
 
+router.get('/danmucmd', function(req, res, next) {
+    res.render('danmucmd/danmucmd');
+});
+
 module.exports = router;

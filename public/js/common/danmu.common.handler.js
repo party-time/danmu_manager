@@ -150,6 +150,10 @@ var navbarSelect = function(){
         $('.icon-picture').parent().parent().attr('class','active');
     }
 
+    if( url.indexOf('/danmucmd')!=-1){
+            $('.icon-pencil').parent().parent().attr('class','active');
+        }
+
 
 }
 

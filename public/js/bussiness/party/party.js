@@ -45,11 +45,6 @@ var columnsArray = [
         align: 'center',
     },
     {
-        field: 'shortName',
-        title: '简称',
-        align: 'center',
-    },
-    {
         field: 'status',
         title: '状态',
         align: 'center',
@@ -92,7 +87,8 @@ var columnsArray = [
             str = '<a class="btn" href="#" onclick="openMovieSchedule(\''+row.id+'\')">电影场次</a>'
         }
         return str+'<a class="btn" href="#" onclick="openPartyResource(\''+row.id+'\')">资源管理</a>'+
-            '<a class="btn" href="#" onclick="openAddress(\''+row.name+'\',\''+row.id+'\')">场地管理</a>'+'<a class="btn" href="#" onclick="openTimerDanmu(\''+row.id+'\')">定时弹幕</a>'+selectHtml;
+            '<a class="btn" href="#" onclick="openAddress(\''+row.name+'\',\''+row.id+'\')">场地管理</a>'+
+             '<a class="btn" href="#" onclick="openTimerDanmu(\''+row.id+'\')">定时弹幕</a>'+selectHtml;
         },
         events:'operateEvents'
     },
