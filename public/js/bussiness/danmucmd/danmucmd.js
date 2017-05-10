@@ -23,7 +23,7 @@ var columnsArray = [
         align: 'center',
         formatter: function (value, row, index) {
             return '<a class="btn" onclick="openUpdateParamTemplate(\''+row.id+'\')">修改</a>'+
-            '<a class="btn" onclick="delParamTemplate(\''+row.id+'\',\''+row.name+'\')">删除</a>';
+            '<a class="btn" onclick="delCmdTemp(\''+row.id+'\',\''+row.name+'\')">删除</a>';
         },
         events: 'operateEvents'
     }
@@ -37,29 +37,29 @@ var addParamHtml = function(){
     var paramHtml = '<div class="control-group">'+
            '<label class="control-label" style="width:60px">排序</label>'+
            '<div class="controls" style="margin-left:60px;">'+
-           '<input type="text" class="paramName span1" >'+
+           '<input type="text" class="sort span1" >'+
            '<span style="margin-left: 10px;margin-right: 10px;">英文名</span>'+
-           '<input type="text" class="paramName span1" >'+
+           '<input type="text" class="key span1" >'+
            '<span style="margin-left: 10px;margin-right: 10px;">页面组件</span>'+
-           '<select class="span1"><option value="0">无</option>';
+           '<select class="component span1"><option value="0">无</option>';
            for(var i=0;i<_allComponent.length;i++){
-                paramHtml += '<option value="'+_allComponent[i].value+'">'+_allComponent[i].name+'</option>';
+                paramHtml += '<option value="'+_allComponent[i].id+'">'+_allComponent[i].name+'</option>';
            }
 
            paramHtml +='</select>'+
            '<span style="margin-left: 10px;margin-right: 10px;">类型</span>'+
-           '<select class="paramType span1">'+
+           '<select class="type span1">'+
                '<option value="0">数字</option>'+
                '<option value="1">布尔值</option>'+
                '<option value="2">字符串</option>'+
                '<option value="3">数组</option>'+
            '</select>'+
            '<span style="margin-left: 10px;margin-right: 10px;">默认值</span>'+
-           '<input type="text" class="paramDefaultValue span1" >'+
+           '<input type="text" class="defaultValue span1" >'+
            '<span style="margin-left: 10px;margin-right: 10px;">校验规则</span>'+
-           '<input type="text" class="paramDefaultValue span1" >'+
+           '<input type="text" class="checkRule span1" >'+
            '<span style="margin-left: 10px;margin-right: 10px;">是否审核</span>'+
-           '<input type="radio" name="isCheck" onclick="clickRadio(this)">'+
+           '<input type="radio" name="isCheck" class="isCheck" onclick="clickRadio(this)">'+
            '<a onclick="delParam(this)">删除</a>'+
            '</div></div>';
     return paramHtml;
@@ -84,9 +84,9 @@ var openAddCmdTemp = function () {
     $('#myModalLabel').html('创建指令');
     var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">'+
        '<label class="control-label" style="width:60px">指令名称</label><div class="controls" style="margin-left:60px;">'+
-       '<input type="text" class="span4"  maxlength="16" id="paramTemplateName"> </div><br>';
+       '<input type="text" class="span4"  maxlength="16" id="cmdTempName"> </div><br>';
     htmlStr+='<label class="control-label" style="width:60px">指令KEY</label><div class="controls" style="margin-left:60px;">'+
-       '<input type="text" class="span4"  maxlength="6" id="paramTemplateName"> </div><br>';
+       '<input type="text" class="span4"  maxlength="6" id="cmdTempKey" onblur="checkKey()"> </div><br>';
     htmlStr+='<div id="paramList">'+addParamHtml();
     htmlStr+='</div></div></form>';
     $('#modalBody').html(htmlStr);
@@ -155,66 +155,106 @@ var delParam = function(obj){
 }
 
 var saveParam = function(id){
-    var paramNameList = $('.paramName.span1');
+    var sortList = $('.sort.span1');
+    var keyList = $('.key.span1');
+    var componentList = $('.component.span1');
+    var typeList = $('.type.span1');
+    var defaultValueList = $('.defaultValue.span1');
+    var checkRuleList = $('.checkRule.span1');
+    var isCheckList = $('.isCheck');
 
-    var paramTypeList = $('.paramType.span1');
+    var cmdTempName = $('#cmdTempName').val();
+    var cmdTempKey = $('#cmdTempKey').val();
 
-    var paramDefaultValueList = $('.paramDefaultValue.span1');
-    var paramDesList = $('.paramDes.span1');
-
-    var paramTemplateName = $('#paramTemplateName').val();
-    if( '' == paramTemplateName){
-        alert("模版名称不能为空");
+    if( '' == cmdTempName){
+        alert("指令名称不能为空");
         return;
     }
 
-    if(paramNameList.length == 0 || paramTypeList.length == 0 || paramDefaultValueList.length == 0 ||
-        paramDesList.length == 0){
-         alert("参数不能为空");
+    if( '' == cmdTempKey){
+        alert("指令KEY不能为空");
+        return;
+    }
+
+    if(sortList.length == 0 || keyList.length == 0 || componentList.length == 0 ||
+        typeList.length == 0 || checkRuleList.length == 0){
+         alert("属性不能为空");
          return;
     }
 
     var paramList = new Array();
 
-    for( var i=0;i<paramNameList.length;i++){
+    for( var i=0;i<sortList.length;i++){
         var param = new Object();
 
-        param.name = $(paramNameList[i]).val();
-        if( '' == param.name ){
-            alert("参数名称不能为空");
+        param.sort = $(sortList[i]).val();
+        if( '' == param.sort ){
+            alert("排序不能为空");
+            return;
+        }
+        var reg = /^[0-9]*$/g;
+        if(!reg.test(param.sort)){
+            alert("排序只能为数字");
+            return;
+        }
+
+        param.key = $(keyList[i]).val();
+        if( '' == param.key){
+            alert("英文名不能为空");
             return;
         }
         var reg = /^[a-zA-Z0-9]*$/g;
-        if(!reg.test(param.name)){
-            alert("参数名称只能为字母和数字");
+        if(!reg.test(param.key)){
+            alert("英文名只能为字母和数字");
             return;
         }
-        param.valueType = $(paramTypeList[i]).val();
-        param.defaultValue = $(paramDefaultValueList[i]).val();
 
-        param.des = $(paramDesList[i]).val();
-        if( '' == param.des){
-            alert("备注不能为空");
+        param.componentId = $(componentList[i]).val();
+
+        param.type = $(typeList[i]).val();
+
+        param.defaultValue =$(defaultValueList[i]).val();
+
+        param.checkRule = $(checkRuleList[i]).val();
+        if( '' == param.checkRule){
+            alert("校验规则不能为空");
             return;
         }
-        param.id = $(paramNameList[i]).attr('paramId');
+        var reg = /^[0-9]*-[0-9]*$/g;
+        if(!reg.test(param.checkRule)){
+            alert("校验规则为数字-数字，第一个数字代表最短，为0时代表可以为空，第二个数字代表最长，例如0-5，代表可以为空，最长为5位");
+            return;
+        }
+
+        var r = $(isCheckList[i]).attr("checked");
+        if(r){
+            param.isCheck = 0;
+        }else{
+            param.isCheck = 1;
+        }
+
         paramList.push(param);
     }
 
     var obj={
-        paramTempId:id,
-        paramTempName:paramTemplateName,
-        paramList:paramList
+        tempName:cmdTempName,
+        key:cmdTempKey,
+        cmdJsonParamList:paramList
     }
 
-    $.danmuAjax('/v1/api/admin/paramTemplate/save', 'POST','json','', JSON.stringify(obj), function (data) {
+    $.danmuAjax('/v1/api/admin/cmdTemp/save', 'POST','json','', JSON.stringify(obj), function (data) {
         if(data.result == 200) {
             console.log(data);
              $.initTable('tableList', columnsArray, quaryObject, tableUrl);
               $('#myModal').modal('hide');
             alert('创建成功');
         }else{
-            alert('创建失败');
+            if(data.result == 501){
+                alert('key已经存在');
+
+            }else{
+                alert('创建失败');
+            }
         }
     }, function (data) {
         console.log(data);
@@ -222,15 +262,31 @@ var saveParam = function(id){
 
 }
 
+var checkKey = function(){
+    var keyStr = $('#cmdTempKey').val().trim();
+    if( null != keyStr || '' != keyStr){
+        var obj = {
+            key:$('#cmdTempKey').val()
+        }
+        $.danmuAjax('/v1/api/admin/cmdTemp/checkKey', 'GET','json','',obj, function (data) {
+            if(data.result == 501) {
+              console.log(data);
+               alert('key重复，请重新输入');
+             }
+        }, function (data){
+            console.log(data);
+        });
+    }
+
+}
 
 
-
-var delParamTemplate = function(id,paramName){
-    if(confirm('确定要删除'+paramName+'吗？')){
+var delCmdTemp = function(id,name){
+    if(confirm('确定要删除'+name+'吗？')){
         var obj = {
             id:id
         }
-        $.danmuAjax('/v1/api/admin/paramTemplate/del', 'GET','json','',obj, function (data) {
+        $.danmuAjax('/v1/api/admin/cmdTemp/del', 'GET','json','',obj, function (data) {
             if(data.result == 200) {
               console.log(data);
               $.initTable('tableList', columnsArray, quaryObject, tableUrl);
