@@ -376,7 +376,7 @@ var openAddCmdComponent = function(){
        '</select></div><br>';
     htmlStr+='<div id="componentValList"></div></div></form>';
     $('#modalBody').html(htmlStr);
-    var buttonHtml = '<button class="btn btn-primary" onclick="openComopent()">返回列表</button> <button class="btn btn-primary" onclick="saveComponent()">保存</button>';
+    var buttonHtml = '<button class="btn btn-primary" onclick="openComponent()">返回列表</button> <button class="btn btn-primary" onclick="saveComponent()">保存</button>';
     $('#modalFooter').html(buttonHtml);
     $('#myModal').modal('show');
 }
@@ -414,7 +414,7 @@ var drawComponentVal = function(){
 }
 
 var delComponentVal = function(obj){
-     $(obj).parent().parent().remove();
+        $(obj).parent().parent().remove();
 }
 
 var openComponent = function(){
@@ -435,7 +435,7 @@ var openComponent = function(){
            field: 'id', title: '操作',
            align: 'center',
            formatter: function (value, row, index) {
-                return '<a class="btn">修改</a><a class="btn" onclick="delComponent(\''+row.id+'\',\''+row.name+'\')">删除</a>';
+                return '<a class="btn" onclick="openUpdateComponent(\''+row.id+'\')">修改</a><a class="btn" onclick="delComponent(\''+row.id+'\',\''+row.name+'\')">删除</a>';
            }
         }
     ];
@@ -448,7 +448,56 @@ var openComponent = function(){
     $('#myModal').modal('show');
 }
 
-var saveComponent = function(){
+var drawUpdateComponentVal = function(obj){
+    var paramHtml = '<div class="control-group">'+
+               '<label class="control-label" style="width:60px">中文名</label>'+
+               '<div class="controls" style="margin-left:60px;">'+
+                   '<input type="text" class="componentValName span1" value="'+obj.name+'" data-id="'+obj.id+'">'+
+                   '<span style="margin-left: 10px;margin-right: 10px;">值</span>'+
+                   '<input type="text" class="componentValVal span1" value="'+obj.value+'">'+
+               '</div></div>';
+        return paramHtml;
+}
+
+var openUpdateComponent = function(id){
+    var obj = {
+        id:id
+    }
+    $.danmuAjax('/v1/api/admin/cmdTemp/findComponentById', 'GET','json','',obj, function (data) {
+
+        if(data.result == 200){
+            $('#myModalLabel').html('修改页面组件');
+            var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">'+
+               '<label class="control-label" style="width:60px">组件名称</label><div class="controls" style="margin-left:60px;">'+
+               '<input type="text" class="span4"  maxlength="16" id="componentName" value="'+data.data.name+'"> </div><br>';
+            htmlStr+='<label class="control-label" style="width:60px">组件类型</label><div class="controls" style="margin-left:60px;">'+
+               '<select id="componentType" onChange="selectComponentType()">'+
+               '<option value="0">text</option>'+
+               '<option value="1">textarea</option>'+
+               '<option value="2">select</option>'+
+               '<option value="3">radiobutton</option>'+
+               '<option value="4">checkbox</option>'+
+               '</select></div><br>';
+            htmlStr+='<div id="componentValList">'
+            for(var i=0;i<data.data.cmdComponentValueList.length;i++){
+                htmlStr+=drawUpdateComponentVal(data.data.cmdComponentValueList[i]);
+            }
+
+            htmlStr+='</div></div></form>';
+            $('#modalBody').html(htmlStr);
+            $('#componentType').val(data.data.type);
+            var buttonHtml = '<button id="addValBtn" class="btn btn-primary" onclick="addComponentVal()">新增值</button> <button class="btn btn-primary" onclick="openComponent()">返回列表</button> <button class="btn btn-primary" onclick="saveComponent(\''+id+'\')">保存</button>';
+            $('#modalFooter').html(buttonHtml);
+            $('#myModal').modal('show');
+
+        }else{
+            alert("查询失败");
+        }
+
+    });
+}
+
+var saveComponent = function(id){
     var componentValNameList = $('.componentValName.span1');
     var componentValValList = $('.componentValVal.span1');
 
@@ -482,10 +531,12 @@ var saveComponent = function(){
             alert("值不能为空");
             return;
         }
+        componentValue.id = $(componentValNameList[i]).attr("data-id");
         componentList.push(componentValue);
     }
 
     var obj={
+        componentId:id,
         name:componentName,
         type:componentType,
         cmdComponentValueList:componentList
