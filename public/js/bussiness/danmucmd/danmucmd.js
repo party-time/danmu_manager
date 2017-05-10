@@ -22,7 +22,7 @@ var columnsArray = [
         title: '操作',
         align: 'center',
         formatter: function (value, row, index) {
-            return '<a class="btn" onclick="openUpdateParamTemplate(\''+row.id+'\')">修改</a>'+
+            return '<a class="btn" onclick="openUpdateCmdTemp(\''+row.id+'\')">修改</a>'+
             '<a class="btn" onclick="delCmdTemp(\''+row.id+'\',\''+row.name+'\')">删除</a>';
         },
         events: 'operateEvents'
@@ -65,6 +65,65 @@ var addParamHtml = function(){
     return paramHtml;
 }
 
+var drawParamHtml = function(obj){
+    var s0,s1,s2,s3,s4 = "";
+    if( obj.type == 0 ){
+        s0 = "selected";
+    }
+    if( obj.type == 1 ){
+        s1 = "selected";
+    }
+    if( obj.type == 2 ){
+        s2 = "selected";
+    }
+    if( obj.type == 3 ){
+        s3 = "selected";
+    }
+    var paramHtml = '<div class="control-group">'+
+           '<label class="control-label" style="width:60px">排序</label>'+
+           '<div class="controls" style="margin-left:60px;">'+
+           '<input type="text" class="sort span1" value="'+obj.sort+'">'+
+           '<span style="margin-left: 10px;margin-right: 10px;">英文名</span>'+
+           '<input type="text" class="key span1" value="'+obj.key+'" cmdParamId="'+obj.id+'" readonly>'+
+           '<span style="margin-left: 10px;margin-right: 10px;">页面组件</span>'+
+           '<select class="component span1">';
+           if(obj.componentId == 0){
+                paramHtml += '<option value="0" selected>无</option>';
+           }else{
+                paramHtml += '<option value="0" >无</option>';
+           }
+
+           for(var i=0;i<_allComponent.length;i++){
+                if(obj.componentId == _allComponent[i].id){
+                    paramHtml += '<option value="'+_allComponent[i].id+'" selected>'+_allComponent[i].name+'</option>';
+                }else{
+                    paramHtml += '<option value="'+_allComponent[i].id+'">'+_allComponent[i].name+'</option>';
+                }
+           }
+
+           paramHtml +='</select>'+
+           '<span style="margin-left: 10px;margin-right: 10px;">类型</span>'+
+           '<select class="type span1">'+
+               '<option value="0" '+s0+'>数字</option>'+
+              '<option value="1" '+s1+'>布尔值</option>'+
+              '<option value="2" '+s2+'>字符串</option>'+
+              '<option value="3" '+s3+'>数组</option>'+
+           '</select>'+
+           '<span style="margin-left: 10px;margin-right: 10px;">默认值</span>'+
+           '<input type="text" class="defaultValue span1" value="'+obj.defaultValue+'">'+
+           '<span style="margin-left: 10px;margin-right: 10px;">校验规则</span>'+
+           '<input type="text" class="checkRule span1" value="'+obj.checkRule+'">'+
+           '<span style="margin-left: 10px;margin-right: 10px;">是否审核</span>';
+           if(obj.isCheck == 0){
+                paramHtml +='<input type="radio" name="isCheck" class="isCheck" onclick="clickRadio(this)" checked>';
+           }else{
+                paramHtml +='<input type="radio" name="isCheck" class="isCheck" onclick="clickRadio(this)">';
+           }
+           paramHtml +='</div></div>';
+    return paramHtml;
+
+}
+
 var clickRadio = function(obj){
     var status = $(obj).attr("checked");
     if(status){
@@ -99,24 +158,26 @@ var openAddCmdTemp = function () {
    });
 };
 
-var openUpdateParamTemplate = function (id) {
+var openUpdateCmdTemp = function (id) {
     var obj = {
         id:id
     }
-    $.danmuAjax('/v1/api/admin/paramTemplate/get', 'GET','json','',obj, function (data) {
+    $.danmuAjax('/v1/api/admin/cmdTemp/find', 'GET','json','',obj, function (data) {
         if(data.result == 200) {
           console.log(data);
-          $('#myModalLabel').html('修改参数'+data.data.paramTempName+'模版');
+          $('#myModalLabel').html('修改指令');
           var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">'+
-             '<label class="control-label" style="width:60px">模版名称</label><div class="controls" style="margin-left:60px;">'+
-             '<input type="text" class="span4"  maxlength="16" id="paramTemplateName" value="'+data.data.paramTempName+'"> </div><br>';
-          for(var i=0;i<data.data.paramList.length;i++){
-             htmlStr+='<div id="paramList">'+drawParamHtml(data.data.paramList[i]);
-             htmlStr+='</div>';
+             '<label class="control-label" style="width:60px">指令名称</label><div class="controls" style="margin-left:60px;">'+
+             '<input type="text" class="span4"  maxlength="16" id="cmdTempName" value="'+data.data.tempName+'" > </div><br>';
+             htmlStr+='<label class="control-label" style="width:60px">指令KEY</label><div class="controls" style="margin-left:60px;">'+
+                    '<input type="text" class="span4"  maxlength="6" id="cmdTempKey" value="'+data.data.key+'" readonly> </div><br>';
+          htmlStr+='<div id="paramList">';
+          for(var i=0;i<data.data.cmdJsonParamList.length;i++){
+             htmlStr+=drawParamHtml(data.data.cmdJsonParamList[i]);
           }
-          htmlStr+='</div></form>';
+          htmlStr+='</div></div></form>';
           $('#modalBody').html(htmlStr);
-          var buttonHtml = '<a class="btn btn-primary" onclick="addParam()">新增参数</a> <button class="btn btn-primary" onclick="saveParam(\''+id+'\')">保存</button>';
+          var buttonHtml = '<a class="btn btn-primary" onclick="addParam()">新增属性</a> <button class="btn btn-primary" onclick="saveParam(\''+id+'\')">保存</button>';
           $('#modalFooter').html(buttonHtml);
           $('#myModal').modal('show');
          }else{
@@ -232,11 +293,12 @@ var saveParam = function(id){
         }else{
             param.isCheck = 1;
         }
-
+        param.id = $(keyList[i]).attr("cmdParamId");
         paramList.push(param);
     }
 
     var obj={
+        cmdTempId:id,
         tempName:cmdTempName,
         key:cmdTempKey,
         cmdJsonParamList:paramList
