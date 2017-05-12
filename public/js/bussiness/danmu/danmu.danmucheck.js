@@ -564,6 +564,7 @@
             return false;
         }
 
+
         //刷新弹幕列表的时间
         var refreshDanmuList = function () {
             if ($scope.danmuList && $scope.danmuList.length > 0) {
@@ -616,6 +617,21 @@
                 $scope.blingDanmuMsg = "";
             }
         };
+
+        $scope.testDanmu=function() {
+            $.ajax({
+                type: "POST",
+                url:"/v1/api/danmuTest",
+                data:$('#danmuForm').serialize(),// 序列化表单值
+                async: false,
+                error: function(request) {
+                    alert("Connection error");
+                },
+                success: function(data) {
+                    //window.location.href="跳转页面"
+                }
+            });
+        }
         /**
          * 发送普通弹幕
          */
@@ -708,6 +724,45 @@
         }
 
 
+        var  changeCardDiv = function (index,second) {
+            $("#first").empty();
+
+            var object = {'divId':'first', 'widgetId':'textAreaId', 'defaultValue':'请输入闪光（8个字以内）'}//'keyUp':showAlert,//'keyDown':showAlert}
+            $.setTextAreaPlug(object);
+            var object = {'divId':'first', 'widgetId':'inputId', 'defaultValue':'请输入闪光（8个字以内）'}//'keyUp':showAlert,//'keyDown':showAlert}
+            $.setTextPlug(object);
+
+
+            var array = [];
+            for(var i=0; i<10; i++){
+                var object  = {
+                    id:'radioId'+i,
+                    text:'text'+i
+                }
+                array.push(object);
+            }
+            var object = {'divId':'first', 'widgetId':'selectId','valueList':array ,'defaultValue':'请输入闪光（8个字以内）'}//'keyUp':showAlert,//'keyDown':showAlert}
+            $.setSelectPlug(object);
+
+            var object = {'divId':'first', 'widgetId':'radioId', 'radioButtonList':array}//'keyUp':showAlert,//'keyDown':showAlert}
+            $.setRadioButtonListPlug(object);
+
+            var array = [];
+            for(var i=0; i<10; i++){
+                var object  = {
+                    id:'checkBox'+i,
+                    text:'checkBox'+i
+                }
+                array.push(object);
+            }
+            var object = {'divId':'first', 'widgetId':'checkBox', 'radioButtonList':array}//'keyUp':showAlert,//'keyDown':showAlert}
+            $.setCheckBoxListPlug(object);
+        }
+        var showAlert = function () {
+            alert('232323');
+        }
+
+
         var initPage = function () {
             $(".danmuPosition-array").val(null).select2({data: positionArray, minimumResultsForSearch: -1});
             var url = location.href;
@@ -717,6 +772,17 @@
                 $scope.addressId = param[1].substr(param[1].indexOf('=') + 1);
             }
             ajaxInit();
+
+
+            //var danmuTypeArray = [{id: 0, text: '普通弹幕'}, {id: 1, text: '动画'}, {id: 2, text: '图片'}, {id: 3, text: '闪光字'}, {id: 4, text: '表情'}];
+            var object= {
+                'divId':'typeTitleDiv',
+               'partyId':$scope.partyId
+               // 'valueList':danmuTypeArray,
+                //'clickFunction':changeCardDiv
+            };
+            $.initTitle(object);
+            //$.setTitleListPlug(object);
 
             $.danmuAjax('/distribute/adminTask/socketAddress', 'GET', 'json', {}, function (data) {
                 console.log(data);
