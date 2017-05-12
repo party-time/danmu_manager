@@ -146,6 +146,8 @@ var openAddCmdTemp = function () {
        '<input type="text" class="span4"  maxlength="16" id="cmdTempName"> </div><br>';
     htmlStr+='<label class="control-label" style="width:60px">指令KEY</label><div class="controls" style="margin-left:60px;">'+
        '<input type="text" class="span4"  maxlength="6" id="cmdTempKey" onblur="checkKey()"> </div><br>';
+    htmlStr+='<label class="control-label" style="width:60px">是否入库</label><div class="controls" style="margin-left:60px;">'+
+           '<select id="cmdIsInLib"><option value="0">是</option><option value="1" selected>否</option></select></div><br>';
     htmlStr+='<div id="paramList">'+addParamHtml();
     htmlStr+='</div></div></form>';
     $('#modalBody').html(htmlStr);
@@ -171,12 +173,15 @@ var openUpdateCmdTemp = function (id) {
              '<input type="text" class="span4"  maxlength="16" id="cmdTempName" value="'+data.data.tempName+'" > </div><br>';
              htmlStr+='<label class="control-label" style="width:60px">指令KEY</label><div class="controls" style="margin-left:60px;">'+
                     '<input type="text" class="span4"  maxlength="6" id="cmdTempKey" value="'+data.data.key+'" readonly> </div><br>';
+              htmlStr+='<label class="control-label" style="width:60px">是否入库</label><div class="controls" style="margin-left:60px;">'+
+                        '<select id="cmdIsInLib"><option value="0">是</option><option value="1" selected>否</option></select></div><br>';
           htmlStr+='<div id="paramList">';
           for(var i=0;i<data.data.cmdJsonParamList.length;i++){
              htmlStr+=drawParamHtml(data.data.cmdJsonParamList[i]);
           }
           htmlStr+='</div></div></form>';
           $('#modalBody').html(htmlStr);
+          $('#cmdIsInLib').val(data.data.isInDanmuLib);
           var buttonHtml = '<a class="btn btn-primary" onclick="addParam()">新增属性</a> <button class="btn btn-primary" onclick="saveParam(\''+id+'\')">保存</button>';
           $('#modalFooter').html(buttonHtml);
           $('#myModal').modal('show');
@@ -226,6 +231,8 @@ var saveParam = function(id){
 
     var cmdTempName = $('#cmdTempName').val();
     var cmdTempKey = $('#cmdTempKey').val();
+
+    var isInDanmuLib = $('#cmdIsInLib').val();
 
     if( '' == cmdTempName){
         alert("指令名称不能为空");
@@ -301,6 +308,7 @@ var saveParam = function(id){
         cmdTempId:id,
         tempName:cmdTempName,
         key:cmdTempKey,
+        isInDanmuLib:isInDanmuLib,
         cmdJsonParamList:paramList
     }
 
