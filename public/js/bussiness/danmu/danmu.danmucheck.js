@@ -697,7 +697,7 @@
             }
         }
 
-        var ajaxInit = function () {
+        /*var ajaxInit = function () {
             //获取颜色信息
             $http.get('/v1/api/admin/colors').success(function (data) {
                 if (data.result == 200) {
@@ -721,10 +721,10 @@
                 }).error(function (data, status, headers, config) {
             });
 
-        }
+        }*/
 
 
-        var  changeCardDiv = function (index,second) {
+        /*var  changeCardDiv = function (index,second) {
             $("#first").empty();
 
             var object = {'divId':'first', 'widgetId':'textAreaId', 'defaultValue':'请输入闪光（8个字以内）'}//'keyUp':showAlert,//'keyDown':showAlert}
@@ -760,9 +760,23 @@
         }
         var showAlert = function () {
             alert('232323');
+        }*/
+
+
+        $scope.send=function(){
+            $.ajax({
+                type: "POST",
+                url:"/v1/api/danmuTest",
+                data:$('#danmuForm').serialize(),// 序列化表单值
+                async: false,
+                error: function(request) {
+                    alert("Connection error");
+                },
+                success: function(data) {
+                    //window.location.href="跳转页面"
+                }
+            });
         }
-
-
         var initPage = function () {
             $(".danmuPosition-array").val(null).select2({data: positionArray, minimumResultsForSearch: -1});
             var url = location.href;
@@ -771,13 +785,14 @@
                 $scope.partyId = param[0].substr(param[0].indexOf('=') + 1);
                 $scope.addressId = param[1].substr(param[1].indexOf('=') + 1);
             }
-            ajaxInit();
+            //ajaxInit();
 
 
             //var danmuTypeArray = [{id: 0, text: '普通弹幕'}, {id: 1, text: '动画'}, {id: 2, text: '图片'}, {id: 3, text: '闪光字'}, {id: 4, text: '表情'}];
             var object= {
                 'divId':'typeTitleDiv',
-               'partyId':$scope.partyId
+               'partyId':$scope.partyId,
+               'addressId':$scope.addressId
                // 'valueList':danmuTypeArray,
                 //'clickFunction':changeCardDiv
             };

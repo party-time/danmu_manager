@@ -35,21 +35,34 @@
         var valueList = object.valueList;
         var clickFunction=object.clickFunction;
         var partyId = object.partyId;
+
+        var divobject = $("#"+divId);
+        if(object.partyId!=undefined){
+            var partyIdInput="<input type='hidden' id='partyId' name='partyId' value='"+object.partyId+"'/>"
+            divobject.append(partyIdInput);
+        }
+
+        if(object.addressId!=undefined){
+            var addressIdInput="<input type='hidden' id='addressId' name='addressId' value='"+object.addressId+"'/>"
+            divobject.append(addressIdInput);
+        }
         if( null != valueList) {
+
             for (var i = 0; i < valueList.length; i++) {
                 var id = valueList[i].id
-                var object = $("#"+divId);
+
                 var button = '<button class="btn" id="'+id+'"  style=" width: 100px; height:30px;margin-top: 1px; margin-right: 0.5em; vertical-align:middle;text-align:center;" value="'+id+'">'+valueList[i].name+'</button>';
-                object.append(button);
+                divobject.append(button);
                 $('#'+id).click(function(){
                     $.createPlug($(this).val(),partyId);
-                    $("#titleId").val($(this).val());
+                    $("#templateId").val($(this).val());
                     return false;
                 });
             }
-            $.createPlug(valueList[4].id,partyId);
-            var hiddenInput="<input type='hidden' id='titleId' name='titleId'/>"
-            object.append(hiddenInput);
+            $.createPlug(valueList[0].id,partyId);
+
+            var hiddenInput="<input type='text' id='templateId' name='templateId' value='"+valueList[4].id+"'/>"
+            divobject.append(hiddenInput);
         }
     }
 
@@ -111,26 +124,48 @@
                     for (var i = 0; i < resourceArray.length; i++) {
                         var specialVideo = resourceArray[i];
                         var buttonName = specialVideo.resourceName.substring(0,4);
-                        html = '<button class="btn"  style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " onclick="setElement(\'' + specialVideo.resourceName + '\',\'' + specialVideo.id + '\')" title="' + specialVideo.resourceName + '">' + buttonName + '</button>';
+                        var id=widgetId+i;
+                        html = '<button class="btn" id="'+id+'"  style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " title="' + specialVideo.resourceName + '" value="'+specialVideo.id+'">' + buttonName + '</button>';
                         divObject.append(html);
+                        $('#'+id).click(function(){
+                            $("#"+key).val($(this).val());
+                            return false;
+                        });
+
                     }
+
                 }else if(object.componentId==2){
                     //图片特效
                     resourceArray=data.data.specialImages;
                     for (var i = 0; i < resourceArray.length; i++) {
                         var image = resourceArray[i];
-                        html = '<img src="' + _baseImageUrl + image.fileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;" title="' + image.fileUrl + '" onclick="setElement(\'' + image.fileUrl + '\',\'' + image.id + '\')"/>';
+                        var id=widgetId+i;
+                        html = '<input type="image"  id="'+id+'" src="' + _baseImageUrl + image.fileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;" title="' + image.fileUrl + '" value="'+image.id+'"/>';
                         divObject.append(html);
+                        $('#'+id).click(function(){
+                            $("#"+key).val($(this).val())
+                            return false;
+                        });
+
                     }
                 }else if(object.componentId==3){
                     //视频特效
                     resourceArray=data.data.expressions;
                     for (var i = 0; i < resourceArray.length; i++) {
                         var expression = resourceArray[i];
-                        var html = '<img src="' + _baseImageUrl + expression.smallFileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;"  title="' + expression.smallFileUrl + '" onclick="setElement(\'' + expression.smallFileUrl + '\',\'' + expression.id + '\')"/>';
+                        var id=widgetId+i;
+                        var html = '<input type="image" id="'+id+'" src="' + _baseImageUrl + expression.smallFileUrl + '"  style="width: 50px; height: 50px;margin-left: 1em;"  title="' + expression.smallFileUrl + '" value="'+expression.id+'" />';
                         divObject.append(html);
+                        $('#'+id).click(function(){
+                            $("#"+key).val($(this).val())
+                            return false;
+                        });
                     }
                 }
+
+
+                var hiddenInput="<input type='hidden' id='"+key+"' name='"+key+"'/>"
+                divObject.append(hiddenInput);
 
 
             } else {
