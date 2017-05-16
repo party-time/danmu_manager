@@ -61,7 +61,7 @@
             }
             $.createPlug(valueList[0].id,partyId);
 
-            var hiddenInput="<input type='text' id='templateId' name='templateId' value='"+valueList[4].id+"'/>"
+            var hiddenInput="<input type='hidden' id='templateId' name='templateId' value='"+valueList[0].id+"'/>"
             divobject.append(hiddenInput);
         }
     }
