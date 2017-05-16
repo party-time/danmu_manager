@@ -148,6 +148,8 @@ var openAddCmdTemp = function () {
        '<input type="text" class="span4"  maxlength="6" id="cmdTempKey" onblur="checkKey()"> </div><br>';
     htmlStr+='<label class="control-label" style="width:60px">是否入库</label><div class="controls" style="margin-left:60px;">'+
            '<select id="cmdIsInLib"><option value="0">是</option><option value="1" selected>否</option></select></div><br>';
+    htmlStr+='<label class="control-label" style="width:60px">是否到H5</label><div class="controls" style="margin-left:60px;">'+
+           '<select id="cmdIsSendH5"><option value="0">是</option><option value="1" selected>否</option></select></div><br>';
     htmlStr+='<div id="paramList">'+addParamHtml();
     htmlStr+='</div></div></form>';
     $('#modalBody').html(htmlStr);
@@ -171,10 +173,12 @@ var openUpdateCmdTemp = function (id) {
           var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">'+
              '<label class="control-label" style="width:60px">指令名称</label><div class="controls" style="margin-left:60px;">'+
              '<input type="text" class="span4"  maxlength="16" id="cmdTempName" value="'+data.data.tempName+'" > </div><br>';
-             htmlStr+='<label class="control-label" style="width:60px">指令KEY</label><div class="controls" style="margin-left:60px;">'+
+          htmlStr+='<label class="control-label" style="width:60px">指令KEY</label><div class="controls" style="margin-left:60px;">'+
                     '<input type="text" class="span4"  maxlength="6" id="cmdTempKey" value="'+data.data.key+'" readonly> </div><br>';
-              htmlStr+='<label class="control-label" style="width:60px">是否入库</label><div class="controls" style="margin-left:60px;">'+
+          htmlStr+='<label class="control-label" style="width:60px">是否入库</label><div class="controls" style="margin-left:60px;">'+
                         '<select id="cmdIsInLib"><option value="0">是</option><option value="1" selected>否</option></select></div><br>';
+          htmlStr+='<label class="control-label" style="width:60px">是否到H5</label><div class="controls" style="margin-left:60px;">'+
+                        '<select id="cmdIsSendH5"><option value="0">是</option><option value="1" selected>否</option></select></div><br>';
           htmlStr+='<div id="paramList">';
           for(var i=0;i<data.data.cmdJsonParamList.length;i++){
              htmlStr+=drawParamHtml(data.data.cmdJsonParamList[i]);
@@ -182,6 +186,7 @@ var openUpdateCmdTemp = function (id) {
           htmlStr+='</div></div></form>';
           $('#modalBody').html(htmlStr);
           $('#cmdIsInLib').val(data.data.isInDanmuLib);
+          $('#cmdIsSendH5').val(data.data.isSendH5);
           var buttonHtml = '<a class="btn btn-primary" onclick="addParam()">新增属性</a> <button class="btn btn-primary" onclick="saveParam(\''+id+'\')">保存</button>';
           $('#modalFooter').html(buttonHtml);
           $('#myModal').modal('show');
@@ -233,6 +238,8 @@ var saveParam = function(id){
     var cmdTempKey = $('#cmdTempKey').val();
 
     var isInDanmuLib = $('#cmdIsInLib').val();
+
+    var isSendH5 = $('#cmdIsSendH5').val();
 
     if( '' == cmdTempName){
         alert("指令名称不能为空");
@@ -309,6 +316,7 @@ var saveParam = function(id){
         tempName:cmdTempName,
         key:cmdTempKey,
         isInDanmuLib:isInDanmuLib,
+        isSendH5:isSendH5,
         cmdJsonParamList:paramList
     }
 
