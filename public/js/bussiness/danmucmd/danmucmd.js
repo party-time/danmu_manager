@@ -67,16 +67,16 @@ var addParamHtml = function(){
 
 var drawParamHtml = function(obj){
     var s0,s1,s2,s3,s4 = "";
-    if( obj.type == 0 ){
+    if( obj.componentId == 0 ){
         s0 = "selected";
     }
-    if( obj.type == 1 ){
+    if( obj.componentId == 1 ){
         s1 = "selected";
     }
-    if( obj.type == 2 ){
+    if( obj.componentId == 2 ){
         s2 = "selected";
     }
-    if( obj.type == 3 ){
+    if( obj.componentId == 3 ){
         s3 = "selected";
     }
     var paramHtml = '<div class="control-group">'+
@@ -87,11 +87,9 @@ var drawParamHtml = function(obj){
            '<input type="text" class="key span1" value="'+obj.key+'" cmdParamId="'+obj.id+'" readonly>'+
            '<span style="margin-left: 10px;margin-right: 10px;">页面组件</span>'+
            '<select class="component span1">';
-           if(obj.componentId == 0){
-                paramHtml += '<option value="0" selected>无</option><option value="1">特效视频</option><option value="2">特效图片</option><option value="3">表情图片</option>';
-           }else{
-                paramHtml += '<option value="0" >无</option><option value="1">特效视频</option><option value="2">特效图片</option><option value="3">表情图片</option>';
-           }
+
+           paramHtml += '<option value="0" '+s0+'>无</option><option value="1" '+s1+'>特效视频</option><option value="2" '+s2+'>特效图片</option><option value="3" '+s3+'>表情图片</option>';
+
 
            for(var i=0;i<_allComponent.length;i++){
                 if(obj.componentId == _allComponent[i].id){
