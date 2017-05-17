@@ -41,7 +41,7 @@ var addParamHtml = function(){
            '<span style="margin-left: 10px;margin-right: 10px;">英文名</span>'+
            '<input type="text" class="key span1" >'+
            '<span style="margin-left: 10px;margin-right: 10px;">页面组件</span>'+
-           '<select class="component span1"><option value="0">无</option><option value="1">特效视频</option><option value="2">特效图片</option><option value="3">表情图片</option>';
+           '<select class="component span1"><option value="0">无</option><option value="2">特效图片</option><option value="3">表情图片</option>';
            for(var i=0;i<_allComponent.length;i++){
                 paramHtml += '<option value="'+_allComponent[i].id+'">'+_allComponent[i].name+'</option>';
            }
@@ -88,7 +88,7 @@ var drawParamHtml = function(obj){
            '<span style="margin-left: 10px;margin-right: 10px;">页面组件</span>'+
            '<select class="component span1">';
 
-           paramHtml += '<option value="0" '+s0+'>无</option><option value="1" '+s1+'>特效视频</option><option value="2" '+s2+'>特效图片</option><option value="3" '+s3+'>表情图片</option>';
+           paramHtml += '<option value="0" '+s0+'>无</option><option value="2" '+s2+'>特效图片</option><option value="3" '+s3+'>表情图片</option>';
 
 
            for(var i=0;i<_allComponent.length;i++){
