@@ -41,14 +41,14 @@ var addParamHtml = function(){
            '<span style="margin-left: 10px;margin-right: 10px;">英文名</span>'+
            '<input type="text" class="key span1" >'+
            '<span style="margin-left: 10px;margin-right: 10px;">页面组件</span>'+
-           '<select class="component span1" onchange="selectComponent()" id="components" ><option value="0">无</option><option value="2">特效图片</option><option value="3">表情图片</option>';
+           '<select class="component span1" onchange="selectComponent(this)"  ><option value="0">无</option><option value="2">特效图片</option><option value="3">表情图片</option>';
            for(var i=0;i<_allComponent.length;i++){
                 paramHtml += '<option value="'+_allComponent[i].id+'">'+_allComponent[i].name+'</option>';
            }
 
            paramHtml +='</select>'+
            '<span style="margin-left: 10px;margin-right: 10px;">类型</span>'+
-           '<select class="type span1" id="danmuCmdType">'+
+           '<select class="type span1" >'+
                '<option value="0">数字</option>'+
                '<option value="1">布尔值</option>'+
                '<option value="2">字符串</option>'+
@@ -65,17 +65,22 @@ var addParamHtml = function(){
     return paramHtml;
 }
 
-var selectComponent = function(){
-    var componentId = $('#components').val();
+var selectComponent = function(obj){
+    var componentId = $(obj).val();
+    var parentHtml = $(obj).parent();
+    var dmCmdType = parentHtml.find('.type.span1');
+    $(dmCmdType).removeAttr("disabled");
     if(componentId.length > 1){
          for(var i=0;i<_allComponent.length;i++){
             if( componentId == _allComponent[i].id){
                 if(_allComponent[i].type == 4){
-                    $('#danmuCmdType').val(3);
-                    $('#danmuCmdType').attr("disabled","disabled");
+                    $(dmCmdType).val(3);
+                    $(dmCmdType).attr("disabled","disabled");
                 }
             }
          }
+    }else{
+
     }
 }
 
@@ -100,7 +105,7 @@ var drawParamHtml = function(obj){
            '<span style="margin-left: 10px;margin-right: 10px;">英文名</span>'+
            '<input type="text" class="key span1" value="'+obj.key+'" cmdParamId="'+obj.id+'" readonly>'+
            '<span style="margin-left: 10px;margin-right: 10px;">页面组件</span>'+
-           '<select class="component span1" onchange="selectComponent()" id="components" >';
+           '<select class="component span1" onchange="selectComponent(this)" >';
 
            paramHtml += '<option value="0" '+s0+'>无</option><option value="2" '+s2+'>特效图片</option><option value="3" '+s3+'>表情图片</option>';
 
@@ -115,7 +120,7 @@ var drawParamHtml = function(obj){
 
            paramHtml +='</select>'+
            '<span style="margin-left: 10px;margin-right: 10px;">类型</span>'+
-           '<select class="type span1" id="danmuCmdType">'+
+           '<select class="type span1" >'+
                '<option value="0" '+s0+'>数字</option>'+
               '<option value="1" '+s1+'>布尔值</option>'+
               '<option value="2" '+s2+'>字符串</option>'+
