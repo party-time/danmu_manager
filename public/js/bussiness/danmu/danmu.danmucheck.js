@@ -697,7 +697,7 @@
             }
         }
 
-        /*var ajaxInit = function () {
+        var ajaxInit = function () {
             //获取颜色信息
             $http.get('/v1/api/admin/colors').success(function (data) {
                 if (data.result == 200) {
@@ -721,7 +721,7 @@
                 }).error(function (data, status, headers, config) {
             });
 
-        }*/
+        }
 
 
         /*var  changeCardDiv = function (index,second) {
@@ -785,7 +785,7 @@
                 $scope.partyId = param[0].substr(param[0].indexOf('=') + 1);
                 $scope.addressId = param[1].substr(param[1].indexOf('=') + 1);
             }
-            //ajaxInit();
+            ajaxInit();
 
 
             //var danmuTypeArray = [{id: 0, text: '普通弹幕'}, {id: 1, text: '动画'}, {id: 2, text: '图片'}, {id: 3, text: '闪光字'}, {id: 4, text: '表情'}];

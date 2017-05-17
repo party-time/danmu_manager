@@ -97,6 +97,8 @@
                         }else{
                             createCompentBycomponentType(object);
                         }
+
+                        //添加新的控件
                     }
                 }
             }

@@ -67,8 +67,42 @@
                                         <span ng-if="danmu.nick==null">&nbsp;</span>
                                     </td>
                                     <td>
-                                        <span ng-if="!danmu.isBlocked">{{danmu.msg}}</span>
-                                        <span ng-if="danmu.isBlocked"><del> {{danmu.msg}}</del></span>
+                                        <span ng-if="!danmu.isBlocked">
+                                            <span ng-if="danmu.danmuType==3">
+                                                <img ng-src="{{baseUrl}}{{danmu.msg}}" class="expression" style="width: 50px; height: 50px; margin-right: 1em; margin-bottom: 0.5em;"/>
+                                            </span>
+                                            <span ng-if="danmu.danmuType==4">
+                                                <img ng-src="{{baseUrl}}{{danmu.msg}}" class="expression" style="width: 50px; height: 50px; margin-right: 1em; margin-bottom: 0.5em;"/>
+                                            </span>
+                                            <span ng-if="danmu.danmuType==1 || danmu.danmuType==2">
+                                                <span ng-if="danmu.dataType==3">
+                                                    <span ng-repeat="msg in danmu.msg">
+                                                        {{msg}}
+                                                    </span>
+                                                </span>
+                                                <span ng-if="danmu.dataType!=3">
+                                                    {{danmu.msg}}
+                                                </span>
+                                            </span>
+                                        </span>
+                                        <span ng-if="danmu.isBlocked">
+                                            <span ng-if="danmu.danmuType==3">
+                                                <img ng-src="{{baseUrl}}{{danmu.msg}}" class="expression" style="width: 50px; height: 50px; margin-right: 1em; margin-bottom: 0.5em;"/>(已删除)
+                                            </span>
+                                            <span ng-if="danmu.danmuType==4">
+                                                <img ng-src="{{baseUrl}}{{danmu.msg}}" class="expression" style="width: 50px; height: 50px; margin-right: 1em; margin-bottom: 0.5em;"/>(已删除)
+                                            </span>
+                                            <span ng-if="danmu.danmuType==1 || danmu.danmuType==2">
+                                                <span ng-if="danmu.dataType==3">
+                                                    <span ng-repeat="msg in danmu.msg">
+                                                        <del>{{msg}}</del>
+                                                    </span>
+                                                </span>
+                                                <span ng-if="danmu.dataType!=3">
+                                                    <del>{{danmu.msg}}</del>
+                                                </span>
+                                            </span>
+                                        </span>
                                     </td>
                                     <td>
                                         <img ng-if="danmu.imgUrl!=null" ng-src="{{danmu.imgUrl}}"

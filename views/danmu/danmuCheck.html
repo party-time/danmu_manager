@@ -71,66 +71,38 @@
                                     </td>
                                     <td>
                                         <span ng-if="!danmu.isBlocked">
-                                            <span ng-if="danmu.dataType==3">
-                                                <span ng-repeat="msg in danmu.msg">
-                                                    <span ng-if="danmu.danmuType==1">
-                                                    {{danmu.msg}}
-                                                    </span>
-                                                    <span ng-if="danmu.danmuType==2">
-                                                        {{danmu.msg}}
-                                                    </span>
-                                                    <span ng-if="danmu.danmuType==3">
-                                                        <img ng-src="{{baseUrl}}{{danmu.msg}}" class="expression" style="width: 50px; height: 50px; margin-right: 1em; margin-bottom: 0.5em;"/>
-                                                    </span>
-                                                    <span ng-if="danmu.danmuType==4">
-                                                        <img ng-src="{{baseUrl}}{{danmu.msg}}" class="expression" style="width: 50px; height: 50px; margin-right: 1em; margin-bottom: 0.5em;"/>
-                                                    </span>
-                                                </span>
+                                            <span ng-if="danmu.danmuType==3">
+                                                <img ng-src="{{baseUrl}}{{danmu.msg}}" class="expression" style="width: 50px; height: 50px; margin-right: 1em; margin-bottom: 0.5em;"/>
                                             </span>
-                                            <span ng-if="danmu.dataType!=3">
-                                                <span ng-if="danmu.danmuType==1">
+                                            <span ng-if="danmu.danmuType==4">
+                                                <img ng-src="{{baseUrl}}{{danmu.msg}}" class="expression" style="width: 50px; height: 50px; margin-right: 1em; margin-bottom: 0.5em;"/>
+                                            </span>
+                                            <span ng-if="danmu.danmuType==1 || danmu.danmuType==2">
+                                                <span ng-if="danmu.dataType==3">
+                                                    <span ng-repeat="msg in danmu.msg">
+                                                        {{msg}}
+                                                    </span>
+                                                </span>
+                                                <span ng-if="danmu.dataType!=3">
                                                     {{danmu.msg}}
-                                                </span>
-                                                <span ng-if="danmu.danmuType==2">
-                                                    {{danmu.msg}}
-                                                </span>
-                                                <span ng-if="danmu.danmuType==3">
-                                                    <img ng-src="{{baseUrl}}{{danmu.msg}}" class="expression" style="width: 50px; height: 50px; margin-right: 1em; margin-bottom: 0.5em;"/>
-                                                </span>
-                                                <span ng-if="danmu.danmuType==4">
-                                                    <img ng-src="{{baseUrl}}{{danmu.msg}}" class="expression" style="width: 50px; height: 50px; margin-right: 1em; margin-bottom: 0.5em;"/>
                                                 </span>
                                             </span>
                                         </span>
                                         <span ng-if="danmu.isBlocked">
-                                            <span ng-if="danmu.dataType==3">
-                                                <span ng-repeat="msg in danmu.msg">
-                                                    <span ng-if="danmu.danmuType==1">
-                                                        <del>{{danmu.msg}}</del>
-                                                    </span>
-                                                    <span ng-if="danmu.danmuType==2">
-                                                        <del>{{danmu.msg}}</del>
-                                                    </span>
-                                                    <span ng-if="danmu.danmuType==3">
-                                                        <del><img ng-src="{{baseUrl}}{{danmu.msg}}" class="expression" style="width: 50px; height: 50px; margin-right: 1em; margin-bottom: 0.5em;"/></del>(已删除)
-                                                    </span>
-                                                    <span ng-if="danmu.danmuType==4">
-                                                        <del><img ng-src="{{baseUrl}}{{danmu.msg}}" class="expression" style="width: 50px; height: 50px; margin-right: 1em; margin-bottom: 0.5em;"/></del>(已删除)
-                                                    </span>
-                                                </span>
+                                            <span ng-if="danmu.danmuType==3">
+                                                <img ng-src="{{baseUrl}}{{danmu.msg}}" class="expression" style="width: 50px; height: 50px; margin-right: 1em; margin-bottom: 0.5em;"/>(已删除)
                                             </span>
-                                            <span ng-if="danmu.dataType!=3">
-                                                <span ng-if="danmu.danmuType==1">
+                                            <span ng-if="danmu.danmuType==4">
+                                                <img ng-src="{{baseUrl}}{{danmu.msg}}" class="expression" style="width: 50px; height: 50px; margin-right: 1em; margin-bottom: 0.5em;"/>(已删除)
+                                            </span>
+                                            <span ng-if="danmu.danmuType==1 || danmu.danmuType==2">
+                                                <span ng-if="danmu.dataType==3">
+                                                    <span ng-repeat="msg in danmu.msg">
+                                                        <del>{{msg}}</del>
+                                                    </span>
+                                                </span>
+                                                <span ng-if="danmu.dataType!=3">
                                                     <del>{{danmu.msg}}</del>
-                                                </span>
-                                                <span ng-if="danmu.danmuType==2">
-                                                    <del>{{danmu.msg}}</del>
-                                                </span>
-                                                <span ng-if="danmu.danmuType==3">
-                                                    <del><img ng-src="{{baseUrl}}{{danmu.msg}}" class="expression" style="width: 50px; height: 50px; margin-right: 1em; margin-bottom: 0.5em;"/></del>(已删除)
-                                                </span>
-                                                <span ng-if="danmu.danmuType==4">
-                                                    <del><img ng-src="{{baseUrl}}{{danmu.msg}}" class="expression" style="width: 50px; height: 50px; margin-right: 1em; margin-bottom: 0.5em;"/></del>(已删除)
                                                 </span>
                                             </span>
                                         </span>
@@ -353,7 +325,7 @@
                         </div>
                     </div>
                     <!-- /widget -->
-                    <!--
+
                     <div class="widget" ng-if="specialVideos.length > 0">
                         <div class="widget-header"><i class="icon-bookmark"></i>
                             <h3>视频特效</h3>
@@ -373,7 +345,6 @@
                         </span>
                         </div>
                     </div>
-                    -->
                     <!-- /widget -->
                     <!--
                     <div class="widget" ng-if="specialImages.length>0">
