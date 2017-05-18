@@ -96,6 +96,7 @@ var selectComponent = function(obj){
 
 var drawParamHtml = function(obj){
     var s0,s1,s2,s3,s4 = "";
+    var a0,a1,a2,a3,a4 = "";
     if( obj.componentId == 0 ){
         s0 = "selected";
     }
@@ -108,6 +109,19 @@ var drawParamHtml = function(obj){
     if( obj.componentId == 3 ){
         s3 = "selected";
     }
+    if( obj.type == 0 ){
+        a0 = "selected";
+    }
+    if( obj.type == 1 ){
+        a1 = "selected";
+    }
+    if( obj.type == 2 ){
+        a2 = "selected";
+    }
+    if( obj.type == 3 ){
+        a3 = "selected";
+    }
+
     var paramHtml = '<div class="control-group">'+
            '<label class="control-label" style="width:60px">排序</label>'+
            '<div class="controls" style="margin-left:60px;">'+
@@ -131,10 +145,10 @@ var drawParamHtml = function(obj){
            paramHtml +='</select>'+
            '<span style="margin-left: 10px;margin-right: 10px;">类型</span>'+
            '<select class="type span1" >'+
-               '<option value="0" '+s0+'>数字</option>'+
-              '<option value="1" '+s1+'>布尔值</option>'+
-              '<option value="2" '+s2+'>字符串</option>'+
-              '<option value="3" '+s3+'>数组</option>'+
+               '<option value="0" '+a0+'>数字</option>'+
+              '<option value="1" '+a1+'>布尔值</option>'+
+              '<option value="2" '+a2+'>字符串</option>'+
+              '<option value="3" '+a3+'>数组</option>'+
            '</select>'+
            '<span style="margin-left: 10px;margin-right: 10px;">默认值</span>'+
            '<input type="text" class="defaultValue span1" value="'+obj.defaultValue+'">'+
@@ -172,7 +186,7 @@ var openAddCmdTemp = function () {
        '<label class="control-label" style="width:60px">指令名称</label><div class="controls" style="margin-left:60px;">'+
        '<input type="text" class="span4"  maxlength="16" id="cmdTempName"> </div><br>';
     htmlStr+='<label class="control-label" style="width:60px">指令KEY</label><div class="controls" style="margin-left:60px;">'+
-       '<input type="text" class="span4"  maxlength="6" id="cmdTempKey" onblur="checkKey()"> </div><br>';
+       '<input type="text" class="span4"  id="cmdTempKey" onblur="checkKey()"> </div><br>';
     htmlStr+='<label class="control-label" style="width:60px">是否入库</label><div class="controls" style="margin-left:60px;">'+
            '<select id="cmdIsInLib"><option value="0">是</option><option value="1" selected>否</option></select></div><br>';
     htmlStr+='<label class="control-label" style="width:60px">是否到H5</label><div class="controls" style="margin-left:60px;">'+
@@ -201,7 +215,7 @@ var openUpdateCmdTemp = function (id) {
              '<label class="control-label" style="width:60px">指令名称</label><div class="controls" style="margin-left:60px;">'+
              '<input type="text" class="span4"  maxlength="16" id="cmdTempName" value="'+data.data.tempName+'" > </div><br>';
           htmlStr+='<label class="control-label" style="width:60px">指令KEY</label><div class="controls" style="margin-left:60px;">'+
-                    '<input type="text" class="span4"  maxlength="6" id="cmdTempKey" value="'+data.data.key+'" readonly> </div><br>';
+                    '<input type="text" class="span4" id="cmdTempKey" value="'+data.data.key+'" readonly> </div><br>';
           htmlStr+='<label class="control-label" style="width:60px">是否入库</label><div class="controls" style="margin-left:60px;">'+
                         '<select id="cmdIsInLib"><option value="0">是</option><option value="1" selected>否</option></select></div><br>';
           htmlStr+='<label class="control-label" style="width:60px">是否到H5</label><div class="controls" style="margin-left:60px;">'+
