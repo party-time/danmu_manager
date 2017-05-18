@@ -60,7 +60,7 @@ var addParamHtml = function(){
            '<input type="text" class="checkRule span1" >'+
            '<span style="margin-left: 10px;margin-right: 10px;">是否审核</span>'+
            '<input type="radio" name="isCheck" class="isCheck" onclick="clickRadio(this)">'+
-           '<a onclick="delParam(this)">删除</a>'+
+           '<a style="margin-left: 10px;margin-right: 10px;" onclick="delParam(this)">删除</a>'+
            '</div></div>';
     return paramHtml;
 }
@@ -69,7 +69,14 @@ var selectComponent = function(obj){
     var componentId = $(obj).val();
     var parentHtml = $(obj).parent();
     var dmCmdType = parentHtml.find('.type.span1');
+    var defaultValue = parentHtml.find('.defaultValue.span1');
+    var checkRule = parentHtml.find('.checkRule.span1');
+    var isCheck = parentHtml.find('.isCheck');
     $(dmCmdType).removeAttr("disabled");
+    $(dmCmdType).removeAttr("disabled");
+    $(defaultValue).removeAttr("disabled");
+    $(checkRule).removeAttr("disabled");
+    $(isCheck).removeAttr("disabled");
     if(componentId.length > 1){
          for(var i=0;i<_allComponent.length;i++){
             if( componentId == _allComponent[i].id){
@@ -80,7 +87,10 @@ var selectComponent = function(obj){
             }
          }
     }else{
-
+        $(dmCmdType).attr("disabled","disabled");
+        $(defaultValue).attr("disabled","disabled");
+        $(checkRule).attr("disabled","disabled");
+        $(isCheck).attr("disabled","disabled");
     }
 }
 
