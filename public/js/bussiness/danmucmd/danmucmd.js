@@ -198,6 +198,8 @@ var openAddCmdTemp = function () {
            '<select id="cmdIsInLib"><option value="0">是</option><option value="1" selected>否</option></select></div><br>';
     htmlStr+='<label class="control-label" style="width:60px">是否到H5</label><div class="controls" style="margin-left:60px;">'+
            '<select id="cmdIsSendH5"><option value="0">是</option><option value="1" selected>否</option></select></div><br>';
+    htmlStr+='<label class="control-label" style="width:60px">指令排序</label><div class="controls" style="margin-left:60px;">'+
+            '<input type="text" class="span1"  id="sort" > </div><br>';
     htmlStr+='<div id="paramList">'+addParamHtml();
     htmlStr+='</div></div></form>';
     $('#modalBody').html(htmlStr);
@@ -227,6 +229,8 @@ var openUpdateCmdTemp = function (id) {
                         '<select id="cmdIsInLib"><option value="0">是</option><option value="1" selected>否</option></select></div><br>';
           htmlStr+='<label class="control-label" style="width:60px">是否到H5</label><div class="controls" style="margin-left:60px;">'+
                         '<select id="cmdIsSendH5"><option value="0">是</option><option value="1" selected>否</option></select></div><br>';
+          htmlStr+='<label class="control-label" style="width:60px">指令排序</label><div class="controls" style="margin-left:60px;">'+
+                      '<input type="text" class="span1"  id="sort"  value="'+data.data.sort+'"  > </div><br>';
           htmlStr+='<div id="paramList">';
           for(var i=0;i<data.data.cmdJsonParamList.length;i++){
              htmlStr+=drawParamHtml(data.data.cmdJsonParamList[i]);
@@ -289,6 +293,8 @@ var saveParam = function(id){
 
     var isSendH5 = $('#cmdIsSendH5').val();
 
+    var sort = $('#sort').val();
+
     if( '' == cmdTempName){
         alert("指令名称不能为空");
         return;
@@ -297,6 +303,10 @@ var saveParam = function(id){
     if( '' == cmdTempKey){
         alert("指令KEY不能为空");
         return;
+    }
+
+    if( '' == sort){
+        alert("排序不能为空");
     }
 
     if(sortList.length == 0 || keyList.length == 0 || componentList.length == 0 ||
@@ -367,6 +377,7 @@ var saveParam = function(id){
         key:cmdTempKey,
         isInDanmuLib:isInDanmuLib,
         isSendH5:isSendH5,
+        sort:sort,
         cmdJsonParamList:paramList
     }
 
