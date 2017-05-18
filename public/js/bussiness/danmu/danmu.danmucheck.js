@@ -221,6 +221,11 @@
                 danmu.createTime = new Date().getTime() + 1000;
                 danmu.timeCount = $scope.delaySecond+1;
                 danmu.isSend=false;
+                if($scope.checkIsArray(danmu.msg)){
+                    for(var i=0; i<danmu.msg.length; i++){
+                        danmu.msg[i].id = i;
+                    }
+                }
                 $scope.danmuList.unshift(setDanmuLeftTime(danmu, new Date().getTime()));
                 if ($scope.danmuList.length > 1000) {
                     $scope.clearAndTurnUp();
@@ -750,6 +755,11 @@
         }*/
 
 
+        $scope.checkIsArray = function (object) {
+            return object && typeof object==='object' &&
+                Array == object.constructor;
+        }
+
         $scope.send=function(){
             var cmdTempComponentDataList = $.checkObject.cmdTempComponentDataList;
             if(cmdTempComponentDataList==null){
@@ -801,11 +811,8 @@
                     //alert("min:"+min+"===max:"+max);
                     //if(componentType==)
 
-                    var checkBoolean  = $.checkCompontent(compontent);
+                    $.checkCompontent(compontent);
                 }
-
-
-                return;
             }
 
             //return;

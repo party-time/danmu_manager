@@ -124,6 +124,11 @@
                 danmu.createTime = new Date().getTime() + 1000;
                 danmu.timeCount = $scope.delaySecond+1;
                 danmu.isSend=false;
+                if($scope.checkIsArray(danmu.msg)){
+                    for(var i=0; i<danmu.msg.length; i++){
+                        danmu.msg[i].id = i;
+                    }
+                }
                 $scope.danmuList.unshift(setDanmuLeftTime(danmu, new Date().getTime()));
                 if ($scope.danmuList.length > 1000) {
                     $scope.clearAndTurnUp();
