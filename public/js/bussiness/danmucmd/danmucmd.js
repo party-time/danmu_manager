@@ -142,23 +142,30 @@ var drawParamHtml = function(obj){
                 }
            }
 
+           var isDisable = "";
+           if( obj.componentId.length < 2){
+                isDisable = "disabled";
+           }
+            if(obj.checkRule == null){
+               obj.checkRule = "";
+            }
            paramHtml +='</select>'+
            '<span style="margin-left: 10px;margin-right: 10px;">类型</span>'+
-           '<select class="type span1" >'+
+           '<select class="type span1" '+isDisable+'>'+
                '<option value="0" '+a0+'>数字</option>'+
               '<option value="1" '+a1+'>布尔值</option>'+
               '<option value="2" '+a2+'>字符串</option>'+
               '<option value="3" '+a3+'>数组</option>'+
            '</select>'+
            '<span style="margin-left: 10px;margin-right: 10px;">默认值</span>'+
-           '<input type="text" class="defaultValue span1" value="'+obj.defaultValue+'">'+
+           '<input type="text" class="defaultValue span1" value="'+obj.defaultValue+'" '+isDisable+'>'+
            '<span style="margin-left: 10px;margin-right: 10px;">校验规则</span>'+
-           '<input type="text" class="checkRule span1" value="'+obj.checkRule+'">'+
+           '<input type="text" class="checkRule span1" value="'+obj.checkRule+'" '+isDisable+'>'+
            '<span style="margin-left: 10px;margin-right: 10px;">是否审核</span>';
            if(obj.isCheck == 0){
-                paramHtml +='<input type="radio" name="isCheck" class="isCheck" onclick="clickRadio(this)" checked>';
+                paramHtml +='<input type="radio" name="isCheck" class="isCheck" onclick="clickRadio(this)" checked '+isDisable+'>';
            }else{
-                paramHtml +='<input type="radio" name="isCheck" class="isCheck" onclick="clickRadio(this)">';
+                paramHtml +='<input type="radio" name="isCheck" class="isCheck" onclick="clickRadio(this)" '+isDisable+'>';
            }
            paramHtml +='</div></div>';
     return paramHtml;
@@ -330,17 +337,19 @@ var saveParam = function(id){
         param.type = $(typeList[i]).val();
 
         param.defaultValue =$(defaultValueList[i]).val();
+        if(param.componentId.length > 1 ){
+            param.checkRule = $(checkRuleList[i]).val();
+            if( '' == param.checkRule){
+                alert("校验规则不能为空");
+                return;
+            }
+            var reg = /^[0-9]*-[0-9]*$/g;
+            if(!reg.test(param.checkRule)){
+                alert("校验规则为数字-数字，第一个数字代表最短，为0时代表可以为空，第二个数字代表最长，例如0-5，代表可以为空，最长为5位");
+                return;
+            }
+        }
 
-        param.checkRule = $(checkRuleList[i]).val();
-        if( '' == param.checkRule){
-            alert("校验规则不能为空");
-            return;
-        }
-        var reg = /^[0-9]*-[0-9]*$/g;
-        if(!reg.test(param.checkRule)){
-            alert("校验规则为数字-数字，第一个数字代表最短，为0时代表可以为空，第二个数字代表最长，例如0-5，代表可以为空，最长为5位");
-            return;
-        }
 
         var r = $(isCheckList[i]).attr("checked");
         if(r){
