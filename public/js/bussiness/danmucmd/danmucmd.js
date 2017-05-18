@@ -142,23 +142,30 @@ var drawParamHtml = function(obj){
                 }
            }
 
+           var isDisable = "";
+           if( obj.componentId.length < 2){
+                isDisable = "disabled";
+           }
+            if(obj.checkRule == null){
+               obj.checkRule = "";
+            }
            paramHtml +='</select>'+
            '<span style="margin-left: 10px;margin-right: 10px;">类型</span>'+
-           '<select class="type span1" >'+
+           '<select class="type span1" '+isDisable+'>'+
                '<option value="0" '+a0+'>数字</option>'+
               '<option value="1" '+a1+'>布尔值</option>'+
               '<option value="2" '+a2+'>字符串</option>'+
               '<option value="3" '+a3+'>数组</option>'+
            '</select>'+
            '<span style="margin-left: 10px;margin-right: 10px;">默认值</span>'+
-           '<input type="text" class="defaultValue span1" value="'+obj.defaultValue+'">'+
+           '<input type="text" class="defaultValue span1" value="'+obj.defaultValue+'" '+isDisable+'>'+
            '<span style="margin-left: 10px;margin-right: 10px;">校验规则</span>'+
-           '<input type="text" class="checkRule span1" value="'+obj.checkRule+'">'+
+           '<input type="text" class="checkRule span1" value="'+obj.checkRule+'" '+isDisable+'>'+
            '<span style="margin-left: 10px;margin-right: 10px;">是否审核</span>';
            if(obj.isCheck == 0){
-                paramHtml +='<input type="radio" name="isCheck" class="isCheck" onclick="clickRadio(this)" checked>';
+                paramHtml +='<input type="radio" name="isCheck" class="isCheck" onclick="clickRadio(this)" checked '+isDisable+'>';
            }else{
-                paramHtml +='<input type="radio" name="isCheck" class="isCheck" onclick="clickRadio(this)">';
+                paramHtml +='<input type="radio" name="isCheck" class="isCheck" onclick="clickRadio(this)" '+isDisable+'>';
            }
            paramHtml +='</div></div>';
     return paramHtml;
@@ -191,6 +198,8 @@ var openAddCmdTemp = function () {
            '<select id="cmdIsInLib"><option value="0">是</option><option value="1" selected>否</option></select></div><br>';
     htmlStr+='<label class="control-label" style="width:60px">是否到H5</label><div class="controls" style="margin-left:60px;">'+
            '<select id="cmdIsSendH5"><option value="0">是</option><option value="1" selected>否</option></select></div><br>';
+    htmlStr+='<label class="control-label" style="width:60px">指令排序</label><div class="controls" style="margin-left:60px;">'+
+            '<input type="text" class="span1"  id="sort" > </div><br>';
     htmlStr+='<div id="paramList">'+addParamHtml();
     htmlStr+='</div></div></form>';
     $('#modalBody').html(htmlStr);
@@ -220,6 +229,8 @@ var openUpdateCmdTemp = function (id) {
                         '<select id="cmdIsInLib"><option value="0">是</option><option value="1" selected>否</option></select></div><br>';
           htmlStr+='<label class="control-label" style="width:60px">是否到H5</label><div class="controls" style="margin-left:60px;">'+
                         '<select id="cmdIsSendH5"><option value="0">是</option><option value="1" selected>否</option></select></div><br>';
+          htmlStr+='<label class="control-label" style="width:60px">指令排序</label><div class="controls" style="margin-left:60px;">'+
+                      '<input type="text" class="span1"  id="sort"  value="'+data.data.sort+'"  > </div><br>';
           htmlStr+='<div id="paramList">';
           for(var i=0;i<data.data.cmdJsonParamList.length;i++){
              htmlStr+=drawParamHtml(data.data.cmdJsonParamList[i]);
@@ -282,6 +293,8 @@ var saveParam = function(id){
 
     var isSendH5 = $('#cmdIsSendH5').val();
 
+    var sort = $('#sort').val();
+
     if( '' == cmdTempName){
         alert("指令名称不能为空");
         return;
@@ -290,6 +303,10 @@ var saveParam = function(id){
     if( '' == cmdTempKey){
         alert("指令KEY不能为空");
         return;
+    }
+
+    if( '' == sort){
+        alert("排序不能为空");
     }
 
     if(sortList.length == 0 || keyList.length == 0 || componentList.length == 0 ||
@@ -330,17 +347,19 @@ var saveParam = function(id){
         param.type = $(typeList[i]).val();
 
         param.defaultValue =$(defaultValueList[i]).val();
+        if(param.componentId.length > 1 ){
+            param.checkRule = $(checkRuleList[i]).val();
+            if( '' == param.checkRule){
+                alert("校验规则不能为空");
+                return;
+            }
+            var reg = /^[0-9]*-[0-9]*$/g;
+            if(!reg.test(param.checkRule)){
+                alert("校验规则为数字-数字，第一个数字代表最短，为0时代表可以为空，第二个数字代表最长，例如0-5，代表可以为空，最长为5位");
+                return;
+            }
+        }
 
-        param.checkRule = $(checkRuleList[i]).val();
-        if( '' == param.checkRule){
-            alert("校验规则不能为空");
-            return;
-        }
-        var reg = /^[0-9]*-[0-9]*$/g;
-        if(!reg.test(param.checkRule)){
-            alert("校验规则为数字-数字，第一个数字代表最短，为0时代表可以为空，第二个数字代表最长，例如0-5，代表可以为空，最长为5位");
-            return;
-        }
 
         var r = $(isCheckList[i]).attr("checked");
         if(r){
@@ -358,6 +377,7 @@ var saveParam = function(id){
         key:cmdTempKey,
         isInDanmuLib:isInDanmuLib,
         isSendH5:isSendH5,
+        sort:sort,
         cmdJsonParamList:paramList
     }
 
