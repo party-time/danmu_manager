@@ -81,8 +81,21 @@ var selectComponent = function(obj){
          for(var i=0;i<_allComponent.length;i++){
             if( componentId == _allComponent[i].id){
                 if(_allComponent[i].type == 4){
+                    $(dmCmdType).empty();
+                    $(dmCmdType).append('<option value="3">数组</option>');
                     $(dmCmdType).val(3);
                     $(dmCmdType).attr("disabled","disabled");
+                }else if(_allComponent[i].type != 1 && _allComponent[i].type != 4){
+                    $(dmCmdType).empty();
+                    $(dmCmdType).append('<option value="0">数字</option>');
+                    $(dmCmdType).append('<option value="1">布尔值</option>');
+                    $(dmCmdType).append('<option value="2">字符串</option>');
+                }else if(_allComponent[i].type == 1){
+                    $(dmCmdType).empty();
+                    $(dmCmdType).append('<option value="0">数字</option>');
+                    $(dmCmdType).append('<option value="1">布尔值</option>');
+                    $(dmCmdType).append('<option value="2">字符串</option>');
+                    $(dmCmdType).append('<option value="3">数组</option>');
                 }
             }
          }
@@ -133,30 +146,46 @@ var drawParamHtml = function(obj){
 
            paramHtml += '<option value="0" '+s0+'>无</option><option value="2" '+s2+'>特效图片</option><option value="3" '+s3+'>表情图片</option>';
 
-
+           var componentType = -1;
            for(var i=0;i<_allComponent.length;i++){
                 if(obj.componentId == _allComponent[i].id){
                     paramHtml += '<option value="'+_allComponent[i].id+'" selected>'+_allComponent[i].name+'</option>';
+                    componentType = _allComponent[i].type;
                 }else{
                     paramHtml += '<option value="'+_allComponent[i].id+'">'+_allComponent[i].name+'</option>';
                 }
            }
 
            var isDisable = "";
+           var isTypeDisable = "";
+
            if( obj.componentId.length < 2){
                 isDisable = "disabled";
+                isTypeDisable = "disabled";
            }
-            if(obj.checkRule == null){
+           if(obj.checkRule == null){
                obj.checkRule = "";
-            }
+           }
+           if(componentType ==4){
+                isTypeDisable = "disabled";
+           }
+
            paramHtml +='</select>'+
-           '<span style="margin-left: 10px;margin-right: 10px;">类型</span>'+
-           '<select class="type span1" '+isDisable+'>'+
-               '<option value="0" '+a0+'>数字</option>'+
+           '<span style="margin-left: 10px;margin-right: 10px;">类型</span>';
+
+
+           paramHtml +='<select class="type span1" '+isTypeDisable+'>';
+
+           paramHtml +='<option value="0" '+a0+'>数字</option>'+
               '<option value="1" '+a1+'>布尔值</option>'+
-              '<option value="2" '+a2+'>字符串</option>'+
-              '<option value="3" '+a3+'>数组</option>'+
-           '</select>'+
+              '<option value="2" '+a2+'>字符串</option>';
+           if(componentType == 4){
+                paramHtml +='<option value="3" '+a3+' selected>数组</option>';
+           }else{
+                paramHtml +='<option value="3" '+a3+' >数组</option>';
+           }
+
+           paramHtml +='</select>'+
            '<span style="margin-left: 10px;margin-right: 10px;">默认值</span>'+
            '<input type="text" class="defaultValue span1" value="'+obj.defaultValue+'" '+isDisable+'>'+
            '<span style="margin-left: 10px;margin-right: 10px;">校验规则</span>'+
@@ -232,6 +261,7 @@ var openUpdateCmdTemp = function (id) {
           htmlStr+='<label class="control-label" style="width:60px">指令排序</label><div class="controls" style="margin-left:60px;">'+
                       '<input type="text" class="span1"  id="sort"  value="'+data.data.sort+'"  > </div><br>';
           htmlStr+='<div id="paramList">';
+          var componentType = -1;
           for(var i=0;i<data.data.cmdJsonParamList.length;i++){
              htmlStr+=drawParamHtml(data.data.cmdJsonParamList[i]);
           }
@@ -239,6 +269,7 @@ var openUpdateCmdTemp = function (id) {
           $('#modalBody').html(htmlStr);
           $('#cmdIsInLib').val(data.data.isInDanmuLib);
           $('#cmdIsSendH5').val(data.data.isSendH5);
+
           var buttonHtml = '<a class="btn btn-primary" onclick="addParam()">新增属性</a> <button class="btn btn-primary" onclick="saveParam(\''+id+'\')">保存</button>';
           $('#modalFooter').html(buttonHtml);
           $('#myModal').modal('show');
