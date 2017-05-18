@@ -78,9 +78,10 @@ var selectComponent = function(obj){
     $(checkRule).removeAttr("disabled");
     $(isCheck).removeAttr("disabled");
     if(componentId.length > 1){
+
          for(var i=0;i<_allComponent.length;i++){
             if( componentId == _allComponent[i].id){
-                if(_allComponent[i].type == 4){
+                if(_allComponent[i].type == 3){
                     $(dmCmdType).val(3);
                     $(dmCmdType).attr("disabled","disabled");
                 }
