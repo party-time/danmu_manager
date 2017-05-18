@@ -1,5 +1,7 @@
 
 (function ($) {
+    $.checkObject = {};
+    
     $.initTitle =function (object) {
         $.danmuAjax('/v1/api/findDanmuType', 'GET', 'json', {}, function (data) {
             console.log(data);
@@ -73,6 +75,10 @@
                 var temObject = data.data;
                 console.log(data);
                 var cmdTempComponentDataList = temObject.cmdTempComponentDataList;
+                /*if(this.globalObject!=undefined){
+                    globalObject = cmdTempComponentDataList;
+                }*/
+                $.checkObject = temObject;
                 var divId = "componentDivId";
                 $("#"+divId).empty();
                 createTitleComponent({'divId':divId,'name':temObject.name})
@@ -88,6 +94,7 @@
                             componentId : componentId,
                             componentType:componentObject.componentType,
                             key : componentObject.key,
+                            check:componentObject.checkRule,
                             partyId:partyId
                         };
 
@@ -313,5 +320,169 @@
         var textArea = '<input id="'+widgetId+'" name="'+key+'" class="form-control"  style="width: 260px;"></input>';
         divObject.append(textArea);
         $("#"+widgetId).val(object.defaultValue);
+    }
+    
+    $.checkCompontent=function (compontent) {
+        var rule = compontent.checkRule;
+        //组件的类型 0text 1textarea 2select  3radiobutton 4checkbox
+        var componentType = compontent.componentType;
+        //0数字 1布尔值 2字符串 3数组
+        var type = compontent.type;
+        if(componentType==0){
+            var content = $("*[name='"+compontent.key+"']").val();
+            $.checContentIsOk(content,rule,type)
+        }else if(componentType==1){
+            //textArea
+            var content = $("*[name='"+compontent.key+"']").val();
+            if(type==3){
+                var array = content.split(",");
+                $.checkLogicArray(array,rule);
+            }else{
+                //验证其他类型
+                $.checContentIsOk(content,rule,type)
+            }
+            
+        }else if(componentType==2){
+            //select
+            var content = $("*[name='"+compontent.key+"']").val();
+            if(type==3){
+                alert('select type is array');
+                return false;
+            }
+            $.checContentIsOk(content,rule,type)
+        }else if(componentType==3){
+            //radioButton
+            var content = $('input[name="'+compontent.key+'"]:checked').val();
+            if(type==3){
+                alert('radio type is array');
+                return false;
+            }
+            $.checContentIsOk(content,rule,type)
+        }else if(componentType==4){
+            //checkBox
+            if(type!=3){
+                alert('checkBox type is  not array');
+                return false;
+            }
+            var array =[];
+            $('input[name="'+compontent.key+'"]:checked').each(function(){
+                array.push($(this).val());
+            });
+            $.checkLogicArray(array,rule);
+        }
+        return true;
+    }
+
+
+    $.checContentIsOk =function (content, rule,type) {
+        if(rule!=null && rule!==undefined){
+            var isNull =  rule.split("-")[0];
+            var max =  rule.split("-")[1];
+
+            if($.checkisNotEmpty(content)){
+                if(content.length>max){
+                    alert('最大长度不能超过'+max);
+                    return ;
+                }else{
+                    $.checkCompontentDType(type,content);
+                }
+            }else{
+                if(isNull!=0){
+                    alert("不能为空！");
+                    return;
+                }
+            }
+        }else{
+            $.checkCompontentDType(type,content);
+        }
+    }
+    $.checkLogicArray =function (array,rule) {
+        var specialBoolean  = $.checkSpecialArray(array);
+        if(!specialBoolean){
+            alert('非法数组!');
+            return false;
+        }
+        if(!$.checkIsArray(array)){
+            alert('数组格式不正确!');
+            return false;
+        }
+        if(rule!=null && rule!==undefined){
+            var isNull =  rule.split("-")[0];
+            var max =  rule.split("-")[1];
+            if(array.length==0){
+                if(isNull!=0){
+                    alert('不能输入空值!');
+                    return false;
+                }
+            }
+            if(array.length>5){
+                alert('数组过长!');
+                return false;
+            }
+        }
+    }
+    
+    $.chckIsEmpty =function (object) {
+        if(object==null || object==undefined || object==""){
+            return true;
+        }
+        return false;
+    }
+
+    $.checkisNotEmpty = function (object) {
+        return !$.chckIsEmpty(object);
+    }
+
+    $.checkCompontentDType = function (type,content) {
+        //0数字 1布尔值 2字符串 3数组
+        if(type==0){
+            var flg =$.checkNumber(content);
+            if(!flg){
+                alert('请输入数字！');
+                return flg;
+            }
+        }else if(type==1){
+            var flg =$.checBoolean(content);
+            if(!flg){
+                alert('请输布尔类型！');
+                return flg;
+            }
+        }else if(type==2){
+
+        }else if(type==3){
+            return $.checkIsArray(content);
+        }
+        return true;
+    }
+
+    $.checkSpecialArray = function (array) {
+        if(array!=null && array.length>0){
+            for(var i=0; i<array.length; i++){
+                if(array[i]==null || array[i]==""){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    $.checkIsArray = function (object) {
+        return object && typeof object==='object' &&
+            Array == object.constructor;
+    }
+
+
+    $.checBoolean = function (object) {
+        if(object == "true" || object == "false"){
+            return true;
+        }
+        return false;
+    }
+
+    $.checkNumber =function(object) {
+        var reg = /^[0-9]+.?[0-9]*$/;
+        if (reg.test(object)) {
+            return true;
+        }
+        return false;
     }
 })(jQuery);
