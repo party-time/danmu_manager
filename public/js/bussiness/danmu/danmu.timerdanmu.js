@@ -1,5 +1,4 @@
-var danmuTypeArray = [{id: 0, text: '普通弹幕'}, {id: 1, text: '动画'}, {id: 2, text: '图片'}, {id: 3, text: '闪光字'}, {id: 4, text: '表情'}];
-var positionArray = [{id: 0, text: '全部'}, {id: 1, text: '左上'}, {id: 2, text: '顶部'}, {id: 3, text: '右上'}, {id: 4, text: '左下'}, {id: 5, text: '底部'}, {id: 6, text: '右下'}];
+
 
 var tableUrl = '/v1/api/admin/timerDanmu/page';
 var chartUrl = '/v1/api/admin/timerDanmu/chart';
@@ -13,45 +12,6 @@ var partyId;
 var insertData = new Object();
 
 var updateFlg=false;
-
-$(".danmuType-array").change(function (data) {
-    //var aaa = $(".js-example-data-array  option:selected").val();
-    //alert(aaa);
-    divIndex = data.target.value;
-    initDanmuTypeDiv(divIndex);
-    if(divIndex==4){
-        $(".danmuPositionDiv").hide();
-    }else{
-        $(".danmuPositionDiv").show();
-        $(".danmuPosition-array").val(null).select2({data: positionArray, minimumResultsForSearch: -1});
-        direction=0;
-    }
-
-    //选择普通弹幕
-    if(divIndex==0){
-        //触发aajx设置弹幕类型
-    }
-});
-
-$(".danmuPosition-array").change(function (data) {
-    direction = data.target.value;
-});
-
-var initDanmuTypeDiv = function (type) {
-    for (var i = 0; i < danmuTypeArray.length; i++) {
-        var id = danmuTypeArray[i].id;
-        if (type == id) {
-            $("#danmu_li_" + id).show();
-        } else {
-            $("#danmu_li_" + id).hide();
-        }
-        if(type==1){
-            $("#danmu_li_endTime").show();
-        }else{
-            $("#danmu_li_endTime").hide();
-        }
-    }
-}
 
 
 var columnsArray = [
@@ -74,24 +34,24 @@ var columnsArray = [
     },
     {
         field: 'beginTime', title: '时间', align: 'center', formatter: function (value, row, index) {
-            return parseInt(row.beginTime / 60) + "分" + row.beginTime % 60 + "秒";
-        }
+        return parseInt(row.beginTime / 60) + "分" + row.beginTime % 60 + "秒";
+    }
     },
     {
         field: 'endTime', title: '结束时间', align: 'center', formatter: function (value, row, index) {
-            if(row.endTime!=null){
-                return parseInt(row.endTime / 60) + "分" + row.endTime % 60 + "秒";
-            }
-            return "";
+        if(row.endTime!=null){
+            return parseInt(row.endTime / 60) + "分" + row.endTime % 60 + "秒";
         }
+        return "";
+    }
     },
     {
         field: 'operate', title: '删除', align: 'center', formatter: function (value, row, index) {
-            var buttonStr = "<a class='btn btn-info edit' onclick='doEdit(\""+row.id+"\")' title='remove'>编辑</a>";
-            buttonStr +="&nbsp;<a class='btn btn-danger remove'  onclick='doDelete(\""+row.id+"\")' title='remove'>删除</a>";
-            return buttonStr;
-            //return "<button class='btn btn-info edit' onclick='doEdit(\''+row.id+'\')' title='remove'>编辑</button>&nbsp;<button class='btn btn-danger remove'  title='remove'>删除</button>";
-        }, events: 'operateEvents'
+        var buttonStr = "<a class='btn btn-info edit' onclick='doEdit(\""+row.id+"\")' title='remove'>编辑</a>";
+        buttonStr +="&nbsp;<a class='btn btn-danger remove'  onclick='doDelete(\""+row.id+"\")' title='remove'>删除</a>";
+        return buttonStr;
+        //return "<button class='btn btn-info edit' onclick='doEdit(\''+row.id+'\')' title='remove'>编辑</button>&nbsp;<button class='btn btn-danger remove'  title='remove'>删除</button>";
+    }, events: 'operateEvents'
     }
 ];
 var doDelete = function(id){
@@ -104,22 +64,10 @@ var doDelete = function(id){
         console.log(data);
     });
 }
-/*window.operateEvents = {
-    'click .remove': function (e, value, row, index) {
-        $.danmuAjax('/v1/api/admin/timerDanmu/delete', 'GET', 'json', {danmuId: row.id}, function (data) {
-            if (data.result == 200) {
-                initable();
-                initCarts();
-            }
-        }, function (data) {
-            console.log(data);
-        });
-    }
-};*/
+
 var quaryObject = {pageSize: 10, partyId: partyId};
 
 var initable = function () {
-
     $.initTable('tableList', columnsArray, quaryObject, tableUrl);
 }
 var initCarts = function () {
@@ -147,53 +95,9 @@ var getAllDanmuLibrary = function () {
     });
     initable();
     initCarts();
-    initDanmuTypeDiv(divIndex);
-    $.danmuAjax('/v1/api/admin/colors', 'GET', 'json', {}, function (data) {
-        if (data.result == 200) {
-            var colorArray = data.data.danmuColors;
-            var html = ''
-            for (var i = 0; i < colorArray.length; i++) {
-                var color = colorArray[i];
-                html += '<button class="btn"  style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; padding-left: 0px; background-color: ' + color + '" onclick="setElement(\'' + color + '\')">'+color+'</button>';
-            }
-            $(".danmuColor").empty().html(html);
-        } else {
-            alert("资源加载失败")
-        }
-    });
-
+    $.initTitle({'divId':'typeTitleDiv','partyId':partyId});
     $.danmuAjax('/v1/api/admin/initResource', 'GET', 'json', quaryObject, function (data) {
         if (data.result == 200) {
-            //$scope.expressions = data.data.expressions;
-            //$scope.specialImages = data.data.specialImages;
-
-            var html = '';
-            var expressionArray = data.data.expressions;
-            if(expressionArray!=null){
-                for (var i = 0; i < expressionArray.length; i++) {
-                    var expression = expressionArray[i];
-                    html += '<img src="' + baseUrl + expression.smallFileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;"  title="' + expression.smallFileUrl + '" onclick="setElement(\'' + expression.smallFileUrl + '\',\'' + expression.id + '\')"/>';
-                }
-                $(".expressionDanmu").empty().html(html);
-            }else{
-                $("#danmu_li_4").empty();
-                removeFormTypeArray(4);
-            }
-
-
-            html = '';
-            var imageArray = data.data.specialImages;
-            if(imageArray!=null){
-                for (var i = 0; i < imageArray.length; i++) {
-                    var image = imageArray[i];
-                    html += '<img src="' + baseUrl + image.fileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;" title="' + image.fileUrl + '" onclick="setElement(\'' + image.fileUrl + '\',\'' + image.id + '\')"/>';
-                }
-                $(".imageDanmu").empty().html(html);
-            }else{
-                $("#danmu_li_2").empty();
-                removeFormTypeArray(2);
-            }
-
 
             html = '';
             var videoDanmuArray = data.data.specialVideos;
@@ -205,190 +109,38 @@ var getAllDanmuLibrary = function () {
                     html += '<button class="btn"  style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " onclick="setElement(\'' + specialVideo.resourceName + '\',\'' + specialVideo.id + '\')" title="' + specialVideo.resourceName + '">' + buttonName + '</button>';
                 }
                 $(".videoDanmu").empty().html(html);
-            }else{
-                $("#danmu_li_1").empty();
-                removeFormTypeArray(1);
             }
         } else {
             alert("资源加载失败")
         }
-        $(".danmuType-array").select2({data: danmuTypeArray, minimumResultsForSearch: -1});
-        $(".danmuPosition-array").select2({data: positionArray, minimumResultsForSearch: -1});
     });
-}
-
-function removeFormTypeArray(id){
-    var tempArray = [];
-    for(var i=0; i<danmuTypeArray.length; i++){
-        if(id!=danmuTypeArray[i].id){
-            tempArray.push(danmuTypeArray[i]);
-        }
-    }
-    danmuTypeArray = tempArray;
 }
 getAllDanmuLibrary();
 
 
 
 
-//设置动画
-var setElement = function (content, id) {
-    var value = parseInt(divIndex);
-    switch (value) {
-        case 0:
-            insertData.color = content;
-            setButtonBorder("danmuColor",content);
-            break;
-        case 1:
-            insertData.code = id;
-            insertData.content = content;
-            setSpecialButtonBorder("videoDanmu",content);
-            break;
-        case 2:
-            insertData.code = id;
-            insertData.content = content;
-            setImageBorder("imageDanmu",content);
-            break;
-        case 3:
-            insertData.color = content;
-            setButtonBorder("blingDanmuColor",content);
-            break;
-        case 4:
-            insertData.code = id;
-            insertData.content = content;
-            setImageBorder("expressionDanmu",content);
-            break;
-        default:
-            return;
+$(".saveDanmuButton").click(function () {
+    if($.executeCompontentCheck()){
+        $.ajax({
+            type: "POST",
+            url:"/v1/api/admin/timerDanmu/danmuSave",
+            data:$('#danmuForm2').serialize(),// 序列化表单值
+            async: false,
+            error: function(request) {
+                alert("Connection error");
+                return;
+            },
+            success: function(data) {
+                //window.location.href="跳转页面"
+            }
+        });
     }
-
-}
-
-
-$("#danmuMsg").keydown(function () {
-    setDanmuButtonStatus();
-});
-$("#danmuMsg").keyup(function () {
-    setDanmuButtonStatus();
-});
-
-
-
-$("#blingMsg").keydown(function () {
-    setBlingDanmuButtonStatus();
 })
-
-$("#blingMsg").keyup(function () {
-    setBlingDanmuButtonStatus();
-})
-
-function setDanmuButtonStatus(){
-    var size = 40-$("#danmuMsg").val().length;
-    if(size<0){
-        $.setControlDisabledStateByCss('sendDanmuButton',true);
-        $("#danmuMsgCount").html('别输了，字数超过上限了');
-    }else{
-        $("#danmuMsgCount").html('你还可以输入的字数:'+size);
-        $.setControlDisabledStateByCss('sendDanmuButton',false);
-    }
-}
-
-function setBlingDanmuButtonStatus(){
-    var size = 8-$("#blingMsg").val().length;
-    if(size<0){
-        $.setControlDisabledStateByCss('sendBlingDanmuButton',true);
-        $("#blingMsgCount").html('别输了，字数超过上限了');
-    }else{
-        $("#blingMsgCount").html('你还可以输入的字数:'+size);
-        $.setControlDisabledStateByCss('sendBlingDanmuButton',false);
-    }
-}
-
 
 
 
 var danmuAddOperateHandler = function () {
-
-    insertData.type = parseInt(divIndex);
-    insertData.partyId = partyId;
-    var minute = $("#minutes").val();
-    var seconds = $("#seconds").val();
-
-    var movieStatus = $("#movieStatus").val();
-
-
-    if (minute == "") {
-        minute = 0;
-    }
-    if(seconds=="" && movieStatus==0){
-        alert("请填写时间,最少填写个秒");
-        return;
-    }else if(seconds==""){
-        seconds=0;
-    }
-
-    if (isNaN(minute)) {
-        alert('分钟请填写数字');
-        return;
-    }
-    if (isNaN(seconds)) {
-        alert('秒请填写数字');
-        return;
-    }else{
-        if(seconds>59){
-            alert('秒数请限制在0~59秒之间');
-            return;
-        }
-    }
-
-     insertData.direction=direction;
-
-    var beginTime = parseInt(minute*60) + parseInt(seconds);
-    insertData.beginTime = beginTime;
-    if (divIndex == 0) {
-        if($("#danmuMsg").val()==null || $("#danmuMsg").val()==""){
-            alert('请填写弹幕');
-            return;
-        }else{
-            insertData.content =$("#danmuMsg").val();
-        }
-
-    } else if (divIndex == 3) {
-        if($("#blingMsg").val()==null || $("#blingMsg").val()==""){
-            alert('请填写闪光字');
-            return;
-        }else{
-            insertData.content =$("#blingMsg").val();
-        }
-    }else if (divIndex == 1) {
-        if(insertData.content==null){
-            alert('请选择动画');
-            return;
-        }
-        var lastTime = $("#lastTime").val();
-        if(lastTime==""){
-            alert("亲，最少写个持续时间吧!");
-            return;
-        }
-
-        if (isNaN(lastTime)) {
-            alert('分钟请填写数字');
-            return;
-        }
-        insertData.lastTime = lastTime;
-
-    }else if (divIndex == 2) {
-        if(insertData.content==null){
-            alert('请选择图片');
-            return;
-        }
-    }else if (divIndex == 4) {
-        if(insertData.content==null){
-            alert('请选择表情');
-            return;
-        }
-    }
-
     $.danmuAjax(danmuAddUrl, 'POST', 'json', insertData, function (data) {
         quaryObject.pageNumber = 1
         if (data.result == 200) {
@@ -482,7 +234,7 @@ function initHighcharts(data) {
 }
 
 $(".timeDanmuButton").click(function(){
-   //alert(partyId);
+    //alert(partyId);
     $.danmuAjax('/v1/api/admin/timerDanmu/creatTimerDanmuFile', 'GET', 'json', {partyId:partyId}, function (data) {
         if (data.result == 200) {
             //initable();

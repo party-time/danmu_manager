@@ -1,8 +1,11 @@
 
 (function ($) {
     $.checkObject = {};
+
+    /**1.审核节目 2：定时弹幕**/
+    $.pageType;
     
-    $.initTitle =function (object) {
+    $.initTitle = function (object) {
         $.danmuAjax('/v1/api/admin/findDanmuType', 'GET', 'json', {}, function (data) {
             console.log(data);
             if (data.result == 200) {
@@ -61,14 +64,17 @@
                     return false;
                 });
             }
+            var hiddenInput="<input type='hidden' id='templateId' name='templateId'/>"
+            divobject.append(hiddenInput);
             $.createPlug(valueList[0].id,partyId);
 
-            var hiddenInput="<input type='hidden' id='templateId' name='templateId' value='"+valueList[0].id+"'/>"
-            divobject.append(hiddenInput);
+
         }
     }
 
     $.createPlug=function (id,partyId) {
+
+        $("#templateId").val(id);
         $.danmuAjax('/v1/api/admin/findDanmuTemplateInfo/'+id, 'GET', 'json', {}, function (data) {
             console.log(data);
             if (data.result == 200) {
@@ -104,8 +110,6 @@
                         }else{
                             createCompentBycomponentType(object);
                         }
-
-                        //添加新的控件
                     }
                 }
             }
@@ -115,7 +119,7 @@
     function createTitleComponent(object) {
         var divId = object.divId;
         var divObject = $("#"+divId).append('<div id="'+divId+'Div"></div>');
-        $('#'+divId+'Div').append('<i class="icon-bookmark"></i><span style="margin-left: 3px;font-size: larger;">'+object.name+'</span>')
+        $('#'+divId+'Div').append('<div style="margin-bottom: 1px;margin-top: 1px;"><i class="icon-bookmark"></i><span style="margin-left: 3px;font-size: larger;">'+object.name+'</span></div>')
 
     }
 
@@ -128,7 +132,7 @@
                 var divObject = $("#"+divId).append('<div id="'+widgetId+'Div"></div>');
                 var resourceArray = [];
                 if(object.componentId==1){
-                    //表情特效
+                    //视频特效
                     resourceArray=data.data.specialVideos;
                     for (var i = 0; i < resourceArray.length; i++) {
                         var specialVideo = resourceArray[i];
@@ -158,7 +162,7 @@
 
                     }
                 }else if(object.componentId==3){
-                    //视频特效
+                    //表情特效
                     resourceArray=data.data.expressions;
                     for (var i = 0; i < resourceArray.length; i++) {
                         var expression = resourceArray[i];
@@ -321,7 +325,54 @@
         divObject.append(textArea);
         $("#"+widgetId).val(object.defaultValue);
     }
+
+
+    $.executeCompontentCheck =function () {
+        var cmdTempComponentDataList = $.checkObject.cmdTempComponentDataList;
+        if(cmdTempComponentDataList==null){
+            alert('组件不存在');
+            return false;
+        }
+        var count = 0;
+        for(var i=0; i<cmdTempComponentDataList.length; i++){
+            var compontent = cmdTempComponentDataList[i];
+            var boolean = $.checkAllCompontent(compontent);
+            if(!boolean){
+                count++;
+            }
+        }
+        if(count>0){
+            return false;
+        }
+        return true;
+    }
     
+    $.checkAllCompontent =function (compontent) {
+        //颜色组件
+        //组件的id 0无组件 1特效视频 2特效图片 3表情图片
+        //String  componentId;
+        var componentId = compontent.componentId;
+        if(componentId==2){
+            var temp = $("#"+compontent.key).val();
+            if(temp==null || temp==""){
+                alert("请选择图片特效!");
+                return false;
+            }
+
+        }else if(componentId==3){
+            var temp = $("#"+compontent.key).val();
+            var temp = $("#"+compontent.key).val();
+            //alert("temp:"+temp);
+            if(temp==null || temp==""){
+                alert("请选择表情特效!");
+                return false;
+            }
+
+        }else{
+            return $.checkCompontent(compontent);
+        }
+    }
+
     $.checkCompontent=function (compontent) {
         var rule = compontent.checkRule;
         //组件的类型 0text 1textarea 2select  3radiobutton 4checkbox
@@ -330,16 +381,16 @@
         var type = compontent.type;
         if(componentType==0){
             var content = $("*[name='"+compontent.key+"']").val();
-            $.checContentIsOk(content,rule,type)
+            return $.checContentIsOk(content,rule,type)
         }else if(componentType==1){
             //textArea
             var content = $("*[name='"+compontent.key+"']").val();
             if(type==3){
                 var array = content.split(",");
-                $.checkLogicArray(array,rule);
+                return $.checkLogicArray(array,rule);
             }else{
                 //验证其他类型
-                $.checContentIsOk(content,rule,type)
+                return $.checContentIsOk(content,rule,type)
             }
             
         }else if(componentType==2){
@@ -368,7 +419,7 @@
             $('input[name="'+compontent.key+'"]:checked').each(function(){
                 array.push($(this).val());
             });
-            $.checkLogicArray(array,rule);
+            return $.checkLogicArray(array,rule);
         }
         return true;
     }
@@ -382,19 +433,20 @@
             if($.checkisNotEmpty(content)){
                 if(content.length>max){
                     alert('最大长度不能超过'+max);
-                    return ;
+                    return false;
                 }else{
                     $.checkCompontentDType(type,content);
                 }
             }else{
                 if(isNull!=0){
                     alert("不能为空！");
-                    return;
+                    return false;
                 }
             }
         }else{
-            $.checkCompontentDType(type,content);
+            return $.checkCompontentDType(type,content);
         }
+        return true;
     }
     $.checkLogicArray =function (array,rule) {
         var specialBoolean  = $.checkSpecialArray(array);
@@ -420,6 +472,8 @@
                 return false;
             }
         }
+
+        return true;
     }
     
     $.chckIsEmpty =function (object) {
@@ -439,18 +493,22 @@
             var flg =$.checkNumber(content);
             if(!flg){
                 alert('请输入数字！');
-                return flg;
+                return false;
             }
         }else if(type==1){
             var flg =$.checBoolean(content);
             if(!flg){
                 alert('请输布尔类型！');
-                return flg;
+                return false;
             }
         }else if(type==2){
 
         }else if(type==3){
-            return $.checkIsArray(content);
+            var flg = $.checkIsArray(content);
+            if(!flg){
+                alert('不是数组!');
+                return false;
+            }
         }
         return true;
     }

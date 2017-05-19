@@ -761,74 +761,20 @@
         }
 
         $scope.send=function(){
-            var cmdTempComponentDataList = $.checkObject.cmdTempComponentDataList;
-            if(cmdTempComponentDataList==null){
-                return;
-
-                //颜色组件
-
-                //验证组件类型
-
-
-
-                //判断参数类型
-
-            }
-            //alert('cmdTempComponentDataList.length:'+cmdTempComponentDataList.length);
-            for(var i=0; i<cmdTempComponentDataList.length; i++){
-                var compontent = cmdTempComponentDataList[i];
-                //颜色组件
-                //组件的id 0无组件 1特效视频 2特效图片 3表情图片
-                //String  componentId;
-                var id = compontent.id;
-                var componentId = compontent.componentId;
-
-                if(componentId==2){
-                    var temp = $("#"+compontent.key).val();
-                    //alert("temp:"+temp);
-                    if(temp==null || temp==""){
-                      alert("请选择图片特效!");
-                      return;
+            if($.executeCompontentCheck()){
+                $.ajax({
+                    type: "POST",
+                    url:"/v1/api/admin/danmuTest",
+                    data:$('#danmuForm2').serialize(),// 序列化表单值
+                    async: false,
+                    error: function(request) {
+                        alert("Connection error");
+                    },
+                    success: function(data) {
+                        //window.location.href="跳转页面"
                     }
-
-                }else if(componentId==3){
-                    var temp = $("#"+compontent.key).val();
-                    var temp = $("#"+compontent.key).val();
-                    //alert("temp:"+temp);
-                    if(temp==null || temp==""){
-                        alert("请选择表情特效!");
-                        return;
-                    }
-
-                }else{
-                    var rule = compontent.checkRule;
-                    //组件的类型 0text 1textarea 2select  3radiobutton 4checkbox
-                    var componentType = compontent.componentType;
-                    //0数字 1布尔值 2字符串 3数组
-                    var type = compontent.type;
-                    var min =  rule.split("-")[0];
-                    var max =  rule.split("-")[1];
-                    //alert("min:"+min+"===max:"+max);
-                    //if(componentType==)
-
-                    $.checkCompontent(compontent);
-                }
+                });
             }
-
-            //return;
-
-            $.ajax({
-                type: "POST",
-                url:"/v1/api/admin/danmuTest",
-                data:$('#danmuForm').serialize(),// 序列化表单值
-                async: false,
-                error: function(request) {
-                    alert("Connection error");
-                },
-                success: function(data) {
-                    //window.location.href="跳转页面"
-                }
-            });
         }
         var initPage = function () {
             $(".danmuPosition-array").val(null).select2({data: positionArray, minimumResultsForSearch: -1});

@@ -48,82 +48,62 @@
                 <div class="span4">
                     <div class="widget widget-nopad">
                         <div class="widget-header"><i class="icon-list-alt"></i>
-                            <h3> 弹幕添加</h3>
+                            <h3>弹幕添加</h3>
                         </div>
                         <!-- /widget-header -->
                         <div class="widget-content" id="collapseOne">
-                            <ul class="danmucheck-items">
-                                <li>
-                                    <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
-                                        <h3 style="margin-right: 1em;">弹幕类型</h3>
-                                        <select class="danmuType-array" style="width: 120px;">
-                                        </select>
-                                        <input type="hidden" id="danmuId",value=""/>
-                                    </div>
-                                </li>
-                                <li style="padding-top: 1em;">
-                                    <div class="danmucheck-items-widget-header" style="line-height: 0px;"><i class="icon-bookmark"></i>
-                                        <h3 style="margin-right: 1em;">发送时间</h3>
-                                        <input type="text" class="dataFormat" style="width: 40px;" id="minutes"/>(分)<input type="text" class="dataFormat" style="width: 40px;" maxlength="2" id="seconds"/>(秒)
-                                    </div>
-                                </li>
-                                <li id="danmu_li_endTime" style="padding-top: 1em;">
-                                    <div class="danmucheck-items-widget-header" style="line-height: 0px;"><i class="icon-bookmark"></i>
-                                        <h3 style="margin-right: 1em;">持续时间</h3>
-                                        <input type="text" class="dataFormat" style="width: 40px;" id="lastTime"/>(秒)
-                                    </div>
-                                </li>
-                                <li style="padding-top: 1em;" class="danmuPositionDiv">
-                                    <div class="danmucheck-items-widget-header" style="line-height: 0px;"><i class="icon-bookmark"></i>
-                                        <h3 style="margin-right: 1em;">弹幕位置</h3>
-                                        <select class="danmuPosition-array" style="width: 120px;"></select>
-                                    </div>
-                                </li>
-                                <li id="danmu_li_0">
-                                    <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
-                                        <h3 style="margin-right: 1em;width: 98px;">普通弹幕</h3> <span style="color: red;" id="danmuMsgCount">你还可以输入的字数:40</span>
-                                    </div>
-                                    <div >
-                                            <textarea class="danmuTextArea" placeholder="请输入弹幕（40个字以内）" style="width: 260px;height: 80px;outline:none;resize:none; margin-left: 1em;" id="danmuMsg" ></textarea>
-                                            <div style="padding-left: 1em;" class="danmuColor" id="danmuColor"></div>
-                                    </div>
-                                    <button type="button" class="btn btn-info sendDanmuButton" style="margin-left: 1em; margin-top: 1em;" onclick="danmuAddOperateHandler()" >发送</button>
-                                </li>
-                                <li  id="danmu_li_1">
-                                    <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
-                                        <h3 style="margin-right: 1em;width: 98px;">动画</h3>
-                                    </div>
-                                    <div class="videoDanmu" id="videoDanmu" style="padding-left: 1em;"></div>
-                                    <button type="button" class="btn btn-info" style="margin-left: 1em; margin-top: 1em;" onclick="danmuAddOperateHandler()">发送</button>
-                                </li>
-                                <li  id="danmu_li_2">
-                                    <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
-                                        <h3 style="margin-right: 1em;width: 98px;">图片特效</h3>
-                                    </div>
-                                    <div class="imageDanmu" id="imageDanmu"></div>
-                                    <button type="button" class="btn btn-info" style="margin-left: 1em; margin-top: 1em;" onclick="danmuAddOperateHandler()">发送</button>
-                                </li>
-                                <li id="danmu_li_3">
-                                    <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
-                                        <h3 style="margin-right: 1em;width: 98px;">闪光字</h3> <span style="color: red;" id="blingMsgCount">你还可以输入的字数:8</span>
-                                    </div>
-                                    <div >
-                                        <textarea class="form-control" rows="3" ng-model="danmuMsg" placeholder="请输入弹幕（40个字以内）" style="width: 260px;height: 80px;outline:none;resize:none; margin-left: 1em;" id="blingMsg"></textarea>
-                                        <div style="padding-left: 1em;" class="danmuColor" id="blingDanmuColor"></div>
-                                    </div>
-                                    <button type="button" class="btn btn-info sendBlingDanmuButton" style="margin-left: 1em; margin-top: 1em; " onclick="danmuAddOperateHandler()">发送</button>
-                                </li>
-                                <li id="danmu_li_4" >
-                                    <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
-                                        <h3 style="margin-right: 1em;width: 98px;">表情特效</h3>
-                                    </div>
-                                    <div class="expressionDanmu" id="expressionDanmu"></div>
-                                    <button type="button" class="btn btn-info" style="margin-left: 1em; " onclick="danmuAddOperateHandler()">发送</button>
-                                </li>
-                            </ul>
+                            <form id="danmuForm2">
+                                <ul  class="danmucheck-items">
+                                    <li style="margin-top: 10px;">
+                                        <div id="typeTitleDiv" style="margin-left: 1em;">
+                                        </div>
+                                        <div class="danmucheck-items-widget-header" style="margin-top: 5px;">
+                                            <h3 style="margin-right: 1em;">发送时间</h3>
+                                            <input type="text" class="dataFormat" style="width: 40px;" id="minutes" name="minutes"/>(分)
+                                            <input type="text" class="dataFormat" style="width: 40px;" maxlength="2" id="seconds" name="seconds"/>(秒)
+                                        </div>
+                                        <div id="componentDivId" style="padding-left: 1em;">
+                                        </div>
+                                        <input  type="button" style="margin-left: 1em; margin-top: 1em;" class="btn btn-info saveDanmuButton" value="保存"></input>
+                                    </li>
+                                </ul>
+                            </form>
                         </div>
                         <!-- /widget-content -->
                     </div>
+                    <div class="widget widget-nopad">
+                        <div class="widget-header"><i class="icon-list-alt"></i>
+                            <h3>视频特效</h3>
+                        </div>
+                        <!-- /widget-header -->
+                        <div class="widget-content" id="collapseOne">
+                            <form id="danmuForm">
+                                <ul  class="danmucheck-items">
+                                    <li style="margin-top: 10px;">
+                                        <div class="videoDanmu" style="padding-left: 1em;"></div>
+                                        <input type="hidden" name="timerVideo" id="timerVideo" />
+                                        <div class="danmucheck-items-widget-header" style="margin-top: 5px;">
+                                            <h3 style="margin-right: 1em;">发送时间</h3>
+                                            <input type="text" class="dataFormat" style="width: 40px;" id="minutes"/>(分)<input type="text" class="dataFormat" style="width: 40px;" maxlength="2" id="seconds"/>(秒)
+                                        </div>
+                                        <div class="danmucheck-items-widget-header">
+                                            <h3 style="margin-right: 1em;">持续时间</h3>
+                                            <input type="text" class="dataFormat" style="width: 40px;" id="lastTime"/>(秒)
+                                        </div>
+                                        <div  class="danmucheck-items-widget-header">
+                                            <h3 style="margin-right: 1em;">显示位置</h3>
+                                            <select style="width: 100px;">
+                                                <option></option>
+                                                <option>2</option>
+                                            </select>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </form>
+                        </div>
+                        <!-- /widget-content -->
+                    </div>
+
                 </div>
             </div>
             <!-- /row -->
@@ -158,13 +138,15 @@
 <script src="/plug/bootstrapTable/bootstrap-table.min.js"></script>
 <script src="/plug/bootstrapTable/locale/bootstrap-table-zh-CN.min.js"></script>
 
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="/plug/highcarts/highcharts.js"></script>
+<script src="/plug/highcarts/modules/exporting.js"></script>
 <script src="/plug/select2/js/select2.js"></script>
 
 <script src="/js/common/danmu.table.plug.js"></script>
 <script src="/js/common/danmu.ajax.plug.js"></script>
+<script src="/js/bussiness/common/danmu.common.plug.js"></script>
 <script src="/js/bussiness/danmu/danmu.timerdanmu.js"></script>
+
 
 <script src="/plug/jquery/ajaxfileupload.js"></script>
 
