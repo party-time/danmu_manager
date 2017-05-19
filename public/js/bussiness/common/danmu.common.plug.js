@@ -3,7 +3,7 @@
     $.checkObject = {};
     
     $.initTitle =function (object) {
-        $.danmuAjax('/v1/api/findDanmuType', 'GET', 'json', {}, function (data) {
+        $.danmuAjax('/v1/api/admin/findDanmuType', 'GET', 'json', {}, function (data) {
             console.log(data);
             if (data.result == 200) {
                 var array = data.data;
@@ -69,7 +69,7 @@
     }
 
     $.createPlug=function (id,partyId) {
-        $.danmuAjax('/v1/api/findDanmuTemplateInfo/'+id, 'GET', 'json', {}, function (data) {
+        $.danmuAjax('/v1/api/admin/findDanmuTemplateInfo/'+id, 'GET', 'json', {}, function (data) {
             console.log(data);
             if (data.result == 200) {
                 var temObject = data.data;
