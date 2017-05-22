@@ -68,7 +68,7 @@ var openUpdateH5temp = function(id){
                    htmlStr +='<label class="control-label" style="width:60px">页面URL</label><div class="controls" style="margin-left:60px;">'+
                    '<input type="text" class="span4"  maxlength="16" id="h5Url" value="'+data.data.h5Url+'"> </div><br>';
                    htmlStr +='<label class="control-label" style="width:60px">是否全局</label><div class="controls" style="margin-left:60px;">'+
-                   '<select id="isBase" class="span1" onchange="checkIsBase()"><option value="0">是</option><option value="1" selected>否</option></select><span>全局只能有一个</span></div><br>';
+                   '<select id="isBase" class="span1" onchange="checkIsBase(\''+data.data.id+'\')"><option value="0">是</option><option value="1" selected>否</option></select><span>全局只能有一个</span></div><br>';
                    htmlStr +='<label class="control-label" style="width:60px">是否是首页</label><div class="controls" style="margin-left:60px;">'+
                     '<select id="isIndex" onchange="selectIndex()"><option value="0">是</option><option value="1" selected>否</option></select></div><br>';
                    htmlStr +='<label class="control-label" style="width:60px">是否动态</label><div class="controls" style="margin-left:60px;">'+
@@ -233,12 +233,24 @@ var checkIsBase = function(id){
     $.danmuAjax('/v1/api/admin/h5temp/countByIsBase', 'GET','json',obj, function (data) {
         if(data.result == 200) {
             console.log(data);
-            if(data.data>0){
+            var cc = 0;
+            if( null == id){
+                cc = 1;
+            }else{
+                if(obj.isBase == 0){
+                    cc = 0;
+                }else{
+                    cc = 1;
+                }
+            }
+
+            if(data.data>cc){
                 $('#checkResult').attr("check","2");
                 alert('已经存在全局的页面，不可以在创建');
             }else{
                 $('#checkResult').attr("check","0");
             }
+
         }else{
             alert('检查全局页面失败');
         }
