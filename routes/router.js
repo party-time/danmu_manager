@@ -114,4 +114,8 @@ router.get('/danmucmd', function(req, res, next) {
     res.render('danmucmd/danmucmd');
 });
 
+router.get('/h5temp', function(req, res, next) {
+    res.render('h5temp/h5temp');
+});
+
 module.exports = router;

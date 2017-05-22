@@ -142,18 +142,5 @@ var navbarSelect = function(){
         $('.icon-bold').parent().parent().attr('class','active');
     }
 
-    if( url.indexOf('/version')!=-1){
-        $('.icon-list').parent().parent().attr('class','active');
-    }
-
-    if( url.indexOf('/param')!=-1){
-        $('.icon-picture').parent().parent().attr('class','active');
-    }
-
-    if( url.indexOf('/danmucmd')!=-1){
-            $('.icon-pencil').parent().parent().attr('class','active');
-        }
-
-
 }
 

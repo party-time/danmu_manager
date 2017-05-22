@@ -88,7 +88,8 @@ var columnsArray = [
         }
         return str+'<a class="btn" href="#" onclick="openPartyResource(\''+row.id+'\')">资源管理</a>'+
             '<a class="btn" href="#" onclick="openAddress(\''+row.name+'\',\''+row.id+'\')">场地管理</a>'+
-             '<a class="btn" href="#" onclick="openTimerDanmu(\''+row.id+'\')">定时弹幕</a>'+selectHtml;
+             '<a class="btn" href="#" onclick="openTimerDanmu(\''+row.id+'\')">定时弹幕</a>'+
+             '<a class="btn" href="#" onclick="openH5temp(\''+row.id+'\',\''+row.name+'\')">页面管理</a>'+selectHtml;
         },
         events:'operateEvents'
     },
@@ -615,6 +616,108 @@ var selectSearchType = function(){
         $('#searchStatus').append('<option value="0">未下线</option>');
         $('#searchStatus').append('<option value="4">已下线</option>');
     }
+}
+
+var openH5temp = function(partyId,partyName){
+    var addressTableUrl = '/v1/api/admin/h5temp/findbyPartyId';
+    var addressQueryObject = {
+        partyId:partyId,
+        pageSize: 6
+    }
+    var addressColumnsArray =[
+        {
+            field: 'tempTitle',
+            title: '名称',
+            align: 'center'
+        },
+        {
+           field: 'id', title: '操作',
+           align: 'center',
+           formatter: function (value, row, index) {
+                return '<a class="btn" onclick="delH5Temp(\''+row.id+'\',\''+partyId+'\',\''+partyName+'\')">删除</a>';
+           }
+        }
+    ];
+
+    var tableSuccess = function(){
+        $('#modalBody').find('.pull-left').remove();
+    }
+    $.initTable('addressTableList', addressColumnsArray, addressQueryObject, addressTableUrl,tableSuccess);
+    $('#myModalLabel').html(partyName+'的页面管理');
+    var buttonHtml = '<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>' +
+    '<button class="btn btn-primary" onclick="openMoreH5temp(\''+partyId+'\',\''+partyName+'\')">查看更多页面</button>';
+    $('#modalFooter').html(buttonHtml);
+    $('#modalody').find('.pull-left').remove();
+    $('#myModal').modal('show');
+}
+
+var openMoreH5temp = function(partyId,partyName){
+    var addressTableUrl = '/v1/api/admin/h5temp/pageByParty';
+    var addressQueryObject = {
+        partyId:partyId,
+        pageSize: 6
+    }
+    var addressColumnsArray =[
+        {
+            field: 'tempTitle',
+            title: '名称',
+            align: 'center'
+        },
+        {
+           field: 'id', title: '操作',
+           align: 'center',
+           formatter: function (value, row, index) {
+                return '<a class="btn" onclick="setPartyId(\''+row.id+'\',\''+partyId+'\',\''+partyName+'\')">添加</a>';
+           }
+        }
+    ];
+
+    var tableSuccess = function(){
+        $('#modalBody').find('.pull-left').remove();
+    }
+    $.initTable('addressTableList', addressColumnsArray, addressQueryObject, addressTableUrl,tableSuccess);
+    var buttonHtml = '<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>' +
+    '<button class="btn btn-primary" onclick="openH5temp(\''+partyId+'\',\''+partyName+'\')">本活动的页面</button>';
+    $('#modalFooter').html(buttonHtml);
+}
+
+var setPartyId = function(id,partyId,partyName){
+    var obj = {
+        h5TempId:id,
+        partyId:partyId
+    }
+    $.danmuAjax('/v1/api/admin/h5temp/setH5TempId', 'GET','json',obj, function (data) {
+        if(data.result == 200) {
+            console.log(data);
+            var resultStr = '';
+            openH5temp(partyId,partyName);
+            alert('添加成功');
+        }else{
+            alert('操作失败');
+        }
+
+    }, function (data) {
+        console.log(data);
+    });
+}
+
+var delH5Temp = function(id,partyId,partyName){
+    var obj = {
+        h5TempId:id,
+        partyId:''
+    }
+    $.danmuAjax('/v1/api/admin/h5temp/setH5TempId', 'GET','json',obj, function (data) {
+        if(data.result == 200) {
+            console.log(data);
+            openMoreH5temp(partyId,partyName);
+            alert('删除成功');
+        }else{
+            alert('操作失败');
+        }
+
+    }, function (data) {
+        console.log(data);
+    });
 }
 
 

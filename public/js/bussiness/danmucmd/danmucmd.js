@@ -103,7 +103,7 @@ var selectComponent = function(obj){
         $(dmCmdType).attr("disabled","disabled");
         $(defaultValue).attr("disabled","disabled");
         $(checkRule).attr("disabled","disabled");
-        $(isCheck).attr("disabled","disabled");
+        //$(isCheck).attr("disabled","disabled");
     }
 }
 
@@ -192,9 +192,9 @@ var drawParamHtml = function(obj){
            '<input type="text" class="checkRule span1" value="'+obj.checkRule+'" '+isDisable+'>'+
            '<span style="margin-left: 10px;margin-right: 10px;">是否审核</span>';
            if(obj.isCheck == 0){
-                paramHtml +='<input type="radio" name="isCheck" class="isCheck" onclick="clickRadio(this)" checked '+isDisable+'>';
+                paramHtml +='<input type="radio" name="isCheck" class="isCheck" onclick="clickRadio(this)" checked >';
            }else{
-                paramHtml +='<input type="radio" name="isCheck" class="isCheck" onclick="clickRadio(this)" '+isDisable+'>';
+                paramHtml +='<input type="radio" name="isCheck" class="isCheck" onclick="clickRadio(this)" >';
            }
            paramHtml +='</div></div>';
     return paramHtml;

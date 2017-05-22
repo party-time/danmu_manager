@@ -10,9 +10,13 @@ var drawNavbar = function(){
     var role = $.cookie('role');
     if(role == '589a98cd77c8afdcbdeaeeb4'){
         htmlStr +=  '<li><a href="/adminmanager"><i class="icon-bold"></i><span>管理员管理</span> </a> </li>';
-        htmlStr +=  '<li><a href="/version"><i class="icon-list"></i><span>版本管理</span> </a> </li>'
-        htmlStr +=  '<li><a href="/param"><i class="icon-picture"></i><span>参数管理</span> </a> </li>';
-        htmlStr +=  '<li><a href="/danmucmd"><i class="icon-pencil"></i><span>指令管理</span> </a> </li>';
+        htmlStr += '<li class="dropdown"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>其他</span> <b class="caret"></b></a>';
+        htmlStr += '<ul class="dropdown-menu">';
+        htmlStr += '<li><a href="/version">版本管理</a></li>';
+        htmlStr += '<li><a href="/param">参数管理</a></li>';
+        htmlStr += '<li><a href="/danmucmd">指令管理</a></li>';
+        htmlStr += '<li><a href="/h5temp">页面管理</a></li>';
+        htmlStr +=  '</ul></li>';
     }
 
     if(role != '589a98cd77c8afdcbdeaeeb6'){
