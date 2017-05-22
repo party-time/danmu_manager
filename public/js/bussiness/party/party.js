@@ -683,10 +683,10 @@ var openMoreH5temp = function(partyId,partyName){
 
 var setPartyId = function(id,partyId,partyName){
     var obj = {
-        id:id,
+        h5TempId:id,
         partyId:partyId
     }
-    $.danmuAjax('/v1/api/admin/h5temp/setPartyId', 'GET','json',obj, function (data) {
+    $.danmuAjax('/v1/api/admin/h5temp/setH5TempId', 'GET','json',obj, function (data) {
         if(data.result == 200) {
             console.log(data);
             var resultStr = '';
@@ -703,10 +703,10 @@ var setPartyId = function(id,partyId,partyName){
 
 var delH5Temp = function(id,partyId,partyName){
     var obj = {
-        id:id,
+        h5TempId:id,
         partyId:''
     }
-    $.danmuAjax('/v1/api/admin/h5temp/setPartyId', 'GET','json',obj, function (data) {
+    $.danmuAjax('/v1/api/admin/h5temp/setH5TempId', 'GET','json',obj, function (data) {
         if(data.result == 200) {
             console.log(data);
             openMoreH5temp(partyId,partyName);
