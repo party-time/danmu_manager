@@ -51,7 +51,7 @@
                             <h3>弹幕添加</h3>
                         </div>
                         <!-- /widget-header -->
-                        <div class="widget-content" id="collapseOne">
+                        <div class="widget-content">
                             <form id="danmuForm2">
                                 <ul  class="danmucheck-items">
                                     <li style="margin-top: 10px;">
@@ -76,27 +76,25 @@
                             <h3>视频特效</h3>
                         </div>
                         <!-- /widget-header -->
-                        <div class="widget-content" id="collapseOne">
-                            <form id="danmuForm">
+                        <div class="widget-content">
+                            <form id="videoForm">
                                 <ul  class="danmucheck-items">
                                     <li style="margin-top: 10px;">
-                                        <div class="videoDanmu" style="padding-left: 1em;"></div>
+                                        <div class="videoDanmu" id="videoDanmu" style="padding-left: 1em;"></div>
                                         <input type="hidden" name="timerVideo" id="timerVideo" />
                                         <div class="danmucheck-items-widget-header" style="margin-top: 5px;">
                                             <h3 style="margin-right: 1em;">发送时间</h3>
-                                            <input type="text" class="dataFormat" style="width: 40px;" id="minutes"/>(分)<input type="text" class="dataFormat" style="width: 40px;" maxlength="2" id="seconds"/>(秒)
+                                            <input type="text" class="dataFormat" style="width: 40px;" name="videoMinutes" id="videoMinutes"/>(分)
+                                            <input type="text" class="dataFormat" style="width: 40px;" maxlength="2" name="videoSeconds" id="videoSeconds"/>(秒)
                                         </div>
                                         <div class="danmucheck-items-widget-header">
                                             <h3 style="margin-right: 1em;">持续时间</h3>
-                                            <input type="text" class="dataFormat" style="width: 40px;" id="lastTime"/>(秒)
+                                            <input type="text" class="dataFormat" style="width: 40px;" id="lastTime" name="lastTime"/>(秒)
                                         </div>
-                                        <div  class="danmucheck-items-widget-header">
-                                            <h3 style="margin-right: 1em;">显示位置</h3>
-                                            <select style="width: 100px;">
-                                                <option></option>
-                                                <option>2</option>
-                                            </select>
-                                        </div>
+                                        <input type="hidden" name="videoId" id="videoId">
+                                        <input type="hidden" name="videoName" id="videoName">
+                                        <input type="hidden" name="currentPartyId" id="currentPartyId">
+                                        <input  type="button" style="margin-left: 1em; margin-top: 1em;" class="btn btn-info saveVideoButton" value="保存"></input>
                                     </li>
                                 </ul>
                             </form>

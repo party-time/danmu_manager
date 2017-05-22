@@ -43,7 +43,7 @@
 
         var divobject = $("#"+divId);
         if(object.partyId!=undefined){
-            var partyIdInput="<input type='hidden' id='partyId' name='partyId' value='"+object.partyId+"'/>"
+            var partyIdInput="<input type='text' id='partyId' name='partyId' value='"+object.partyId+"'/>"
             divobject.append(partyIdInput);
         }
 
@@ -123,57 +123,68 @@
 
     }
 
+
     function findResource(object){
         var divId = object.divId;
         var widgetId=object.widgetId;
         var key = object.key;
-        $.danmuAjax('/v1/api/admin/initResource?partyId=' + object.partyId, 'GET', 'json', {}, function (data) {
+        var partyId = object.partyId;
+        var url  = '/v1/api/admin/initResource?partyId=' + partyId;
+
+        //getVideoPage(1);
+        $.danmuAjax(url, 'GET', 'json', {}, function (data) {
             if (data.result == 200) {
                 var divObject = $("#"+divId).append('<div id="'+widgetId+'Div"></div>');
                 var resourceArray = [];
                 if(object.componentId==1){
                     //视频特效
                     resourceArray=data.data.specialVideos;
-                    for (var i = 0; i < resourceArray.length; i++) {
-                        var specialVideo = resourceArray[i];
-                        var buttonName = specialVideo.resourceName.substring(0,4);
-                        var id=widgetId+i;
-                        html = '<button class="btn" id="'+id+'"  style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " title="' + specialVideo.resourceName + '" value="'+specialVideo.id+'">' + buttonName + '</button>';
-                        divObject.append(html);
-                        $('#'+id).click(function(){
-                            $("#"+key).val($(this).val());
-                            return false;
-                        });
-
+                    if(resourceArray!==null && resourceArray!=undefined){
+                        for (var i = 0; i < resourceArray.length; i++) {
+                            var specialVideo = resourceArray[i];
+                            var buttonName = specialVideo.resourceName.substring(0,4);
+                            var id=widgetId+i;
+                            var html = '<button class="btn" id="'+id+'"  style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " title="' + specialVideo.resourceName + '" value="'+specialVideo.id+'">' + buttonName + '</button>';
+                            divObject.append(html);
+                            $('#'+id).click(function(){
+                                $("#"+key).val($(this).val());
+                                return false;
+                            });
+                        }
                     }
 
                 }else if(object.componentId==2){
                     //图片特效
                     resourceArray=data.data.specialImages;
-                    for (var i = 0; i < resourceArray.length; i++) {
-                        var image = resourceArray[i];
-                        var id=widgetId+i;
-                        html = '<input type="image"  id="'+id+'" src="' + _baseImageUrl + image.fileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;" title="' + image.fileUrl + '" value="'+image.id+'"/>';
-                        divObject.append(html);
-                        $('#'+id).click(function(){
-                            $("#"+key).val($(this).val())
-                            return false;
-                        });
+                    if(resourceArray!==null && resourceArray!=undefined){
+                        for (var i = 0; i < resourceArray.length; i++) {
+                            var image = resourceArray[i];
+                            var id=widgetId+i;
+                            var html = '<input type="image"  id="'+id+'" src="' + _baseImageUrl + image.fileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;" title="' + image.fileUrl + '" value="'+image.id+'"/>';
+                            divObject.append(html);
+                            $('#'+id).click(function(){
+                                $("#"+key).val($(this).val())
+                                return false;
+                            });
 
+                        }
                     }
                 }else if(object.componentId==3){
                     //表情特效
                     resourceArray=data.data.expressions;
-                    for (var i = 0; i < resourceArray.length; i++) {
-                        var expression = resourceArray[i];
-                        var id=widgetId+i;
-                        var html = '<input type="image" id="'+id+'" src="' + _baseImageUrl + expression.smallFileUrl + '"  style="width: 50px; height: 50px;margin-left: 1em;"  title="' + expression.smallFileUrl + '" value="'+expression.id+'" />';
-                        divObject.append(html);
-                        $('#'+id).click(function(){
-                            $("#"+key).val($(this).val())
-                            return false;
-                        });
+                    if(resourceArray!=null && resourceArray!=undefined){
+                        for (var i = 0; i < resourceArray.length; i++) {
+                            var expression = resourceArray[i];
+                            var id=widgetId+i;
+                            var html = '<input type="image" id="'+id+'" src="' + _baseImageUrl + expression.smallFileUrl + '"  style="width: 50px; height: 50px;margin-left: 1em;"  title="' + expression.smallFileUrl + '" value="'+expression.id+'" />';
+                            divObject.append(html);
+                            $('#'+id).click(function(){
+                                $("#"+key).val($(this).val())
+                                return false;
+                            });
+                        }
                     }
+
                 }
 
 
@@ -187,7 +198,81 @@
         },null,false);
     }
 
+    var getVideoPage = function(divId,widgetId,fileType,pageNo,key){
+
+
+        var obj={
+            fileType:fileType,
+            pageNo:pageNo,
+            pageSize:10
+        };
+
+        $.danmuAjax('/v1/api/admin/resource/page', 'GET','json',obj, function (data) {
+
+            var divObject = $("#"+divId).append('<div id="'+widgetId+'Div"></div>');
+            divObject.empty();
+            for(var i=0;i<data.rows.length;i++){
+
+                var id=widgetId+i;
+                if(fileType==3){
+                    var specialVideo = data.rows[i];
+                    var buttonName = specialVideo.resourceName.substring(0,4);
+                    var html = '<button  class="btn"  id="'+id+'" style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " title="' + specialVideo.resourceName + '" value="'+data.rows[i].id+'"></button>';
+                    divObject.append(html);
+                    $('#'+id).click(function(){
+                        $("#"+key).val($(this).val())
+                        return false;
+                    });
+                }else if(fileType==2){
+                    var fileUrl = _baseImageUrl+data.rows[i].fileUrl;
+                    var html = '<input type="image" id="'+id+'" src="' + fileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;" title="' + data.rows[i].resourceName + '" value="'+data.rows[i].id+'" />';
+                    divObject.append(html);
+                    $('#'+id).click(function(){
+                        $("#"+key).val($(this).val())
+                        return false;
+                    });
+                }else if(fileType==1){
+                    var fileUrl = _baseImageUrl+data.rows[i].smallFileUrl;
+                    var html = '<input type="image" id="'+id+'" src="' + fileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;" title="' + data.rows[i].resourceName + '" value="'+data.rows[i].id+'"/>';
+                    divObject.append(html);
+                    $('#'+id).click(function(){
+                        $("#"+key).val($(this).val())
+                        return false;
+                    });
+                }
+
+
+
+
+            }
+            var totalPageNo =  parseInt((data.total  + obj.pageSize -1) / obj.pageSize);
+            var footer='<div>';
+            var next = pageNo+1;
+            var last = pageNo -1;
+            if(pageNo == 1 && totalPageNo > 1){
+                footer += '第'+obj.pageNo+'页<a onclick="getVideoPage('+next+')">下一页</a> 共'+totalPageNo+'页</div>';
+            }else if(pageNo == totalPageNo &&totalPageNo>1){
+                footer += '<a onclick="getVideoPage('+last+')">上一页</a>第'+obj.pageNo+'页 共'+totalPageNo+'页</div>';
+            }else if(totalPageNo == 1){
+                footer += '第'+obj.pageNo+'页';
+            }else{
+                footer += '<a onclick="getVideoPage('+last+')">上一页</a>第'+obj.pageNo+'页<a onclick="getVideoPage('+next+')">下一页</a> 共'+totalPageNo+'页</div>';
+            }
+            divObject.append(footer);
+
+            var hiddenInput="<input type='text' id='"+key+"' name='"+key+"'/>"
+            divObject.append(hiddenInput);
+
+            //divObject.html(html+"<br/>"+footer+"<input type='text' id='"+key+"' name='"+key+"'/>");
+        }, function (data) {
+            console.log(data);
+        });
+    }
+
+
     function createCompentBycomponentId(object) {
+
+        //object.partyId="58f5d90a0cf25cad536db129";
         var componentId = object.componentId;
         if(componentId==0){
             //不生成任何控件
@@ -196,12 +281,23 @@
         }else if(componentId==1){
             //alert('特效视频');
             findResource(object);
+
         }else if(componentId==2){
-            findResource(object);
+            if(object.partyId!=undefined){
+                findResource(object);
+            }else{
+                getVideoPage(object.divId,object.widgetId,2,1,object.key);
+            }
+
         }else if(componentId==3){
             //checkbox
             //alert('表情图片');
-            findResource(object);
+            if(object.partyId!=undefined){
+                findResource(object);
+            }else{
+                getVideoPage(object.divId,object.widgetId,1,1,object.key);
+            }
+
         }
     }
     function createCompentBycomponentType(object) {
@@ -337,6 +433,7 @@
         for(var i=0; i<cmdTempComponentDataList.length; i++){
             var compontent = cmdTempComponentDataList[i];
             var boolean = $.checkAllCompontent(compontent);
+            console.log('check boolean:'+boolean);
             if(!boolean){
                 count++;
             }
@@ -352,13 +449,14 @@
         //组件的id 0无组件 1特效视频 2特效图片 3表情图片
         //String  componentId;
         var componentId = compontent.componentId;
+        console.log('componentId:'+componentId);
+
         if(componentId==2){
             var temp = $("#"+compontent.key).val();
             if(temp==null || temp==""){
                 alert("请选择图片特效!");
                 return false;
             }
-
         }else if(componentId==3){
             var temp = $("#"+compontent.key).val();
             var temp = $("#"+compontent.key).val();
@@ -371,6 +469,8 @@
         }else{
             return $.checkCompontent(compontent);
         }
+
+        return true;
     }
 
     $.checkCompontent=function (compontent) {

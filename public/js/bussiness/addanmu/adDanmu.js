@@ -194,7 +194,7 @@ var getVideoPage = function(pageNo){
         for(var i=0;i<data.rows.length;i++){
             var specialVideo = data.rows[i];
             var buttonName = specialVideo.resourceName.substring(0,4);
-            html += '<button class="btn"  style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " onclick="setElement(\'' + specialVideo.resourceName + '\',\'' + specialVideo.id + '\')" title="' + specialVideo.resourceName + '">' + buttonName + '</button>';
+            html += '<input class="btn"  style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " onclick="setElement(\'' + specialVideo.resourceName + '\',\'' + specialVideo.id + '\')" title="' + specialVideo.resourceName + '" value="'+buttonName+'"></input>';
         }
         var totalPageNo =  parseInt((data.total  + obj.pageSize -1) / obj.pageSize);
         var footer='<div>';
@@ -240,6 +240,8 @@ var getAllDanmuLibrary = function () {
     getSpecImagesPage(1);
     getExpressionPage(1);
     getVideoPage(1)
+
+    $.initTitle({'divId':'typeTitleDiv'});
 }
 
 function removeFormTypeArray(id){
@@ -532,3 +534,26 @@ $(".timeDanmuButton").click(function(){
         console.log(data);
     });
 });
+
+
+
+//设置动画
+var setElement = function (content, id) {
+    setSpecialButtonBorder("videoDanmu",content,id);
+}
+
+function setSpecialButtonBorder(divId,name,id){
+    $("#videoId").val(id);
+    $("#videoName").val(name);
+    var buttonArray=$('#'+divId).find('input[type="button"]');
+    if(buttonArray!=null &&  buttonArray.length>0){
+        for(var i=0; i<buttonArray.length; i++){
+            var buttonTitle = $(buttonArray[i]).attr("title");
+            if(id==buttonTitle){
+                $(buttonArray[i]).addClass("button-border-color");
+            }else{
+                $(buttonArray[i]).removeClass("button-border-color");
+            }
+        }
+    }
+}

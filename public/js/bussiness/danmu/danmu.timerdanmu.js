@@ -17,20 +17,24 @@ var updateFlg=false;
 var columnsArray = [
     {
         field: '', title: '编号', align: 'center', formatter: function (value, row, index) {
-        return index + 1;
-    }
+            return index + 1;
+        }
     },
-    {field: 'typeName', title: '内容', align: 'center'},
+    {field: 'typeName', title: '类型', align: 'center'},
     {
         field: 'content', title: '内容', halign: "center", align: "left", formatter: function (value, row, index) {
-        if (row.type == 0 || row.type == 3) {
-            return '<span style="background-color: ' + row.color + '"> ' + row.content + '</span>';
-        } else if (row.type == 4 || row.type == 2) {
-            return ' <img src="' + baseUrl + row.content + '" style="width: 30px;height: 30px;"/>'
-        } else if (row.type != 0 && row.type != 3 && row.type != 4 && row.type != 2) {
-            return row.content;
+            /*if (row.type == 0 || row.type == 3) {
+                return '<span style="background-color: ' + row.color + '"> ' + row.content + '</span>';
+            } else if (row.type == 4 || row.type == 2) {
+                return ' <img src="' + baseUrl + row.content + '" style="width: 30px;height: 30px;"/>'
+            } else if (row.type != 0 && row.type != 3 && row.type != 4 && row.type != 2) {
+                return row.content;
+            }*/
+            if(row.msg==null){
+                return "";
+            }
+            return row.msg;
         }
-    }
     },
     {
         field: 'beginTime', title: '时间', align: 'center', formatter: function (value, row, index) {
@@ -95,7 +99,12 @@ var getAllDanmuLibrary = function () {
     });
     initable();
     initCarts();
+    //初始化标题
     $.initTitle({'divId':'typeTitleDiv','partyId':partyId});
+
+    $("#currentPartyId").val(partyId);
+
+    //加载资源
     $.danmuAjax('/v1/api/admin/initResource', 'GET', 'json', quaryObject, function (data) {
         if (data.result == 200) {
 
@@ -106,7 +115,7 @@ var getAllDanmuLibrary = function () {
                     var specialVideo = videoDanmuArray[i];
                     //html += '<button type="button" class="btn btn-sm btn-default" style="margin-left: 1em" onclick="setElement(\'' + specialVideo.resourceName + '\',\'' + specialVideo.id + '\')" >' + specialVideo.resourceName + '</button>';
                     var buttonName = specialVideo.resourceName.substring(0,4);
-                    html += '<button class="btn"  style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " onclick="setElement(\'' + specialVideo.resourceName + '\',\'' + specialVideo.id + '\')" title="' + specialVideo.resourceName + '">' + buttonName + '</button>';
+                    html += '<input type="button" class="btn"  style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " onclick="setElement(\'' + specialVideo.resourceName + '\',\'' + specialVideo.id + '\')" title="' + specialVideo.id + '" value="'+buttonName+'"></input>';
                 }
                 $(".videoDanmu").empty().html(html);
             }
@@ -133,30 +142,33 @@ $(".saveDanmuButton").click(function () {
             },
             success: function(data) {
                 //window.location.href="跳转页面"
+                initable();
+                initCarts();
             }
         });
     }
 })
 
 
-
-var danmuAddOperateHandler = function () {
-    $.danmuAjax(danmuAddUrl, 'POST', 'json', insertData, function (data) {
-        quaryObject.pageNumber = 1
-        if (data.result == 200) {
+$(".saveVideoButton").click(function () {
+    $.ajax({
+        type: "POST",
+        url:"/v1/api/admin/timerDanmu/videoSave",
+        data:$('#videoForm').serialize(),// 序列化表单值
+        async: false,
+        error: function(request) {
+            alert("Connection error");
+            return;
+        },
+        success: function(data) {
+            //window.location.href="跳转页面"
             initable();
             initCarts();
-            clearValue();
-
-            if (divIndex == 0) {
-                setButtonBorder("danmuColor","");
-            } else if (divIndex == 3) {
-                setButtonBorder("blingDanmuColor","");
-            }
         }
     });
+})
 
-}
+
 
 
 
@@ -417,43 +429,22 @@ var clearValue = function () {
     setImageBorder("expressionDanmu","null");
 }
 
+//设置动画
+var setElement = function (content, id) {
+    setSpecialButtonBorder("videoDanmu",content,id);
+}
 
-function setImageBorder(id,name){
-    var buttonArray=$('#'+id).find('img');
+function setSpecialButtonBorder(divId,name,id){
+    $("#videoId").val(id);
+    $("#videoName").val(name);
+    var buttonArray=$('#'+divId).find('input[type="button"]');
     if(buttonArray!=null &&  buttonArray.length>0){
         for(var i=0; i<buttonArray.length; i++){
             var buttonTitle = $(buttonArray[i]).attr("title");
-            if(name==buttonTitle){
+            if(id==buttonTitle){
                 $(buttonArray[i]).addClass("button-border-color");
             }else{
                 $(buttonArray[i]).removeClass("button-border-color");
-            }
-        }
-    }
-}
-
-function setSpecialButtonBorder(id,name){
-    var buttonArray=$('#'+id).find('button');
-    if(buttonArray!=null &&  buttonArray.length>0){
-        for(var i=0; i<buttonArray.length; i++){
-            var buttonTitle = $(buttonArray[i]).attr("title");
-            if(name==buttonTitle){
-                $(buttonArray[i]).addClass("button-border-color");
-            }else{
-                $(buttonArray[i]).removeClass("button-border-color");
-            }
-        }
-    }
-}
-function setButtonBorder(id,color){
-    var colorButtonArray=$('#'+id).find('button');
-    if(colorButtonArray!=null &&  colorButtonArray.length>0){
-        for(var i=0; i<colorButtonArray.length; i++){
-            var buttonColor = $(colorButtonArray[i]).html();
-            if(buttonColor==color){
-                $(colorButtonArray[i]).addClass("button-border-color");
-            }else{
-                $(colorButtonArray[i]).removeClass("button-border-color");
             }
         }
     }

@@ -765,7 +765,7 @@
                 $.ajax({
                     type: "POST",
                     url:"/v1/api/admin/danmuTest",
-                    data:$('#danmuForm2').serialize(),// 序列化表单值
+                    data:$('#danmuForm').serialize(),// 序列化表单值
                     async: false,
                     error: function(request) {
                         alert("Connection error");
