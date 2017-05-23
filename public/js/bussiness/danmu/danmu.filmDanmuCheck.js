@@ -126,7 +126,9 @@
                 danmu.isSend=false;
                 if($scope.checkIsArray(danmu.msg)){
                     for(var i=0; i<danmu.msg.length; i++){
-                        danmu.msg[i].id = i;
+                        danmu.msg[i] = {
+                            content : danmu.msg[i]
+                        }
                     }
                 }
                 $scope.danmuList.unshift(setDanmuLeftTime(danmu, new Date().getTime()));

@@ -122,6 +122,9 @@ var getAllDanmuLibrary = function () {
 getAllDanmuLibrary();
 
 
+$(".saveDanmuButton").click(function(){
+    alert('222');
+});
 
 $(".timeDanmuButton").click(function(){
     $.danmuAjax('/v1/api/admin/adDanmu/createFile', 'GET', 'json', {libraryId:libraryId}, function (data) {
