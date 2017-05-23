@@ -113,13 +113,10 @@ var drawParamHtml = function(obj){
     if( obj.componentId == 0 ){
         s0 = "selected";
     }
-    if( obj.componentId == 1 ){
-        s1 = "selected";
-    }
     if( obj.componentId == 2 ){
         s2 = "selected";
     }
-    if( obj.componentId == 3 ){
+    if( obj.componentId == 1 ){
         s3 = "selected";
     }
     if( obj.type == 0 ){
@@ -203,6 +200,12 @@ var drawParamHtml = function(obj){
 
 var clickRadio = function(obj){
     var status = $(obj).attr("checked");
+    var isCheckList = $('.isCheck');
+    for(var i=0;i<isCheckList.length;i++){
+        if(obj != isCheckList[i]){
+            $(isCheckList[i]).attr("checked",false);
+        }
+    }
     if(status){
         $(obj).attr("checked",false);
     }else{
