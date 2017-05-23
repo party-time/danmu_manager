@@ -89,11 +89,21 @@ var getVideoPage = function(pageNo){
     };
     $.danmuAjax('/v1/api/admin/resource/page', 'GET','json',obj, function (data) {
         $(".videoDanmu").empty();
-        var html ='';
+        //var html ='';
+        var divObject = $(".videoDanmu");
         for(var i=0;i<data.rows.length;i++){
             var specialVideo = data.rows[i];
             var buttonName = specialVideo.resourceName.substring(0,4);
-            html += '<input type="button" class="btn"  style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " onclick="setElement(\'' + specialVideo.resourceName + '\',\'' + specialVideo.id + '\')" title="' + specialVideo.resourceName + '" value="'+buttonName+'"></input>';
+            var id = specialVideo.id;
+            var html ='<input type="button" id="'+id+'" class="btn"  style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " title="' + id + '" value="'+buttonName+'" buttonValue="'+specialVideo.resourceName+'"></input>';
+            divObject.append(html);
+            $('#'+id).click(function(){
+                //$("#"+key).val($(this).val())
+                //alert($(this).attr("id"));
+                setElement($(this).attr("buttonValue"),$(this).attr("id"))
+                return false;
+            });
+            //onclick="setElement(\'' + specialVideo.resourceName + '\',\'' + specialVideo.id + '\')"
         }
         var totalPageNo =  parseInt((data.total  + obj.pageSize -1) / obj.pageSize);
         var footer='<div>';
@@ -108,7 +118,8 @@ var getVideoPage = function(pageNo){
         }else{
             footer += '<a onclick="getVideoPage('+last+')">上一页</a>第'+obj.pageNo+'页<a onclick="getVideoPage('+next+')">下一页</a> 共'+totalPageNo+'页</div>';
         }
-        $(".videoDanmu").html(html+"<br/>"+footer);
+        //$(".videoDanmu").html(html+"<br/>"+footer);
+        divObject.append(footer);
     }, function (data) {
         console.log(data);
     });
@@ -119,7 +130,9 @@ var getAllDanmuLibrary = function () {
     libraryId =  url.substr(url.indexOf('=') + 1);
     quaryObject.libraryId = libraryId;
 
-    $("#libraryId").val(libraryId)
+    $("#libraryId").val(libraryId);
+
+    $("#currentlibraryId").val(libraryId);
     initable();
     getVideoPage(1)
 
@@ -144,6 +157,22 @@ $(".saveDanmuButton").click(function(){
             }
         });
     }
+});
+
+$(".saveVideoButton").click(function(){
+    $.ajax({
+        type: "POST",
+        url:"/v1/api/admin/adDanmu/saveVideo",
+        data:$('#videoForm').serialize(),// 序列化表单值
+        async: false,
+        error: function(request) {
+            alert("Connection error");
+            return;
+        },
+        success: function(data) {
+            initable();
+        }
+    });
 });
 
 $(".timeDanmuButton").click(function(){

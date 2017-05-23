@@ -369,7 +369,30 @@ function doEdit(id){
     $.danmuAjax('/v1/api/admin/timerDanmu/findTimerDanmu/'+id, 'GET', 'json', null, function (data) {
         if (data.result == 200) {
             var dataObject = data.data;
-            var type= dataObject.type;
+            var beginTime = dataObject.beginTime;
+            var endTime = dataObject.endTime;
+
+            if(dataObject.templateId!=0){
+                $("#minutes").val(parseInt(beginTime/60));
+                $("#seconds").val(beginTime-parseInt(beginTime/60)*60);
+
+                var defaultValueObject = dataObject.content;
+                $.createPlug(dataObject.templateId,dataObject.partyId,defaultValueObject);
+
+            }else{
+
+                $("#videoMinutes").val(parseInt(beginTime/60));
+                $("#videoSeconds").val(beginTime-parseInt(beginTime/60)*60);
+                $("#lastTime").val(parseInt(endTime/60)-parseInt(beginTime/60))
+
+                $("#vediodanmuId").val(dataObject.id);
+                setSpecialButtonBorder("videoDanmu",dataObject.msg,dataObject.content.data.id);
+
+
+            }
+
+
+            /*var type= dataObject.type;
             var direction= dataObject.direction;
             $(".danmuType-array").select2().val(type).trigger("change");
             $(".danmuPosition-array").select2().val(direction).trigger("change");
@@ -402,31 +425,11 @@ function doEdit(id){
             insertData.color=color;
             updateFlg =false;
             setDanmuButtonStatus();
-            setBlingDanmuButtonStatus();
+            setBlingDanmuButtonStatus();*/
         }
     }, function (data) {
         console.log(data);
     });
-}
-
-var clearValue = function () {
-    $("#danmuId").val('');
-    $("#danmuMsg").val('');
-    $("#blingMsg").val('');
-    $("#minutes").val('');
-    $("#seconds").val('');
-    $("#endMinutes").val('');
-    $("#endSeconds").val('');
-    $("#blingMsgCount").html('你还可以输入的字数:'+40);
-    $("#danmuMsgCount").html('你还可以输入的字数:'+40);
-    insertData = new Object();
-
-    setSpecialButtonBorder()
-    setButtonBorder("danmuColor","null");
-    setButtonBorder("blingDanmuColor","null");
-    setButtonBorder("videoDanmu","null");
-    setImageBorder("imageDanmu","null");
-    setImageBorder("expressionDanmu","null");
 }
 
 //设置动画

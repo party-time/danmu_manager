@@ -6,20 +6,58 @@
     $.pageType;
     
     $.initTitle = function (object) {
-        $.danmuAjax('/v1/api/admin/findDanmuType', 'GET', 'json', {}, function (data) {
+        $.danmuAjax('/v1/api/admin/findDanmuType', 'GET', 'json', {'pageNumber':(object.pageNumber==undefined?0:object.pageNumber),'pageSize':(object.pageSize==undefined?12:object.pageSize)}, function (data) {
             console.log(data);
             if (data.result == 200) {
-                var array = data.data;
-                var valueList = [];
+
+                var array = data.data.content;
+                var total = data.data.totalElements;
+                var number = data.data.number;
                 if(array!=null && array.length>0){
+                    var divobject = $("#"+object.divId);
+                    divobject.empty();
                     for(var i=0; i<array.length; i++){
-                        var tempObject = {};
-                        tempObject.id = array[i].id;
-                        tempObject.name=array[i].name;
-                        valueList.push(tempObject);
+                        //var tempObject = {};
+                        var id = array[i].id;
+                        var name=array[i].name;
+                        var button = '<button class="btn" id="'+id+'"  style=" width: 100px; height:30px;margin-top: 1px; margin-right: 0.5em; vertical-align:middle;text-align:center;" value="'+id+'">'+name+'</button>';
+                        divobject.append(button);
+                        $('#'+id).click(function(){
+                            $.createPlug($(this).val(),object.partyId);
+                            $("#templateId").val($(this).val());
+                            return false;
+                        });
                     }
-                    object.valueList = valueList;
+
+                    if(number==0){
+                        divobject.append("<br/><button  type='button' class='btn btn-info titlePre disabled'>&lt;</button> &nbsp;")
+                    }else{
+                        divobject.append("<br/><button  type='button' class='btn btn-info titlePre'>&lt;</button> &nbsp;")
+                        $('.titlePre').click(function(){
+                            object.pageNumber = number-1;
+                            object.pageSize = 12;
+                            $.initTitle(object);
+                            return;
+                        });
+                    }
+
+                    if(parseInt(total/12)==0 || number==total/12-1){
+                        divobject.append("<button type='button' class='btn btn-info titleNext disabled'>&gt;</button>")
+                    }else{
+                        divobject.append("<button type='button' class='btn btn-info titleNext'>&gt;</button>")
+                        $('.titleNext').click(function(){
+                            object.pageNumber = number+1;
+                            object.pageSize = 12;
+                            $.initTitle(object);
+                            return;
+                        });
+                    }
+
                     $.setTitleListPlug(object);
+
+                    var hiddenInput="<input type='hidden' id='templateId' name='templateId'/>"
+                    divobject.append(hiddenInput);
+                    $.createPlug(array[0].id,object.partyId);
                 }
             }
         }, function (data) {
@@ -38,7 +76,6 @@
     $.setTitleListPlug =function (object) {
         var divId = object.divId;
         var valueList = object.valueList;
-        var clickFunction=object.clickFunction;
         var partyId = object.partyId;
 
         var divobject = $("#"+divId);
@@ -51,28 +88,9 @@
             var addressIdInput="<input type='hidden' id='addressId' name='addressId' value='"+object.addressId+"'/>"
             divobject.append(addressIdInput);
         }
-        if( null != valueList) {
-
-            for (var i = 0; i < valueList.length; i++) {
-                var id = valueList[i].id
-
-                var button = '<button class="btn" id="'+id+'"  style=" width: 100px; height:30px;margin-top: 1px; margin-right: 0.5em; vertical-align:middle;text-align:center;" value="'+id+'">'+valueList[i].name+'</button>';
-                divobject.append(button);
-                $('#'+id).click(function(){
-                    $.createPlug($(this).val(),partyId);
-                    $("#templateId").val($(this).val());
-                    return false;
-                });
-            }
-            var hiddenInput="<input type='hidden' id='templateId' name='templateId'/>"
-            divobject.append(hiddenInput);
-            $.createPlug(valueList[0].id,partyId);
-
-
-        }
     }
 
-    $.createPlug=function (id,partyId) {
+    $.createPlug=function (id,partyId,defaultValueObject) {
 
         $("#templateId").val(id);
         $.danmuAjax('/v1/api/admin/findDanmuTemplateInfo/'+id, 'GET', 'json', {}, function (data) {
@@ -95,7 +113,8 @@
                         var object = {
                             divId : divId,
                             widgetId : componentObject.id,
-                            defaultValue : componentObject.defaultValue,
+                            //defaultValue : componentObject.defaultValue,
+                            defaultValue:(defaultValueObject==null?componentObject.defaultValue:defaultValueObject[componentObject.key]),
                             valueList : componentObject.cmdComponentValueList,
                             componentId : componentId,
                             componentType:componentObject.componentType,
@@ -113,7 +132,7 @@
                     }
                 }
             }
-        });
+        },null,false);
     }
     
     function createTitleComponent(object) {
@@ -146,6 +165,12 @@
                             var id=widgetId+i;
                             var html = '<button class="btn" id="'+id+'"  style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " title="' + specialVideo.resourceName + '" value="'+specialVideo.id+'">' + buttonName + '</button>';
                             divObject.append(html);
+
+                            if(object.defaultValue==specialVideo.id){
+                                $('#'+id).addClass("button-border-color");
+                            }else{
+                                $('#'+id).removeClass("button-border-color");
+                            }
                             $('#'+id).click(function(){
                                 $("#"+key).val($(this).val());
                                 return false;
@@ -160,8 +185,13 @@
                         for (var i = 0; i < resourceArray.length; i++) {
                             var image = resourceArray[i];
                             var id=widgetId+i;
-                            var html = '<input type="image"  id="'+id+'" src="' + _baseImageUrl + image.fileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;" title="' + image.fileUrl + '" value="'+image.id+'"/>';
+                            var html = '<input type="image" id="'+id+'" src="' + _baseImageUrl + image.fileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;" title="' + image.fileUrl + '" value="'+image.id+'"/>';
                             divObject.append(html);
+                            if(object.defaultValue==image.id){
+                                $('#'+id).addClass("button-border-color");
+                            }else{
+                                $('#'+id).removeClass("button-border-color");
+                            }
                             $('#'+id).click(function(){
                                 $("#"+key).val($(this).val())
                                 return false;
@@ -178,6 +208,11 @@
                             var id=widgetId+i;
                             var html = '<input type="image" id="'+id+'" src="' + _baseImageUrl + expression.smallFileUrl + '"  style="width: 50px; height: 50px;margin-left: 1em;"  title="' + expression.smallFileUrl + '" value="'+expression.id+'" />';
                             divObject.append(html);
+                            if(object.defaultValue==expression.id){
+                                $('#'+id).addClass("button-border-color");
+                            }else{
+                                $('#'+id).removeClass("button-border-color");
+                            }
                             $('#'+id).click(function(){
                                 $("#"+key).val($(this).val())
                                 return false;
@@ -188,7 +223,7 @@
                 }
 
 
-                var hiddenInput="<input type='hidden' id='"+key+"' name='"+key+"'/>"
+                var hiddenInput="<input type='hidden' id='"+key+"' name='"+key+"' value='"+object.defaultValue+"'/>"
                 divObject.append(hiddenInput);
 
 
@@ -210,7 +245,7 @@
         $.danmuAjax('/v1/api/admin/resource/page', 'GET','json',obj, function (data) {
 
             var divObject = $("#"+divId).append('<div id="'+widgetId+'Div"></div>');
-            divObject.empty();
+            //divObject.empty();
             for(var i=0;i<data.rows.length;i++){
 
                 var id=widgetId+i;

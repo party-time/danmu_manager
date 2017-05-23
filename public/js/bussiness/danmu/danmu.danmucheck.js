@@ -798,8 +798,7 @@
                // 'valueList':danmuTypeArray,
                 //'clickFunction':changeCardDiv
             };
-            $.initTitle(object,globalObject);
-            //$.setTitleListPlug(object);
+            $.initTitle(object);
 
             $.danmuAjax('/distribute/adminTask/socketAddress', 'GET', 'json', {}, function (data) {
                 console.log(data);
