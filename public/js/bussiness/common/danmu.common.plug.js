@@ -260,7 +260,7 @@
             }
             divObject.append(footer);
 
-            var hiddenInput="<input type='text' id='"+key+"' name='"+key+"'/>"
+            var hiddenInput="<input type='hidden' id='"+key+"' name='"+key+"'/>"
             divObject.append(hiddenInput);
         }, function (data) {
             console.log(data);

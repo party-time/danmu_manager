@@ -24,14 +24,18 @@ var columnsArray = [
     {field: 'typeName', title: '类型', align: 'center'},
     {
         field: 'content', title: '内容', halign: "center", align: "left", formatter: function (value, row, index) {
-        if (row.type == 0 || row.type == 3) {
-            return '<span style="background-color: ' + row.color + '"> ' + row.content + '</span>';
-        } else if (row.type == 4 || row.type == 2) {
-            return ' <img src="' + baseUrl + row.content + '" style="width: 30px;height: 30px;"/>'
-        } else if (row.type != 0 && row.type != 3 && row.type != 4 && row.type != 2) {
-            return row.content;
+            /*if (row.type == 0 || row.type == 3) {
+                return '<span style="background-color: ' + row.color + '"> ' + row.content + '</span>';
+            } else if (row.type == 4 || row.type == 2) {
+                return ' <img src="' + baseUrl + row.content + '" style="width: 30px;height: 30px;"/>'
+            } else if (row.type != 0 && row.type != 3 && row.type != 4 && row.type != 2) {
+                return row.content;
+            }*/
+            if(row.msg==null){
+                return "";
+            }
+            return row.msg;
         }
-    }
     },
     {
         field: 'beginTime', title: '时间', align: 'center', formatter: function (value, row, index) {
@@ -89,7 +93,7 @@ var getVideoPage = function(pageNo){
         for(var i=0;i<data.rows.length;i++){
             var specialVideo = data.rows[i];
             var buttonName = specialVideo.resourceName.substring(0,4);
-            html += '<input class="btn"  style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " onclick="setElement(\'' + specialVideo.resourceName + '\',\'' + specialVideo.id + '\')" title="' + specialVideo.resourceName + '" value="'+buttonName+'"></input>';
+            html += '<input type="button" class="btn"  style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " onclick="setElement(\'' + specialVideo.resourceName + '\',\'' + specialVideo.id + '\')" title="' + specialVideo.resourceName + '" value="'+buttonName+'"></input>';
         }
         var totalPageNo =  parseInt((data.total  + obj.pageSize -1) / obj.pageSize);
         var footer='<div>';
@@ -114,6 +118,8 @@ var getAllDanmuLibrary = function () {
     var url = location.href.substring(location.href.indexOf("?")+1);
     libraryId =  url.substr(url.indexOf('=') + 1);
     quaryObject.libraryId = libraryId;
+
+    $("#libraryId").val(libraryId)
     initable();
     getVideoPage(1)
 
@@ -123,7 +129,21 @@ getAllDanmuLibrary();
 
 
 $(".saveDanmuButton").click(function(){
-    alert('222');
+    if($.executeCompontentCheck()){
+        $.ajax({
+            type: "POST",
+            url:"/v1/api/admin/adDanmu/save",
+            data:$('#danmuForm').serialize(),// 序列化表单值
+            async: false,
+            error: function(request) {
+                alert("Connection error");
+                return;
+            },
+            success: function(data) {
+                initable();
+            }
+        });
+    }
 });
 
 $(".timeDanmuButton").click(function(){
