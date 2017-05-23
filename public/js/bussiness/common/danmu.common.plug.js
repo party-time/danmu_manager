@@ -43,7 +43,7 @@
 
         var divobject = $("#"+divId);
         if(object.partyId!=undefined){
-            var partyIdInput="<input type='text' id='partyId' name='partyId' value='"+object.partyId+"'/>"
+            var partyIdInput="<input type='hidden' id='partyId' name='partyId' value='"+object.partyId+"'/>"
             divobject.append(partyIdInput);
         }
 
@@ -260,10 +260,8 @@
             }
             divObject.append(footer);
 
-            var hiddenInput="<input type='text' id='"+key+"' name='"+key+"'/>"
+            var hiddenInput="<input type='hidden' id='"+key+"' name='"+key+"'/>"
             divObject.append(hiddenInput);
-
-            //divObject.html(html+"<br/>"+footer+"<input type='text' id='"+key+"' name='"+key+"'/>");
         }, function (data) {
             console.log(data);
         });
@@ -280,7 +278,11 @@
             console.log('不生成任何组件');
         }else if(componentId==1){
             //alert('特效视频');
-            findResource(object);
+            if(object.partyId!=undefined){
+                findResource(object);
+            }else{
+                getVideoPage(object.divId,object.widgetId,3,1,object.key);
+            }
 
         }else if(componentId==2){
             if(object.partyId!=undefined){
@@ -445,8 +447,7 @@
     }
     
     $.checkAllCompontent =function (compontent) {
-        //颜色组件
-        //组件的id 0无组件 1特效视频 2特效图片 3表情图片
+        //组件的id 0无组件 3特效视频 2特效图片 1表情图片
         //String  componentId;
         var componentId = compontent.componentId;
         console.log('componentId:'+componentId);
@@ -457,15 +458,12 @@
                 alert("请选择图片特效!");
                 return false;
             }
-        }else if(componentId==3){
+        }else if(componentId==1){
             var temp = $("#"+compontent.key).val();
-            var temp = $("#"+compontent.key).val();
-            //alert("temp:"+temp);
             if(temp==null || temp==""){
                 alert("请选择表情特效!");
                 return false;
             }
-
         }else{
             return $.checkCompontent(compontent);
         }
