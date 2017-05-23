@@ -278,8 +278,6 @@
             console.log('不生成任何组件');
         }else if(componentId==1){
             //alert('特效视频');
-
-
             if(object.partyId!=undefined){
                 findResource(object);
             }else{
@@ -500,7 +498,7 @@
                 alert('select type is array');
                 return false;
             }
-            $.checContentIsOk(content,rule,type)
+            return $.checContentIsOk(content,rule,type)
         }else if(componentType==3){
             //radioButton
             var content = $('input[name="'+compontent.key+'"]:checked').val();
@@ -508,7 +506,7 @@
                 alert('radio type is array');
                 return false;
             }
-            $.checContentIsOk(content,rule,type)
+             return $.checContentIsOk(content,rule,type)
         }else if(componentType==4){
             //checkBox
             if(type!=3){
