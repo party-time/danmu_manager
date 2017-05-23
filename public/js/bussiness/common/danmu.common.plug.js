@@ -217,7 +217,7 @@
                 if(fileType==3){
                     var specialVideo = data.rows[i];
                     var buttonName = specialVideo.resourceName.substring(0,4);
-                    var html = '<button  class="btn"  id="'+id+'" style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " title="' + specialVideo.resourceName + '" value="'+data.rows[i].id+'"></button>';
+                    var html = '<button  class="btn"  id="'+id+'" style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " title="' + specialVideo.resourceName + '" value="'+data.rows[i].id+'">'+buttonName+'</button>';
                     divObject.append(html);
                     $('#'+id).click(function(){
                         $("#"+key).val($(this).val())
