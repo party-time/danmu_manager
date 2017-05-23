@@ -200,6 +200,12 @@ var drawParamHtml = function(obj){
 
 var clickRadio = function(obj){
     var status = $(obj).attr("checked");
+    var isCheckList = $('.isCheck');
+    for(var i=0;i<isCheckList.length;i++){
+        if(obj != isCheckList[i]){
+            $(isCheckList[i]).attr("checked",false);
+        }
+    }
     if(status){
         $(obj).attr("checked",false);
     }else{
