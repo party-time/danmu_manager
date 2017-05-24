@@ -86,11 +86,14 @@
             var addressIdInput="<input type='hidden' id='addressId' name='addressId' value='"+object.addressId+"'/>"
             divobject.append(addressIdInput);
         }
+
+
     }
 
     $.createPlug=function (id,partyId,defaultValueObject) {
 
         $("#templateId").val(id);
+
         $.danmuAjax('/v1/api/admin/findDanmuTemplateInfo/'+id, 'GET', 'json', {}, function (data) {
             console.log(data);
             if (data.result == 200) {
@@ -102,7 +105,7 @@
                 }*/
                 $.checkObject = temObject;
                 var divId = "componentDivId";
-                $("#"+divId).empty();
+                $("#"+divId).empty().append("<input type='hidden' id='danmuId' name='danmuId' />");
                 createTitleComponent({'divId':divId,'name':temObject.name})
                 if(cmdTempComponentDataList!=null){
                     for(var i=0; i<cmdTempComponentDataList.length; i++){
