@@ -37,16 +37,18 @@ var openAddH5temp = function(){
     var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">'+
        '<label class="control-label" style="width:60px">页面名称</label><div class="controls" style="margin-left:60px;">'+
        '<input type="text" class="span4"  maxlength="16" id="tempTitle"> </div><br>';
+       htmlStr +='<label class="control-label" style="width:60px">是否全局</label><div class="controls" style="margin-left:60px;">'+
+          '<select id="isBase" class="span1" onchange="checkIsBase()"><option value="0">是</option><option value="1" selected>否</option></select><span>全局只能有一个</span></div><br>';
+       htmlStr +='<label class="control-label" style="width:60px">是否首页</label><div class="controls" style="margin-left:60px;">'+
+       '<select id="isIndex" class="span1" onchange="selectIndex()"><option value="0">是</option><option value="1" selected>否</option></select></div><br>';
        htmlStr +='<label class="control-label" style="width:60px">是否动态</label><div class="controls" style="margin-left:60px;">'+
                 '<select id="type" class="span1" onchange="selectH5tempType()"><option value="0">是</option><option value="1" selected>否</option></select></div><br>';
        htmlStr +='<label class="control-label" style="width:60px">页面URL</label><div class="controls" style="margin-left:60px;">'+
        '<span id="baseUrl"></span><input type="text" class="span2"  maxlength="16" id="h5Url" onblur="checkH5Url()"><span id="suffix"></span> </div><br>';
-       htmlStr +='<label class="control-label" style="width:60px">是否全局</label><div class="controls" style="margin-left:60px;">'+
-           '<select id="isBase" class="span1" onchange="checkIsBase()"><option value="0">是</option><option value="1" selected>否</option></select><span>全局只能有一个</span></div><br>';
-       htmlStr +='<label class="control-label" style="width:60px">是否首页</label><div class="controls" style="margin-left:60px;">'+
-        '<select id="isIndex" class="span1" onchange="selectIndex()"><option value="0">是</option><option value="1" selected>否</option></select></div><br>';
        htmlStr +='<label class="control-label" style="width:60px">支付金额</label><div class="controls" style="margin-left:60px;">'+
-               '<input type="text" class="span2"  maxlength="16" id="payMoney" ><span>金额的单位为分</span> </div><br>';
+               '<input type="text" class="span2"  id="payMoney" ><span>金额的单位为分</span> </div><br>';
+       htmlStr +='<label class="control-label" style="width:60px">支付标题</label><div class="controls" style="margin-left:60px;">'+
+        '<input type="text" class="span2"  id="payTitle" ><span>微信支付提醒的标题</span> </div><br>';
        htmlStr +='<label class="control-label" style="width:60px">页面HTML</label><div class="controls" style="margin-left:60px;">'+
                 '<textarea class="span6" style="height:150px" id="html"></textarea></div><br>';
        htmlStr+='</div></form>';
@@ -65,19 +67,27 @@ var openUpdateH5temp = function(id){
         if(data.result == 200) {
             $('#myModalLabel').html('修改页面');
                 var html = data.data.html.replace(/textarea>/g,"textarea&gt;");
+                if(data.data.payMoney == null){
+                    data.data.payMoney = '';
+                }
+                if(data.data.payTitle == null ){
+                    data.data.payTitle = '';
+                }
                 var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">'+
                    '<label class="control-label" style="width:60px">页面名称</label><div class="controls" style="margin-left:60px;">'+
                    '<input type="text" class="span4"  maxlength="16" id="tempTitle" value="'+data.data.tempTitle+'"> </div><br>';
+                   htmlStr +='<label class="control-label" style="width:60px">是否全局</label><div class="controls" style="margin-left:60px;">'+
+                  '<select id="isBase" class="span1" onchange="checkIsBase(\''+data.data.id+'\')"><option value="0">是</option><option value="1" selected>否</option></select><span>全局只能有一个</span></div><br>';
+                  htmlStr +='<label class="control-label" style="width:60px">是否是首页</label><div class="controls" style="margin-left:60px;">'+
+                   '<select id="isIndex" onchange="selectIndex()"><option value="0">是</option><option value="1" selected>否</option></select></div><br>';
                    htmlStr +='<label class="control-label" style="width:60px">是否动态</label><div class="controls" style="margin-left:60px;">'+
                    '<select id="type" onchange="selectH5tempType()"><option value="0">是</option><option value="1" selected>否</option></select></div><br>';
                    htmlStr +='<label class="control-label" style="width:60px">页面URL</label><div class="controls" style="margin-left:60px;">'+
                    '<span id="baseUrl"></span><input type="text" class="span4"  maxlength="16" id="h5Url" value="'+data.data.h5Url+'"><span id="suffix"></span> </div><br>';
-                   htmlStr +='<label class="control-label" style="width:60px">是否全局</label><div class="controls" style="margin-left:60px;">'+
-                   '<select id="isBase" class="span1" onchange="checkIsBase(\''+data.data.id+'\')"><option value="0">是</option><option value="1" selected>否</option></select><span>全局只能有一个</span></div><br>';
-                   htmlStr +='<label class="control-label" style="width:60px">是否是首页</label><div class="controls" style="margin-left:60px;">'+
-                    '<select id="isIndex" onchange="selectIndex()"><option value="0">是</option><option value="1" selected>否</option></select></div><br>';
                    htmlStr +='<label class="control-label" style="width:60px">支付金额</label><div class="controls" style="margin-left:60px;">'+
                       '<input type="text" class="span2"  maxlength="16" value="'+data.data.payMoney+'" id="payMoney" ><span>金额的单位为分</span> </div><br>';
+                   htmlStr +='<label class="control-label" style="width:60px">支付标题</label><div class="controls" style="margin-left:60px;">'+
+                      '<input type="text" class="span2"  id="payTitle" value="'+data.data.payTitle+'"><span>微信支付提醒的标题</span> </div><br>';
                    htmlStr +='<label class="control-label" style="width:60px">页面HTML</label><div class="controls" style="margin-left:60px;">'+
                             '<textarea class="span6" style="height:150px" id="html" >'+html+'</textarea></div><br>';
                    htmlStr+='</div></form>';
@@ -288,6 +298,11 @@ var selectIndex = function(){
     if(isIndex == 0){
         $('#type').val(0);
         $('#type').attr("disabled","disabled");
+        $('#payMoney').attr("disabled","disabled");
+        $('#suffix').html("");
+        $('#baseUrl').html("");
+    }else{
+        selectH5tempType(0);
     }
 }
 
