@@ -6,7 +6,7 @@
     $.pageType;
     
     $.initTitle = function (object) {
-        $.danmuAjax('/v1/api/admin/findDanmuType', 'GET', 'json', {'pageNumber':(object.pageNumber==undefined?0:object.pageNumber),'pageSize':(object.pageSize==undefined?12:object.pageSize)}, function (data) {
+        $.danmuAjax('/v1/api/admin/findDanmuType', 'GET', 'json', {'pageNumber':(object.pageNumber==undefined?0:object.pageNumber),'pageSize':(object.pageSize==undefined?tagPageSize:object.pageSize)}, function (data) {
             console.log(data);
             if (data.result == 200) {
 
@@ -35,19 +35,17 @@
                         divobject.append("<br/><button  type='button' class='btn btn-info titlePre'>&lt;</button> &nbsp;")
                         $('.titlePre').click(function(){
                             object.pageNumber = number-1;
-                            object.pageSize = 12;
                             $.initTitle(object);
                             return;
                         });
                     }
 
-                    if(parseInt(total/12)==0 || number==total/12-1){
+                    if(parseInt(total/tagPageSize)==0 || number==total/tagPageSize-1){
                         divobject.append("<button type='button' class='btn btn-info titleNext disabled'>&gt;</button>")
                     }else{
                         divobject.append("<button type='button' class='btn btn-info titleNext'>&gt;</button>")
                         $('.titleNext').click(function(){
                             object.pageNumber = number+1;
-                            object.pageSize = 12;
                             $.initTitle(object);
                             return;
                         });
