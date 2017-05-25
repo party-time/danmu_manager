@@ -7,7 +7,7 @@
     
     $.initTitle = function (object) {
 
-        object.pageSize=3;
+        object.pageSize=12;
         if(object.pageNumber==undefined){
             object.pageNumber=1
         }
