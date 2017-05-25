@@ -6,7 +6,13 @@
     $.pageType;
     
     $.initTitle = function (object) {
-        $.danmuAjax('/v1/api/admin/findDanmuType', 'GET', 'json', {'pageNumber':(object.pageNumber==undefined?0:object.pageNumber),'pageSize':(object.pageSize==undefined?tagPageSize:object.pageSize)}, function (data) {
+
+        object.pageSize=3;
+        if(object.pageNumber==undefined){
+            object.pageNumber=1
+        }
+
+        $.danmuAjax('/v1/api/admin/findDanmuType', 'GET', 'json', {'pageNumber':object.pageNumber,'pageSize':object.pageSize}, function (data) {
             console.log(data);
             if (data.result == 200) {
 
@@ -29,7 +35,44 @@
                         });
                     }
 
-                    if(number==0){
+
+                    var totalPageNo =  parseInt((total  + object.pageSize -1) / object.pageSize);
+                    if(object.pageNumber == 1 && totalPageNo > 1){
+                        divobject.append("<br/><button  type='button' class='btn btn-info titlePre disabled'>&lt;</button> &nbsp;")
+                        divobject.append("<button type='button' class='btn btn-info titleNext'>&gt;</button>")
+                        $('.titleNext').click(function(){
+                            object.pageNumber = object.pageNumber+1;
+                            $.initTitle(object);
+                            return;
+                        });
+                    }else if(object.pageNumber == totalPageNo && totalPageNo > 1){
+
+                        divobject.append("<br/><button  type='button' class='btn btn-info titlePre'>&lt;</button> &nbsp;")
+                        $('.titlePre').click(function(){
+                            object.pageNumber = object.pageNumber-1;
+                            $.initTitle(object);
+                            return;
+                        });
+                        divobject.append("<button type='button' class='btn btn-info titleNext disabled'>&gt;</button>")
+                    }else if(totalPageNo ==1 ){
+                        divobject.append("<br/><button  type='button' class='btn btn-info titlePre disabled'>&lt;</button> &nbsp;")
+                        divobject.append("<button type='button' class='btn btn-info titleNext disabled'>&gt;</button>")
+                    }else{
+                        divobject.append("<br/><button  type='button' class='btn btn-info titlePre'>&lt;</button> &nbsp;")
+                        $('.titlePre').click(function(){
+                            object.pageNumber = object.pageNumber-1;
+                            $.initTitle(object);
+                            return;
+                        });
+                        divobject.append("<button type='button' class='btn btn-info titleNext'>&gt;</button>")
+                        $('.titleNext').click(function(){
+                            object.pageNumber = object.pageNumber+1;
+                            $.initTitle(object);
+                            return;
+                        });
+                    }
+
+                    /*if(number==0){
                         divobject.append("<br/><button  type='button' class='btn btn-info titlePre disabled'>&lt;</button> &nbsp;")
                     }else{
                         divobject.append("<br/><button  type='button' class='btn btn-info titlePre'>&lt;</button> &nbsp;")
@@ -40,7 +83,7 @@
                         });
                     }
 
-                    if(parseInt(total/tagPageSize)==0 || number==total/tagPageSize-1){
+                    if(parseInt(total/object.pageSize)==0 || number==total/object.pageSize-1){
                         divobject.append("<button type='button' class='btn btn-info titleNext disabled'>&gt;</button>")
                     }else{
                         divobject.append("<button type='button' class='btn btn-info titleNext'>&gt;</button>")
@@ -49,7 +92,7 @@
                             $.initTitle(object);
                             return;
                         });
-                    }
+                    }*/
 
                     $.setTitleListPlug(object);
 
@@ -237,51 +280,87 @@
     var getVideoPage = function(divId,widgetId,fileType,pageNo,key){
 
 
-        var obj={
-            fileType:fileType,
-            pageNo:pageNo,
-            pageSize:10
-        };
+        var obj={fileType:fileType,pageNo:pageNo, pageSize:10};
 
-        $.danmuAjax('/v1/api/admin/resource/page', 'GET','json',obj, function (data) {
+        //{'pageNumber':(object.pageNumber==undefined?0:object.pageNumber)
 
-            var divObject = $("#"+divId).append('<div id="'+widgetId+'Div"></div>');
+        $.danmuAjax('/v1/api/admin/resource/findResourcePage', 'GET','json',obj, function (data) {
+
+            var divObject = $("#"+divId)
+
+            var buttonDivId = key+'Div';
+            divObject.append('<div id="'+buttonDivId+'"></div>');
+            var buuttonDiv=$("#"+buttonDivId);
+            buuttonDiv.empty();
             //divObject.empty();
-            for(var i=0;i<data.rows.length;i++){
+
+            var array = data.content;
+            var total = data.totalElements;
+            var number = data.number;
+            for(var i=0;i<array.length;i++){
 
                 var id=widgetId+i;
                 if(fileType==3){
-                    var specialVideo = data.rows[i];
+                    var specialVideo = array[i];
                     var buttonName = specialVideo.resourceName.substring(0,4);
-                    var html = '<button  class="btn"  id="'+id+'" style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " title="' + specialVideo.resourceName + '" value="'+data.rows[i].id+'">'+buttonName+'</button>';
-                    divObject.append(html);
+                    var html = '<button  class="btn"  id="'+id+'" style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " title="' + specialVideo.resourceName + '" value="'+array[i].id+'">'+buttonName+'</button>';
+                    buuttonDiv.append(html);
                     $('#'+id).click(function(){
                         $("#"+key).val($(this).val())
                         return false;
                     });
                 }else if(fileType==2){
-                    var fileUrl = _baseImageUrl+data.rows[i].fileUrl;
-                    var html = '<input type="image" id="'+id+'" src="' + fileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;" title="' + data.rows[i].resourceName + '" value="'+data.rows[i].id+'" />';
-                    divObject.append(html);
+                    var fileUrl = _baseImageUrl+array[i].fileUrl;
+                    var html = '<input type="image" id="'+id+'" src="' + fileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;" title="' + array[i].resourceName + '" value="'+array[i].id+'" />';
+                    buuttonDiv.append(html);
                     $('#'+id).click(function(){
                         $("#"+key).val($(this).val())
                         return false;
                     });
                 }else if(fileType==1){
-                    var fileUrl = _baseImageUrl+data.rows[i].smallFileUrl;
-                    var html = '<input type="image" id="'+id+'" src="' + fileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;" title="' + data.rows[i].resourceName + '" value="'+data.rows[i].id+'"/>';
-                    divObject.append(html);
+                    var fileUrl = _baseImageUrl+array[i].smallFileUrl;
+                    var html = '<input type="image" id="'+id+'" src="' + fileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;" title="' + array[i].resourceName + '" value="'+array[i].id+'"/>';
+                    buuttonDiv.append(html);
                     $('#'+id).click(function(){
                         $("#"+key).val($(this).val())
                         return false;
                     });
                 }
-
-
-
-
             }
-            var totalPageNo =  parseInt((data.total  + obj.pageSize -1) / obj.pageSize);
+
+            var totalPageNo =  parseInt((total  + obj.pageSize -1) / obj.pageSize);
+            if(obj.pageNo == 1 && totalPageNo > 1){
+                buuttonDiv.append("<br/><button  type='button' class='btn btn-info "+key+"ButtonPre disabled'>&lt;</button> &nbsp;")
+                buuttonDiv.append("<button type='button' class='btn btn-info "+key+"ButtonNext'>&gt;</button>")
+                $('.'+key+'ButtonNext').click(function(){
+                    getVideoPage(divId,widgetId,fileType,obj.pageNo+1,key);
+                    return;
+                });
+            }else if(obj.pageNo == totalPageNo && totalPageNo > 1){
+
+                buuttonDiv.append("<br/><button  type='button' class='btn btn-info "+key+"ButtonPre'>&lt;</button> &nbsp;")
+                $('.'+key+'ButtonPre').click(function(){
+                    getVideoPage(divId,widgetId,fileType,obj.pageNo-1,key)
+                    return;
+                });
+                buuttonDiv.append("<button type='button' class='btn btn-info "+key+"ButtonNext disabled'>&gt;</button>")
+            }else if(totalPageNo ==1 ){
+                buuttonDiv.append("<br/><button  type='button' class='btn btn-info "+key+"ButtonPre disabled'>&lt;</button> &nbsp;")
+                buuttonDiv.append("<button type='button' class='btn btn-info "+key+"ButtonNext disabled'>&gt;</button>")
+            }else{
+                buuttonDiv.append("<br/><button  type='button' class='btn btn-info "+key+"ButtonPre'>&lt;</button> &nbsp;")
+                $('.'+key+'ButtonPre').click(function(){
+                    getVideoPage(divId,widgetId,fileType,obj.pageNo-1,key)
+                    return;
+                });
+                buuttonDiv.append("<button type='button' class='btn btn-info "+key+"ButtonNext'>&gt;</button>")
+                $('.'+key+'ButtonNext').click(function(){
+                    getVideoPage(divId,widgetId,fileType,obj.pageNo+1,key);
+                    return;
+                });
+            }
+
+            /*var totalPageNo =  parseInt((data.total  + obj.pageSize -1) / obj.pageSize);
             var footer='<div>';
             var next = pageNo+1;
             var last = pageNo -1;
@@ -294,7 +373,7 @@
             }else{
                 footer += '<a onclick="getVideoPage('+last+')">上一页</a>第'+obj.pageNo+'页<a onclick="getVideoPage('+next+')">下一页</a> 共'+totalPageNo+'页</div>';
             }
-            divObject.append(footer);
+            divObject.append(footer);*/
 
             var hiddenInput="<input type='hidden' id='"+key+"' name='"+key+"'/>"
             divObject.append(hiddenInput);
