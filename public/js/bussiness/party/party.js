@@ -72,7 +72,7 @@ var columnsArray = [
         if( null != danmuLibraryList){
             for( var i=0;i<danmuLibraryList.length;i++){
                     if(value == danmuLibraryList[i].id){
-                        selectHtml += '<o\ value='+danmuLibraryList[i].id+' selected="selected">'+danmuLibraryList[i].name+'</option>';
+                        selectHtml += '<option value='+danmuLibraryList[i].id+' selected="selected">'+danmuLibraryList[i].name+'</option>';
                     }else{
                         selectHtml += '<option value='+danmuLibraryList[i].id+'>'+danmuLibraryList[i].name+'</option>';
                     }
