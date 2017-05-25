@@ -43,7 +43,7 @@
                 <button type="button" class="btn btn-primary importDanmu" style="margin-bottom:10px;margin-left:10px;">导入弹幕</button>
             </div>
             <div class="row">
-                <div class="span4 history">
+                <div class="span3 history">
                     <div class="widget">
                         <div style="margin-left:10px;">
                             <h3>历史弹幕</h3>
@@ -79,24 +79,20 @@
                     </div>
                     <!-- /widget -->
                 </div>
-                <div class="span4">
-                    <div class="widget">
-                        <div style="margin-left:10px;">
-                            <h3>新建弹幕</h3>
-                        </div>
-
-
-                        <div style="margin-left: 20px;margin-top: 20px;">
-                            <textarea style="height:80px"  placeholder="请输入弹幕内容..." id="sendDmMsg"></textarea>
-                        </div>
-
-                        <div style="margin-left: 20px;margin-top:10px;"><h4>弹幕颜色</h4></div>
-
-                        <div id="colors" class="shortcuts" style="margin-top:10px;">
-
-                        </div>
-                        <a class="btn btn-primary" style="margin-left: 20px;" href="javascript:void(0)" onclick="addNewDanmu()">发送</a>
-
+                <div class="span5">
+                    <div class="widget-content">
+                        <form id="danmuForm">
+                            <ul  class="danmucheck-items">
+                                <li style="margin-top: 10px;">
+                                    <div id="typeTitleDiv" style="margin-left: 1em;">
+                                    </div>
+                                    <div id="componentDivId" style="padding-left: 1em;margin-top: 5px;padding-bottom: 5px;">
+                                    </div>
+                                    <input type="hidden" id="danmuLibraryId" name="danmuLibraryId">
+                                    <input  type="button" style="margin-left: 1em; margin-top: 1em;" class="btn btn-info saveDanmuButton" value="保存"></input>
+                                </li>
+                            </ul>
+                        </form>
                     </div>
                     <!-- /widget -->
                 </div>
@@ -128,11 +124,13 @@
     </div>
 </div>
 
+<link rel="stylesheet" href="/css/danmu/danmu.adtimerdanmu.css"/>
 <link href="/plug/bootstrapTable/bootstrap-table.min.css" rel="stylesheet"/>
 <script src="/plug/bootstrapTable/bootstrap-table.min.js"></script>
 <script src="/plug/bootstrapTable/locale/bootstrap-table-zh-CN.min.js"></script>
 <script src="/js/common/danmu.table.plug.js"></script>
 <script src="/js/common/danmu.ajax.plug.js"></script>
+<script src="/js/bussiness/common/danmu.common.plug.js"></script>
 <script src="/js/bussiness/danmu/danmu.predanmu.js"></script>
 <script src="/plug/jquery/ajaxfileupload.js"></script>
 <% include ../common/bottom.html %>

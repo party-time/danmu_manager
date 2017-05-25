@@ -1,6 +1,6 @@
 
 var preDanmuPageNo = 0;
-
+var baseUrl = _baseImageUrl;
 var getAllDanmuLibrary = function(id) {
     $('#selectedDl').empty();
     $.danmuAjax('/v1/api/admin/getAllDanmuLibrary', 'GET','json',null, function (data) {
@@ -83,7 +83,23 @@ var getDanmuPage = function(pageNumber){
     $.danmuAjax('/v1/api/admin/historyDMList', 'GET','json',obj, function (data) {
           console.log(data);
           for(var i=0;i<data.rows.length;i++){
-            $('#historyDm').append('<li class="list-group-item" ><span style="border: solid 2px #f5f5f5;width:80%;float:left;background-color:'+data.rows[i].color+'">'+data.rows[i].msg+'</span><span style="float:left;border:solid 2px #FFFFFF;"><a href="javascript:void(0)" preDanmuId="'+data.rows[i].id+'" onclick="addPreDanmu(this)" class="addPreDanmu">添加</a></span></li>');
+
+              var row = data.rows[i];
+              var  content  = row.msg
+              if(content==null){
+                  content = "";
+              }else{
+                  if(row.danmuType==1 || row.danmuType==2){
+                      content = ' <img src="' + baseUrl + content + '" style="width: 30px;height: 30px;"/>'
+                  }
+              }
+
+              var li='<li class="list-group-item" >';
+              li+='<span style="border: solid 2px #f5f5f5;width:80%;float:left;">'+content+'</span>';
+              li+='<span style="float:left;border:solid 2px #FFFFFF;"><a href="javascript:void(0)" preDanmuId="'+data.rows[i].id+'" onclick="addPreDanmu(this)" class="addPreDanmu">添加</a></span>';
+              li+='</li>'
+              //i+='<span style="border: solid 2px #f5f5f5;width:80%;float:left;background-color:'+data.rows[i].color+'">'+data.rows[i].msg+'</span><span style="float:left;border:solid 2px #FFFFFF;"><a href="javascript:void(0)" preDanmuId="'+data.rows[i].id+'" onclick="addPreDanmu(this)" class="addPreDanmu">添加</a></span></li>'
+              $('#historyDm').append(li);
           }
           $('#historyDm').after(paginationCount(obj.pageNumber,obj.pageSize,data.total,'danmuGoto'));
     }, function (data) {
@@ -134,6 +150,9 @@ var gotoDlDanmuPage = function(){
 var getDanmuLibraryPage = function(pageNo){
     var preDmMsg = $('#preDmMsg').val();
     var dlId = $('#selectedDl').val();
+
+
+    $("#danmuLibraryId").val(dlId);
     if( dlId == 0){
         $('#dlDm').empty();
         return;
@@ -162,12 +181,35 @@ var getDanmuLibraryPage = function(pageNo){
 
     $.danmuAjax('/v1/api/admin/preDMList', 'GET','json',obj, function (data) {
           console.log(data);
-          for(var i=0;i<data.data.content.length;i++){
+          /*for(var i=0;i<data.data.content.length;i++){
             $('#dlDm').append('<li class="list-group-item" ><span style="border: solid 2px #f5f5f5;width:80%;float:left;background-color:'+data.data.content[i].color+'">'+data.data.content[i].msg+'</span><span style="float:left;border:solid 2px #FFFFFF;"><a href="javascript:void(0)" onclick="deletePreDanmu(\''+data.data.content[i].id+'\')">删除</a></span></li>');
 
-          }
-          $('#dlDm').after(dlPaginationCount(obj.pageNo,obj.pageSize,data.data.totalElements));
-          $('#preCount').html('('+data.data.totalElements+')');
+          }*/
+
+        if(data.data!=null){
+            for(var i=0;i<data.data.rows.length;i++){
+
+                var row = data.data.rows[i];
+                var id = row.id;
+                var  content  = row.msg
+                if(content==null){
+                    content = "";
+                }else{
+                    if(row.danmuType==1 || row.danmuType==2){
+                        content = ' <img src="' + baseUrl + content + '" style="width: 30px;height: 30px;"/>'
+                    }
+                }
+                var li = '';
+                li+='<li class="list-group-item" >';
+                li+='<span style="border: solid 2px #f5f5f5;width:80%;float:left;">'+content+'</span>';
+                li+='<span style="float:left;border:solid 2px #FFFFFF;"><a href="javascript:void(0)" onclick="deletePreDanmu(\''+id+'\')">删除</a></span>';
+                li+='</li>';
+                $('#dlDm').append(li);
+            }
+            $('#dlDm').after(dlPaginationCount(obj.pageNo,obj.pageSize,data.data.total));
+            $('#preCount').html('('+data.data.total+')');
+        }
+
     }, function (data) {
         console.log(data);
     });
@@ -317,7 +359,31 @@ var delDanmuLibrary = function () {
 initColor();
 getAllDanmuLibrary();
 getDanmuPage(1);
+$.initTitle({'divId':'typeTitleDiv'});
 
+
+
+$(".saveDanmuButton").click(function(){
+    if($('#selectedDl').val() ==0){
+        alert("请选择一个弹幕库");
+        return;
+    }
+    if($.executeCompontentCheck()){
+        $.ajax({
+            type: "POST",
+            url:"/v1/api/admin/preDanmu/addNewDanmu",
+            data:$('#danmuForm').serialize(),// 序列化表单值
+            async: false,
+            error: function(request) {
+                alert("Connection error");
+                return;
+            },
+            success: function(data) {
+                getDanmuLibraryPage(1);
+            }
+        });
+    }
+});
 
 
 $(".importDanmu").click(function () {
