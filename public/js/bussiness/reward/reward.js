@@ -60,6 +60,11 @@ var columnsArray = [
         align: 'center',
     },
     {
+        field: 'h5Template.tempTitle',
+        title: '打赏类型',
+        align: 'center',
+    },
+    {
         field: 'wechatReward.createTime',
         title: '时间',
         align: 'center',
