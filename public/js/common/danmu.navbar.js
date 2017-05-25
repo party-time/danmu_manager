@@ -6,7 +6,7 @@ var drawNavbar = function(){
         htmlStr +='<li><a href="/predanmu"><i class="icon-list-alt"></i><span>预制弹幕管理</span> </a> </li>';
         htmlStr +='<li><a href="/adDanmuLibrary"><i class="icon-play-circle"></i><span>广告管理</span> </a> </li>';
         htmlStr += '<li><a href="/wechat"><i class="icon-camera"></i><span>微信自动回复管理</span> </a> </li>';
-        htmlStr += '<li><a href="/reward"><i class="icon-font"></i><span>打赏管理</span> </a> </li>';
+        htmlStr += '<li><a href="/reward"><i class="icon-font"></i><span>支付管理</span> </a> </li>';
     var role = $.cookie('role');
     if(role == '589a98cd77c8afdcbdeaeeb4'){
         htmlStr +=  '<li><a href="/adminmanager"><i class="icon-bold"></i><span>管理员管理</span> </a> </li>';
