@@ -70,6 +70,12 @@
             type_findclientList:'findclientList'
         };
 
+
+        $scope.checkIsArray = function (object) {
+            return object && typeof object==='object' &&
+                Array == object.constructor;
+        }
+
         var webSocketInit = function () {
             //初始化websocket
             if (WebSocket) {
