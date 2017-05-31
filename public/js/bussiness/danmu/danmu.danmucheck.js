@@ -403,28 +403,6 @@
 
 
         /**
-         * 图片特效开启
-         * @param specialImage
-         */
-        $scope.showSpecialImage = function (specialImage) {
-            if (webSocketIsConnect() && checkPatyIsBegin()) {
-                if (confirm("确定开启图片特效？")) {
-                    webSocketSendMessage({type: $scope.type.type_picture, picture: {id: specialImage.id}});
-                }
-            }
-        };
-
-        $scope.showExpression = function (expression) {
-            if (webSocketIsConnect() && checkPatyIsBegin()) {
-                if (confirm("是否发送表情特效？")) {
-                    webSocketSendMessage({
-                        type: $scope.type.type_expression,
-                        expression: {name: expression.name, id: expression.id}
-                    });
-                }
-            }
-        };
-        /**
          * 视频特效开启
          * @param specialVideo
          * @param status
@@ -717,46 +695,6 @@
             });
 
         }
-
-
-        /*var  changeCardDiv = function (index,second) {
-            $("#first").empty();
-
-            var object = {'divId':'first', 'widgetId':'textAreaId', 'defaultValue':'请输入闪光（8个字以内）'}//'keyUp':showAlert,//'keyDown':showAlert}
-            $.setTextAreaPlug(object);
-            var object = {'divId':'first', 'widgetId':'inputId', 'defaultValue':'请输入闪光（8个字以内）'}//'keyUp':showAlert,//'keyDown':showAlert}
-            $.setTextPlug(object);
-
-
-            var array = [];
-            for(var i=0; i<10; i++){
-                var object  = {
-                    id:'radioId'+i,
-                    text:'text'+i
-                }
-                array.push(object);
-            }
-            var object = {'divId':'first', 'widgetId':'selectId','valueList':array ,'defaultValue':'请输入闪光（8个字以内）'}//'keyUp':showAlert,//'keyDown':showAlert}
-            $.setSelectPlug(object);
-
-            var object = {'divId':'first', 'widgetId':'radioId', 'radioButtonList':array}//'keyUp':showAlert,//'keyDown':showAlert}
-            $.setRadioButtonListPlug(object);
-
-            var array = [];
-            for(var i=0; i<10; i++){
-                var object  = {
-                    id:'checkBox'+i,
-                    text:'checkBox'+i
-                }
-                array.push(object);
-            }
-            var object = {'divId':'first', 'widgetId':'checkBox', 'radioButtonList':array}//'keyUp':showAlert,//'keyDown':showAlert}
-            $.setCheckBoxListPlug(object);
-        }
-        var showAlert = function () {
-            alert('232323');
-        }*/
-
 
         $scope.checkIsArray = function (object) {
             return object && typeof object==='object' &&

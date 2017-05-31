@@ -393,7 +393,7 @@ function doEdit(id){
                 $("#lastTime").val(parseInt(endTime/60)-parseInt(beginTime/60))
 
                 $("#vediodanmuId").val(dataObject.id);
-                setSpecialButtonBorder("videoDanmu",dataObject.msg,dataObject.content.data.id);
+                setSpecialButtonBorder("videoDanmu",dataObject.msg,dataObject.content.data.idd);
 
 
             }
