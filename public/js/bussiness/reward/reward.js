@@ -60,9 +60,13 @@ var columnsArray = [
         align: 'center',
     },
     {
-        field: 'h5Template.tempTitle',
         title: '打赏类型',
         align: 'center',
+        formatter: function (value, row, index) {
+            if(null != row && null != row.h5Template){
+              return row.h5Template.tempTitle;
+            }
+        }
     },
     {
         field: 'wechatReward.createTime',
