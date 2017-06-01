@@ -31,10 +31,16 @@ var columnsArray = [
             } else if (row.type != 0 && row.type != 3 && row.type != 4 && row.type != 2) {
                 return row.content;
             }*/
-            if(row.msg==null){
+            var  content  = row.msg
+            if(content==null){
                 return "";
+            }else{
+                if(row.danmuType==1 || row.danmuType==2){
+                    return ' <img src="' + baseUrl + content + '" style="width: 30px;height: 30px;"/>'
+                }else {
+                    return content;
+                }
             }
-            return row.msg;
         }
     },
     {
