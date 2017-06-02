@@ -162,8 +162,21 @@
             setInterval(function () {
                 if (ws.readyState == 1) {
                     webSocketSendMessage({type: 'isOk'});
+
+                    $.ajax({
+                        type: "GET",
+                        url:"/v1/api/admin/fileDanmuCheck",
+                        data:{},// 序列化表单值
+                        async: true,
+                        error: function(request) {
+                            alert("Connection error");
+                        },
+                        success: function(data) {
+
+                        }
+                    });
                 }
-            }, 3 * 1000);
+            }, 10 * 1000);
         }
 
         /*setInterval(function () {
