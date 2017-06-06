@@ -72,28 +72,6 @@
                         });
                     }
 
-                    /*if(number==0){
-                        divobject.append("<br/><button  type='button' class='btn btn-info titlePre disabled'>&lt;</button> &nbsp;")
-                    }else{
-                        divobject.append("<br/><button  type='button' class='btn btn-info titlePre'>&lt;</button> &nbsp;")
-                        $('.titlePre').click(function(){
-                            object.pageNumber = number-1;
-                            $.initTitle(object);
-                            return;
-                        });
-                    }
-
-                    if(parseInt(total/object.pageSize)==0 || number==total/object.pageSize-1){
-                        divobject.append("<button type='button' class='btn btn-info titleNext disabled'>&gt;</button>")
-                    }else{
-                        divobject.append("<button type='button' class='btn btn-info titleNext'>&gt;</button>")
-                        $('.titleNext').click(function(){
-                            object.pageNumber = number+1;
-                            $.initTitle(object);
-                            return;
-                        });
-                    }*/
-
                     $.setTitleListPlug(object);
 
                     var hiddenInput="<input type='hidden' id='templateId' name='templateId'/>"
@@ -237,7 +215,11 @@
                                 $('#'+id).removeClass("button-border-color");
                             }
                             $('#'+id).click(function(){
-                                $("#"+key).val($(this).val())
+                                $("#"+key).val($(this).val());
+                                $("input[type='image']").each(function () {
+                                    $(this).removeClass("button-border-color");
+                                })
+                                $(this).addClass("button-border-color");
                                 return false;
                             });
 
@@ -258,7 +240,11 @@
                                 $('#'+id).removeClass("button-border-color");
                             }
                             $('#'+id).click(function(){
-                                $("#"+key).val($(this).val())
+                                $("#"+key).val($(this).val());
+                                $("input[type='image']").each(function () {
+                                    $(this).removeClass("button-border-color");
+                                })
+                                $(this).addClass("button-border-color");
                                 return false;
                             });
                         }
@@ -306,7 +292,7 @@
                     var html = '<button  class="btn"  id="'+id+'" style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; " title="' + specialVideo.resourceName + '" value="'+array[i].id+'">'+buttonName+'</button>';
                     buuttonDiv.append(html);
                     $('#'+id).click(function(){
-                        $("#"+key).val($(this).val())
+                        $("#"+key).val($(this).val());
                         return false;
                     });
                 }else if(fileType==2){
@@ -314,7 +300,12 @@
                     var html = '<input type="image" id="'+id+'" src="' + fileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;" title="' + array[i].resourceName + '" value="'+array[i].id+'" />';
                     buuttonDiv.append(html);
                     $('#'+id).click(function(){
-                        $("#"+key).val($(this).val())
+                        $("#"+key).val($(this).val());
+
+                        $("input[type='image']").each(function () {
+                            $(this).removeClass("button-border-color");
+                        })
+                        $(this).addClass("button-border-color");
                         return false;
                     });
                 }else if(fileType==1){
@@ -322,7 +313,11 @@
                     var html = '<input type="image" id="'+id+'" src="' + fileUrl + '" style="width: 50px; height: 50px;margin-left: 1em;" title="' + array[i].resourceName + '" value="'+array[i].id+'"/>';
                     buuttonDiv.append(html);
                     $('#'+id).click(function(){
-                        $("#"+key).val($(this).val())
+                        $("#"+key).val($(this).val());
+                        $("input[type='image']").each(function () {
+                            $(this).removeClass("button-border-color");
+                        })
+                        $(this).addClass("button-border-color");
                         return false;
                     });
                 }
@@ -359,21 +354,6 @@
                     return;
                 });
             }
-
-            /*var totalPageNo =  parseInt((data.total  + obj.pageSize -1) / obj.pageSize);
-            var footer='<div>';
-            var next = pageNo+1;
-            var last = pageNo -1;
-            if(pageNo == 1 && totalPageNo > 1){
-                footer += '第'+obj.pageNo+'页<a onclick="getVideoPage('+next+')">下一页</a> 共'+totalPageNo+'页</div>';
-            }else if(pageNo == totalPageNo &&totalPageNo>1){
-                footer += '<a onclick="getVideoPage('+last+')">上一页</a>第'+obj.pageNo+'页 共'+totalPageNo+'页</div>';
-            }else if(totalPageNo == 1){
-                footer += '第'+obj.pageNo+'页';
-            }else{
-                footer += '<a onclick="getVideoPage('+last+')">上一页</a>第'+obj.pageNo+'页<a onclick="getVideoPage('+next+')">下一页</a> 共'+totalPageNo+'页</div>';
-            }
-            divObject.append(footer);*/
 
             var hiddenInput="<input type='hidden' id='"+key+"' name='"+key+"'/>"
             divObject.append(hiddenInput);
