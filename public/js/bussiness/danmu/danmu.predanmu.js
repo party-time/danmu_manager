@@ -95,7 +95,14 @@ var getDanmuPage = function(pageNumber){
               }
 
               var li='<li class="list-group-item" >';
-              li+='<span style="border: solid 2px #f5f5f5;width:80%;float:left;">'+content+'</span>';
+              //console.log('===================='+row.hasOwnProperty("color"));
+              if(row.hasOwnProperty("color")){
+                  li+='<span style="border: solid 2px #f5f5f5;width:80%;float:left; background-color:'+row.content.color.replace("0x","#")+'">'+content+'</span>';
+              }else{
+                  li+='<span style="border: solid 2px #f5f5f5;width:80%;float:left;">'+content+'</span>';
+              }
+
+
               li+='<span style="float:left;border:solid 2px #FFFFFF;"><a href="javascript:void(0)" preDanmuId="'+data.rows[i].id+'" onclick="addPreDanmu(this)" class="addPreDanmu">添加</a></span>';
               li+='</li>'
               //i+='<span style="border: solid 2px #f5f5f5;width:80%;float:left;background-color:'+data.rows[i].color+'">'+data.rows[i].msg+'</span><span style="float:left;border:solid 2px #FFFFFF;"><a href="javascript:void(0)" preDanmuId="'+data.rows[i].id+'" onclick="addPreDanmu(this)" class="addPreDanmu">添加</a></span></li>'
@@ -201,7 +208,11 @@ var getDanmuLibraryPage = function(pageNo){
                 }
                 var li = '';
                 li+='<li class="list-group-item" >';
-                li+='<span style="border: solid 2px #f5f5f5;width:80%;float:left;">'+content+'</span>';
+                if(row.content.hasOwnProperty("color")){
+                    li+='<span style="border: solid 2px #f5f5f5;width:80%;float:left; background-color:'+row.content.color.replace("0x","#")+'">'+content+'</span>';
+                }else{
+                    li+='<span style="border: solid 2px #f5f5f5;width:80%;float:left;">'+content+'</span>';
+                }
                 li+='<span style="float:left;border:solid 2px #FFFFFF;"><a href="javascript:void(0)" onclick="deletePreDanmu(\''+id+'\')">删除</a></span>';
                 li+='</li>';
                 $('#dlDm').append(li);

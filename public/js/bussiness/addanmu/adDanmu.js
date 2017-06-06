@@ -38,7 +38,11 @@ var columnsArray = [
                 if(row.danmuType==1 || row.danmuType==2){
                     return ' <img src="' + baseUrl + content + '" style="width: 30px;height: 30px;"/>'
                 }else {
-                    return content;
+                    if(row.content.hasOwnProperty("color")){
+                        return "<span style='background-color: "+row.content.color.replace("0x","#")+"'>"+content+"</span>";
+                    }else{
+                        return content;
+                    }
                 }
             }
         }
