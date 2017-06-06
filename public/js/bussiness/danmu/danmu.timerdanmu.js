@@ -381,7 +381,6 @@ function doEdit(id){
             if(dataObject.templateId!=0){
                 $("#minutes").val(parseInt(beginTime/60));
                 $("#seconds").val(beginTime-parseInt(beginTime/60)*60);
-
                 var defaultValueObject = dataObject.content;
                 $.createPlug(dataObject.templateId,dataObject.partyId,defaultValueObject);
                 $("#danmuId").val(dataObject.id);
@@ -390,7 +389,7 @@ function doEdit(id){
 
                 $("#videoMinutes").val(parseInt(beginTime/60));
                 $("#videoSeconds").val(beginTime-parseInt(beginTime/60)*60);
-                $("#lastTime").val(parseInt(endTime/60)-parseInt(beginTime/60))
+                $("#lastTime").val(parseInt(endTime)-parseInt(beginTime));
 
                 $("#vediodanmuId").val(dataObject.id);
                 setSpecialButtonBorder("videoDanmu",dataObject.msg,dataObject.content.idd);
