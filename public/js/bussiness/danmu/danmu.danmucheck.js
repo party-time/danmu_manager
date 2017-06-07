@@ -705,13 +705,16 @@
             if($.executeCompontentCheck()){
                 $.ajax({
                     type: "POST",
-                    url:"/v1/api/admin/danmuTest",
+                    url:"/v1/api/admin/danmuSend",
                     data:$('#danmuForm').serialize(),// 序列化表单值
                     async: false,
                     error: function(request) {
                         alert("Connection error");
                     },
                     success: function(data) {
+                        if(data.result!=200){
+                            alert(data.result_msg);
+                        }
                         //window.location.href="跳转页面"
                     }
                 });
