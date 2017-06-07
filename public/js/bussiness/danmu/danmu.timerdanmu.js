@@ -38,7 +38,11 @@ var columnsArray = [
                     return ' <img src="' + baseUrl + content + '" style="width: 30px;height: 30px;"/>'
                 }else {
                     if(row.content.hasOwnProperty("color")){
-                        return "<span style='background-color: "+row.content.color.replace("0x","#")+"'>"+content+"</span>";
+                        if(row.content.color!=null){
+                            return "<span style='background-color: "+row.content.color.replace("0x","#")+"'>"+content+"</span>";
+                        }else{
+                            return content;
+                        }
                     }else{
                         return content;
                     }
