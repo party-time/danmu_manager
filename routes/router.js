@@ -72,11 +72,11 @@ router.get('/party/historyDanmu', function(req, res, next) {
 
 /**跳转弹幕审核*/
 router.get('/party/danmuCheck', function(req, res, next) {
-  res.render('danmu/danmuCheck');
+  res.render('danmu/danmuCheck',{'version':(new Date()).getTime()});
 });
 /**跳转弹幕审核*/
 router.get('/film/danmuCheck', function(req, res, next) {
-    res.render('danmu/filmDanmuCheck');
+    res.render('danmu/filmDanmuCheck',{'version':(new Date()).getTime()});
 });
 
 
