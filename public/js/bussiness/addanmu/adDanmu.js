@@ -170,6 +170,12 @@ $(".saveDanmuButton").click(function(){
 });
 
 $(".saveVideoButton").click(function(){
+
+    var videoId = $("#videoId").val()
+    if(videoId==null || videoId==""){
+        alert('请选择视频！');
+        return;
+    }
     $.ajax({
         type: "POST",
         url:"/v1/api/admin/adDanmu/saveVideo",
