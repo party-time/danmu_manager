@@ -151,7 +151,8 @@ var saveHtml = function(){
         isIndex:$('#isIndex').val(),
         type:$('#type').val(),
         isBase:$('#isBase').val(),
-        payMoney:$('#payMoney').val()
+        payMoney:$('#payMoney').val(),
+        payTitle:$('#payTitle').val()
     }
     $.danmuAjax('/v1/api/admin/h5temp/save', 'POST','json',obj, function (data) {
         if(data.result == 200) {
@@ -199,7 +200,8 @@ var updateHtml = function(id){
         isIndex:$('#isIndex').val(),
         type:$('#type').val(),
         isBase:$('#isBase').val(),
-        payMoney:$('#payMoney').val()
+        payMoney:$('#payMoney').val(),
+        payTitle:$('#payTitle').val()
     }
     $.danmuAjax('/v1/api/admin/h5temp/update', 'POST','json',obj, function (data) {
         if(data.result == 200) {
