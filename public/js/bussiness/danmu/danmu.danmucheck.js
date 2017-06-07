@@ -708,6 +708,7 @@
                     url:"/v1/api/admin/danmuSend",
                     data:$('#danmuForm').serialize(),// 序列化表单值
                     async: false,
+                    dataType:'json',
                     error: function(request) {
                         alert("Connection error");
                     },
