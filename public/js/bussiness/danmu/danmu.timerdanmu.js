@@ -158,6 +158,7 @@ $(".saveDanmuButton").click(function () {
                 //window.location.href="跳转页面"
                 initable();
                 initCarts();
+                $("#danmuId").val('');
             }
         });
     }
@@ -183,6 +184,8 @@ $(".saveVideoButton").click(function () {
             //window.location.href="跳转页面"
             initable();
             initCarts();
+            $("#vediodanmuId").val('');
+
         }
     });
 })
