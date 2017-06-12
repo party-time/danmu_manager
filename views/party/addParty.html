@@ -26,29 +26,11 @@
                                                 <div class="controls">
                                                     <select id="partyType" onchange="selectMovie()">
                                                         <option value="0">活动</option>
-                                                        <option value="1">电影</option>
+                                                        <option value="1" selected>电影</option>
                                                     </select>
                                                 </div> <!-- /controls -->
                                             </div>
-                                            <div id="partyTable">
-                                                <div class="control-group">
-                                                    <label class="control-label" for="startTime">开始时间</label>
-                                                    <div class="controls">
-                                                        <input type="text" class="span6" id="startTime" placeholder="yyyy-MM-dd HH:mm" onblur="checkStartTime()">
-                                                    </div> <!-- /controls -->
-                                                </div> <!-- /control-group -->
-
-
-                                                <div class="control-group">
-                                                    <label class="control-label" for="endTime">结束时间</label>
-                                                    <div class="controls">
-                                                        <input type="text" class="span4" id="endTime" placeholder="yyyy-MM-dd HH:mm" onblur="checkEndTime()">
-                                                    </div> <!-- /controls -->
-                                                </div> <!-- /control-group -->
-
-                                                <!-- /control-group -->
-                                            </div>
-                                            <div id="movieTable" style="display:none">
+                                            <div id="movieTable" >
                                                 <div class="control-group">
                                                     <label class="control-label" for="movieAlias">电影TMS指令</label>
                                                     <div class="controls">
@@ -56,24 +38,34 @@
                                                     </div> <!-- /controls -->
                                                 </div> <!-- /control-group -->
 
+                                                <div class="control-group">
+                                                    <label class="control-label" for="movieAlias">弹幕密度</label>
+                                                    <div class="controls">
+                                                        <input id="dmDensity" type="text" value="5">
+                                                    </div> <!-- /controls -->
+                                                </div>
+
                                             </div>
                                             <div class="control-group">
-                                                <label class="control-label" for="shortName">活动名称简写</label>
-                                                <div class="controls">
-                                                    <input type="text" class="span4" id="shortName" placeholder="dmdy" maxlength="10" onblur="findPartyByShortName()">
-                                                </div> <!-- /controls -->
-                                            </div>
-                                            <div class="control-group">
-                                                <label class="control-label" for="shortName">选择预制弹幕库</label>
+                                                <label class="control-label" for="selectPreDm">选择预制弹幕库</label>
                                                 <div class="controls" id="selectPreDm">
 
                                                 </div> <!-- /controls -->
                                             </div>
+                                            <div class="control-group" id="partyTable" style="display:none">
+                                                <label class="control-label" for="selectPreDm">选择场地</label>
+                                                <div class="controls" >
+                                                    <a class="btn" onclick="openAddress();">选择</a>
+                                                </div> <!-- /controls -->
+                                            </div>
+                                            <div class="control-group" id="selectAddressTable" style="display:none">
+                                                <label class="control-label" >已经选择的场地</label>
+                                                <div class="controls" id="selectAddress">
+                                                </div>
+                                            </div>
                                             <br>
-
-
                                             <div class="form-actions">
-                                                <a class="btn btn-primary" id="saveParty" onclick="saveParty();">保存</a> <a class="btn" onclick="returnPartyList();">返回列表</a>
+                                                <a class="btn btn-primary" id="saveParty" onclick="saveParty();">下一步</a> <a class="btn" onclick="returnPartyList();">返回列表</a>
                                             </div>
                                         </fieldset>
                                     </form>
@@ -108,7 +100,10 @@
         </div>
     </div>
 </div>
-
+<link href="/plug/bootstrapTable/bootstrap-table.min.css" rel="stylesheet"/>
+<script src="/plug/bootstrapTable/bootstrap-table.min.js"></script>
+<script src="/plug/bootstrapTable/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="/js/common/danmu.table.plug.js"></script>
 <script src="/js/common/danmu.ajax.plug.js"></script>
 <script src="/js/bussiness/party/addParty.js"></script>
 <% include ../common/bottom.html %>

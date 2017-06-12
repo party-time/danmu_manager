@@ -175,30 +175,56 @@ var checkEndTime = function(){
 var saveParty = function(){
     var partyType = $('#partyType').val();
     if( partyType == 0){
+       var aList = $('#selectAddress').children('a');
+       var addressIds = '';
+       if( aList && aList.length > 0){
+           for(var i=0;i<aList.length;i++){
+               addressIds += $(aList[i]).attr('addressId');
+               if( i < aList.length-1){
+                   addressIds += ',';
+               }
+           }
+       }
+
+        if( aList.length == 0){
+            alert("请选择场地");
+            return;
+        }
+
+
         var obj = {
             'name': $('#name').val(),
             'type':partyType,
-            'startTimeStr':$('#startTime').val(),
-            'endTimeStr':$('#endTime').val(),
-            'shortName':$('#shortName').val(),
-            'danmuLibraryId':$('#danmuLibraryId').val()
+            'danmuLibraryId':$('#danmuLibraryId').val(),
+            'addressIds':addressIds
         }
 
         findPartyByName();
-        findPartyByShortName();
-        checkStartTime();
-        checkEndTime();
+        //findPartyByShortName();
+        //checkStartTime();
+        //checkEndTime();
 
     }else{
+        var dmDensity = $('#dmDensity').val();
+        if( !dmDensity ){
+            alert('请填写弹幕密度');
+            return;
+        }
+        var reg = /^[0-9]*$/g;
+        if(!reg.test(dmDensity)){
+            alert('弹幕密度只能为数字');
+            return;
+        }
         var obj = {
             'name': $('#name').val(),
             'type':partyType,
             'movieAlias': $('#movieAlias').val(),
-            'shortName':$('#shortName').val(),
+            'dmDensity':$('#dmDensity').val(),
             'danmuLibraryId':$('#danmuLibraryId').val()
         }
+
         findPartyByName();
-        findPartyByShortName();
+        //findPartyByShortName();
     }
 
     if(obj.danmuLibraryId == 0){
@@ -206,26 +232,25 @@ var saveParty = function(){
         return;
     }
 
+
+
     if(!$('.help-block').html()){
         $.danmuAjax('/v1/api/admin/party/save', 'POST','json',obj, function (data) {
             if( data.result == 200){
-                window.location.href='/party';
+                window.location.href='/party/resource?partyId='+data.data.id;
             }else{
                 if(data.result_msg){
                     alert(data.result_msg)
                 }else{
                     alert('保存失败')
                 }
-
             }
-
         }, function (data) {
             console.log(data);
         });
     }else{
         $('#saveParty').attr('disabled',true);
     }
-
 }
 
 var returnPartyList = function(){
@@ -263,9 +288,11 @@ var selectMovie = function(){
     if(partyType == 0){
         $('#movieTable').hide();
         $('#partyTable').show();
+        $('#selectAddressTable').show();
     }else{
         $('#movieTable').show();
         $('#partyTable').hide();
+        $('#selectAddressTable').hide();
     }
 
 }
@@ -309,6 +336,70 @@ var getAllDanmuLibrary = function() {
     }, function (data) {
         console.log(data);
     });
+}
+
+var selectAddress = function(id,name){
+    var html = '<span class="_s'+id+'">'+name+'</span><a class="btn _a'+id+'" onclick="removeAddress(\''+id+'\')" addressId="'+id+'">删除</a>';
+    var spanList = $('#selectAddress').children('span');
+    if(spanList.length % 5 == 0){
+        $('#selectAddress').append('<br>');
+        $('#selectAddress').append(html);
+    }else{
+        $('#selectAddress').append(html);
+    }
+    openAddress();
+
+}
+
+var removeAddress = function(id){
+    $('._s'+id).remove();
+    $('.btn._a'+id).remove();
+    var spanList = $('#selectAddress').children('span');
+    if(spanList.length ==0){
+        $('#selectAddress').empty();
+    }
+}
+
+var openAddress = function(){
+    var aList = $('#selectAddress').children('a');
+    var addressIds = '';
+    if( aList && aList.length > 0){
+        for(var i=0;i<aList.length;i++){
+            addressIds += $(aList[i]).attr('addressId');
+            if( i < aList.length-1){
+                addressIds += ',';
+            }
+        }
+    }
+    var addressTableUrl = '/v1/api/admin/address/queryAll';
+    var addressQueryObject = {
+        addressIds:addressIds,
+        pageSize:6
+    }
+    var addressColumnsArray =[
+        {
+            field: 'name',
+            title: '名称',
+            align: 'center'
+        },
+        {
+           title: '操作',
+           align: 'center',
+           formatter: function (value, row, index) {
+                return '<a class="btn" onclick="selectAddress(\''+row.id+'\',\''+row.name+'\')">选择</a>';
+           }
+        }
+    ];
+
+    var tableSuccess = function(){
+        $('#modalBody').find('.pull-left').remove();
+    }
+    $.initTable('addressTableList', addressColumnsArray, addressQueryObject, addressTableUrl,tableSuccess);
+    $('#myModalLabel').html('的场地管理');
+    var buttonHtml = '<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>';
+    $('#modalFooter').html(buttonHtml);
+    $('#modalody').find('.pull-left').remove();
+    $('#myModal').modal('show');
 }
 
 initMovieAlias();
