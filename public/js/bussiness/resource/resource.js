@@ -589,5 +589,20 @@ var cancelVideoUpdateName = function(id,str,type){
 
 }
 
+var lastUrl = function(){
+    var url = location.href;
+    if(url.indexOf('partyId=')!=-1){
+        var partyId = url.substr(url.indexOf('=')+1);
+        window.location.href="/party/update?id="+partyId;
+    }
+}
+
+var nextUrl = function(){
+    var url = location.href;
+    if(url.indexOf('partyId=')!=-1){
+        var partyId = url.substr(url.indexOf('=')+1);
+        window.location.href="/party/timerDanmu?partyId="+partyId;
+    }
+}
 
 initPartyResource();

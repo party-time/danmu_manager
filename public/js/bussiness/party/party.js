@@ -22,24 +22,6 @@ var columnsArray = [
         }
     },
     {
-        field: 'startTimeStr',
-        title: '开始时间/结束时间',
-        halign: "center",
-        formatter: function (value, row, index) {
-            var str = '';
-            if(null!= row.startTimeStr ){
-                str += row.startTimeStr;
-            }
-            if( str != ''){
-                str += '/';
-            }
-            if(null!= row.endTimeStr ){
-                str += row.endTimeStr;
-            }
-            return str;
-        }
-    },
-    {
         field: 'movieAlias',
         title: 'tms指令',
         align: 'center',
@@ -80,16 +62,14 @@ var columnsArray = [
             }
         }
         selectHtml += '</select>';
-        var str = '';
+        var str = '<a class="btn" href="#" onclick="updateParty(\''+row.id+'\')">修改信息</a>';
         if(row.type == 0){
-               str = '<a class="btn" href="#" onclick="openDanmuCheck(\''+row.name+'\',\''+row.id+'\')">弹幕审核</a>';
+               str += '<a class="btn" href="#" onclick="openDanmuCheck(\''+row.name+'\',\''+row.id+'\')">弹幕审核</a>';
         }else if(row.type == 1){
-            str = '<a class="btn" href="#" onclick="openMovieSchedule(\''+row.id+'\')">电影场次</a>'
+            str += '<a class="btn" href="#" onclick="openMovieSchedule(\''+row.id+'\')">电影场次</a>'
         }
-        return str+'<a class="btn" href="#" onclick="openPartyResource(\''+row.id+'\')">资源管理</a>'+
-            '<a class="btn" href="#" onclick="openAddress(\''+row.name+'\',\''+row.id+'\')">场地管理</a>'+
-             '<a class="btn" href="#" onclick="openTimerDanmu(\''+row.id+'\')">定时弹幕</a>'+
-             '<a class="btn" href="#" onclick="openH5temp(\''+row.id+'\',\''+row.name+'\')">页面管理</a>'+selectHtml;
+        return str+'<a class="btn" href="#" onclick="openTimerDanmu(\''+row.id+'\')">定时弹幕</a>'+
+             '<a class="btn" href="#" onclick="openH5temp(\''+row.id+'\',\''+row.name+'\')">页面管理</a>';
         },
         events:'operateEvents'
     },
@@ -116,6 +96,9 @@ var columnsArray = [
 var quaryObject = {
     pageSize: 20
 };
+
+
+
 
 
 var getAllDanmuLibrary = function() {
@@ -175,6 +158,11 @@ var delParty = function(id,name){
     }
 
 };
+
+var updateParty = function(id){
+    window.location.href="/party/update?id="+id;
+}
+
 
 var addParty = function(){
     window.location.href="/party/add";

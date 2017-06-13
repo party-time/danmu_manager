@@ -294,7 +294,6 @@ var selectMovie = function(){
         $('#partyTable').hide();
         $('#selectAddressTable').hide();
     }
-
 }
 
 var initMovieAlias = function(){

@@ -30,6 +30,11 @@ router.get('/party/add', function(req, res, next) {
 });
 
 
+router.get('/party/update', function(req, res, next) {
+  res.render('party/updateParty');
+});
+
+
 /**地址管理*/
 router.get('/cinema', function(req, res, next) {
   res.render('cinema/cinema');
