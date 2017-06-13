@@ -159,17 +159,6 @@
                                 </li>
                                 <li>
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
-                                        <h3 style="margin-right: 1em;width: 98px;">延长活动时间</h3>
-                                        <input type="text" id="delayHour"
-                                               style="position: relative;line-height: 18px;top: 3px;width: 40px;"
-                                               maxlength="2" ng-model="delayHour"/>(h)
-                                        <button class="btn btn-info btn-partyDelay" style="margin-left: 0em;"
-                                                ng-disabled="delayHour==0" ng-click="delayParty()">确定
-                                        </button>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
                                         <h3 style="margin-right: 1em;width: 98px;">弹幕密度</h3>
                                         <input type="text" id="txt_btn-density"
                                                style="position: relative;line-height: 18px;top: 3px;width: 40px;"
@@ -217,20 +206,6 @@
                                 </li>
                                 <li>
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
-                                        <h3 style="margin-right: 1em;width: 98px;">播放器控制</h3>
-                                        <button class="btn btn-danger " id="playerStatus_0" title="关闭客户端"
-                                                ng-click="operateScreenHandler(0)" ng-disabled="playerStatus==0">关闭
-                                        </button>
-                                        <button class="btn btn-info " id="playerStatus_1" title="显示视频"
-                                                ng-click="operateScreenHandler(1)" ng-disabled="playerStatus==1"> 视频
-                                        </button>
-                                        <button class="btn btn-info " id="playerStatus_2" title="显示弹幕"
-                                                ng-click="operateScreenHandler(2)" ng-disabled="playerStatus==2">弹幕
-                                        </button>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
                                         <h3 style="margin-right: 1em;width: 98px;">活动结束</h3>
 
                                         <button type="button" class="btn btn-sm btn-danger" id="filmEndButton" ng-click="filmStart(3)" title="活动结束">结束</button>
@@ -245,68 +220,9 @@
                             <h3>弹幕发送</h3>
                         </div>
                         <!-- /widget-header -->
-                        <!--
-                        <div class="widget-content">
-                            <ul class="danmucheck-items">
-                                <li style="padding-left: 1em;">
-                                    <span style="margin-right: 5px;">位置</span>
-                                    <select class="danmuPosition-array" style="width: 120px;"></select>
-                                    <button type="button" class="btn btn-info" ng-click="setDirection()" id="direction">
-                                        确定
-                                    </button>
-                                </li>
-                                <li style="padding-left: 1em;">
-                                    <h3>闪光字发送：</h3>
-                                    <textarea class="form-control" rows="3" ng-model="blingDanmuMsg"
-                                              placeholder="请输入闪光（8个字以内）"
-                                              style="width: 260px;height: 80px;outline:none;resize:none;"></textarea>
-                                    <div>
-                                        <button class="btn" ng-style="{background:e}" ng-class="{active:color==$index}"
-                                                ng-repeat="e in colors" ng-click="setBlingColor(e)"
-                                                style="width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em;"></button>
-                                    </div>
-                                    <button type="button" style="margin-top: 2px;" class="btn btn-info"
-                                            ng-disabled="blingDanmuMsg.length>8 || blingDanmuMsg.length<1"
-                                            ng-click="sendBlingDm()">发送
-                                    </button>
-                                </li>
-                                <li style="padding-left: 1em;">
-                                    <h3>普通弹幕发送：</h3>
-                                    <textarea class="form-control" rows="3" ng-model="danmuMsg"
-                                              placeholder="请输入弹幕（40个字以内）"
-                                              style="width: 260px;height: 80px;outline:none;resize:none;"></textarea>
-                                    <div>
-                                        <button class="btn" ng-style="{background:e}" ng-class="{active:color==$index}"
-                                                ng-repeat="e in colors" ng-click="setDanmuColor(e)"
-                                                style="width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em;"></button>
-                                    </div>
-                                    <button type="button" style="margin-top: 2px;" class="btn btn-info"
-                                            ng-disabled="danmuMsg.length>40 || danmuMsg.length==0" ng-click="sendDm()">
-                                        发送
-                                    </button>
-                                </li>
-                                <li style="padding-left: 1em;" ng-if="expressions.length>0">
-                                    <h3>表情发送：</h3>
-                                    <img ng-src="{{baseUrl}}{{e.smallFileUrl}}" class="expression"
-                                         ng-repeat="e in expressions" ng-click="showExpression(e)"
-                                         style="width: 50px; height: 50px; margin-right: 1em; margin-bottom: 0.5em;"/>
-                                </li>
-                            </ul>
-                        </div>
-                        -->
                         <div class="widget-content">
                             <form id="danmuForm">
                                 <ul class="danmucheck-items">
-
-                                    <!--
-                                    <li style="padding-left: 1em;"><i class="icon-bookmark"></i>
-                                        <span style="margin-right: 5px;">位置</span>
-                                        <select class="danmuPosition-array" style="width: 120px;"></select>
-                                        <button type="button" class="btn btn-info" ng-click="setDirection()" id="direction">
-                                            确定
-                                        </button>
-                                    </li>
-                                    -->
                                     <li style="padding-left: 1em;margin-top: 10px;"><i class="icon-bookmark"></i>
                                         <span style="margin-right: 5px;">类型</span>
                                         <div id="typeTitleDiv">
@@ -343,20 +259,6 @@
                         </span>
                         </div>
                     </div>
-                    <!-- /widget -->
-                    <!--
-                    <div class="widget" ng-if="specialImages.length>0">
-                        <div class="widget-header"><i class="icon-bookmark"></i>
-                            <h3>图片特效</h3>
-                        </div>
-                        <div class="widget-content">
-                            <img ng-src="{{baseUrl}}{{e.fileUrl}}" class="expression" ng-repeat="e in specialImages"
-                                 ng-click="showSpecialImage(e)" style="width: 50px; height: 50px;margin-left: 1em;"
-                                 title="{{specialImage.resourceName}}"/>
-                        </div>
-                    </div>
-                    -->
-                    <!-- /widget -->
                 </div>
                 <!-- /span4 -->
             </div>

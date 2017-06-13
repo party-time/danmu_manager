@@ -107,8 +107,6 @@
         function acceptMessageHandler(event) {
             var json = $.jsonConvertToObject(event.data);
             if (json.type == $scope.type.type_init) {
-                //控制显示器状态
-                $scope.playerStatus = json.data.playerStatus;
                 //活动时间
                 $scope.partyName = json.data.partyName;
                 //弹幕密度
@@ -118,8 +116,6 @@
                 //测试模式
                 $scope.testModel = json.data.testIsOpen;
 
-                //延迟时间
-                $scope.delayHour = 0;
                 //审核延迟时间
                 $scope.delaySecond = json.data.delaySecond;
                 //弹幕密度
@@ -276,26 +272,6 @@
                 danmu: {message: danmu.msg, id:danmu.id,color: danmu.color, openId: danmu.openId}
             });
         }
-        /**
-         * 延长活动时间
-         * @param hour
-         */
-        $scope.delayParty = function () {
-            if (checkPatyIsBegin()) {
-                if (confirm('你确定要延迟活动时间吗？确定后不可更改!')) {
-                    var msgObject = {
-                        partyId: $scope.partyId,
-                        addressId: $scope.addressId,
-                        delayHour: $scope.delayHour
-                    };
-                    $.danmuAjax('/v1/api/admin/party/delayParty', 'post', 'json', msgObject, function (data) {
-                        console.log(data);
-                    }, function (data) {
-                        console.log(data);
-                    });
-                }
-            }
-        }
 
         /**
          * 设置弹幕密度
@@ -334,13 +310,6 @@
         //增减延迟时间
         $scope.setDelaySecond = function (status) {
             if (webSocketIsConnect() && checkPatyIsBegin()) {
-                /*if(!status){
-                    if($scope.delaySecond>0){
-                        webSocketSendMessage({type: $scope.type.type_delaySecond, delayTime: {status: status}});
-                    }
-                }else{
-                    webSocketSendMessage({type: $scope.type.type_delaySecond, delayTime: {status: status}});
-                }*/
                 if(!status){
                     if($scope.delaySecond>0){
                         $scope.delaySecond = $scope.delaySecond-1;
@@ -391,16 +360,6 @@
             }
         }
 
-        /**
-         * 客户端屏幕控制
-         * @param status
-         */
-        $scope.operateScreenHandler = function (status) {
-            if (webSocketIsConnect() && checkPatyIsBegin()) {
-                webSocketSendMessage({type: $scope.type.type_playerStatus, playStatus: {status: status}});
-            }
-        }
-
 
         /**
          * 视频特效开启
@@ -433,38 +392,7 @@
             }
         };
 
-        /**
-         * 设置闪光字颜色
-         * @param index
-         */
-        $scope.setBlingColor = function (object) {
-            if (webSocketIsConnect() && checkPatyIsBegin()) {
-                $scope.blingColor = object;
-            }
-        };
 
-
-        $("#direction").click(function () {
-            if (webSocketIsConnect() && checkPatyIsBegin()) {
-                webSocketSendMessage({type: $scope.type.type_danmuDirection,direction:{direction: $scope.direction}});
-            }
-        });
-        //设置方位
-        $(".danmuPosition-array").change(function (data) {
-            if (webSocketIsConnect() && checkPatyIsBegin()) {
-                $scope.direction = data.target.value;
-            }
-        });
-
-        /**
-         * 设置弹幕颜色
-         * @param object
-         */
-        $scope.setDanmuColor = function (object) {
-            if (webSocketIsConnect() && checkPatyIsBegin()) {
-                $scope.danmuColor = object;
-            }
-        }
 
         var specialVideoName = function (id) {
             if ($scope.specialVideos != null && $scope.specialVideos.length > 0) {
@@ -592,18 +520,6 @@
             return danmu;
         };
 
-        /**
-         * 发送闪光字弹幕
-         */
-        $scope.sendBlingDm = function () {
-            if (webSocketIsConnect() && checkPatyIsBegin()) {
-                webSocketSendMessage({
-                    type: $scope.type.type_bing,
-                    bling: {message: $scope.blingDanmuMsg, color: $scope.blingColor}
-                });
-                $scope.blingDanmuMsg = "";
-            }
-        };
 
         /**
          * 发送普通弹幕
@@ -671,22 +587,12 @@
         }
 
         var ajaxInit = function () {
-            //获取颜色信息
-            $http.get('/v1/api/admin/colors').success(function (data) {
-                if (data.result == 200) {
-                    $scope.colors = data.data.danmuColors;
-                    $scope.blingColors = data.data.flashWordColors;
-                } else {
-                    alert("资源加载失败")
-                }
-            }).error(function (data, status, headers, config) {
-            });
             //获取图片信息
             $http.get('/v1/api/admin/initResource?partyId=' + $scope.partyId)
                 .success(function (data) {
                     if (data.result == 200) {
-                        $scope.expressions = data.data.expressions;
-                        $scope.specialImages = data.data.specialImages;
+                        //$scope.expressions = data.data.expressions;
+                        //$scope.specialImages = data.data.specialImages;
                         $scope.specialVideos = data.data.specialVideos;
                     } else {
                         alert("资源加载失败")
@@ -722,7 +628,6 @@
             }
         }
         var initPage = function () {
-            $(".danmuPosition-array").val(null).select2({data: positionArray, minimumResultsForSearch: -1});
             var url = location.href;
             if (url.indexOf('partyId=') != -1) {
                 var param = url.substr(url.indexOf('?') + 1).split("&");
@@ -730,15 +635,10 @@
                 $scope.addressId = param[1].substr(param[1].indexOf('=') + 1);
             }
             ajaxInit();
-
-
-            //var danmuTypeArray = [{id: 0, text: '普通弹幕'}, {id: 1, text: '动画'}, {id: 2, text: '图片'}, {id: 3, text: '闪光字'}, {id: 4, text: '表情'}];
             var object= {
                 'divId':'typeTitleDiv',
                'partyId':$scope.partyId,
                'addressId':$scope.addressId
-               // 'valueList':danmuTypeArray,
-                //'clickFunction':changeCardDiv
             };
             $.initTitle(object);
 
