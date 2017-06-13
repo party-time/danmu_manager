@@ -231,6 +231,11 @@
                 }
             }else if (json.type == 'error') {
                 alert(json.data);
+            }else if (json.type == 'isRepeateLogin') {
+                alert(json.data.message);
+                ws.close();
+                setLinkStatus();
+                $scope.$apply();
             } else if (json.type == $scope.type.type_findclientList) {
                 if (json.data != null) {
                     $scope.clientCount = json.data.length;
