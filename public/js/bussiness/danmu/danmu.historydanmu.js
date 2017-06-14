@@ -56,7 +56,7 @@ var columnsArray = [
                 }else{
                     str='<button type="button" onclick="blocked(\''+row.id+'\')">屏蔽</button>';
                 }
-                return str+'<button type="button" class = "sendPrize" id="row_' + row.id + '">发奖品</button>';
+                return str+'<button type="button" class = "sendPrize" id="row_' + row.id + '" onclick="openSendGift(\''+row.id+'\')">发奖品</button>';
             }
         },
         events: 'operateEvents'
@@ -137,3 +137,32 @@ function doExport(){
         //form.remove();
 
 }
+
+
+var openSendGift = function(id){
+    var buttonHtml = '<button class="btn btn-primary" onclick="sendGift(\''+id+'\')">发送</button><button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>';
+    $('#modalFooter').html(buttonHtml);
+    $('#myModal').modal('show');
+}
+
+var sendGift = function(id){
+    if(confirm('确定要发送吗？')){
+        var obj = {
+            id:id,
+            msg:$('#giftMsg').val()
+        }
+        $.danmuAjax('/v1/api/admin/historyDanmu/sendGift', 'GET','json',obj, function (data) {
+            if(data.result == 200) {
+              console.log(data);
+                alert('操作成功');
+             }else{
+                alert('操作失败');
+             }
+        }, function (data) {
+            console.log(data);
+        });
+    }
+}
+
+
+
