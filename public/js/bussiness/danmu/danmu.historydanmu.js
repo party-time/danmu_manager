@@ -155,6 +155,7 @@ var sendGift = function(id){
             if(data.result == 200) {
               console.log(data);
                 alert('操作成功');
+                $('#myModal').modal('hide');
              }else{
                 alert('操作失败');
              }
