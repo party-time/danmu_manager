@@ -146,6 +146,10 @@ var openSendGift = function(id){
 }
 
 var sendGift = function(id){
+    if( $('#giftMsg').val() == ''){
+        alert('请填写奖品内容');
+        return;
+    }
     if(confirm('确定要发送吗？')){
         var obj = {
             id:id,
@@ -154,8 +158,9 @@ var sendGift = function(id){
         $.danmuAjax('/v1/api/admin/historyDanmu/sendGift', 'GET','json',obj, function (data) {
             if(data.result == 200) {
               console.log(data);
+              $('#myModal').modal('hide');
                 alert('操作成功');
-                $('#myModal').modal('hide');
+
              }else{
                 alert('操作失败');
              }
