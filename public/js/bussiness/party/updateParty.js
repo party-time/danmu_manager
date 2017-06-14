@@ -301,6 +301,10 @@ var saveParty = function(){
     }
 }
 
+var returnPartyList = function(){
+    window.location.href='/party/';
+}
+
 
 initMovieAlias();
 findPartyById();
