@@ -62,7 +62,7 @@ var columnsArray = [
             }
         }
         selectHtml += '</select>';
-        var str = '<a class="btn" href="#" onclick="updateParty()">修改信息</a>';
+        var str = '<a class="btn" href="#" onclick="updateParty(\''+row.id+'\')">修改信息</a>';
         if(row.type == 0){
                str += '<a class="btn" href="#" onclick="openDanmuCheck(\''+row.name+'\',\''+row.id+'\')">弹幕审核</a>';
         }else if(row.type == 1){
