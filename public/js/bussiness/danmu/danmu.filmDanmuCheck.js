@@ -255,7 +255,6 @@
                 $("#filmStartButton").hide();
                 $("#filmEndButton").hide();
                 $("#partyStatus").html('活动已经结束!');
-                clearTimeout(t);
                 $("#stime").html("");
                 $scope.link_Status = '连接关闭';
             }
