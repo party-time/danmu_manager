@@ -360,7 +360,6 @@ var openDeviceDialog = function(addressName,addressId){
                         htmlStr += '<label class="control-label" style="width:80px">投影仪'+number+'</label><div class="controls" style="margin-left:60px;">';
                         htmlStr += '<input type="text" class="device span3" deviceType="'+type+'" value="'+url+'" deviceId="'+id+'"> ';
                         htmlStr += '<input type="hidden" value="'+number+'" class="number span1" style="width: 10px;">';
-                        htmlStr += '<a>使用详情</a>';
                         htmlStr += '</div><br>';
                     }else if(type==1){
                         htmlStr +=  '<label class="control-label" style="width:80px;">javaClient'+number+'</label><div class="controls" style="margin-left:60px;">';
