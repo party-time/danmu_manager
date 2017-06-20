@@ -178,7 +178,7 @@ var openAddress = function(partyName,partyId){
     var addressColumnsArray =[
         {
             field: 'name',
-            title: '名称',
+            title: '场地',
             align: 'center'
         },
         {
