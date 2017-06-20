@@ -139,10 +139,13 @@ var screenColumnsArray =[
         }
   },
   {
-     field: 'id', title: '操作',
+     field: 'id',
+      title: '操作',
      align: 'center',
      formatter: function (value, row, index) {
-          return '<a class="btn" onclick="openUpdateParamDialog(\''+row.name+'\',\''+row.id+'\',\''+row.paramTemplateId+'\')" >改参数</a><a class="btn" onclick="delScreen(\''+g_addressId+'\',\''+row.id+'\',\''+row.name+'\')">删除</a>';
+          return '<a class="btn" onclick="openUpdateParamDialog(\''+row.name+'\',\''+row.id+'\',\''+row.paramTemplateId+'\')" >改参数</a>' +
+              '<a class="btn" onclick="delScreen(\''+g_addressId+'\',\''+row.id+'\',\''+row.name+'\')">删除</a>'+
+              '<a class="btn btn-info" onclick="showProjectorDialog(\''+row.registCode+'\')">投影仪</a>';
      }
   }
 ];
@@ -240,6 +243,7 @@ var openScreenDialog = function(addressName,addressId){
     g_addressName = addressName;
     g_addressId = addressId;
     $('#modalBody').html('<table id="screenTableList" class="table table-striped" table-height="360"></table>');
+    $('.modal-dialog').css("width","800px");
     $.danmuAjax('/v1/api/admin/paramTemplate/all', 'GET','json','',null, function (data) {
         if(data.result == 200) {
           console.log(data);
@@ -263,6 +267,72 @@ var openScreenDialog = function(addressName,addressId){
         console.log(data);
     });
 
+}
+
+var showProjectorDialog = function(registerCode){
+    $('#myModalLabel').html(registerCode+'的投影仪');
+    $('.modal-dialog').css("width","560px");
+
+
+    initProjectorInfo(registerCode);
+    $('#modalFooter').html("");
+    $('#myModal').modal('show');
+}
+
+
+var initProjectorInfo = function (registerCode) {
+    var usedHours = 0;
+    var realUsedHours = 0;
+    var id;
+
+    $.danmuAjax('/v1/api/admin/projector/info/'+registerCode, 'GET','json','',{}, function (data) {
+
+        if(data.result==200){
+            var projectorObject = data.data;
+            if(projectorObject!=null) {
+                usedHours = projectorObject.usedHours;
+                realUsedHours = projectorObject.realUsedHours;
+                id = projectorObject.id;
+            }
+        }
+        var htmlStr = '<form id="edit-profile" class="form-horizontal">';
+        htmlStr += '<label class="control-label" style="width:80px">实际时长</label><div class="controls" style="margin-left:60px;">';
+        htmlStr += '<input type="text" class="device span3" id="realUsedHours" value="'+realUsedHours+'">';
+        htmlStr += ' <input type="button" class="btn-info" onclick="setRealUsedHours(\''+registerCode+'\')" value="保存"/> ';
+        htmlStr += '</div><br>';
+        htmlStr += '<label class="control-label" style="width:80px">使用时长</label><div class="controls" style="margin-left:60px;">';
+        htmlStr += '<input type="text" class="device span3" value="'+usedHours+'" readonly>';
+        htmlStr += '</div><br>';
+        htmlStr += '<label class="control-label" style="width:80px"></label><div class="controls" style="margin-left:60px;">';
+        htmlStr += '<input type="button" onclick="resetHours(\''+registerCode+'\')" value="重置投影时间"/>';
+        htmlStr += '</div><br>';
+        htmlStr += '</div><br>';
+        htmlStr += '</form>';
+        $('#modalBody').html(htmlStr);
+    });
+}
+
+
+var resetHours=function (registerCode) {
+    if (confirm('你确定要重置时间')) {
+        $.danmuAjax('/v1/api/admin/projector/reset', 'GET','json','',{registerCode:registerCode}, function (data) {
+            if(data.result==200){
+                alert('更新成功');
+
+                initProjectorInfo(registerCode);
+            }
+        });
+    }
+}
+
+var setRealUsedHours=function (registerCode) {
+
+    $.danmuAjax('/v1/api/admin/projector/setRealHours', 'GET','json','',{registerCode:registerCode,realUsedHours:$("#realUsedHours").val()}, function (data) {
+        if(data.result==200){
+            alert('更新成功');
+            initProjectorInfo(registerCode);
+        }
+    });
 }
 
 var openDeviceDialog = function(addressName,addressId){
@@ -289,7 +359,7 @@ var openDeviceDialog = function(addressName,addressId){
                     if(type==0){
                         htmlStr += '<label class="control-label" style="width:80px">投影仪'+number+'</label><div class="controls" style="margin-left:60px;">';
                         htmlStr += '<input type="text" class="device span3" deviceType="'+type+'" value="'+url+'" deviceId="'+id+'"> ';
-                        htmlStr += '<input type="hidden" value="'+number+'" class="number span1" style="width: 10px;"> ';
+                        htmlStr += '<input type="hidden" value="'+number+'" class="number span1" style="width: 10px;">';
                         htmlStr += '</div><br>';
                     }else if(type==1){
                         htmlStr +=  '<label class="control-label" style="width:80px;">javaClient'+number+'</label><div class="controls" style="margin-left:60px;">';

@@ -97,8 +97,13 @@ var initCarts = function () {
 }
 var getAllDanmuLibrary = function () {
     var url = location.href.substring(location.href.indexOf("?")+1);
-    partyId =  url.substr(url.indexOf('=') + 1);
+    var paramArray =  url.split("&");
+    partyId = paramArray[0].substr(url.indexOf('=') + 1);
     quaryObject.partyId = partyId;
+
+    if(paramArray[1]==null){
+        $(".porcessButton").hide();
+    }
 
     $.danmuAjax('/v1/api/admin/party/partyInfo/'+partyId, 'GET', 'json', {}, function (data) {
         if (data.result == 200) {
