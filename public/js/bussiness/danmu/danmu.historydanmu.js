@@ -249,11 +249,21 @@ var resetAreaArray = function () {
 }
 
 function doExport(){
+    var arrayStr ='';
+    if(arrayArea!=null && arrayArea.length>0){
+        for(var i=0; i<arrayArea.length; i++){
+            if(i==arrayArea.length-1){
+                arrayStr  +=arrayArea[i].id;
+            }else{
+                arrayStr  +=arrayArea[i].id+",";
+            }
+        }
+    }
     var form=$("<form>");//定义一个form表单
     form.attr("style","display:none");
     form.attr("target","");
     form.attr("method","POST");
-    form.attr("action","/v1/api/admin/historyDanmu/download/"+quaryObject.addressId+"/"+quaryObject.partyId);
+    form.attr("action","/v1/api/admin/historyDanmu/download/"+arrayStr+"/"+quaryObject.partyId);
     $("body").append(form);//将表单放置在web中
     form.submit();//表单提交
 }
