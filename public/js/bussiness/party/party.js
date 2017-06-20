@@ -50,26 +50,27 @@ var columnsArray = [
         field: 'danmuLibraryId', title: '操作',
         align: 'center',
         formatter: function (value, row, index) {
-        var selectHtml = '<select id="dl_'+row.id+'" onchange="changeDanmuLibrary(\''+row.id+'\')" style="width: 100px;margin-bottom: 0px;">';
-        if( null != danmuLibraryList){
-            for( var i=0;i<danmuLibraryList.length;i++){
-                    if(value == danmuLibraryList[i].id){
-                        selectHtml += '<option value='+danmuLibraryList[i].id+' selected="selected">'+danmuLibraryList[i].name+'</option>';
-                    }else{
-                        selectHtml += '<option value='+danmuLibraryList[i].id+'>'+danmuLibraryList[i].name+'</option>';
-                    }
+            var selectHtml = '<select id="dl_'+row.id+'" onchange="changeDanmuLibrary(\''+row.id+'\')" style="width: 100px;margin-bottom: 0px;">';
+            if( null != danmuLibraryList){
+                for( var i=0;i<danmuLibraryList.length;i++){
+                        if(value == danmuLibraryList[i].id){
+                            selectHtml += '<option value='+danmuLibraryList[i].id+' selected="selected">'+danmuLibraryList[i].name+'</option>';
+                        }else{
+                            selectHtml += '<option value='+danmuLibraryList[i].id+'>'+danmuLibraryList[i].name+'</option>';
+                        }
 
+                }
             }
-        }
-        selectHtml += '</select>';
-        var str = '<a class="btn" href="#" onclick="updateParty(\''+row.id+'\')">修改信息</a>';
-        if(row.type == 0){
-               str += '<a class="btn" href="#" onclick="openDanmuCheck(\''+row.name+'\',\''+row.id+'\')">弹幕审核</a>';
-        }else if(row.type == 1){
-            str += '<a class="btn" href="#" onclick="openMovieSchedule(\''+row.id+'\')">电影场次</a>'
-        }
-        return str+'<a class="btn" href="#" onclick="openTimerDanmu(\''+row.id+'\')">定时弹幕</a>'+
-             '<a class="btn" href="#" onclick="openH5temp(\''+row.id+'\',\''+row.name+'\')">页面管理</a>';
+            selectHtml += '</select>';
+            var str = '<a class="btn" href="#" onclick="updateParty(\''+row.id+'\')">修改信息</a>';
+            if(row.type == 0){
+                   str += '<a class="btn" href="#" onclick="openDanmuCheck(\''+row.name+'\',\''+row.id+'\')">弹幕审核</a>';
+            }else if(row.type == 1){
+                str += '<a class="btn" href="#" onclick="openMovieSchedule(\''+row.id+'\')">电影场次</a>';
+                str += '<a class="btn" href="#" onclick="openAddress(\''+row.name+'\',\''+row.id+'\')">广告弹幕管理</a>';
+                str += '<a class="btn" href="#" onclick="openTimerDanmu(\''+row.id+'\')">定时弹幕</a>';
+            }
+            return str+='<a class="btn" href="#" onclick="openH5temp(\''+row.id+'\',\''+row.name+'\')">页面管理</a>';
         },
         events:'operateEvents'
     },
@@ -169,7 +170,7 @@ var addParty = function(){
 }
 
 var openAddress = function(partyName,partyId){
-    var addressTableUrl = '/v1/api/admin/address/queryByPartyId';
+    var addressTableUrl = '/v1/api/admin/address/queryAdByPartyId';
     var addressQueryObject = {
         partyId:partyId,
         pageSize: 6
@@ -196,22 +197,14 @@ var openAddress = function(partyName,partyId){
                     return '<a class="btn" onclick="openAdModel(\''+partyName+'\',\''+partyId+'\',\''+row.id+'\')" title="'+name+'">添加</a>'
                 }
             }
-        },
-        {
-           field: 'id', title: '操作',
-           align: 'center',
-           formatter: function (value, row, index) {
-                return '<a class="btn" onclick="delAddress(\''+partyName+'\',\''+row.name+'\',\''+partyId+'\',\''+row.id+'\')">删除</a>';
-           }
         }
     ];
     var tableSuccess = function(){
         $('#modalBody').find('.pull-left').remove();
     }
     $.initTable('addressTableList', addressColumnsArray, addressQueryObject, addressTableUrl,tableSuccess);
-    $('#myModalLabel').html(partyName+'的场地管理');
-    var buttonHtml = '<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>' +
-    '<button class="btn btn-primary" onclick="openMoreAddress(\''+partyName+'\',\''+partyId+'\')">查看更多场地</button>';
+    $('#myModalLabel').html(partyName+'的广告管理');
+    var buttonHtml = '<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>'
     $('#modalFooter').html(buttonHtml);
     $('#modalody').find('.pull-left').remove();
     $('#myModal').modal('show');
