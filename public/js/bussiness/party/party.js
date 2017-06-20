@@ -62,7 +62,7 @@ var columnsArray = [
                 }
             }
             selectHtml += '</select>';
-            var str = '<a class="btn" href="#" onclick="updateParty(\''+row.id+'\')">修改信息</a>';
+            var str='';
             if(row.type == 0){
                    str += '<a class="btn" href="#" onclick="openDanmuCheck(\''+row.name+'\',\''+row.id+'\')">弹幕审核</a>';
             }else if(row.type == 1){
@@ -70,7 +70,7 @@ var columnsArray = [
                 str += '<a class="btn" href="#" onclick="openAddress(\''+row.name+'\',\''+row.id+'\')">广告弹幕管理</a>';
                 str += '<a class="btn" href="#" onclick="openTimerDanmu(\''+row.id+'\')">定时弹幕</a>';
             }
-            return str+='<a class="btn" href="#" onclick="openH5temp(\''+row.id+'\',\''+row.name+'\')">页面管理</a>';
+            return str+='<a class="btn" href="#" onclick="openH5temp(\''+row.id+'\',\''+row.name+'\')">页面管理</a><a class="btn" href="#" onclick="updateParty(\''+row.id+'\')">修改信息</a>';
         },
         events:'operateEvents'
     },
