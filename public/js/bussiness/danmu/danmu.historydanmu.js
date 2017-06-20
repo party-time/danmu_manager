@@ -15,6 +15,8 @@ Date.prototype.format = function(f){
 
 var tableUrl = '/v1/api/admin/historyDanmu/page';
 var sendPrizeUrl = '/api/api/admin/historyDanmu/addPrize';
+var partyId;
+var arrayArea = [];
 var columnsArray = [
     {
         field: 'nick',
@@ -68,8 +70,23 @@ var initable = function () {
     var url = location.href;
     if (url.indexOf('partyId=') != -1) {
         var param = url.substr(url.indexOf('?') + 1).split("&");
-        quaryObject.partyId = param[0].substr(param[0].indexOf('=') + 1);
-        quaryObject.addressId = param[1].substr(param[1].indexOf('=') + 1);
+        partyId = param[0].substr(param[0].indexOf('=') + 1);
+        quaryObject.partyId = partyId;
+
+
+        var arrayStr ='';
+        if(arrayArea!=null && arrayArea.length>0){
+            for(var i=0; i<arrayArea.length; i++){
+                if(i==arrayArea.length-1){
+                    arrayStr  +=arrayArea[i].id;
+                }else{
+                    arrayStr  +=arrayArea[i].id+",";
+                }
+            }
+        }
+        quaryObject.arrayArea = arrayStr;
+
+
         $.initTable('tableList', columnsArray, quaryObject, tableUrl);
     }
 }
@@ -121,21 +138,124 @@ var blocked = function(id){
 initable();
 
 
-function doExport(){
-    //window.location="/v1/api/javaClient/download/"+quaryObject.addressId+"/"+quaryObject.partyId;
-    /*$.danmuAjax("/v1/api/javaClient/download/"+quaryObject.addressId+"/"+quaryObject.partyId, 'GET','json',null, function (data) {
-    }, function (data) {
-        console.log(data);
-    });*/
-        var form=$("<form>");//定义一个form表单
-        form.attr("style","display:none");
-        form.attr("target","");
-        form.attr("method","POST");
-        form.attr("action","/v1/api/admin/historyDanmu/download/"+quaryObject.addressId+"/"+quaryObject.partyId);
-        $("body").append(form);//将表单放置在web中
-        form.submit();//表单提交
-        //form.remove();
 
+function doShowAddress() {
+
+    $('#myAddressModalLabel').html('<h3>场地：</h3>');
+    movieSchedulePage();
+
+    $('#addressModel').modal('show');
+
+}
+
+var movieSchedulePage = function(){
+    var object = {
+        pageSize: 6
+    }
+    var movieScheduleTableUrl = '/v1/api/admin/address/getPageByPartyId?partyId='+partyId;
+    var movieScheduleColumnsArray =[
+         {
+             field: 'id',
+             title: '广告开始时间',
+             align: 'center',
+             width:'10%',
+             formatter: function (value, row, index) {
+                 var ischckfalse = false;
+                 if(arrayArea!=null && arrayArea.length>0){
+                     for(var i=0; i<arrayArea.length; i++){
+                        if(row.id==arrayArea[i].id){
+                            ischckfalse = true;
+                            break;
+                        }
+                     }
+                 }
+                 if(ischckfalse){
+                     return '<input type="checkbox" name="areaCheck" onclick="setArea(\''+row.id+'\',\''+row.name+'\',this)" checked/>'
+                 }else{
+                    return ' <input type="checkbox" name="areaCheck" onclick="setArea(\''+row.id+'\',\''+row.name+'\',this)"/>'
+                 }
+
+             }
+         },
+         {
+             field: 'name',
+             title: '地址',
+             align: 'center'
+         }
+     ];
+     var tableSuccess = function(){
+     $('#modalBody').find('.pull-left').remove();
+     }
+     var buttonHtml = '<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>';
+     $('#modalFooter').html(buttonHtml);
+
+     $.initTable('addressTableList', movieScheduleColumnsArray, object, movieScheduleTableUrl,function () {
+         
+     });
+ }
+
+function setArea(id,name,controlObject) {
+
+    var object  = {
+        id:id,
+        name:name
+    }
+    if(controlObject.checked){
+        var inputflg = false;
+        if(arrayArea!=null && arrayArea.length>0){
+            for(var i=0; i<arrayArea.length; i++){
+                if(arrayArea[i].id!=id){
+                    inputflg = true;
+                }else{
+                    return;
+                }
+            }
+        }else{
+            arrayArea = [];
+            inputflg = true;
+        }
+
+
+        if(inputflg){
+            arrayArea.push(object);
+        }
+    }else{
+        removeArea(id);
+    }
+    resetAreaArray();
+}
+
+var removeArea = function (id) {
+
+    var tempArray = [];
+    for(var i=0; i<arrayArea.length; i++){
+        if(arrayArea[i].id!=id){
+            tempArray.push(arrayArea[i]);
+        }
+    }
+    arrayArea = tempArray;
+
+    resetAreaArray();
+}
+
+var resetAreaArray = function () {
+    var contentHtml = '';
+    for(var i=0; i<arrayArea.length; i++){
+        contentHtml +='<span style="width: 100px;" id="'+arrayArea[i].id+'"><button>'+arrayArea[i].name+'</button><button onclick="removeArea(\''+arrayArea[i].id+'\')">x</button></span>&nbsp;'
+    }
+    $("#addressDivList").html(contentHtml);
+
+    initable();
+}
+
+function doExport(){
+    var form=$("<form>");//定义一个form表单
+    form.attr("style","display:none");
+    form.attr("target","");
+    form.attr("method","POST");
+    form.attr("action","/v1/api/admin/historyDanmu/download/"+quaryObject.addressId+"/"+quaryObject.partyId);
+    $("body").append(form);//将表单放置在web中
+    form.submit();//表单提交
 }
 
 
