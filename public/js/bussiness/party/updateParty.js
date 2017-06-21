@@ -22,7 +22,8 @@ var findPartyById = function(){
                     selectMovie();
                     if(data.data.party.type == 1){
                          $('#movieAlias').append("<option value='"+data.data.movieAlias.value+"' selected>"+data.data.movieAlias.name+"</option>");
-                         if( null == data.data.party.dmDensity || '' == data.data.party.dmDensity){
+
+                         if( null == data.data.party.dmDensity){
                             data.data.party.dmDensity = 5;
                          }
                          $('#dmDensity').val(data.data.party.dmDensity);
