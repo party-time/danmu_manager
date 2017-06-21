@@ -123,4 +123,8 @@ router.get('/h5temp', function(req, res, next) {
     res.render('h5temp/h5temp');
 });
 
+router.get('/monitor', function(req, res, next) {
+    res.render('monitor/monitor');
+});
+
 module.exports = router;

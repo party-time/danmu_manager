@@ -8,6 +8,11 @@ var columnsArray = [
         }
     },
     {
+        field: 'id',
+        title: 'ID',
+        align: 'center'
+    },
+    {
         field: 'nick',
         title: '名称',
         align: 'center'
@@ -18,7 +23,7 @@ var columnsArray = [
         align: 'center'
     },
     {
-        field: 'id', title: '操作',
+        title: '操作',
         align: 'center',
         formatter: function (value, row, index) {
             var str = '<a class="btn" onclick="openUpdateAdminUser(\''+row.id+'\',\''+row.nick+'\',\''+row.userName+'\')">修改</a>';

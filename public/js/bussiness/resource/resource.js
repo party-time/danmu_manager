@@ -7,13 +7,15 @@ var g_specialImages = [];
 var g_specialImages_pageNo = 1;
 var g_specialVideos= [];
 var g_specialVideos_pageNo = 1;
+var g_partyType;
 var initPartyResource = function(){
     var url = location.href;
-    if( url.indexOf('#') != -1){
-        url = url.substr(0,url.indexOf('#'));
+
+    if( url.indexOf('?') != -1){
+        url = url.substr(url.indexOf('?')+1,url.length);
     }
     if(url.indexOf('partyId=')!=-1){
-        var partyId = url.substr(url.indexOf('=')+1);
+        var partyId = url.substring(url.indexOf('=')+1,url.indexOf('&'));
         g_partyId = partyId;
         var obj = {
             partyId:partyId
@@ -31,6 +33,14 @@ var initPartyResource = function(){
         }, function (data) {
             console.log(data);
         });
+    }
+    if(url.indexOf('type=')!=-1){
+        g_partyType = url.substr(url.indexOf('type=')+5);
+        if(g_partyType == 0){
+            $('#nextUrl').html('返回列表');
+        }else if(g_partyType == 1){
+            $('#nextUrl').html('下一步');
+        }
     }
  }
 
@@ -590,18 +600,16 @@ var cancelVideoUpdateName = function(id,str,type){
 }
 
 var lastUrl = function(){
-    var url = location.href;
-    if(url.indexOf('partyId=')!=-1){
-        var partyId = url.substr(url.indexOf('=')+1);
-        window.location.href="/party/update?id="+partyId;
-    }
+   window.location.href="/party/update?id="+g_partyId;
 }
 
 var nextUrl = function(){
-    var url = location.href;
-    if(url.indexOf('partyId=')!=-1){
-        var partyId = url.substr(url.indexOf('=')+1);
-        window.location.href="/party/timerDanmu?partyId="+partyId+"&showflg=0";
+    if(g_partyType == 0){
+        window.location.href="/party";
+    }else if(g_partyType == 1){
+        if(g_partyId!=''){
+            window.location.href="/party/timerDanmu?partyId="+g_partyId+"&showflg=0";
+        }
     }
 }
 

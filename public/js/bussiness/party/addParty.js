@@ -237,7 +237,7 @@ var saveParty = function(){
     if(!$('.help-block').html()){
         $.danmuAjax('/v1/api/admin/party/save', 'POST','json',obj, function (data) {
             if( data.result == 200){
-                window.location.href='/party/resource?partyId='+data.data.id;
+                window.location.href='/party/resource?partyId='+data.data.id+'&type='+partyType;
             }else{
                 if(data.result_msg){
                     alert(data.result_msg)
