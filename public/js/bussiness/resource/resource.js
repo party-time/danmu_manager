@@ -37,7 +37,7 @@ var initPartyResource = function(){
     if(url.indexOf('type=')!=-1){
         g_partyType = url.substr(url.indexOf('type=')+5);
         if(g_partyType == 0){
-            $('#nextUrl').html('返回列表');
+            $('#nextUrl').html('完成');
         }else if(g_partyType == 1){
             $('#nextUrl').html('下一步');
         }
