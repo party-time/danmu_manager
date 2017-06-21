@@ -394,7 +394,7 @@ var openAddress = function(){
         $('#modalBody').find('.pull-left').remove();
     }
     $.initTable('addressTableList', addressColumnsArray, addressQueryObject, addressTableUrl,tableSuccess);
-    $('#myModalLabel').html('的场地管理');
+    $('#myModalLabel').html('场地管理');
     var buttonHtml = '<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>';
     $('#modalFooter').html(buttonHtml);
     $('#modalody').find('.pull-left').remove();
