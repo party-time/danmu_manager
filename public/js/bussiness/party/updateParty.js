@@ -167,7 +167,6 @@ var selectAddress = function(id,name){
 
 var removeAddress = function(id){
     var isDb = $('.btn._a'+id).attr('isdb');
-    alert(isDb);
     if( null != isDb){
         var obj = {
             partyId:_update_partyId,
