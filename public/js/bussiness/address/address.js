@@ -290,7 +290,11 @@ var initProjectorInfo = function (registerCode) {
         if(data.result==200){
             var projectorObject = data.data;
             if(projectorObject!=null) {
-                usedHours = projectorObject.usedHours;
+                var intTime = parseInt(projectorObject.usedTime/1000)
+                var hour = parseInt(intTime/60/60);
+                var minute = parseInt((intTime-hour*60*60)/60);
+                var seconds = parseInt(intTime -hour*60*60 -minute*60);
+                usedHours = hour +'时'+minute+'分'+seconds+'秒';
                 realUsedHours = projectorObject.realUsedHours;
                 id = projectorObject.id;
             }
