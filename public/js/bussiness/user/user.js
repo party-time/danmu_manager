@@ -33,10 +33,10 @@ var columnsArray = [
     {
         title: '微信头像',
         align: 'center',
-        width:'30%',
+        width:'15%',
         formatter: function (value, row, index) {
             if(row.wechatUser){
-                return '<img width="30%" src="'+row.wechatUser.imgUrl+'" />';
+                return '<img width="40%" src="'+row.wechatUser.imgUrl+'" />';
             }
         }
     },
@@ -104,15 +104,6 @@ var columnsArray = [
         }
     },
     {
-        title: '最后获取地理位置时间',
-        align: 'center',
-        formatter: function (value, row, index) {
-            if(row.wechatUserInfo && row.wechatUserInfo.lastGetLocationDate){
-                return new Date(parseInt(row.wechatUserInfo.lastGetLocationDate)).format('yyyy-MM-dd hh:mm:ss');
-            }
-        }
-    },
-    {
         title: '最后登录时间',
         align: 'center',
         formatter: function (value, row, index) {
@@ -125,7 +116,7 @@ var columnsArray = [
         title: '操作',
         align: 'center',
         formatter: function (value, row, index) {
-            return '<a class="btn" onclick="delUser(\''+row.wechatUser.id+'\',\''+row.wechatUser.nick+'\')">删除</a>';
+            return '<a class="btn" onclick="openAddress(\''+row.wechatUser.id+'\')">修改场地</a><a class="btn" onclick="delUser(\''+row.wechatUser.id+'\',\''+row.wechatUser.nick+'\')">删除</a>';
         },
         events: 'operateEvents'
     }
@@ -166,6 +157,65 @@ var delUser = function(id,nick){
                 console.log(data);
             });
         }
+}
+
+
+var openAddress = function(wechatUserId){
+    var aList = $('#selectAddress').children('a');
+    var addressIds = '';
+    if( aList && aList.length > 0){
+        for(var i=0;i<aList.length;i++){
+            addressIds += $(aList[i]).attr('addressId');
+            if( i < aList.length-1){
+                addressIds += ',';
+            }
+        }
+    }
+    var addressTableUrl = '/v1/api/admin/address/queryAll';
+    var addressQueryObject = {
+        addressIds:addressIds,
+        pageSize:6
+    }
+    var addressColumnsArray =[
+        {
+            field: 'name',
+            title: '名称',
+            align: 'center'
+        },
+        {
+           title: '操作',
+           align: 'center',
+           formatter: function (value, row, index) {
+                return '<a class="btn" onclick="assignAddress(\''+row.id+'\',\''+wechatUserId+'\')">选择</a>';
+           }
+        }
+    ];
+
+    var tableSuccess = function(){
+        $('#modalBody').find('.pull-left').remove();
+    }
+    $.initTable('addressTableList', addressColumnsArray, addressQueryObject, addressTableUrl,tableSuccess);
+    $('#myModalLabel').html('场地管理');
+    var buttonHtml = '<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>';
+    $('#modalFooter').html(buttonHtml);
+    $('#modalody').find('.pull-left').remove();
+    $('#myModal').modal('show');
+}
+
+var assignAddress = function(addressId,wechatId){
+     $.danmuAjax('/v1/api/admin/wechatmanager/assignAddress?addressId='+addressId+'&wechatId='+wechatId, 'GET','json',null, function (data) {
+          if(data.result == 200){
+              console.log(data);
+              $('#myModal').modal('hide');
+              $.initTable('tableList', columnsArray, quaryObject, tableUrl);
+              alert('设置成功');
+
+          }else{
+             alert('设置失败');
+          }
+    }, function (data) {
+        console.log(data);
+    });
 }
 
 //加载表格数据
