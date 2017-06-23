@@ -131,4 +131,8 @@ router.get('/shop', function(req, res, next) {
     res.render('shop/shop');
 });
 
+router.get('/shop/detail', function(req, res, next) {
+    res.render('shop/detail');
+});
+
 module.exports = router;
