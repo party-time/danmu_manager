@@ -127,4 +127,8 @@ router.get('/monitor', function(req, res, next) {
     res.render('monitor/monitor');
 });
 
+router.get('/shop', function(req, res, next) {
+    res.render('shop/shop');
+});
+
 module.exports = router;
