@@ -232,6 +232,8 @@ var openAddCmdTemp = function () {
            '<select id="cmdIsSendH5"><option value="0">是</option><option value="1" selected>否</option></select></div><br>';
     htmlStr+='<label class="control-label" style="width:60px">指令排序</label><div class="controls" style="margin-left:60px;">'+
             '<input type="text" class="span1"  id="sort" > </div><br>';
+    htmlStr+='<label class="control-label" style="width:60px">是否展示</label><div class="controls" style="margin-left:60px;">'+
+            '<select id="show"><option value="0" selected>是</option><option value="1" >否</option></select></div><br>';
     htmlStr+='<div id="paramList">'+addParamHtml();
     htmlStr+='</div></div></form>';
     $('#modalBody').html(htmlStr);
@@ -263,6 +265,8 @@ var openUpdateCmdTemp = function (id) {
                         '<select id="cmdIsSendH5"><option value="0">是</option><option value="1" selected>否</option></select></div><br>';
           htmlStr+='<label class="control-label" style="width:60px">指令排序</label><div class="controls" style="margin-left:60px;">'+
                       '<input type="text" class="span1"  id="sort"  value="'+data.data.sort+'"  > </div><br>';
+          htmlStr+='<label class="control-label" style="width:60px">是否展示</label><div class="controls" style="margin-left:60px;">'+
+                      '<select id="show"><option value="0" selected>是</option><option value="1" >否</option></select></div><br>';
           htmlStr+='<div id="paramList">';
           var componentType = -1;
           for(var i=0;i<data.data.cmdJsonParamList.length;i++){
@@ -272,7 +276,9 @@ var openUpdateCmdTemp = function (id) {
           $('#modalBody').html(htmlStr);
           $('#cmdIsInLib').val(data.data.isInDanmuLib);
           $('#cmdIsSendH5').val(data.data.isSendH5);
-
+          if(data.data.show){
+                $('#show').val(data.data.show);
+          }
           var buttonHtml = '<a class="btn btn-primary" onclick="addParam()">新增属性</a> <button class="btn btn-primary" onclick="saveParam(\''+id+'\')">保存</button>';
           $('#modalFooter').html(buttonHtml);
           $('#myModal').modal('show');
@@ -328,6 +334,8 @@ var saveParam = function(id){
     var isSendH5 = $('#cmdIsSendH5').val();
 
     var sort = $('#sort').val();
+
+    var show = $('#show').val();
 
     if( '' == cmdTempName){
         alert("指令名称不能为空");
@@ -412,6 +420,7 @@ var saveParam = function(id){
         isInDanmuLib:isInDanmuLib,
         isSendH5:isSendH5,
         sort:sort,
+        show:show,
         cmdJsonParamList:paramList
     }
 
