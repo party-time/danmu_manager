@@ -135,4 +135,18 @@ router.get('/shop/detail', function(req, res, next) {
     res.render('shop/detail');
 });
 
+
+router.get('/shopManager', function(req, res, next) {
+    res.render('shopManager/item');
+});
+
+router.get('/shopManager/add', function(req, res, next) {
+    res.render('shopManager/addItem');
+});
+
+router.get('/shopManager/update', function(req, res, next) {
+    res.render('shopManager/updateItem');
+});
+
+
 module.exports = router;

@@ -7,6 +7,7 @@ var drawNavbar = function(){
         htmlStr += '<li><a href="/cinema"><i class="icon-film"></i><span>影院管理</span> </a> </li>';
         htmlStr +='<li><a href="/blockword"><i class="icon-bar-chart"></i><span>屏蔽词管理</span> </a> </li>';
         htmlStr += '<li><a href="/wechat"><i class="icon-camera"></i><span>微信自动回复管理</span> </a> </li>';
+        htmlStr += '<li><a href="/shopManager"><i class="icon-bold"></i><span>商品管理</span> </a> </li>';
     var role = $.cookie('role');
     if(role == '589a98cd77c8afdcbdeaeeb4'){
         htmlStr += '<li class="dropdown"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>其他</span> <b class="caret"></b></a>';
