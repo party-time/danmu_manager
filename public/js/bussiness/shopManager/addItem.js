@@ -37,9 +37,14 @@ var findAllDmCmd = function(){
 }
 
 var selectCmd = function(id,name){
-    $('#selectCmd').html(name);
+    $('#selectCmd').html(name+'<a class="btn" onclick="delCmd()">删除</a>');
     $('#selectCmd').attr('dmCmdId',id);
     $('#myModal').modal('hide');
+}
+
+var delCmd = function(){
+    $('#selectCmd').html('');
+    $('#selectCmd').attr('dmCmdId','');
 }
 
 var saveItem = function(){
