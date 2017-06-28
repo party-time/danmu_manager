@@ -157,7 +157,7 @@ var updateItem = function(){
 
     $.danmuAjax('/v1/api/admin/item/update', 'POST','json',obj, function (data) {
         if(data.result == 200){
-            window.location.href='/shopManager';
+             window.location.href='/shopManager/uploadImage?id='+g_item_id;
         }else{
             if(data.result_msg){
                 alert(data.result_msg)

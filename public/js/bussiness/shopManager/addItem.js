@@ -104,7 +104,7 @@ var saveItem = function(){
 
     $.danmuAjax('/v1/api/admin/item/save', 'POST','json',obj, function (data) {
         if(data.result == 200){
-            window.location.href='/shopManager';
+            window.location.href='/shopManager/uploadImage?id='+data.data.id;
         }else{
             if(data.result_msg){
                 alert(data.result_msg)
