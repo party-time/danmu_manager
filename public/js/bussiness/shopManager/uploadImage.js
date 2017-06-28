@@ -17,14 +17,14 @@ var findById = function(){
                 if( data.data ){
                     if(data.data.cover){
                         var imgUrl = _baseImageUrl+data.data.cover.fileUrl;
-                        var imgStr = '<img src="'+imgUrl+'" />';
+                        var imgStr = '<img src="'+imgUrl+'" style="width:180px" />';
                         $('#showCoverImg').html(imgStr);
                     }
 
                     if(data.data.imageList){
                         for(var i=0;i<data.data.imageList.length;i++){
                             var imgUrl = _baseImageUrl+data.data.imageList[i].fileUrl;
-                            var imgStr = '<img src="'+imgUrl+'" />';
+                            var imgStr = '<img src="'+imgUrl+'" style="width:400px"/>';
                             $('#showShopImg').append(imgStr);
                         }
                     }
