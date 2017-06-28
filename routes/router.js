@@ -148,5 +148,9 @@ router.get('/shopManager/update', function(req, res, next) {
     res.render('shopManager/updateItem');
 });
 
+router.get('/shopManager/uploadImage', function(req, res, next) {
+    res.render('shopManager/uploadImage');
+});
+
 
 module.exports = router;

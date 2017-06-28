@@ -140,7 +140,7 @@ var navbarSelect = function(){
         $('.icon-font').parent().parent().attr('class','active');
     }
 
-    if( url.indexOf('/adminmanager')!=-1){
+    if( url.indexOf('/shopManager')!=-1){
         $('.icon-bold').parent().parent().attr('class','active');
     }
 
