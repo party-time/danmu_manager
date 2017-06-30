@@ -45,6 +45,7 @@ var columnsArray = [
             if(row.type ==0 && $.cookie('role')=='589a98cd77c8afdcbdeaeeb4'){
                 buttonStr += '<a class="btn" onclick="openUpdateDialog(\''+row.name+'\',\''+row.id+'\')">版本升级</a>';
             }
+            buttonStr += '<a class="btn" onclick="openUpdateDialog(\''+row.name+'\',\''+row.id+'\')">电商管理</a>';
             return buttonStr;
         },
         events: 'operateEvents'
@@ -53,6 +54,11 @@ var columnsArray = [
 var quaryObject = {
     pageSize: 20
 };
+
+
+var openCms = function(){
+    window.href = '';
+}
 
 var delAddress = function(name,id){
     if (confirm('确定要删除' + name + '的地址吗？')) {
