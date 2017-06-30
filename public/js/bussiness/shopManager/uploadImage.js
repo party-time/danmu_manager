@@ -20,12 +20,13 @@ var findById = function(){
                         var imgStr = '<img src="'+imgUrl+'" style="width:180px" />';
                         $('#showCoverImg').html(imgStr);
                     }
-
                     if(data.data.imageList){
                         for(var i=0;i<data.data.imageList.length;i++){
-                            var imgUrl = _baseImageUrl+data.data.imageList[i].fileUrl;
-                            var imgStr = '<img src="'+imgUrl+'" style="width:400px"/><a onclick="delImg(\''+data.data.imageList[i].id+'\')" >删除</a>';
-                            $('#showShopImg').append(imgStr);
+                            if( data.data.imageList[i] ){
+                                var imgUrl = _baseImageUrl+data.data.imageList[i].fileUrl;
+                                var imgStr = '<img src="'+imgUrl+'" style="width:400px"/><a onclick="delImg(\''+data.data.imageList[i].id+'\')" >删除</a>';
+                                $('#showShopImg').append(imgStr);
+                            }
                         }
                     }
                 }
@@ -42,9 +43,10 @@ var findById = function(){
     }
 }
 
-var delImg = function(id){
+var delImg = function(id,itemId){
     var obj = {
-        id:id
+        resourceId:id,
+        itemId:g_item_id
     }
     if(confirm('确定要删除图片吗？')){
         $.danmuAjax('/v1/api/admin/item/delImg', 'GET','json',obj, function (data) {
