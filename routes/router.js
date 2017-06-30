@@ -152,5 +152,9 @@ router.get('/shopManager/uploadImage', function(req, res, next) {
     res.render('shopManager/uploadImage');
 });
 
+router.get('/shopManager/cms', function(req, res, next) {
+    res.render('shopManager/cms');
+});
+
 
 module.exports = router;

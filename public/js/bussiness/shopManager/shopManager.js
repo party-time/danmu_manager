@@ -55,5 +55,9 @@ var delItem = function(id,name){
      }
 }
 
+var openCms = function(){
+    window.location.href="/shopManager/cms?url=shop";
+}
+
 //加载表格数据
 $.initTable('tableList', columnsArray, quaryObject, tableUrl);
