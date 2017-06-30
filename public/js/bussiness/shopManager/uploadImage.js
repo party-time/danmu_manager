@@ -24,7 +24,7 @@ var findById = function(){
                     if(data.data.imageList){
                         for(var i=0;i<data.data.imageList.length;i++){
                             var imgUrl = _baseImageUrl+data.data.imageList[i].fileUrl;
-                            var imgStr = '<img src="'+imgUrl+'" style="width:400px"/>';
+                            var imgStr = '<img src="'+imgUrl+'" style="width:400px"/><a onclick="delImg(\''+data.data.imageList[i].id+'\')" >删除</a>';
                             $('#showShopImg').append(imgStr);
                         }
                     }
@@ -34,6 +34,27 @@ var findById = function(){
                     alert(data.result_msg)
                 }else{
                     alert('查询失败')
+                }
+            }
+        }, function (data) {
+            console.log(data);
+        });
+    }
+}
+
+var delImg = function(id){
+    var obj = {
+        id:id
+    }
+    if(confirm('确定要删除图片吗？')){
+        $.danmuAjax('/v1/api/admin/item/delImg', 'GET','json',obj, function (data) {
+            if(data.result == 200){
+                location.reload();
+            }else{
+                if(data.result_msg){
+                    alert(data.result_msg);
+                }else{
+                    alert('删除失败');
                 }
             }
         }, function (data) {
