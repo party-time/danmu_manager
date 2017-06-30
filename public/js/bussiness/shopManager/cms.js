@@ -1,17 +1,31 @@
-var g_page_url;
+var g_page_url,g_address_id;
 var findById = function(){
     var url = location.href;
     var pageUrl;
+    var ajaxUrl,obj;
     if(url.indexOf('url=')!=-1){
         pageUrl =  url.substr(url.indexOf('=')+1);
         g_page_url = pageUrl;
+        ajaxUrl = '/v1/api/admin/cms/getPage';
+        obj = {
+                url:pageUrl
+            }
+    }else if( url.indexOf('addressId')!=-1){
+        g_address_id = url.substr(url.indexOf('=')+1);
+        ajaxUrl = '/v1/api/admin/cms/getPageByAddressId';
+        obj = {
+               addressId:url.substr(url.indexOf('=')+1)
+        }
     }
-    var obj = {
-        url:pageUrl
-    }
-    $.danmuAjax('/v1/api/admin/cms/getPage', 'GET','json',obj, function (data) {
+
+    $.danmuAjax(ajaxUrl, 'GET','json',obj, function (data) {
         if(data.result == 200){
-            $('#pageId').attr('id',data.data.page.id);
+            if(data.data.page){
+                $('#pageId').attr('id',data.data.page.id);
+            }
+            if(g_address_id){
+                $('#pageName').html('影院商品管理');
+            }
             var html = '';
             for(var i=0;i<data.data.columnObjectList.length;i++){
                 html += '<div class="widget">';
@@ -64,7 +78,8 @@ var createColumn = function(){
     }
     var obj = {
         title:title,
-        url:g_page_url
+        url:g_page_url,
+        addressId:g_address_id
     }
     $.danmuAjax('/v1/api/admin/cms/createColumn', 'POST','json',obj, function (data) {
         if(data.result == 200){

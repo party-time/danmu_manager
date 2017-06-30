@@ -45,7 +45,7 @@ var columnsArray = [
             if(row.type ==0 && $.cookie('role')=='589a98cd77c8afdcbdeaeeb4'){
                 buttonStr += '<a class="btn" onclick="openUpdateDialog(\''+row.name+'\',\''+row.id+'\')">版本升级</a>';
             }
-            buttonStr += '<a class="btn" onclick="openUpdateDialog(\''+row.name+'\',\''+row.id+'\')">电商管理</a>';
+            buttonStr += '<a class="btn" onclick="openCms(\''+row.id+'\')">电商管理</a>';
             return buttonStr;
         },
         events: 'operateEvents'
@@ -56,8 +56,8 @@ var quaryObject = {
 };
 
 
-var openCms = function(){
-    window.href = '';
+var openCms = function(addressId){
+    window.location.href = '/shopManager/cms?addressId='+addressId;
 }
 
 var delAddress = function(name,id){
