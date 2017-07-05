@@ -116,7 +116,7 @@ var selectH5tempType= function(type){
         html = _baseUploadUrl+'/wechat/h5temp/';
         $('#suffix').html("");
     }else if( type == 1){
-        html = _baseUploadUrl+"/htm/h5temp/";
+        html = _baseUploadUrl+"/upload/h5html/";
         $('#suffix').html(".html");
     }
     $('#baseUrl').html(html);
