@@ -85,7 +85,7 @@
                     setLinkStatus();
                     //获取初始化信息
                     webSocketSendMessage({type: $scope.type.type_init});
-                    sendHeartbeat();
+                    //sendHeartbeat();
 
                     ws.onmessage = function (event) {
                         //收到消息后处理
@@ -158,7 +158,7 @@
         /**
          * 发送心跳
          */
-        var sendHeartbeat = function () {
+        /*var sendHeartbeat = function () {
             setInterval(function () {
                 if (ws.readyState == 1) {
                     webSocketSendMessage({type: 'isOk'});
@@ -177,7 +177,7 @@
                     });
                 }
             }, 10 * 1000);
-        }
+        }*/
 
         /*setInterval(function () {
          webSocketSendMessage({type:$scope.type.type_findclientList});
