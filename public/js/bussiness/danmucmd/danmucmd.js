@@ -552,7 +552,7 @@ var openComponent = function(){
             align: 'center'
         },
         {
-           field: 'id', title: '操作',
+           field: '', title: '操作',
            align: 'center',
            formatter: function (value, row, index) {
                 return '<a class="btn" onclick="openUpdateComponent(\''+row.id+'\')">修改</a><a class="btn" onclick="delComponent(\''+row.id+'\',\''+row.name+'\')">删除</a>';

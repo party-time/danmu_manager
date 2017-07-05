@@ -30,7 +30,7 @@ var columnsArray = [
         }
     },
     {
-        field: 'id', title: '操作',
+        field: '', title: '操作',
         align: 'center',
         formatter: function (value, row, index) {
             return '<a class="btn" onclick="delVersion(\''+row.id+'\',\''+row.version+'\')">删除</a>';

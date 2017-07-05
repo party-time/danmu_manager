@@ -145,7 +145,7 @@ var screenColumnsArray =[
         }
   },
   {
-     field: 'id',
+     field: '',
       title: '操作',
      align: 'center',
      formatter: function (value, row, index) {
@@ -726,7 +726,7 @@ var openCreateUpdateDialog = function(addressName,addressId){
             align: 'center'
         },
         {
-           field: 'id', title: '操作',
+           field: '', title: '操作',
            align: 'center',
            formatter: function (value, row, index) {
                 return '<a class="btn" onclick="selectVersion(\''+addressId+'\',\''+row.id+'\',\''+addressName+'\',\''+row.version+'\')">选择</a>';

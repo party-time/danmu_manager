@@ -13,7 +13,7 @@ var columnsArray = [
         align: 'center'
     },
     {
-        field: 'id', title: '操作',
+        field: '', title: '操作',
         align: 'center',
         formatter: function (value, row, index) {
             return '<a class="btn" onclick="delBlockKeyword(\''+row.id+'\',\''+row.word+'\')">删除</a>';

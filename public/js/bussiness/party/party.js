@@ -184,7 +184,7 @@ var openAddress = function(partyName,partyId){
             align: 'center'
         },
         {
-            field: 'id', title: '广告',
+            field: '', title: '广告',
             align: 'center',
             formatter: function (value, row, index) {
                 if(row.adName!=null){
@@ -253,7 +253,7 @@ var openMoreAddress = function(partyName,partyId){
             align: 'center'
         },
         {
-           field: 'id', title: '操作',
+           field: '', title: '操作',
            align: 'center',
            formatter: function (value, row, index) {
                 return '<a class="btn" onclick="selectAddress(\''+partyName+'\',\''+partyId+'\',\''+row.id+'\')">添加</a>';
@@ -304,7 +304,7 @@ var openAdModel = function(partyName,partyId,addressId){
             align: 'center'
         },
         {
-            field: 'id', title: '操作',
+            field: '', title: '操作',
             align: 'center',
             formatter: function (value, row, index) {
                 return '<a class="btn" onclick="adAdd(\''+partyName+'\',\''+partyId+'\',\''+addressId+'\',\''+row.id+'\')">添加</a>';
@@ -379,7 +379,7 @@ var openDanmuCheck = function(partyName,partyId){
             align: 'center'
         },
         {
-           field: 'id', title: '操作',
+           field: '', title: '操作',
            align: 'center',
            formatter: function (value, row, index) {
                 return '<a class="btn" onclick="openNewWindow(\'/party/danmuCheck?partyId='+partyId+'&addressId='+row.id+'\')">审核</a>';
@@ -532,7 +532,7 @@ var movieSchedulePage = function(partyId){
             }
         },
         {
-           field: 'id', title: '操作',
+           field: '', title: '操作',
            align: 'center',
            formatter: function (value, row, index) {
                 return '<a class="btn" onclick="delMovieSchedule(\''+row.movieSchedule.id+'\',\''+partyId+'\')">删除</a>';
@@ -614,7 +614,7 @@ var openH5temp = function(partyId,partyName){
             align: 'center'
         },
         {
-           field: 'id', title: '操作',
+           field: '', title: '操作',
            align: 'center',
            formatter: function (value, row, index) {
                 return '<a class="btn" onclick="delH5Temp(\''+row.id+'\',\''+partyId+'\',\''+partyName+'\')">删除</a>';
@@ -647,7 +647,7 @@ var openMoreH5temp = function(partyId,partyName){
             align: 'center'
         },
         {
-           field: 'id', title: '操作',
+           field: '', title: '操作',
            align: 'center',
            formatter: function (value, row, index) {
                 return '<a class="btn" onclick="setPartyId(\''+row.id+'\',\''+partyId+'\',\''+partyName+'\')">添加</a>';

@@ -19,7 +19,7 @@ var columnsArray = [
         }
     },
     {
-        field: 'id', title: '操作',
+        field: '', title: '操作',
         align: 'center',
         formatter: function (value, row, index) {
             return '<a class="btn" onclick="openReplyWords(\''+row.id+'\',\''+row.words+'\',\''+row.message+'\',\''+row.mediaId+'\',\''+row.mediaName+'\')">修改</a><a class="btn" onclick="delReplyWords(\''+row.id+'\',\''+row.words+'\')">删除</a>';
