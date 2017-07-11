@@ -76,7 +76,7 @@ var columnsArray = [
         title: '取货时间',
         align: 'center',
         formatter: function (value, row, index) {
-            if(null != row && null != row.order)){
+            if(null != row && null != row.order){
               return new Date(parseInt(row.order.getItemTime)).format('yyyy-MM-dd hh:mm:ss');
             }
         }
