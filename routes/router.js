@@ -157,4 +157,9 @@ router.get('/shopManager/cms', function(req, res, next) {
 });
 
 
+router.get('/order', function(req, res, next) {
+    res.render('order/order');
+});
+
+
 module.exports = router;
