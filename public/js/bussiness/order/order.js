@@ -88,15 +88,6 @@ var columnsArray = [
         }
     },
     {
-        title: '购买时间',
-        align: 'center',
-        formatter: function (value, row, index) {
-            if(null != row && null != row.order){
-              return new Date(parseInt(row.order.createTime)).format('yyyy-MM-dd hh:mm:ss');
-            }
-        }
-    },
-    {
         title: '取货码',
         align: 'center',
         formatter: function (value, row, index) {
