@@ -144,5 +144,9 @@ var navbarSelect = function(){
         $('.icon-bold').parent().parent().attr('class','active');
     }
 
+    if( url.indexOf('/order')!=-1){
+        $('.icon-text-height').parent().parent().attr('class','active');
+    }
+
 }
 
