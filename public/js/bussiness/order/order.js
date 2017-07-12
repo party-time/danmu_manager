@@ -58,10 +58,25 @@ var columnsArray = [
         title: '金额',
         align: 'center',
         formatter: function (value, row, index) {
-                if(null != row && null != row.item && "null" != row.item){
-                  return row.item.showPrice;
-                }
+            if(null != row && null != row.item && "null" != row.item){
+              return row.item.showPrice;
             }
+        }
+    },
+    {
+        title: '支付状态',
+        align: 'center',
+        formatter: function (value, row, index) {
+            if(null != row && null != row.order && "null" != row.order){
+              if(row.order.status == 0){
+                    return "支付成功";
+              }else if(row.order.status == 1){
+                    return "未支付";
+              }else{
+                    return "支付成功";
+              }
+            }
+        }
     },
     {
         title: '购买时间',
@@ -78,7 +93,7 @@ var columnsArray = [
         formatter: function (value, row, index) {
             if(null != row && null != row.order){
               if( null == row.order.getItemTime){
-                return "";
+                return "未取货";
               }else{
                 return new Date(parseInt(row.order.getItemTime)).format('yyyy-MM-dd hh:mm:ss');
               }
@@ -91,6 +106,8 @@ var columnsArray = [
         formatter: function (value, row, index) {
             if(null != row && null != row.adminUser){
               return row.adminUser.name;
+            }else{
+               return "未发货";
             }
         }
     },
