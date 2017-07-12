@@ -77,7 +77,11 @@ var columnsArray = [
         align: 'center',
         formatter: function (value, row, index) {
             if(null != row && null != row.order){
-              return new Date(parseInt(row.order.getItemTime)).format('yyyy-MM-dd hh:mm:ss');
+              if( null == row.order.getItemTime){
+                return "";
+              }else{
+                return new Date(parseInt(row.order.getItemTime)).format('yyyy-MM-dd hh:mm:ss');
+              }
             }
         }
     },
