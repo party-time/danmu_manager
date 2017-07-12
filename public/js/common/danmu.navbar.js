@@ -18,7 +18,7 @@ var drawNavbar = function(){
         htmlStr += '<li><a href="/param">参数管理</a></li>';
         htmlStr += '<li><a href="/danmucmd">指令管理</a></li>';
         htmlStr += '<li><a href="/h5temp">页面管理</a></li>';
-         htmlStr += '<li><a href="/monitor">报警管理</a></li>';
+         htmlStr += '<li><a href="/monitor">通知管理</a></li>';
         htmlStr +=  '</ul></li>';
     }
 
