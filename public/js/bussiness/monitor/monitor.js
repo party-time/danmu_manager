@@ -41,6 +41,8 @@ var openAddMonitor = function(){
           '<textarea class="span4" id="adminIds"></textarea><span>多个人员id请用逗号分隔</span></div><br>';
        htmlStr +='<label class="control-label" style="width:60px">报警key</label><div class="controls" style="margin-left:60px;">'+
        '<input type="text" class="span4" id="key" onblur="checkKey()"></div><br>';
+       htmlStr +='<label class="control-label" style="width:60px">微信消息模版id</label><div class="controls" style="margin-left:60px;">'+
+              '<input type="text" class="span4" id="wechatTempId" ></div><br>';
        htmlStr +='<label class="control-label" style="width:60px">报警内容</label><div class="controls" style="margin-left:60px;">'+
                 '<textarea class="span4" style="height:100px" id="content"></textarea></div><br>';
        htmlStr +='<label class="control-label" style="width:60px">报警内容占位符</label><div class="controls" style="margin-left:60px;">'+
@@ -59,6 +61,7 @@ var openUpdateMonitor = function(id){
     $.danmuAjax('/v1/api/admin/monitor/get', 'GET','json',obj, function (data) {
         if(data.result == 200) {
             $('#myModalLabel').html('修改报警');
+
             var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">'+
             '<label class="control-label" style="width:60px">报警名称</label><div class="controls" style="margin-left:60px;">'+
             '<input type="text" class="span4" id="title" value="'+data.data.title+'"> </div><br>';
@@ -66,6 +69,8 @@ var openUpdateMonitor = function(id){
               '<textarea class="span4" id="adminIds">'+data.data.adminUserIds+'</textarea><span>多个人员id请用逗号分隔</span></div><br>';
             htmlStr +='<label class="control-label" style="width:60px">报警key</label><div class="controls" style="margin-left:60px;">'+
             '<input type="text" class="span4" id="key" onblur="checkKey()" value="'+data.data.key+'" oldVal="'+data.data.key+'"></div><br>';
+            htmlStr +='<label class="control-label" style="width:60px">微信消息模版id</label><div class="controls" style="margin-left:60px;">'+
+                          '<input type="text" class="span4" id="wechatTempId" value="'+data.data.wechatTempId+'" ></div><br>';
             htmlStr +='<label class="control-label" style="width:60px">报警内容</label><div class="controls" style="margin-left:60px;">'+
                     '<textarea class="span4" style="height:100px" id="content">'+data.data.content+'</textarea></div><br>';
             htmlStr +='<label class="control-label" style="width:60px">报警内容占位符</label><div class="controls" style="margin-left:60px;">'+
@@ -138,10 +143,16 @@ var save = function(){
         alert('报警的内容不能为空');
         return;
     }
+
+    if( '' == $('#wechatTempId').val()){
+        alert('微信模版id不能为空');
+        return;
+    }
     var obj ={
         title:$('#title').val(),
         adminUserIds:$('#adminIds').val(),
         key:$('#key').val(),
+        wechatTempId:$('#wechatTempId').val(),
         content:$('#content').val()
     }
     $.danmuAjax('/v1/api/admin/monitor/save', 'POST','json',obj, function (data) {
@@ -179,11 +190,16 @@ var update = function(id){
         alert('报警的内容不能为空');
         return;
     }
+    if( '' == $('#wechatTempId').val()){
+        alert('微信模版id不能为空');
+        return;
+    }
     var obj ={
         id:id,
         title:$('#title').val(),
         adminUserIds:$('#adminIds').val(),
         key:$('#key').val(),
+        wechatTempId:$('#wechatTempId').val(),
         content:$('#content').val()
     }
     $.danmuAjax('/v1/api/admin/monitor/update', 'POST','json',obj, function (data) {
@@ -191,12 +207,12 @@ var update = function(id){
             console.log(data);
             $('#myModal').modal('hide');
             $.initTable('tableList', columnsArray, quaryObject, tableUrl);
-            alert('创建成功');
+            alert('修改成功');
         }else{
             if(data.result_msg){
                 alert(data.result_msg);
             }else{
-                alert('创建失败');
+                alert('修改失败');
             }
         }
     }, function (data) {
