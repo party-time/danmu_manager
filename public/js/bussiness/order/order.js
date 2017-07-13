@@ -114,7 +114,7 @@ var columnsArray = [
         align: 'center',
         formatter: function (value, row, index) {
             if(null != row && null != row.adminUser){
-              return row.adminUser.name;
+              return row.adminUser.userName;
             }else{
                return "未发货";
             }
