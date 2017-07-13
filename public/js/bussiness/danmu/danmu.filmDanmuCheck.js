@@ -158,12 +158,12 @@
         /**
          * 发送心跳
          */
-        /*var sendHeartbeat = function () {
+        var sendHeartbeat = function () {
             setInterval(function () {
                 if (ws.readyState == 1) {
                     webSocketSendMessage({type: 'isOk'});
 
-                    $.ajax({
+                    /*$.ajax({
                         type: "GET",
                         url:"/v1/api/admin/fileDanmuCheck",
                         data:{},// 序列化表单值
@@ -174,10 +174,10 @@
                         success: function(data) {
 
                         }
-                    });
+                    });*/
                 }
             }, 10 * 1000);
-        }*/
+        }
 
         /*setInterval(function () {
          webSocketSendMessage({type:$scope.type.type_findclientList});
