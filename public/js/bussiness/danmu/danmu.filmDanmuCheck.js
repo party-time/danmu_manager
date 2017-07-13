@@ -85,7 +85,7 @@
                     setLinkStatus();
                     //获取初始化信息
                     webSocketSendMessage({type: $scope.type.type_init});
-                    //sendHeartbeat();
+                    sendHeartbeat();
 
                     ws.onmessage = function (event) {
                         //收到消息后处理
