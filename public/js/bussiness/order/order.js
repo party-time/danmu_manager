@@ -59,7 +59,17 @@ var columnsArray = [
         align: 'center',
         formatter: function (value, row, index) {
             if(null != row && null != row.item && "null" != row.item){
-              return row.item.showPrice;
+               var price = row.item.showPrice /100;
+              return price;
+            }
+        }
+    },
+    {
+        title: '数量',
+        align: 'center',
+        formatter: function (value, row, index) {
+            if(null != row && null != row.order && "null" != row.order){
+              return row.order.num;
             }
         }
     },
@@ -120,13 +130,6 @@ var columnsArray = [
             }
         }
 
-    },
-    {
-        title: '操作',
-        align: 'center',
-        formatter: function (value, row, index) {
-              return "<a>修改状态</a>";
-        }
     }
 ];
 var quaryObject = {
