@@ -119,6 +119,7 @@ var columnsArray = [
                return "未发货";
             }
         }
+
     },
     {
         title: '操作',
