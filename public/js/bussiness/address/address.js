@@ -46,6 +46,7 @@ var columnsArray = [
                 buttonStr += '<a class="btn" onclick="openUpdateDialog(\''+row.name+'\',\''+row.id+'\')">版本升级</a>';
             }
             buttonStr += '<a class="btn" onclick="openCms(\''+row.id+'\')">电商管理</a>';
+            buttonStr += '<a class="btn" onclick="openFuncControl(\''+row.id+'\')">功能开关</a>';
             return buttonStr;
         },
         events: 'operateEvents'
@@ -54,6 +55,18 @@ var columnsArray = [
 var quaryObject = {
     pageSize: 20
 };
+
+
+var openFuncControl = function(){
+       var htmlStr = '<form id="edit-profile" class="form-horizontal">';
+       htmlStr += '<div>';
+       htmlStr += '打赏<input type="checkbox">&nbsp;&nbsp;&nbsp;表白<input type="checkbox">';
+       htmlStr += '</div><br>';
+       htmlStr += '</form>';
+       $('#modalBody').html(htmlStr);
+       $('#myModalLabel').html('以下功能选中不可用')
+       $('#myModal').modal('show');
+}
 
 
 var openCms = function(addressId){
