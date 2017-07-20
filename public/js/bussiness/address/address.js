@@ -57,15 +57,70 @@ var quaryObject = {
 };
 
 
-var openFuncControl = function(){
-       var htmlStr = '<form id="edit-profile" class="form-horizontal">';
-       htmlStr += '<div>';
-       htmlStr += '打赏<input type="checkbox">&nbsp;&nbsp;&nbsp;表白<input type="checkbox">';
-       htmlStr += '</div><br>';
-       htmlStr += '</form>';
-       $('#modalBody').html(htmlStr);
-       $('#myModalLabel').html('以下功能选中不可用')
-       $('#myModal').modal('show');
+var openFuncControl = function(addressId){
+    var obj = {
+            id:addressId
+    }
+    $.danmuAjax('/v1/api/admin/address/query', 'GET','json','',obj, function (data) {
+        if (data.result == 200) {
+          console.log(data);
+          var htmlStr = '<form id="edit-profile" class="form-horizontal">';
+             htmlStr += '<div>';
+             if( data.data.controlerStatus != null ){
+                if(data.data.controlerStatus.pay){
+                    htmlStr += '打赏<input type="checkbox" value="pay" checked>&nbsp;&nbsp;&nbsp;';
+                }else{
+                    htmlStr += '打赏<input type="checkbox" value="pay" >&nbsp;&nbsp;&nbsp;';
+                }
+                if(data.data.controlerStatus.love){
+                    htmlStr += '表白<input type="checkbox" value="love" checked>';
+                }else{
+                    htmlStr += '表白<input type="checkbox" value="love">';
+                }
+
+             }else{
+                htmlStr += '打赏<input type="checkbox" value="pay">&nbsp;&nbsp;&nbsp;表白<input type="checkbox" value="love">';
+             }
+             htmlStr += '</div><br>';
+             htmlStr += '</form>';
+             $('#modalBody').html(htmlStr);
+             $('#myModalLabel').html('以下功能选中不可用');
+             var buttonHtml = '<button class="btn btn-primary" onclick="postFuncControl(\''+addressId+'\')">保存</button>';
+             $('#modalFooter').html(buttonHtml);
+             $('#myModal').modal('show');
+        }else{
+             alert('查询失败')
+        }
+    }, function (data) {
+        console.log(data);
+    });
+}
+
+var postFuncControl = function(addressId){
+    var statusList="";
+    $("input[type='checkbox']:checkbox:checked").each(function(){
+        statusList+=$(this).val();
+        statusList+=',';
+    })
+    if( statusList != ""){
+        statusList = statusList.substr(0,statusList.length-1);
+    }else{
+        statusList = "pay,love";
+    }
+    var obj = {
+         addressId:addressId,
+         keys:statusList
+    }
+    $.danmuAjax('/v1/api/admin/address/setAddressControle', 'GET','json','',obj, function (data) {
+        if (data.result == 200) {
+          console.log(data);
+             $('#myModal').modal('hide');
+          }else{
+             alert('更新失败')
+          }
+    }, function (data) {
+        console.log(data);
+    });
 }
 
 
