@@ -132,6 +132,23 @@ var loveColumnsArray = [
         }
     },
     {
+        field: 'lovePay.name',
+        title: '表白昵称',
+        align: 'center'
+
+    },
+    {
+        field: 'lovePay.toName',
+        title: '表白对象昵称',
+        align: 'center'
+
+    },
+    {
+        field: 'lovePay.messsage',
+        title: '情话',
+        align: 'center'
+    },
+    {
         field: 'lovePay.price',
         title: '金额',
         align: 'center'
