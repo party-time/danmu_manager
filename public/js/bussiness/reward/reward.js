@@ -138,11 +138,15 @@ var loveColumnsArray = [
 
     },
     {
-        field: 'lovePay.createTime',
         title: '时间',
         align: 'center',
         formatter: function (value, row, index) {
-              return new Date(parseInt(row.wechatReward.createTime)).format('yyyy-MM-dd hh:mm:ss');
+              if( null != row.lovePay.createTime ){
+                return new Date(parseInt(row.lovePay.createTime)).format('yyyy-MM-dd hh:mm:ss');
+              }else{
+                return "";
+              }
+
         }
     }
 ];
