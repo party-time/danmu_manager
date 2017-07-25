@@ -386,7 +386,7 @@ var openUpload = function(){
     $('#myModalLabel').html('文件上传');
     var flashStr = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="ExternalInterfaceExample" width="600" height="390"'+
                  'codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab"><param name="movie" value="/swf/download.swf?uploadUrl='+fileUploadUrl+'" /><param name="quality" value="high" />';
-    flashStr += '<embed src="/swf/videoPlayer.swf?uploadUrl='+fileUploadUrl+'" width="600px" height="390px"  play="true" loop="false" quality="high" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" ></embed></object>';
+    flashStr += '<embed src="/swf/download.swf?uploadUrl='+fileUploadUrl+'" width="600px" height="390px"  play="true" loop="false" quality="high" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" ></embed></object>';
     $('#flashBody').html(flashStr);
     $('#modalFooter').html('');
     $('#myModal').modal('show');
