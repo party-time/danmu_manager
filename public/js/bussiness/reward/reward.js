@@ -149,10 +149,11 @@ var loveColumnsArray = [
         align: 'center'
     },
     {
-        field: 'lovePay.price',
         title: '金额',
-        align: 'center'
-
+        align: 'center',
+        formatter: function (value, row, index) {
+            return row.lovePay.price/100;
+        }
     },
     {
         title: '时间',
@@ -163,6 +164,22 @@ var loveColumnsArray = [
               }else{
                 return "";
               }
+
+        }
+    },
+    {
+        title: '支付状态',
+        align: 'center',
+        formatter: function (value, row, index) {
+            if(row.lovePay.status == 0){
+                return "支付成功";
+            }else if(row.lovePay.status == 1){
+                return "未支付";
+            }else if(row.lovePay.status == 2){
+                return "支付失败";
+            }else{
+                return "未支付";
+            }
 
         }
     }
