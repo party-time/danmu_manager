@@ -81,5 +81,79 @@ var quaryObject = {
     pageSize: 20
 };
 
+var openPay = function(){
+    $.initTable('tableList', columnsArray, quaryObject, tableUrl);
+}
+
 //加载表格数据
 $.initTable('tableList', columnsArray, quaryObject, tableUrl);
+
+
+var loveTableUrl = '/v1/api/admin/lovePay/page';
+
+var loveColumnsArray = [
+    {
+        title: '序号',
+        align: 'center',
+        formatter: function (value, row, index) {
+            return index+1;
+        }
+    },
+    {
+        title: '微信头像',
+        align: 'center',
+        width:'30%',
+        formatter: function (value, row, index) {
+            if(null != row && null != row.wechatUser){
+                return '<img width="30%" src="'+row.wechatUser.imgUrl+'" />';
+            }else{
+               return "";
+            }
+        }
+    },
+    {
+        title: '微信昵称',
+        align: 'center',
+        formatter: function (value, row, index) {
+            if(null != row && null != row.wechatUser){
+                return row.wechatUser.nick;
+            }else{
+               return "";
+            }
+        }
+    },
+    {
+        title: '活动名称',
+        align: 'center',
+        formatter: function (value, row, index) {
+            if(null != row && null != row.party && "null" != row.party){
+              return row.party.name;
+            }
+        }
+    },
+    {
+        field: 'lovePay.price',
+        title: '金额',
+        align: 'center'
+
+    },
+    {
+        field: 'lovePay.createTime',
+        title: '时间',
+        align: 'center',
+        formatter: function (value, row, index) {
+              return new Date(parseInt(row.wechatReward.createTime)).format('yyyy-MM-dd hh:mm:ss');
+        }
+    }
+];
+
+var loveQuaryObject = {
+    pageSize: 20
+};
+
+var openLovePay = function(){
+    $.initTable('tableList', loveColumnsArray, loveQuaryObject, loveTableUrl);
+}
+
+
+
