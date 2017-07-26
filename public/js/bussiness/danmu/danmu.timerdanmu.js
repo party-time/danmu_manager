@@ -39,6 +39,17 @@ var columnsArray = [
                 }else {
                     if(row.content.hasOwnProperty("color")){
                         if(row.content.color!=null){
+                            if(isArray(row.content.color)){
+                                var colorArray = row.content.color;
+                                if(colorArray!=null){
+                                    var value = "";
+                                    for(var i=0; i<colorArray.length; i++){
+                                        value+= "<span style='background-color: "+colorArray[i].replace("0x","#")+"'>"+content+"</span> ";
+                                    }
+                                    return value;
+                                }
+                                return content;
+                            }
                             return "<span style='background-color: "+row.content.color.replace("0x","#")+"'>"+content+"</span>";
                         }else{
                             return content;
@@ -72,6 +83,14 @@ var columnsArray = [
     }, events: 'operateEvents'
     }
 ];
+
+function isArray(arg) {
+    if (typeof arg === 'object') {
+        return Object.prototype.toString.call(arg) === '[object Array]';
+    }
+    return false;
+}
+
 var doDelete = function(id){
     $.danmuAjax('/v1/api/admin/timerDanmu/delete', 'GET', 'json', {danmuId:id}, function (data) {
         if (data.result == 200) {
