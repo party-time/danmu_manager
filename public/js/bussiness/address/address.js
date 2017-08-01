@@ -104,8 +104,6 @@ var postFuncControl = function(addressId){
     })
     if( statusList != ""){
         statusList = statusList.substr(0,statusList.length-1);
-    }else{
-        statusList = "pay,love";
     }
     var obj = {
          addressId:addressId,
