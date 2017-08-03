@@ -64,6 +64,7 @@
                                     <th width="20%">昵称</th>
                                     <th>消息</th>
                                     <th width="10%">图片</th>
+                                    <th width="10%">类型</th>
                                     <th width="10%">秒数</th>
                                     <th width="10%"></th>
                                 </tr>
@@ -113,6 +114,10 @@
                                         <img ng-if="danmu.imgUrl!=null" ng-src="{{danmu.imgUrl}}"
                                              style="width: 30px;height: 30px;"/>
                                         <span ng-if="danmu.imgUrl==null">&nbsp;</span>
+                                    </td>
+                                    <td>
+                                        <span ng-if="danmu.cmdName!=null" style="width: 30px;height: 30px;">{{danmu.cmdName}}</span>
+                                        <span ng-if="danmu.cmdName==null">&nbsp;</span>
                                     </td>
                                     <td ng-if="autoCheck==1">
                                         <span ng-if="(!danmu.s||danmu.s>0) && !danmu.isSend">{{danmu.s}}秒</span>
