@@ -274,7 +274,7 @@
             danmu.isSend=true;
             webSocketSendMessage({
                 type: danmu.type,
-                danmu: {message: danmu.msg, id:danmu.id,color: danmu.color, openId: danmu.openId}
+                data: {message: danmu.msg, id:danmu.id,color: danmu.color, openId: danmu.openId}
             });
         }
 
@@ -285,7 +285,7 @@
             if (webSocketIsConnect() && checkPatyIsBegin()) {
                 webSocketSendMessage({
                     type: $scope.type.type_danmuDensity,
-                    density: {danmuDensity: $scope.danmuDensity}
+                    data: {danmuDensity: $scope.danmuDensity}
                 });
             }
         }
@@ -307,7 +307,7 @@
             }
             var alertStr = "你是否决定要"+statusStr+"，操作后不能撤销!!!"
             if (confirm(alertStr)) {
-                webSocketSendMessage({type: $scope.type.type_partyActive, partyCtrl: {status: status}});
+                webSocketSendMessage({type: $scope.type.type_partyActive, data: {status: status}});
             }
 
         }
@@ -335,7 +335,7 @@
                     if (danmu.id == id) {
                         danmu.isBlocked = true;
                         danmu.s = -10;
-                        webSocketSendMessage({type: $scope.type.type_blockDanmu, blockDanmu: {id: danmu.id}})
+                        webSocketSendMessage({type: $scope.type.type_blockDanmu, data: {id: danmu.id}})
                         break;
                     }
                 }
@@ -348,7 +348,7 @@
          */
         $scope.setTestModelHandler = function (status) {
             if (webSocketIsConnect()) {
-                webSocketSendMessage({type: $scope.type.type_modeltest, testDanmu: {status: status}});
+                webSocketSendMessage({type: $scope.type.type_modeltest, data: {status: status}});
                 if (!status) {
                     $scope.danmuList = [];
                 }
@@ -361,7 +361,7 @@
          */
         $scope.setPreDanmuHandler = function (status) {
             if (webSocketIsConnect() && checkPatyIsBegin()) {
-                webSocketSendMessage({type: $scope.type.type_preDanmu, preDanmu: {status: status}});
+                webSocketSendMessage({type: $scope.type.type_preDanmu, data: {status: status}});
             }
         }
 
@@ -411,7 +411,7 @@
         }
 
         var startSpecialVedio = function (specialVideo, status) {
-            webSocketSendMessage({type: $scope.type.type_specialVideo, video: {id: specialVideo.id, status: status}});
+            webSocketSendMessage({type: $scope.type.type_specialVideo, data: {id: specialVideo.id, status: status}});
         }
         /**
          * 设置动画特效按钮的状态
@@ -439,6 +439,7 @@
             object.partyId = $scope.partyId;
             object.key = getCookieValue("auth_key");
             object.addressId = $scope.addressId;
+            object.partyType=0;
             if (webSocketIsConnect()) {
                 ws.send($.objectCovertJson(object));
             }
@@ -517,7 +518,7 @@
                         danmu.isSend=true;
                         webSocketSendMessage({
                             type: danmu.type,
-                            danmu: {message: danmu.msg,id:danmu.id, color: danmu.color, openId: danmu.openId}
+                            data: {message: danmu.msg,id:danmu.id, color: danmu.color, openId: danmu.openId}
                         });
                     }
                 }
@@ -651,7 +652,7 @@
                 console.log(data);
                 if (data.code == 200) {
                     var key = getCookieValue("auth_key");
-                    websoctAddress = "ws://" + data.serverInfo.ip + ":" + data.serverInfo.port + "/ws?key="+key;
+                    websoctAddress = "ws://" + data.serverInfo.ip + ":" + data.serverInfo.port + "/ws?key="+key+'&partyType=0';
                     webSocketInit();
                 }
             }, function (data) {

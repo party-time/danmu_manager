@@ -85,7 +85,7 @@
                     setLinkStatus();
                     //获取初始化信息
                     webSocketSendMessage({type: $scope.type.type_init});
-                    sendHeartbeat();
+                    //sendHeartbeat();
 
                     ws.onmessage = function (event) {
                         //收到消息后处理
@@ -158,12 +158,12 @@
         /**
          * 发送心跳
          */
-        var sendHeartbeat = function () {
+        /*var sendHeartbeat = function () {
             setInterval(function () {
                 if (ws.readyState == 1) {
                     webSocketSendMessage({type: 'isOk'});
 
-                    /*$.ajax({
+                    $.ajax({
                         type: "GET",
                         url:"/v1/api/admin/fileDanmuCheck",
                         data:{},// 序列化表单值
@@ -174,10 +174,10 @@
                         success: function(data) {
 
                         }
-                    });*/
+                    });
                 }
             }, 10 * 1000);
-        }
+        }*/
 
         /*setInterval(function () {
          webSocketSendMessage({type:$scope.type.type_findclientList});
@@ -238,6 +238,7 @@
             object.partyId = $scope.partyId;
             object.key = getCookieValue("auth_key");
             object.addressId = $scope.addressId;
+            object.partyType=1;
             if (webSocketIsConnect()) {
                 ws.send($.objectCovertJson(object));
             }
@@ -299,7 +300,7 @@
             danmu.isSend=true;
             webSocketSendMessage({
                 type: danmu.type,
-                danmu: {message: danmu.msg,id:danmu.id, color: danmu.color, openId: danmu.openId}
+                data: {message: danmu.msg,id:danmu.id, color: danmu.color, openId: danmu.openId}
             });
         }
         var setDanmuLeftTime = function (danmu, nowTime) {
@@ -312,7 +313,7 @@
                         danmu.isSend=true;
                         webSocketSendMessage({
                             type: danmu.type,
-                            danmu: {message: danmu.msg, id:danmu.id,color: danmu.color, openId: danmu.openId}
+                            data: {message: danmu.msg, id:danmu.id,color: danmu.color, openId: danmu.openId}
                         });
                     }
                 }
@@ -326,7 +327,7 @@
                 console.log(data);
                 if (data.code == 200) {
                     var key = getCookieValue("auth_key");
-                    websoctAddress = "ws://" + data.serverInfo.ip + ":" + data.serverInfo.port + "/ws?key="+key;
+                    websoctAddress = "ws://" + data.serverInfo.ip + ":" + data.serverInfo.port + "/ws?key="+key+'&partyType=1';
                     webSocketInit();
                 }
             }, function (data) {
