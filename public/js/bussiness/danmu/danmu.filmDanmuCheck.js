@@ -298,7 +298,9 @@
             danmu.isSend=true;
             webSocketSendMessage({
                 type: danmu.type,
-                data: {message: danmu.msg,id:danmu.id, color: danmu.color, openId: danmu.openId,partyId:danmu.partyId,addressId:danmu.addressId}
+                partyId:danmu.partyId,
+                addressId:danmu.addressId,
+                data: {message: danmu.msg,id:danmu.id, color: danmu.color, openId: danmu.openId}
             });
         }
         var setDanmuLeftTime = function (danmu, nowTime) {
