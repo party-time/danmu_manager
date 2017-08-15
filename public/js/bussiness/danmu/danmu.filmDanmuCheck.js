@@ -1,13 +1,6 @@
 (function () {
     var app = angular.module('danmuCheckApp', []);
-    app.controller('danmuCheckCtrl', function ($scope, $http, $interval) {
-
-
-        //var websoctAddress = "ws://192.168.1.118:7070/ws";
-        var positionArray = [{id: 0, text: '全部'}, {id: 1, text: '左上'}, {id: 2, text: '顶部'}, {id: 3, text: '右上'}, {
-            id: 4,
-            text: '左下'
-        }, {id: 5, text: '底部'}, {id: 6, text: '右下'}];
+       app.controller('danmuCheckCtrl', function ($scope, $http, $interval) {
         var websoctAddress;
         var ws;
         $scope.partyId;
@@ -85,7 +78,7 @@
                     setLinkStatus();
                     //获取初始化信息
                     webSocketSendMessage({type: $scope.type.type_init});
-                    //sendHeartbeat();
+                    sendHeartbeat();
 
                     ws.onmessage = function (event) {
                         //收到消息后处理
@@ -107,6 +100,13 @@
             }
         }
 
+           var sendHeartbeat = function () {
+               setInterval(function () {
+                   if (ws.readyState == 1) {
+                       webSocketSendMessage({type: 'isOk'});
+                   }
+               }, 3 * 1000);
+           }
 
         /**
          * 收到服务器返回的消息后的处理
@@ -158,12 +158,12 @@
         /**
          * 发送心跳
          */
-        /*var sendHeartbeat = function () {
+        var sendHeartbeat = function () {
             setInterval(function () {
                 if (ws.readyState == 1) {
                     webSocketSendMessage({type: 'isOk'});
 
-                    $.ajax({
+                    /*$.ajax({
                         type: "GET",
                         url:"/v1/api/admin/fileDanmuCheck",
                         data:{},// 序列化表单值
@@ -174,10 +174,10 @@
                         success: function(data) {
 
                         }
-                    });
+                    });*/
                 }
             }, 10 * 1000);
-        }*/
+        }
 
         /*setInterval(function () {
          webSocketSendMessage({type:$scope.type.type_findclientList});
@@ -235,9 +235,7 @@
          * 发送消息
          */
         function webSocketSendMessage(object) {
-            object.partyId = $scope.partyId;
             object.key = getCookieValue("auth_key");
-            object.addressId = $scope.addressId;
             object.partyType=1;
             if (webSocketIsConnect()) {
                 ws.send($.objectCovertJson(object));
@@ -300,7 +298,7 @@
             danmu.isSend=true;
             webSocketSendMessage({
                 type: danmu.type,
-                data: {message: danmu.msg,id:danmu.id, color: danmu.color, openId: danmu.openId}
+                data: {message: danmu.msg,id:danmu.id, color: danmu.color, openId: danmu.openId,partyId:danmu.partyId,addressId:danmu.addressId}
             });
         }
         var setDanmuLeftTime = function (danmu, nowTime) {
@@ -322,7 +320,6 @@
         };
 
         var initPage = function () {
-            $(".danmuPosition-array").val(null).select2({data: positionArray, minimumResultsForSearch: -1});
             $.danmuAjax('/distribute/adminTask/filmSocketAddress', 'GET', 'json', {}, function (data) {
                 console.log(data);
                 if (data.code == 200) {
