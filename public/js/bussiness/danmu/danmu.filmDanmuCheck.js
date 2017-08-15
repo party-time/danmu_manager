@@ -313,6 +313,8 @@
                         danmu.isSend=true;
                         webSocketSendMessage({
                             type: danmu.type,
+                            partyId:danmu.partyId,
+                            addressId:danmu.addressId,
                             data: {message: danmu.msg, id:danmu.id,color: danmu.color, openId: danmu.openId}
                         });
                     }
