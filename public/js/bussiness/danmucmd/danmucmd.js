@@ -349,6 +349,7 @@ var saveParam = function(id){
 
     if( '' == sort){
         alert("排序不能为空");
+        return;
     }
 
     if(sortList.length == 0 || keyList.length == 0 || componentList.length == 0 ||
