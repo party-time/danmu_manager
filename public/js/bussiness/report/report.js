@@ -50,7 +50,7 @@ var columnsArray = [
         align: 'center',
         formatter: function (value, row, index) {
             if(null != row && null != row.danmu ){
-              return row.danmu.content.name;
+              return row.danmu.msg;
             }
         }
     },
@@ -81,3 +81,6 @@ var columnsArray = [
 var quaryObject = {
     pageSize: 20
 };
+
+//加载表格数据
+$.initTable('tableList', columnsArray, quaryObject, tableUrl);
