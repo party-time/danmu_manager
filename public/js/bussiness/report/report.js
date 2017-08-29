@@ -25,10 +25,10 @@ var columnsArray = [
     {
         title: '举报人头像',
         align: 'center',
-        width:'30%',
+        width:'15%',
         formatter: function (value, row, index) {
             if(null != row && null != row.wechatUser){
-                return '<img width="30%" src="'+row.wechatUser.imgUrl+'" />';
+                return '<img width="40%" src="'+row.wechatUser.imgUrl+'" />';
             }else{
                return "";
             }
@@ -48,10 +48,10 @@ var columnsArray = [
     {
         title: '被举报人头像',
         align: 'center',
-        width:'30%',
+        width:'15%',
         formatter: function (value, row, index) {
             if(null != row && null != row.wechatUser){
-                return '<img width="30%" src="'+row.danmu.url+'" />';
+                return '<img width="40%" src="'+row.danmu.url+'" />';
             }else{
                return "";
             }
@@ -105,7 +105,7 @@ var columnsArray = [
         align: 'center',
         formatter: function (value, row, index) {
             if( null == row.report.status ){
-                return '<a class="btn" >屏蔽弹幕</a><a class="btn" >不做处理</a>';
+                return '<a class="btn" onclick="blockDanmu(\''+row.wechatUser.openId+'\',\''+row.danmu.id+'\',\''+row.report.id+'\')">屏蔽弹幕</a><a class="btn" onclick="noProcess(\''+row.wechatUser.openId+'\',\''+row.report.id+'\')" >不做处理</a>';
             }
         }
     }
@@ -116,11 +116,37 @@ var quaryObject = {
 };
 
 
-var blockDanmu = function(){
-
+var blockDanmu = function(openId,danmuId,reportId){
+    if (confirm('确认要屏蔽弹幕吗')) {
+         $.danmuAjax('/v1/api/admin/report/blockDanmu?openId='+openId+'&danmuId='+danmuId+'&reportId='+reportId, 'GET','json',null, function (data) {
+          if (data.result == 200) {
+              console.log(data);
+              alert('屏蔽成功');
+              $.initTable('tableList', columnsArray, quaryObject, tableUrl);
+          }else{
+             alert('删除失败')
+          }
+        }, function (data) {
+            console.log(data);
+        });
+    }
 }
 
-var noProcess = function(){}
+var noProcess = function(openId,reportId){
+    if (confirm('确认要不处理此条弹幕吗')) {
+         $.danmuAjax('/v1/api/admin/report/noProcess?openId='+openId+'&reportId='+reportId, 'GET','json',null, function (data) {
+          if (data.result == 200) {
+              console.log(data);
+              alert('屏蔽成功');
+              $.initTable('tableList', columnsArray, quaryObject, tableUrl);
+          }else{
+             alert('删除失败')
+          }
+        }, function (data) {
+            console.log(data);
+        });
+    }
+}
 
 //加载表格数据
 $.initTable('tableList', columnsArray, quaryObject, tableUrl);
