@@ -105,7 +105,7 @@ var columnsArray = [
         align: 'center',
         formatter: function (value, row, index) {
             if( null == row.report.status ){
-                return "<a class="btn" >屏蔽弹幕</a><a class="btn" >不做处理</a>";
+                return '<a class="btn" >屏蔽弹幕</a><a class="btn" >不做处理</a>';
             }
         }
     }
