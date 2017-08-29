@@ -124,7 +124,7 @@ var blockDanmu = function(openId,danmuId,reportId){
               alert('屏蔽成功');
               $.initTable('tableList', columnsArray, quaryObject, tableUrl);
           }else{
-             alert('删除失败')
+             alert('屏蔽失败')
           }
         }, function (data) {
             console.log(data);
@@ -137,10 +137,10 @@ var noProcess = function(openId,reportId){
          $.danmuAjax('/v1/api/admin/report/noProcess?openId='+openId+'&reportId='+reportId, 'GET','json',null, function (data) {
           if (data.result == 200) {
               console.log(data);
-              alert('屏蔽成功');
+              alert('提交成功');
               $.initTable('tableList', columnsArray, quaryObject, tableUrl);
           }else{
-             alert('删除失败')
+             alert('提交失败')
           }
         }, function (data) {
             console.log(data);
