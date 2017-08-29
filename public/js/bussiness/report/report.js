@@ -122,8 +122,5 @@ var blockDanmu = function(){
 
 var noProcess = function(){}
 
-}
-
-
 //加载表格数据
 $.initTable('tableList', columnsArray, quaryObject, tableUrl);
