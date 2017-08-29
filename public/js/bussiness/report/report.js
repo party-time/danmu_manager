@@ -82,5 +82,6 @@ var quaryObject = {
     pageSize: 20
 };
 
+
 //加载表格数据
 $.initTable('tableList', columnsArray, quaryObject, tableUrl);
