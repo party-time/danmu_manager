@@ -85,9 +85,9 @@ var columnsArray = [
                 if( null == row.report.status){
                     return "未处理";
                 }else if( 0 == row.report.status){
-                    return "弹幕已删除";
+                    return "已删除";
                 }else if( 1== row.report.status){
-                    return "不做处理";
+                    return "不处理";
                 }
               return row.h5Template.tempTitle;
             }
