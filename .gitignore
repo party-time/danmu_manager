@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 np# Created by .ignore support plugin (hsz.mobi)
 ### Example user template template
 ### Example user template
@@ -8,3 +9,7 @@ np# Created by .ignore support plugin (hsz.mobi)
 out
 gen
 /node_modules/
+=======
+.idea/
+node_modules/
+>>>>>>> Stashed changes

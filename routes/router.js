@@ -161,5 +161,9 @@ router.get('/order', function(req, res, next) {
     res.render('order/order');
 });
 
+router.get('/report', function(req, res, next) {
+    res.render('report/report');
+});
+
 
 module.exports = router;
