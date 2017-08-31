@@ -15,27 +15,51 @@
                             <ul class="danmucheck-items">
                                 <li style="height: 20px; padding-left: 2em;">
                                     <h4>
-                                        在线管理员：<span class="danmuCheck-link-status">
-                                                    <span ng-repeat="msg in adminCount">
-                                                        {{msg}}&nbsp;
-                                                    </span>
+                                        在线管理员：
+                                        <span class="">
+                                            <span ng-repeat="msg in adminCount" >
+                                                <span ng-if="msg.checkFlg==0" style="color:forestgreen;">
+                                                    {{msg.adminName}}&nbsp;
                                                 </span>
+                                                <span ng-if="msg.checkFlg==1" style="color:red;">
+                                                    <div style="display: inline; border:1px solid red;">
+                                                        {{msg.adminName}}
+                                                        <img src="http://img0.imgtn.bdimg.com/it/u=1681013038,690854432&fm=26&gp=0.jpg" height="20px;" width="20px;" style="margin-bottom: 3px;"/>&nbsp;
+                                                    </div>
+
+                                                </span>
+
+                                            </span>
+                                        </span>
                                     </h4>
                                 </li>
                                 <li style="height: 40px; padding-left: 2em;">
-                                    <h4>
+                                    <h4 style="padding-top: 6px;">
                                         状态：<span class="danmuCheck-link-status">{{link_Status}}</span>
-                                        在线客户端：<span class="danmuCheck-link-status">{{clientCount}}</span>
-                                        <button type="button" class="btn btn-info" ng-disabled="autoCheck==0" ng-click="setAutoCheck(0)">手动</button>
-                                        <button type="button" class="btn btn-info" ng-disabled="autoCheck==1" ng-click="setAutoCheck(1)">自动</button>
-                                        延迟时间：
-                                        <button class="btn btn-sm btn-default" type="button"
-                                                ng-disabled="delaySecond==0" ng-click="setDelaySecond(false)">-
-                                        </button>
+                                        <!--在线客户端：<span class="danmuCheck-link-status">{{clientCount}}</span>-->
+                                        &nbsp;审核方式:
+                                        <span ng-if="autoCheck==1">
+                                            <button type="button" class="btn btn-info"  ng-click="setAutoCheck(0)">手动</button>
+                                        </span>
+                                        <span ng-if="autoCheck==0">
+                                            <button type="button" class="btn btn-dark"  ng-click="setAutoCheck(1)">自动</button>
+                                        </span>
+
+                                        &nbsp;是否审核:
+                                        <span ng-if="checkFlg==1">
+                                            <button type="button" class="btn btn-info"  ng-click="setCheck(0)">审核</button>
+                                        </span>
+                                        <span ng-if="checkFlg==0">
+                                            <button type="button" class="btn btn-dark"  ng-click="setCheck(1)">不审</button>
+                                        </span>
+
+                                        &nbsp;延迟时间：
+                                        <button class="btn btn-sm btn-default" type="button" ng-disabled="delaySecond==0" ng-click="setDelaySecond(false)">-</button>
                                         <button type="button" class="btn btn-sm btn-default">{{delaySecond}}</button>
-                                        <button class="btn btn-sm btn-default" type="button"
-                                                ng-disabled="delaySecond>99" ng-click="setDelaySecond(true)">+
-                                        </button>
+                                        <button class="btn btn-sm btn-default" type="button" ng-disabled="delaySecond>99" ng-click="setDelaySecond(true)">+</button>
+
+
+
                                     </h4>
                                 </li>
                             </ul>

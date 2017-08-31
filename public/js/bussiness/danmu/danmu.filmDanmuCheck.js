@@ -40,6 +40,7 @@
 
         $scope.autoCheck=0;
         $scope.delaySecond=0;
+        $scope.checkFlg=0
 
 
         $scope.partyStatus;
@@ -59,6 +60,7 @@
             type_expression: 'expression',
             type_bing: 'bling',
             type_danmuDensity: 'danmuDensity',
+            type_checkStatus:'checkStatus',
             type_danmuDirection: 'danmuDirection',
             type_findclientList:'findclientList'
         };
@@ -86,11 +88,13 @@
                         $scope.$apply();
                     }
                     ws.onerror = function (event) {
+                        //webSocketInit();
                         return;
                     }
                     ws.onclose = function (event) {
                         //设置连接状态
                         setLinkStatus();
+                        //webSocketInit();
                         $scope.$apply();
                         return false;
                     }
@@ -116,14 +120,20 @@
             if (json.type == $scope.type.type_init) {
                 //弹幕密度
                 $scope.danmuDensity = json.data.danmuDensity;
+
+                //$scope.checkFlg= parseInt(json.data.checkStatus);
                 //延迟时间
                 $scope.delaySecond = 5;
                 //刷新弹幕频率
                 $interval(refreshDanmuList, 1000);
             } else if (json.type == $scope.type.type_adminCount) {
+                $scope.adminCount = [];
+                var array = json.data;
                 $scope.adminCount = json.data;
             } else if(json.type==$scope.type.type_danmuDensity){
                 $scope.danmuDensity= json.data;
+            } else if(json.type==$scope.type.type_checkStatus){
+                $scope.checkFlg= parseInt(json.data.data);
             } else if (json.type == 'normalDanmu') {
                 var danmu = json.data;
                 danmu.s = 5;
@@ -163,7 +173,7 @@
                 if (ws.readyState == 1) {
                     webSocketSendMessage({type: 'isOk'});
 
-                    /*$.ajax({
+                    $.ajax({
                         type: "GET",
                         url:"/v1/api/admin/fileDanmuCheck",
                         data:{},// 序列化表单值
@@ -174,7 +184,7 @@
                         success: function(data) {
 
                         }
-                    });*/
+                    });
                 }
             }, 10 * 1000);
         }
@@ -189,6 +199,28 @@
             }else{
                 $scope.autoCheck =1;
             }
+        }
+
+        $scope.setCheck=function (value) {
+            if (ws.readyState == 1) {
+                var key = getCookieValue("auth_key");
+                webSocketSendMessage({type: 'checkStatus',data: {status: value,key:key}});
+            }
+            /*$.ajax({
+                type: "GET",
+                url:"/v1/api/admin/updateCheckStatus?checkStatus="+value,
+                data:{},// 序列化表单值
+                async: true,
+                dataType:"json",
+                error: function(request) {
+                    alert("Connection error");
+                },
+                success: function(data) {
+                    if(data.result==200){
+                        $scope.checkFlg = value;
+                    }
+                }
+            });*/
         }
 
 
