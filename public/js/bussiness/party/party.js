@@ -38,7 +38,7 @@ var columnsArray = [
             }else if(row.status == 2){
                 return "电影开始";
             }else if(row.status == 3){
-                return "电影结束";
+                return '<a  href="#" onclick="partyReOpen(\''+row.id+'\')">活动重开</a>';
             }else if(row.status == 4){
                 return "电影下线";
             }else{
@@ -103,7 +103,18 @@ var quaryObject = {
 
 
 
-
+var partyReOpen = function (id) {
+    $.danmuAjax('/v1/api/admin/party/partyReOpen', 'GET','json',{'id':id}, function (data) {
+        if (data.result == 200) {
+            alert(data.result_msg);
+            location.reload();
+        } else {
+            alert(data.result_msg);
+        };
+    }, function (data) {
+        console.log(data);
+    });
+}
 
 var getAllDanmuLibrary = function() {
     $.danmuAjax('/v1/api/admin/getAllDanmuLibrary', 'GET','json',null, function (data) {
