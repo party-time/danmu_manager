@@ -65,11 +65,12 @@ var columnsArray = [
             var str='';
             if(row.type == 0){
                    str += '<a class="btn" href="#" onclick="openDanmuCheck(\''+row.name+'\',\''+row.id+'\')">弹幕审核</a>';
-                 str += '<a class="btn" target="_blank" href="/party/historyDanmu?partyId='+row.id+'">历史弹幕</a>';
+                   str += '<a class="btn" target="_blank" href="/party/historyDanmu?partyId='+row.id+'">历史弹幕</a>';
+                   str += '<a class="btn" target="_blank" href="/v1/api/admin/download/downloadPartyResource?partyId='+row.id+'">资源下载</a>';
             }else if(row.type == 1){
                 str += '<a class="btn" href="#" onclick="openMovieSchedule(\''+row.id+'\')">电影场次</a>';
                 str += '<a class="btn" target="_blank" href="/party/historyDanmu?partyId='+row.id+'">历史弹幕</a>';
-                str += '<a class="btn" href="#" onclick="openAddress(\''+row.name+'\',\''+row.id+'\')">广告弹幕管理</a>';
+                str += '<a class="btn" href="#" onclick="openAddress(\''+row.name+'\',\''+row.id+'\')">广告弹幕</a>';
                 str += '<a class="btn" href="#" onclick="openTimerDanmu(\''+row.id+'\')">定时弹幕</a>';
             }
             return str+='<a class="btn" href="#" onclick="openH5temp(\''+row.id+'\',\''+row.name+'\')">页面管理</a><a class="btn" href="#" onclick="updateParty(\''+row.id+'\')">修改信息</a>';
