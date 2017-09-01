@@ -25,6 +25,8 @@ var drawNavbar = function(){
     }
     if(role != '589a98cd77c8afdcbdeaeeb6'){
         $('.mainnav').html(htmlStr);
+    }
+    if(role == '589a98cd77c8afdcbdeaeeb6'){
         $("#checkDiv").hide();
     }
 
