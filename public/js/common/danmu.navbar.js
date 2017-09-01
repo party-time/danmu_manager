@@ -22,12 +22,10 @@ var drawNavbar = function(){
          htmlStr += '<li><a href="/monitor">通知管理</a></li>';
         htmlStr +=  '</ul></li>';
 
-    }else{
-        $("#checkDiv").hide();
     }
-
     if(role != '589a98cd77c8afdcbdeaeeb6'){
         $('.mainnav').html(htmlStr);
+        $("#checkDiv").hide();
     }
 
 }
