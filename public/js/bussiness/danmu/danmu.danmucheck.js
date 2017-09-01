@@ -48,6 +48,7 @@
 
         $scope.partyStatus;
         $scope.autoCheck=0;
+        $scope.checkFlg=0;
 
         var globalObject = {};
         $scope.type = {
@@ -66,7 +67,8 @@
             type_bing: 'bling',
             type_danmuDensity: 'danmuDensity',
             type_danmuDirection: 'danmuDirection',
-            type_findclientList:'findclientList'
+            type_findclientList:'findclientList',
+            type_checkStatus:'checkStatus'
         };
 
         var webSocketInit = function () {
@@ -120,6 +122,8 @@
                 $scope.delaySecond = json.data.delaySecond;
                 //弹幕密度
                 $scope.danmuDensity = json.data.danmuDensity;
+
+                $scope.checkFlg= parseInt(json.data.checkStatus);
 
                 //电影状态
                 $scope.partyStatus = json.data.partyStatus;
@@ -240,6 +244,8 @@
                 if (json.data != null) {
                     $scope.clientCount = json.data.length;
                 }
+            }  else if(json.type==$scope.type.type_checkStatus){
+                $scope.checkFlg= parseInt(json.data.data);
             } else {
                 return;
             }
@@ -398,6 +404,13 @@
         };
 
 
+        $scope.setCheck=function (value) {
+            if (ws.readyState == 1) {
+                var key = getCookieValue("auth_key");
+                webSocketSendMessage({type: 'checkStatus',data: {status: value,key:key}});
+            }
+        }
+
 
         var specialVideoName = function (id) {
             if ($scope.specialVideos != null && $scope.specialVideos.length > 0) {
@@ -438,6 +451,7 @@
         function webSocketSendMessage(object) {
             object.partyId = $scope.partyId;
             object.key = getCookieValue("auth_key");
+            object.nick =getCookieValue("nick");
             object.addressId = $scope.addressId;
             object.partyType=0;
             if (webSocketIsConnect()) {

@@ -18,11 +18,21 @@
                             <ul class="danmucheck-items">
                                 <li style="height: 20px; padding-left: 2em;">
                                     <h4>
-                                        在线管理员：<span class="danmuCheck-link-status">
-                                                    <span ng-repeat="msg in adminCount">
-                                                        {{msg}}&nbsp;
-                                                    </span>
+                                        在线管理员：
+                                        <span class="">
+                                            <span ng-repeat="msg in adminCount" >
+                                                <span ng-if="msg.checkFlg==0" style="color:forestgreen;">
+                                                    {{msg.adminName}}&nbsp;
                                                 </span>
+                                                <span ng-if="msg.checkFlg==1" style="color:red;">
+                                                    <div style="display: inline; border:1px solid red;">
+                                                        {{msg.adminName}}
+                                                        <img src="http://img0.imgtn.bdimg.com/it/u=1681013038,690854432&fm=26&gp=0.jpg" height="20px;" width="20px;" style="margin-bottom: 3px;"/>&nbsp;
+                                                    </div>
+
+                                                </span>
+                                            </span>
+                                        </span>
                                     </h4>
                                 </li>
                                 <li style="height: 30px;padding-top:10px; padding-left: 2em;">
@@ -39,12 +49,24 @@
                                     <h4>
                                         <button type="button" class="btn btn-info" ng-disabled="autoCheck==0" ng-click="setAutoCheck(0)">关闭自动审核</button>
                                         <button type="button" class="btn btn-info" ng-disabled="autoCheck==1" ng-click="setAutoCheck(1)">开启自动审核</button>
+                                        <div style="display: inline;"  id="checkDiv">
+                                            &nbsp;是否审核:
+                                            <span ng-if="checkFlg==1">
+                                                <button type="button" class="btn btn-info"  ng-click="setCheck(0)">审核</button>
+                                            </span>
+                                            <span ng-if="checkFlg==0">
+                                                <button type="button" class="btn btn-dark"  ng-click="setCheck(1)">不审</button>
+                                            </span>
+                                        </div>
                                     </h4>
                                 </li>
                             </ul>
+
                         </div>
                         <!-- /widget-content -->
+
                     </div>
+
                     <div class="widget widget-table">
                         <div class="widget-header"><i class="icon-th-list"></i>
                             <h3>弹幕列表 <span class="danmuCheck-link-status">{{danmuList.length}}</span>条</h3>

@@ -8,7 +8,7 @@
                 <div class="span12">
                     <div class="widget widget-nopad">
                         <div class="widget-header"><i class="icon-list-alt"></i>
-                            <h3> 活动信息</h3>
+                            <h3> 审核信息</h3>
                         </div>
                         <!-- /widget-header -->
                         <div class="widget-content" id="collapseFirst">
@@ -38,20 +38,26 @@
                                         状态：<span class="danmuCheck-link-status">{{link_Status}}</span>
                                         <!--在线客户端：<span class="danmuCheck-link-status">{{clientCount}}</span>-->
                                         &nbsp;审核方式:
-                                        <span ng-if="autoCheck==1">
-                                            <button type="button" class="btn btn-info"  ng-click="setAutoCheck(0)">手动</button>
-                                        </span>
-                                        <span ng-if="autoCheck==0">
-                                            <button type="button" class="btn btn-dark"  ng-click="setAutoCheck(1)">自动</button>
-                                        </span>
+                                        <div  style="display: inline;">
+                                            <span ng-if="autoCheck==1">
+                                                <button type="button" class="btn btn-info"  ng-click="setAutoCheck(0)">手动</button>
+                                            </span>
+                                            <span ng-if="autoCheck==0">
+                                                <button type="button" class="btn btn-dark"  ng-click="setAutoCheck(1)">自动</button>
+                                            </span>
+                                        </div>
 
-                                        &nbsp;是否审核:
-                                        <span ng-if="checkFlg==1">
-                                            <button type="button" class="btn btn-info"  ng-click="setCheck(0)">审核</button>
-                                        </span>
-                                        <span ng-if="checkFlg==0">
-                                            <button type="button" class="btn btn-dark"  ng-click="setCheck(1)">不审</button>
-                                        </span>
+
+                                        <div style="display: inline;" id="checkDiv">
+                                            &nbsp;是否审核:
+                                            <span ng-if="checkFlg==1">
+                                                <button type="button" class="btn btn-info"  ng-click="setCheck(0)">审核</button>
+                                            </span>
+                                                <span ng-if="checkFlg==0">
+                                                <button type="button" class="btn btn-dark"  ng-click="setCheck(1)">不审</button>
+                                            </span>
+                                        </div>
+
 
                                         &nbsp;延迟时间：
                                         <button class="btn btn-sm btn-default" type="button" ng-disabled="delaySecond==0" ng-click="setDelaySecond(false)">-</button>

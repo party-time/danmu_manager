@@ -40,7 +40,7 @@
 
         $scope.autoCheck=0;
         $scope.delaySecond=0;
-        $scope.checkFlg=0
+        $scope.checkFlg=0;
 
 
         $scope.partyStatus;
@@ -121,7 +121,7 @@
                 //弹幕密度
                 $scope.danmuDensity = json.data.danmuDensity;
 
-                //$scope.checkFlg= parseInt(json.data.checkStatus);
+                $scope.checkFlg= parseInt(json.data.checkStatus);
                 //延迟时间
                 $scope.delaySecond = 5;
                 //刷新弹幕频率
@@ -268,6 +268,7 @@
          */
         function webSocketSendMessage(object) {
             object.key = getCookieValue("auth_key");
+            object.nick =getCookieValue("nick");
             object.partyType=1;
             if (webSocketIsConnect()) {
                 ws.send($.objectCovertJson(object));
