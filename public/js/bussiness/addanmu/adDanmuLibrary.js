@@ -1,8 +1,8 @@
 var url_pre = '/v1/api/admin/adDanmuLibrary';
 var tableUrl = url_pre+'/list';
 var quaryObject = {
-    pageSize: 20,
-    flg:1
+    pageSize: 5,
+    flg:$("#deleteFlg").val()
 };
 
 var columnsArray = [
@@ -41,7 +41,7 @@ var danmuLibraryRecovery = function (id,name) {
         }
         $.danmuAjax(url_pre+'/recovery', 'GET', 'json', obj, function (data) {
             if (data.result == 200) {
-                window.location.href='/adDanmuLibrary';
+                init();
             } else {
                 alert("活动未结束")
             }
@@ -57,7 +57,8 @@ var delAdDanmuLibrary = function (id,name) {
         }
         $.danmuAjax(url_pre+'/del', 'GET', 'json', obj, function (data) {
             if (data.result == 200) {
-                window.location.href='/adDanmuLibrary';
+                //window.location.href='/adDanmuLibrary';
+                init();
             } else {
                 alert("活动未结束")
             }
@@ -72,4 +73,15 @@ var delAdDanmuLibrary = function (id,name) {
 //加载广告旦暮库
 
 //加载表格数据
-$.initTable('tableList', columnsArray, quaryObject, tableUrl);
+function resetTable() {
+    quaryObject.flg = $("#deleteFlg").val();
+    quaryObject.pageNumber=1;
+    $.initTable('tableList', columnsArray, quaryObject, tableUrl);
+}
+function init() {
+    quaryObject.flg = $("#deleteFlg").val();
+    $.initTable('tableList', columnsArray, quaryObject, tableUrl);
+}
+
+init();
+

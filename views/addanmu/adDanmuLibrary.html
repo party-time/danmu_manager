@@ -10,6 +10,13 @@
                         <!-- /widget-header -->
                         <div>
                             <a type="button" class="btn btn-primary" href="/adDanmuLibrary/add">新增广告弹幕库</a>
+                            <div style="display: inline;">
+                                状态:
+                                <select id="deleteFlg" style="margin-bottom: 0px;width: 100px;" onchange="resetTable()">
+                                    <option value="0">未删除</option>
+                                    <option value="1">删除</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="widget-content">
                             <table id="tableList" class="table table-striped"

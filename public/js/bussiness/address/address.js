@@ -217,7 +217,8 @@ var screenColumnsArray =[
      formatter: function (value, row, index) {
           return '<a class="btn" onclick="openUpdateParamDialog(\''+row.name+'\',\''+row.id+'\',\''+row.paramTemplateId+'\')" >改参数</a>' +
               '<a class="btn" onclick="delScreen(\''+g_addressId+'\',\''+row.id+'\',\''+row.name+'\')">删除</a>'+
-              '<a class="btn btn-info" onclick="showProjectorDialog(\''+row.registCode+'\')">投影仪</a>';
+              '<a class="btn btn-info" onclick="showProjectorDialog(\''+row.registCode+'\',\''+row.name+'\',\''+g_addressId+'\')">投影仪</a>';
+              //'<a class="btn btn-info" onclick="showProjectorDialog(\''+row.registCode+'\')">投影仪</a>';
      }
   }
 ];
@@ -341,18 +342,18 @@ var openScreenDialog = function(addressName,addressId){
 
 }
 
-var showProjectorDialog = function(registerCode){
+var showProjectorDialog = function(registerCode,addressName,addressId){
     $('#myModalLabel').html(registerCode+'的投影仪');
     $('.modal-dialog').css("width","560px");
 
 
-    initProjectorInfo(registerCode);
+    initProjectorInfo(registerCode,addressName,addressId);
     $('#modalFooter').html("");
     $('#myModal').modal('show');
 }
 
 
-var initProjectorInfo = function (registerCode) {
+var initProjectorInfo = function (registerCode,addressName,addressId) {
     var usedHours = 0;
     var realUsedHours = 0;
     var id;
@@ -362,7 +363,7 @@ var initProjectorInfo = function (registerCode) {
         if(data.result==200){
             var projectorObject = data.data;
             if(projectorObject!=null) {
-                var intTime = parseInt(projectorObject.usedTime/1000)
+                var intTime = parseInt(projectorObject.usedTime)
                 var hour = parseInt(intTime/60/60);
                 var minute = parseInt((intTime-hour*60*60)/60);
                 var seconds = parseInt(intTime -hour*60*60 -minute*60);
@@ -373,14 +374,15 @@ var initProjectorInfo = function (registerCode) {
         }
         var htmlStr = '<form id="edit-profile" class="form-horizontal">';
         htmlStr += '<label class="control-label" style="width:80px">实际时长</label><div class="controls" style="margin-left:60px;">';
-        htmlStr += '<input type="text" class="device span3" id="realUsedHours" value="'+realUsedHours+'">';
-        htmlStr += ' <input type="button" class="btn-info" onclick="setRealUsedHours(\''+registerCode+'\')" value="保存"/> ';
+        htmlStr += '<input type="text" class="device span3" id="realUsedHours"  maxLength="4" value="'+realUsedHours+'">';
+        htmlStr += ' <input type="button" class="btn-info" onclick="setRealUsedHours(\''+registerCode+'\',\''+addressName+'\',\''+addressId+'\')" value="保存"/> ';
         htmlStr += '</div><br>';
         htmlStr += '<label class="control-label" style="width:80px">使用时长</label><div class="controls" style="margin-left:60px;">';
         htmlStr += '<input type="text" class="device span3" value="'+usedHours+'" readonly>';
         htmlStr += '</div><br>';
         htmlStr += '<label class="control-label" style="width:80px"></label><div class="controls" style="margin-left:60px;">';
-        htmlStr += '<input type="button" onclick="resetHours(\''+registerCode+'\')" value="重置投影时间"/>';
+        htmlStr += '<input type="button" onclick="resetHours(\''+registerCode+'\',\''+addressName+'\',\''+addressId+'\')" value="重置投影时间"/>';
+        htmlStr += '&nbsp;<a class="btn btn-info" onclick="openScreenDialog(\''+addressName+'\',\''+addressId+'\')">返回</a>';
         htmlStr += '</div><br>';
         htmlStr += '</div><br>';
         htmlStr += '</form>';
@@ -389,24 +391,24 @@ var initProjectorInfo = function (registerCode) {
 }
 
 
-var resetHours=function (registerCode) {
+var resetHours=function (registerCode,addressName,addressId) {
     if (confirm('你确定要重置时间')) {
         $.danmuAjax('/v1/api/admin/projector/reset', 'GET','json','',{registerCode:registerCode}, function (data) {
             if(data.result==200){
                 alert('更新成功');
 
-                initProjectorInfo(registerCode);
+                initProjectorInfo(registerCode,addressName,addressId);
             }
         });
     }
 }
 
-var setRealUsedHours=function (registerCode) {
+var setRealUsedHours=function (registerCode,addressName,addressId) {
 
     $.danmuAjax('/v1/api/admin/projector/setRealHours', 'GET','json','',{registerCode:registerCode,realUsedHours:$("#realUsedHours").val()}, function (data) {
         if(data.result==200){
             alert('更新成功');
-            initProjectorInfo(registerCode);
+            initProjectorInfo(registerCode,addressName,addressId);
         }
     });
 }

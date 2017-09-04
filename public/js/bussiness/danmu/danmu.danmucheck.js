@@ -242,7 +242,7 @@
                 $scope.$apply();
             } else if (json.type == $scope.type.type_findclientList) {
                 if (json.data != null) {
-                    $scope.clientCount = json.data.length;
+                    $scope.clientCount = json.data.data;
                 }
             }  else if(json.type==$scope.type.type_checkStatus){
                 $scope.checkFlg= parseInt(json.data.data);
@@ -263,9 +263,9 @@
             }, 3 * 1000);
         }
 
-        /*setInterval(function () {
+        setInterval(function () {
             webSocketSendMessage({type:$scope.type.type_findclientList});
-        }, 3 * 1000);*/
+        }, 3 * 1000);
 
         $scope.setAutoCheck=function (value) {
             if(value==0){
