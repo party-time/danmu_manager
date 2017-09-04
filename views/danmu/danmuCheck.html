@@ -184,7 +184,7 @@
                             <ul class="danmucheck-items">
                                 <li>
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
-                                        <h3 style="margin-right: 1em;width: 98px;">活动状态</h3>
+                                        <h3 style="margin-right: 1em;width: 68px;">活动状态</h3>
                                         <button type="button" class="btn btn-sm btn-info" id="partyStartButton" ng-click="filmStart(1)" title="活动开始">活动</button>
                                         <button type="button" id="filmStartButton" class="btn btn-sm btn-info" ng-click="filmStart(2)" title="电影开始">电影</button>
 
@@ -193,7 +193,7 @@
                                 </li>
                                 <li>
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
-                                        <h3 style="margin-right: 1em;width: 98px;">弹幕密度</h3>
+                                        <h3 style="margin-right: 1em;width: 68px;">弹幕密度</h3>
                                         <input type="text" id="txt_btn-density"
                                                style="position: relative;line-height: 18px;top: 3px;width: 40px;"
                                                maxlength="2" ng-model="danmuDensity"/>
@@ -206,19 +206,18 @@
                                     <div class="danmucheck-items-widget-header">
 
                                         <i class="icon-bookmark"></i>
-                                        <h3 style="margin-right: 1em;width: 98px;">延迟时间</h3>
+                                        <h3 style="margin-right: 1em;width: 68px;">延迟时间</h3>
                                         <button class="btn btn-sm btn-default" type="button"
                                                 ng-disabled="delaySecond==0" ng-click="setDelaySecond(false)">-
                                         </button>
                                         <button type="button" class="btn btn-sm btn-default">{{delaySecond}}</button>
-                                        <button class="btn btn-sm btn-default" type="button"
-                                                ng-disabled="delaySecond>99" ng-click="setDelaySecond(true)">+
+                                        <button class="btn btn-sm btn-default" type="button" ng-disabled="delaySecond>99" ng-click="setDelaySecond(true)">+
                                         </button>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
-                                        <h3 style="margin-right: 1em;width: 98px;">测试弹幕控制</h3>
+                                        <h3 style="margin-right: 1em;width: 68px;">测试弹幕</h3>
                                         <button type="button" class="btn btn-sm btn-danger"
                                                 ng-disabled="testModel==false" ng-click="setTestModelHandler(false)">关闭
                                         </button>
@@ -229,7 +228,7 @@
                                 </li>
                                 <li>
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
-                                        <h3 style="margin-right: 1em;width: 98px;">预制弹幕控制</h3>
+                                        <h3 style="margin-right: 1em;width: 68px;">预制弹幕</h3>
                                         <button type="button" class="btn btn-sm btn-danger"
                                                 ng-disabled="preStatus==false" ng-click="setPreDanmuHandler(false)">关闭
                                         </button>
@@ -240,7 +239,7 @@
                                 </li>
                                 <li>
                                     <div class="danmucheck-items-widget-header"><i class="icon-bookmark"></i>
-                                        <h3 style="margin-right: 1em;width: 98px;">活动结束</h3>
+                                        <h3 style="margin-right: 1em;width: 68px;">活动结束</h3>
 
                                         <button type="button" class="btn btn-sm btn-danger" id="filmEndButton" ng-click="filmStart(3)" title="活动结束">结束</button>
                                     </div>
