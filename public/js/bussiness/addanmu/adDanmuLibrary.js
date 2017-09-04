@@ -1,7 +1,7 @@
 var url_pre = '/v1/api/admin/adDanmuLibrary';
 var tableUrl = url_pre+'/list';
 var quaryObject = {
-    pageSize: 5,
+    pageSize: 20,
     flg:$("#deleteFlg").val()
 };
 
