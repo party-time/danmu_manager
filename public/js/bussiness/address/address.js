@@ -356,6 +356,7 @@ var showProjectorDialog = function(registerCode,addressName,addressId){
 var initProjectorInfo = function (registerCode,addressName,addressId) {
     var usedHours = 0;
     var realUsedHours = 0;
+    var realUsedMinute = 0;
     var id;
 
     $.danmuAjax('/v1/api/admin/projector/info/'+registerCode, 'GET','json','',{}, function (data) {
@@ -369,12 +370,14 @@ var initProjectorInfo = function (registerCode,addressName,addressId) {
                 var seconds = parseInt(intTime -hour*60*60 -minute*60);
                 usedHours = hour +'时'+minute+'分'+seconds+'秒';
                 realUsedHours = projectorObject.realUsedHours;
+                realUsedMinute = projectorObject.realUsedMinute;
                 id = projectorObject.id;
             }
         }
         var htmlStr = '<form id="edit-profile" class="form-horizontal">';
         htmlStr += '<label class="control-label" style="width:80px">实际时长</label><div class="controls" style="margin-left:60px;">';
-        htmlStr += '<input type="text" class="device span3" id="realUsedHours"  maxLength="4" value="'+realUsedHours+'">';
+        htmlStr += '<input type="text" style="width: 80px;" class="device" id="realUsedHours"  maxLength="4" value="'+realUsedHours+'">时';
+        htmlStr += '<input type="text" style="width: 50px;" class="device" id="realUsedMinute"  maxLength="2" value="'+realUsedMinute+'">分';
         htmlStr += ' <input type="button" class="btn-info" onclick="setRealUsedHours(\''+registerCode+'\',\''+addressName+'\',\''+addressId+'\')" value="保存"/> ';
         htmlStr += '</div><br>';
         htmlStr += '<label class="control-label" style="width:80px">使用时长</label><div class="controls" style="margin-left:60px;">';
@@ -405,7 +408,7 @@ var resetHours=function (registerCode,addressName,addressId) {
 
 var setRealUsedHours=function (registerCode,addressName,addressId) {
 
-    $.danmuAjax('/v1/api/admin/projector/setRealHours', 'GET','json','',{registerCode:registerCode,realUsedHours:$("#realUsedHours").val()}, function (data) {
+    $.danmuAjax('/v1/api/admin/projector/setRealHours', 'GET','json','',{registerCode:registerCode,realUsedHours:$("#realUsedHours").val(),realUsedMinute:$("#realUsedMinute").val()}, function (data) {
         if(data.result==200){
             alert('更新成功');
             initProjectorInfo(registerCode,addressName,addressId);
