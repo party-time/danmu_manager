@@ -189,9 +189,9 @@
             }, 10 * 1000);
         }
 
-        /*setInterval(function () {
+        setInterval(function () {
          webSocketSendMessage({type:$scope.type.type_findclientList});
-         }, 3 * 1000);*/
+         }, 3 * 1000);
 
         $scope.setAutoCheck=function (value) {
             if(value==0){
