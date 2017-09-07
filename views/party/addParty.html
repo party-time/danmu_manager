@@ -37,23 +37,17 @@
                                                         <select id="movieAlias"></select>
                                                     </div> <!-- /controls -->
                                                 </div> <!-- /control-group -->
-
-                                                <div class="control-group">
-                                                    <label class="control-label" for="movieAlias">弹幕密度</label>
-                                                    <div class="controls">
-                                                        <input id="dmDensity" type="text" value="5">
-                                                    </div> <!-- /controls -->
-                                                </div>
-
                                             </div>
                                             <div class="control-group">
-                                                <label class="control-label" for="selectPreDm">选择预制弹幕库</label>
-                                                <div class="controls" id="selectPreDm">
-
+                                                <label class="control-label">选择预制弹幕库</label>
+                                                <div class="controls" >
+                                                    <span id="selectPreDm"></span>
+                                                    <a class="btn" onclick="getAllDanmuLibrary()">+增加</a>
                                                 </div> <!-- /controls -->
+
                                             </div>
                                             <div class="control-group" id="partyTable" style="display:none">
-                                                <label class="control-label" for="selectPreDm">选择场地</label>
+                                                <label class="control-label">选择场地</label>
                                                 <div class="controls" >
                                                     <a class="btn" onclick="openAddress();">选择</a>
                                                 </div> <!-- /controls -->

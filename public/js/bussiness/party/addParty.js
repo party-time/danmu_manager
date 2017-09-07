@@ -174,6 +174,26 @@ var checkEndTime = function(){
 
 var saveParty = function(){
     var partyType = $('#partyType').val();
+    var densitys,ids;
+    if($('.dlSelect')){
+        $('.dlSelect').each(function(){
+            if($(this).val()!=0){
+                ids += $(this).val();
+                ids += ',';
+            }
+        });
+        ids = ids.substr(0,ids.length-1);
+    }
+    if($('.dlText')){
+        $('.dlText').each(function(){
+            if($(this).val()!=0){
+                densitys += $(this).val();
+                densitys += ',';
+            }
+        });
+        densitys = densitys.substr(0,ids.length-1);
+    }
+
     if( partyType == 0){
        var aList = $('#selectAddress').children('a');
        var addressIds = '';
@@ -185,18 +205,17 @@ var saveParty = function(){
                }
            }
        }
-
         if( aList.length == 0){
             alert("请选择场地");
             return;
         }
-
-
         var obj = {
             'name': $('#name').val(),
             'type':partyType,
             'danmuLibraryId':$('#danmuLibraryId').val(),
-            'addressIds':addressIds
+            'addressIds':addressIds,
+            'densitys':densitys,
+            'ids':ids
         }
 
         findPartyByName();
@@ -205,33 +224,18 @@ var saveParty = function(){
         //checkEndTime();
 
     }else{
-        var dmDensity = $('#dmDensity').val();
-        if( !dmDensity ){
-            alert('请填写弹幕密度');
-            return;
-        }
-        var reg = /^[0-9]*$/g;
-        if(!reg.test(dmDensity)){
-            alert('弹幕密度只能为数字');
-            return;
-        }
+
         var obj = {
             'name': $('#name').val(),
             'type':partyType,
             'movieAlias': $('#movieAlias').val(),
-            'dmDensity':$('#dmDensity').val(),
-            'danmuLibraryId':$('#danmuLibraryId').val()
+            'densitys':densitys,
+            'ids':ids
         }
 
         findPartyByName();
         //findPartyByShortName();
     }
-
-    if(obj.danmuLibraryId == 0){
-        alert('请选择弹幕库');
-        return;
-    }
-
 
 
     if(!$('.help-block').html()){
@@ -309,26 +313,59 @@ var initMovieAlias = function(){
     });
 }
 
+var dl_count=0;
 
 var getAllDanmuLibrary = function() {
-    $.danmuAjax('/v1/api/admin/getAllDanmuLibrary', 'GET','json',null, function (data) {
+    if( dl_count >= 3){
+        alert('只能增加3个弹幕库');
+        return;
+    }
+
+    var ids='';
+
+    if($('.dlSelect')){
+        $('.dlSelect').each(function(){
+            if($(this).val()!=0){
+                ids += $(this).val();
+                ids += ',';
+            }
+        });
+        ids = ids.substr(0,ids.length-1);
+    }
+
+
+    $.danmuAjax('/v1/api/admin/preDm/getAllLibraryNotInIds?ids='+ids, 'GET','json',null, function (data) {
         if (data.result == 200) {
-           danmuLibraryList = data.data;
-          var dl = {
+            danmuLibraryList = data.data;
+            var dl = {
                  id:'0',
                  name:'选择弹幕库'
-              }
-           danmuLibraryList.unshift(dl);
+            }
+            danmuLibraryList.unshift(dl);
 
-           var selectHtml = '<select  style="width: 100px;margin-bottom: 0px;" id="danmuLibraryId">';
+           var selectHtml = '<select class="dlSelect"  style="width: 100px;margin-bottom: 0px;" id="danmuLibraryId'+dl_count+'" onchange="changeDmSelect(this)">';
+           var selectoption = '';
            if( null != danmuLibraryList){
                for( var i=0;i<danmuLibraryList.length;i++){
-                    selectHtml += '<option value='+danmuLibraryList[i].id+'>'+danmuLibraryList[i].name+'</option>';
+                    selectoption += '<option value='+danmuLibraryList[i].id+'>'+danmuLibraryList[i].name+'</option>';
                }
            }
+           selectHtml +=selectoption;
            selectHtml += '</select>';
+           selectHtml +='<input type="text" class="dlText" style="width:20px;" maxLength="2"/>';
+           if($('#selectPreDm').html() == ''){
+                $('#selectPreDm').html(selectHtml);
+           }else{
+                if(dl_count == 1){
+                    selectHtml = '<a class="btn rmDmL" onclick="delDmLibrary(this)">-</a>'+selectHtml+'<a class="btn rmDmL" onclick="delDmLibrary(this)">-</a>';
+                }else{
+                    selectHtml += '<a class="btn rmDmL" onclick="delDmLibrary(this)">-</a>';
+                }
+                $('#selectPreDm').append(selectHtml);
+           }
 
-           $('#selectPreDm').html(selectHtml);
+
+           dl_count++;
         } else {
             alert(data.result_msg);
         };
@@ -336,6 +373,31 @@ var getAllDanmuLibrary = function() {
         console.log(data);
     });
 }
+
+var changeDmSelect = function(obj){
+    var option = $(obj).val();
+    var thisId = $(obj).attr('id');
+    if(dl_count > 0 ){
+        for(var i=0;i<dl_count;i++){
+            if(thisId != 'danmuLibraryId'+i){
+                $('#danmuLibraryId'+i+' option[value='+option+']').remove();
+            }
+        }
+    }
+}
+
+
+var delDmLibrary = function(obj){
+    dl_count--;
+    $(obj).prev('.dlText').remove();
+    $(obj).prev('.dlSelect').remove();
+    if(dl_count == 1){
+          $(obj).prev('.btn.rmDmL').remove();
+     }
+    $(obj).remove();
+}
+
+
 
 var selectAddress = function(id,name){
     var html = '<span class="_s'+id+'">'+name+'</span><a class="btn _a'+id+'" onclick="removeAddress(\''+id+'\')" addressId="'+id+'">删除</a>';
