@@ -174,24 +174,42 @@ var checkEndTime = function(){
 
 var saveParty = function(){
     var partyType = $('#partyType').val();
-    var densitys,ids;
+    var densitrys='',ids='',idNum=0,densitryNum=0;
     if($('.dlSelect')){
         $('.dlSelect').each(function(){
             if($(this).val()!=0){
                 ids += $(this).val();
                 ids += ',';
+                idNum++;
             }
         });
-        ids = ids.substr(0,ids.length-1);
+        if( ids != ''){
+            ids = ids.substr(0,ids.length-1);
+        }
     }
     if($('.dlText')){
         $('.dlText').each(function(){
-            if($(this).val()!=0){
-                densitys += $(this).val();
-                densitys += ',';
+            if( '' != $(this).val()){
+                densitrys += $(this).val();
+                densitrys += ',';
+                densitryNum++;
             }
-        });
-        densitys = densitys.substr(0,ids.length-1);
+
+        })
+        if( densitrys != ''){
+            densitrys = densitrys.substr(0,densitrys.length-1);
+        }
+    }
+
+    if( ids != '' ){
+        if( densitrys == ''){
+            alert('请填写弹幕密度');
+            return;
+        }
+        if(idNum != densitryNum){
+            alert('请填写弹幕密度');
+            return;
+        }
     }
 
     if( partyType == 0){
@@ -214,7 +232,7 @@ var saveParty = function(){
             'type':partyType,
             'danmuLibraryId':$('#danmuLibraryId').val(),
             'addressIds':addressIds,
-            'densitys':densitys,
+            'densitrys':densitrys,
             'ids':ids
         }
 
@@ -229,7 +247,7 @@ var saveParty = function(){
             'name': $('#name').val(),
             'type':partyType,
             'movieAlias': $('#movieAlias').val(),
-            'densitys':densitys,
+            'densitrys':densitrys,
             'ids':ids
         }
 
