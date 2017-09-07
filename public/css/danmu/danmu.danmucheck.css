@@ -15,10 +15,6 @@
 .danmucheck-items-widget-header {
 
     position: relative;
-
-    height: 40px;
-    line-height: 40px;
-
     -webkit-background-clip: padding-box;
 }
 
