@@ -335,6 +335,43 @@ var findPartyByName = function(){
 
 var saveParty = function(){
     var partyType = $('#partyType').val();
+    var densitrys='',ids='',idNum=0,densitryNum=0;
+    if($('.dlSelect')){
+        $('.dlSelect').each(function(){
+            if($(this).val()!=0){
+                ids += $(this).val();
+                ids += ',';
+                idNum++;
+            }
+        });
+        if( ids != ''){
+            ids = ids.substr(0,ids.length-1);
+        }
+    }
+    if($('.dlText')){
+        $('.dlText').each(function(){
+            if( '' != $(this).val()){
+                densitrys += $(this).val();
+                densitrys += ',';
+                densitryNum++;
+            }
+
+        })
+        if( densitrys != ''){
+            densitrys = densitrys.substr(0,densitrys.length-1);
+        }
+    }
+
+    if( ids != '' ){
+        if( densitrys == ''){
+            alert('请填写弹幕密度');
+            return;
+        }
+        if(idNum != densitryNum){
+            alert('请填写弹幕密度');
+            return;
+        }
+    }
     if( partyType == 0){
        var aList = $('#selectAddress').children('a');
        var addressIds = '';
@@ -355,9 +392,10 @@ var saveParty = function(){
         var obj = {
             'name': $('#name').val(),
             'type':partyType,
-            'danmuLibraryId':$('#danmuLibraryId').val(),
             'addressIds':addressIds,
-            'id':_update_partyId
+            'id':_update_partyId,
+            'densitrys':densitrys,
+            'ids':ids
         }
         findPartyByName();
     }else{
@@ -375,20 +413,14 @@ var saveParty = function(){
             'name': $('#name').val(),
             'type':partyType,
             'movieAlias': $('#movieAlias').val(),
-            'dmDensity':$('#dmDensity').val(),
-            'danmuLibraryId':$('#danmuLibraryId').val(),
+            'densitrys':densitrys,
+            'ids':ids,
             'id':_update_partyId
         }
 
         findPartyByName();
         //findPartyByShortName();
     }
-
-    if(obj.danmuLibraryId == 0){
-        alert('请选择弹幕库');
-        return;
-    }
-
 
 
     if(!$('.help-block').html()){
