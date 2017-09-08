@@ -55,22 +55,36 @@ var getAllDanmuLibrary = function(partyId) {
     $.danmuAjax('/v1/api/admin/danmuLibraryParty/getAllByPartyId?partyId='+partyId, 'GET','json',null, function (data) {
         if (data.result == 200) {
 
-           var partyDanmuLibraryList = new Array()
-           for( var i=0;i<data.data.length;i++){
-                var danmuLibrary = {
-                    id:data.data[i].id,
-                    densitry:data.data[i].densitry,
-                    danmuLibraryId:data.data[i].danmuLibraryId
+           var partyDanmuLibraryList = new Array();
+           if(data.data && data.data.length > 0){
+                for( var i=0;i<data.data.length;i++){
+                    var danmuLibrary = {
+                        id:data.data[i].id,
+                        densitry:data.data[i].densitry,
+                        danmuLibraryId:data.data[i].danmuLibraryId
+                    }
+                    partyDanmuLibraryList.unshift(danmuLibrary);
                 }
-                partyDanmuLibraryList.unshift(danmuLibrary);
+           }else{
+               var danmuLibrary = {
+                       id:'',
+                       densitry:'',
+                       danmuLibraryId:''
+                   }
+               partyDanmuLibraryList.unshift(danmuLibrary);
            }
+
 
            $.danmuAjax('/v1/api/admin/preDm/getAllLibraryNotInIds', 'GET','json',null, function (data) {
                 if (data.result == 200) {
                     var danmuLibraryList = data.data;
                     var selectHtml = '';
                     for( var i=0;i<partyDanmuLibraryList.length;i++){
-
+                        var dl = {
+                             id:'0',
+                             name:'选择弹幕库'
+                        }
+                        danmuLibraryList.unshift(dl);
                         selectHtml += '<select class="dlSelect"  style="width: 100px;margin-bottom: 0px;" id="danmuLibraryId'+i+'" onchange="changeDmSelect(this)">';
                         for(var j=0;j<danmuLibraryList.length;j++){
 
@@ -83,7 +97,7 @@ var getAllDanmuLibrary = function(partyId) {
                         }
                         selectHtml += '</select>';
                         selectHtml +='<input type="text" class="dlText" style="width:20px;" maxLength="2" value="'+partyDanmuLibraryList[i].densitry+'" danmuParty="'+partyDanmuLibraryList[i].id+'"/>';
-                        selectHtml += '<a class="btn rmDmL" onclick="delDmLibrary(this)" >-</a>';
+                        selectHtml += '<a class="btn rmDmL" onclick="delDmLibrary(this)" style="">-</a>';
                         ++dl_count;
                     }
                     $('#selectPreDm').html(selectHtml);
@@ -141,9 +155,7 @@ var addDanmuLibrary = function() {
            selectHtml += '</select>';
            selectHtml +='<input type="text" class="dlText" style="width:20px;" maxLength="2" danmuParty=""/>';
 
-        if(dl_count == 1){
-            selectHtml = '<a class="btn rmDmL" onclick="delDmLibrary(this)">-</a>'+selectHtml+'<a class="btn rmDmL" onclick="delDmLibrary(this)">-</a>';
-        }else{
+        if(dl_count >0){
             selectHtml += '<a class="btn rmDmL" onclick="delDmLibrary(this)">-</a>';
         }
         $('#selectPreDm').append(selectHtml);
@@ -172,11 +184,10 @@ var changeDmSelect = function(obj){
 }
 
 var delDmLibrary = function(obj){
+    dl_count--;
     var id = $(obj).prev('.dlText').attr('danmuParty');
-    alert(id);
     $.danmuAjax('/v1/api/admin/danmuLibraryParty/del?id='+id, 'GET','json',null, function (data) {
         if( data.result == 200){
-            dl_count--;
             $(obj).prev('.dlText').remove();
             $(obj).prev('.dlSelect').remove();
             if(dl_count == 1){
