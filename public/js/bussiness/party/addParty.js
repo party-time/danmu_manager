@@ -175,45 +175,56 @@ var checkEndTime = function(){
 var saveParty = function(){
     var partyType = $('#partyType').val();
     var densitrys='',ids='',idNum=0,densitryNum=0;
+    var dlTextMsg= '';
+     var dlCount=0;
     if($('.dlSelect')){
         $('.dlSelect').each(function(){
             if($(this).val()!=0){
                 ids += $(this).val();
                 ids += ',';
                 idNum++;
+                var densitry = $(this).next('.dlText').val();
+                if( densitry == ''){
+                     dlTextMsg='请填写弹幕密度';
+                     return;
+                }
+                var reg = /^[0-9]*$/g;
+                if(!reg.test(densitry)){
+                    dlTextMsg='弹幕密度只能为正整数';
+                    return;
+                }
+
+                if(densitry==0){
+                    dlTextMsg='弹幕密度不能为0';
+                    return;
+                }
+                dlCount += parseInt(densitry);
+                densitrys += ''+densitry;
+                densitrys += ',';
+                densitryNum++;
+            }else{
+                var densitry = $(this).next('.dlText').val();
+                if( densitry ){
+                    dlTextMsg='如果填写了弹幕密度，请选择弹幕库';
+                    return;
+                }
             }
         });
         if( ids != ''){
             ids = ids.substr(0,ids.length-1);
         }
-    }
-    var dlTextMsg= '';
-    var dlCount=0;
-    if($('.dlText')){
-        $('.dlText').each(function(){
-            if( '' != $(this).val()){
-                var reg = /^[0-9]*$/g;
-                if(!reg.test($(this).val())){
-                    dlTextMsg='弹幕密度只能为正整数';
-                    return;
-                }
-                if($(this).val()==0){
-                    dlTextMsg='弹幕密度不能为0';
-                    return;
-                }
-                dlCount += $(this).val();
-                densitrys += $(this).val();
-                densitrys += ',';
-                densitryNum++;
-            }
-
-        })
         if( densitrys != ''){
             densitrys = densitrys.substr(0,densitrys.length-1);
         }
     }
+
     if( dlTextMsg != ''){
         alert(dlTextMsg);
+        return;
+    }
+
+    if( dlCount > 15){
+        alert('弹幕密度总数不能大于15');
         return;
     }
 
