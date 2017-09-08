@@ -97,7 +97,7 @@ var getAllDanmuLibrary = function(partyId) {
                         }
                         selectHtml += '</select>';
                         selectHtml +='<input type="text" class="dlText" style="width:20px;" maxLength="2" value="'+partyDanmuLibraryList[i].densitry+'" danmuParty="'+partyDanmuLibraryList[i].id+'"/>';
-                        if(dl_count > 0){
+                        if(partyDanmuLibraryList.length > 1){
                             selectHtml += '<a class="btn rmDmL" onclick="delDmLibrary(this)" style="">-</a>';
                         }
                         ++dl_count;
