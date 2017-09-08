@@ -216,10 +216,7 @@ var saveParty = function(){
         alert(dlTextMsg);
         return;
     }
-    if( dlCount > 15){
-        alert('弹幕密度总数不能大于15');
-        return;
-    }
+
     if( ids != '' ){
         if( densitrys == ''){
             alert('请填写弹幕密度');

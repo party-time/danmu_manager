@@ -369,6 +369,7 @@ var saveParty = function(){
                     dlTextMsg='弹幕密度不能为0';
                     return;
                 }
+                dlCount += $(this).val();
                 densitrys += $(this).val();
                 densitrys += ',';
                 densitryNum++;
