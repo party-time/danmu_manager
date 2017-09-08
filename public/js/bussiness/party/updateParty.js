@@ -97,7 +97,9 @@ var getAllDanmuLibrary = function(partyId) {
                         }
                         selectHtml += '</select>';
                         selectHtml +='<input type="text" class="dlText" style="width:20px;" maxLength="2" value="'+partyDanmuLibraryList[i].densitry+'" danmuParty="'+partyDanmuLibraryList[i].id+'"/>';
-                        selectHtml += '<a class="btn rmDmL" onclick="delDmLibrary(this)" style="">-</a>';
+                        if(dl_count > 0){
+                            selectHtml += '<a class="btn rmDmL" onclick="delDmLibrary(this)" style="">-</a>';
+                        }
                         ++dl_count;
                     }
                     $('#selectPreDm').html(selectHtml);
@@ -155,7 +157,9 @@ var addDanmuLibrary = function() {
            selectHtml += '</select>';
            selectHtml +='<input type="text" class="dlText" style="width:20px;" maxLength="2" danmuParty=""/>';
 
-        if(dl_count >0){
+        if(dl_count == 1){
+            selectHtml = '<a class="btn rmDmL" onclick="delDmLibrary(this)">-</a>'+selectHtml+'<a class="btn rmDmL" onclick="delDmLibrary(this)">-</a>';
+        }else{
             selectHtml += '<a class="btn rmDmL" onclick="delDmLibrary(this)">-</a>';
         }
         $('#selectPreDm').append(selectHtml);
