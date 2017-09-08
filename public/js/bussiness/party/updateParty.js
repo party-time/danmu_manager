@@ -362,7 +362,7 @@ var saveParty = function(){
             if( '' != $(this).val()){
                 var reg = /^[0-9]*$/g;
                 if(!reg.test($(this).val())){
-                    dlTextMsg='弹幕密度只能为数字';
+                    dlTextMsg='弹幕密度只能为正整数';
                     return;
                 }
                 if($(this).val()==0){
