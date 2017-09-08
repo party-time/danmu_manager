@@ -187,9 +187,15 @@ var saveParty = function(){
             ids = ids.substr(0,ids.length-1);
         }
     }
+    var dlTextMsg= '';
     if($('.dlText')){
         $('.dlText').each(function(){
             if( '' != $(this).val()){
+                var reg = /^[0-9]*$/g;
+                if(!reg.test($(this).val())){
+                    dlTextMsg='弹幕密度只能为数字';
+                    return;
+                }
                 densitrys += $(this).val();
                 densitrys += ',';
                 densitryNum++;
@@ -199,6 +205,10 @@ var saveParty = function(){
         if( densitrys != ''){
             densitrys = densitrys.substr(0,densitrys.length-1);
         }
+    }
+    if( dlTextMsg != ''){
+        alert(dlTextMsg);
+        return;
     }
 
     if( ids != '' ){

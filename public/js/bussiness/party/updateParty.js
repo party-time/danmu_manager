@@ -23,10 +23,6 @@ var findPartyById = function(){
                     if(data.data.party.type == 1){
                          $('#movieAlias').append("<option value='"+data.data.movieAlias.value+"' selected>"+data.data.movieAlias.name+"</option>");
 
-                         if( null == data.data.party.dmDensity){
-                            data.data.party.dmDensity = 5;
-                         }
-                         $('#dmDensity').val(data.data.party.dmDensity);
                     }else{
                         if( null != data.data.danmuAddressList ){
                             for( var i=0;i<data.data.danmuAddressList.length;i++){
@@ -348,9 +344,16 @@ var saveParty = function(){
             ids = ids.substr(0,ids.length-1);
         }
     }
+
+    var dlTextMsg= '';
     if($('.dlText')){
         $('.dlText').each(function(){
             if( '' != $(this).val()){
+                var reg = /^[0-9]*$/g;
+                if(!reg.test($(this).val())){
+                    dlTextMsg='弹幕密度只能为数字';
+                    return;
+                }
                 densitrys += $(this).val();
                 densitrys += ',';
                 densitryNum++;
@@ -361,7 +364,10 @@ var saveParty = function(){
             densitrys = densitrys.substr(0,densitrys.length-1);
         }
     }
-
+    if( dlTextMsg != ''){
+        alert(dlTextMsg);
+        return;
+    }
     if( ids != '' ){
         if( densitrys == ''){
             alert('请填写弹幕密度');
@@ -372,6 +378,7 @@ var saveParty = function(){
             return;
         }
     }
+
     if( partyType == 0){
        var aList = $('#selectAddress').children('a');
        var addressIds = '';
@@ -399,16 +406,7 @@ var saveParty = function(){
         }
         findPartyByName();
     }else{
-        var dmDensity = $('#dmDensity').val();
-        if( !dmDensity ){
-            alert('请填写弹幕密度');
-            return;
-        }
-        var reg = /^[0-9]*$/g;
-        if(!reg.test(dmDensity)){
-            alert('弹幕密度只能为数字');
-            return;
-        }
+
         var obj = {
             'name': $('#name').val(),
             'type':partyType,
