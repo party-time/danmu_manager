@@ -361,12 +361,17 @@ var saveParty = function(){
     }
 
     var dlTextMsg= '';
+    var dlCount=0;
     if($('.dlText')){
         $('.dlText').each(function(){
             if( '' != $(this).val()){
                 var reg = /^[0-9]*$/g;
                 if(!reg.test($(this).val())){
                     dlTextMsg='弹幕密度只能为数字';
+                    return;
+                }
+                if($(this).val()==0){
+                    dlTextMsg='弹幕密度不能为0';
                     return;
                 }
                 densitrys += $(this).val();
@@ -381,6 +386,10 @@ var saveParty = function(){
     }
     if( dlTextMsg != ''){
         alert(dlTextMsg);
+        return;
+    }
+    if( dlCount > 15){
+        alert('弹幕密度总数不能大于15');
         return;
     }
     if( ids != '' ){
