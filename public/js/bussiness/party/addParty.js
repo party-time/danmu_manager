@@ -403,19 +403,19 @@ var addDanmuLibrary = function() {
     var selectoption = '';
     if( null != _danmuLibraryList){
        for( var i=0;i<_danmuLibraryList.length;i++){
-            if(dmLibrarySelectList.length>0){
-                for( var j=0;j<dmLibrarySelectList.length;j++){
-                    if( _danmuLibraryList[i].id != dmLibrarySelectList[j]){
-                        selectoption += '<option value='+_danmuLibraryList[i].id+'>'+_danmuLibraryList[i].name+'</option>';
-
-                    }
+            console.log(dl_count);
+            if( dl_count == 1){
+                if(_danmuLibraryList[i].id != $('#danmuLibraryId'+0).val()){
+                    selectHtml += '<option value='+_danmuLibraryList[i].id+'>'+_danmuLibraryList[i].name+'</option>';
                 }
-            }else{
-                selectoption += '<option value='+_danmuLibraryList[i].id+'>'+_danmuLibraryList[i].name+'</option>';
+            }else if( dl_count == 2){
+                if(_danmuLibraryList[i].id != $('#danmuLibraryId'+0).val() && _danmuLibraryList[i].id != $('#danmuLibraryId'+1).val()  ){
+                     selectHtml += '<option value='+_danmuLibraryList[i].id+'>'+_danmuLibraryList[i].name+'</option>';
+                }
             }
        }
     }
-    selectHtml +=selectoption;
+    console.log(selectHtml);
     selectHtml += '</select>';
     selectHtml +='<input type="text" class="dlText" style="width:20px;" maxLength="2"/>';
     if($('#selectPreDm').html() == ''){
@@ -453,6 +453,7 @@ var changeDmSelect = function(obj){
                 if( null != _danmuLibraryList){
                    var danmuLibraryList = new Array();
                    for( var j=0;j<_danmuLibraryList.length;j++){
+                        console.log('i:'+i+',dl_count:'+dl_count);
                         if( i==0 && dl_count == 2){
                             if(_danmuLibraryList[j].id != $('#danmuLibraryId'+1).val() ){
                                 danmuLibraryList.push(_danmuLibraryList[j]);
@@ -463,8 +464,6 @@ var changeDmSelect = function(obj){
                              }
                         }
                         if( i==1 && dl_count == 2){
-                            console.log("dm0:"+$('#danmuLibraryId'+0).val());
-                            console.log("dm2:"+$('#danmuLibraryId'+2).val());
                             if(_danmuLibraryList[j].id != $('#danmuLibraryId'+0).val()){
                                 danmuLibraryList.push(_danmuLibraryList[j]);
                             }
@@ -494,7 +493,6 @@ var changeDmSelect = function(obj){
                    }
                 }
                 selectHtml += '</select>';
-                console.log(selectHtml);
                 $('#danmuLibraryId'+i).html(selectHtml);
                 $('#danmuLibraryId'+i).val(thisVal);
             }
