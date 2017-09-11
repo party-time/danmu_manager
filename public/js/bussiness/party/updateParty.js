@@ -205,7 +205,6 @@ var delDmLibrary = function(obj){
         if( data.result == 200){
             $(obj).prev('.dlText').remove();
             $(obj).prev('.dlSelect').remove();
-
             $(obj).remove();
         }
     }, function (data) {
