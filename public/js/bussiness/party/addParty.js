@@ -403,19 +403,18 @@ var addDanmuLibrary = function() {
     var selectoption = '';
     if( null != _danmuLibraryList){
        for( var i=0;i<_danmuLibraryList.length;i++){
-            console.log(dl_count);
             if( dl_count == 1){
-                if(_danmuLibraryList[i].id != $('#danmuLibraryId'+0).val()){
+                 console.log(_danmuLibraryList[i].id);
+                if(_danmuLibraryList[i].id ==0 || _danmuLibraryList[i].id != $('#danmuLibraryId'+0).val()){
                     selectHtml += '<option value='+_danmuLibraryList[i].id+'>'+_danmuLibraryList[i].name+'</option>';
                 }
             }else if( dl_count == 2){
-                if(_danmuLibraryList[i].id != $('#danmuLibraryId'+0).val() && _danmuLibraryList[i].id != $('#danmuLibraryId'+1).val()  ){
+                if(   _danmuLibraryList[i].id ==0 || _danmuLibraryList[i].id != $('#danmuLibraryId'+0).val() && _danmuLibraryList[i].id != $('#danmuLibraryId'+1).val()  ){
                      selectHtml += '<option value='+_danmuLibraryList[i].id+'>'+_danmuLibraryList[i].name+'</option>';
                 }
             }
        }
     }
-    console.log(selectHtml);
     selectHtml += '</select>';
     selectHtml +='<input type="text" class="dlText" style="width:20px;" maxLength="2"/>';
     if($('#selectPreDm').html() == ''){
