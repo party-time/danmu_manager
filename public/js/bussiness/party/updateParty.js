@@ -243,68 +243,79 @@ var changeDmSelect = function(obj){
     }
 }
 
+
 var delDmLibrary = function(obj){
-    var thisId = $(obj).attr('id');
-    $(obj).prev('.dlText').remove();
-    $(obj).prev('.dlSelect').remove();
-    if(dl_count == 2){
-         $(obj).prev('.btn.rmDmL').remove();
-    }
-    $(obj).remove();
-    for(var i=0;i<dl_count+1;i++){
-        var thisVal = $('#danmuLibraryId'+i).val();
-        var selectHtml = '';
+    var id = $(obj).prev('.dlText').attr('danmuParty');
+    $.danmuAjax('/v1/api/admin/danmuLibraryParty/del?id='+id, 'GET','json',null, function (data) {
+        if( data.result == 200){
+            var thisId = $(obj).attr('id');
+                $(obj).prev('.dlText').remove();
+                $(obj).prev('.dlSelect').remove();
+                if(dl_count == 2){
+                     $(obj).prev('.btn.rmDmL').remove();
+                }
+                $(obj).remove();
+                for(var i=0;i<dl_count+1;i++){
+                    var thisVal = $('#danmuLibraryId'+i).val();
+                    var selectHtml = '';
 
-        $('#danmuLibraryId'+i).empty();
-        selectHtml = '<select class="dlSelect"  style="width: 100px;margin-bottom: 0px;" id="danmuLibraryId'+dl_count+'" onchange="changeDmSelect(this)">';
-        if( null != _danmuLibraryList){
-           var danmuLibraryList = new Array();
-           for( var j=0;j<_danmuLibraryList.length;j++){
-                console.log('i:'+i+',dl_count:'+dl_count);
-                if( i==0 && dl_count == 2){
-                    if(_danmuLibraryList[j].id != $('#danmuLibraryId'+1).val() ){
-                        danmuLibraryList.push(_danmuLibraryList[j]);
-                    }
-                }else if(i==0 && dl_count == 3){
-                     if(_danmuLibraryList[j].id != $('#danmuLibraryId'+1).val() && _danmuLibraryList[j].id != $('#danmuLibraryId'+2).val()){
-                        danmuLibraryList.push(_danmuLibraryList[j]);
-                     }
-                }
-                if( i==1 && dl_count == 2){
-                    if(_danmuLibraryList[j].id != $('#danmuLibraryId'+0).val()){
-                        danmuLibraryList.push(_danmuLibraryList[j]);
-                    }
-                }else if( i==1 &&  dl_count == 3){
-                   if(_danmuLibraryList[j].id != $('#danmuLibraryId'+0).val() && _danmuLibraryList[j].id != $('#danmuLibraryId'+2).val() ){
-                       danmuLibraryList.push(_danmuLibraryList[j]);
-                   }
-                }
-                if( i==2 && dl_count == 2){
-                    if(_danmuLibraryList[j].id != $('#danmuLibraryId'+0).val()){
-                        danmuLibraryList.push(_danmuLibraryList[j]);
-                    }
-                }else if(i==2 && dl_count == 3){
-                    if(_danmuLibraryList[j].id != $('#danmuLibraryId'+0).val() && _danmuLibraryList[j].id != $('#danmuLibraryId'+1).val()){
-                        danmuLibraryList.push(_danmuLibraryList[j]);
-                    }
-                }
-           }
+                    $('#danmuLibraryId'+i).empty();
+                    selectHtml = '<select class="dlSelect"  style="width: 100px;margin-bottom: 0px;" id="danmuLibraryId'+dl_count+'" onchange="changeDmSelect(this)">';
+                    if( null != _danmuLibraryList){
+                       var danmuLibraryList = new Array();
+                       for( var j=0;j<_danmuLibraryList.length;j++){
+                            console.log('i:'+i+',dl_count:'+dl_count);
+                            if( i==0 && dl_count == 2){
+                                if(_danmuLibraryList[j].id != $('#danmuLibraryId'+1).val() ){
+                                    danmuLibraryList.push(_danmuLibraryList[j]);
+                                }
+                            }else if(i==0 && dl_count == 3){
+                                 if(_danmuLibraryList[j].id != $('#danmuLibraryId'+1).val() && _danmuLibraryList[j].id != $('#danmuLibraryId'+2).val()){
+                                    danmuLibraryList.push(_danmuLibraryList[j]);
+                                 }
+                            }
+                            if( i==1 && dl_count == 2){
+                                if(_danmuLibraryList[j].id != $('#danmuLibraryId'+0).val()){
+                                    danmuLibraryList.push(_danmuLibraryList[j]);
+                                }
+                            }else if( i==1 &&  dl_count == 3){
+                               if(_danmuLibraryList[j].id != $('#danmuLibraryId'+0).val() && _danmuLibraryList[j].id != $('#danmuLibraryId'+2).val() ){
+                                   danmuLibraryList.push(_danmuLibraryList[j]);
+                               }
+                            }
+                            if( i==2 && dl_count == 2){
+                                if(_danmuLibraryList[j].id != $('#danmuLibraryId'+0).val()){
+                                    danmuLibraryList.push(_danmuLibraryList[j]);
+                                }
+                            }else if(i==2 && dl_count == 3){
+                                if(_danmuLibraryList[j].id != $('#danmuLibraryId'+0).val() && _danmuLibraryList[j].id != $('#danmuLibraryId'+1).val()){
+                                    danmuLibraryList.push(_danmuLibraryList[j]);
+                                }
+                            }
+                       }
 
-           for(var j=0;j<danmuLibraryList.length;j++){
-                if(j==0){
-                    if(danmuLibraryList[j].id !=0){
-                        selectHtml += '<option value="0">选择弹幕库</option>';
+                       for(var j=0;j<danmuLibraryList.length;j++){
+                            if(j==0){
+                                if(danmuLibraryList[j].id !=0){
+                                    selectHtml += '<option value="0">选择弹幕库</option>';
+                                }
+                            }
+                            selectHtml += '<option value='+danmuLibraryList[j].id+'>'+danmuLibraryList[j].name+'</option>';
+                       }
                     }
+                    selectHtml += '</select>';
+                    $('#danmuLibraryId'+i).html(selectHtml);
+                    $('#danmuLibraryId'+i).val(thisVal);
+
                 }
-                selectHtml += '<option value='+danmuLibraryList[j].id+'>'+danmuLibraryList[j].name+'</option>';
-           }
+                dl_count--;
+        }else{
+            alert('删除失败');
         }
-        selectHtml += '</select>';
-        $('#danmuLibraryId'+i).html(selectHtml);
-        $('#danmuLibraryId'+i).val(thisVal);
+    }, function (data) {
+        console.log(data);
+    });
 
-    }
-    dl_count--;
 }
 
 var initMovieAlias = function(){
