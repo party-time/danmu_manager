@@ -359,78 +359,148 @@ var initMovieAlias = function(){
 }
 
 var dl_count=0;
+var _danmuLibraryList;
 
-var getAllDanmuLibrary = function() {
+var getAllDanmuLibrary = function(){
+    $.danmuAjax('/v1/api/admin/preDm/getAllLibraryNotInIds', 'GET','json',null, function (data) {
+        if (data.result == 200) {
+            _danmuLibraryList = data.data;
+            var dl = {
+                id:'0',
+                name:'选择弹幕库'
+            }
+            _danmuLibraryList.unshift(dl);
+            var selectHtml = '<select class="dlSelect"  style="width: 100px;margin-bottom: 0px;" id="danmuLibraryId'+dl_count+'" onchange="changeDmSelect(this)">';
+            var selectoption = '';
+            if( null != _danmuLibraryList){
+                for( var i=0;i<_danmuLibraryList.length;i++){
+                    selectoption += '<option value='+_danmuLibraryList[i].id+'>'+_danmuLibraryList[i].name+'</option>';
+                }
+            }
+            selectHtml +=selectoption;
+            selectHtml += '</select>';
+            selectHtml +='<input type="text" class="dlText" style="width:20px;" maxLength="2"/>';
+            $('#selectPreDm').html(selectHtml);
+            dl_count++;
+        }
+    });
+}
+
+var addDanmuLibrary = function() {
     if( dl_count >= 3){
         alert('只能增加3个弹幕库');
         return;
     }
-
-    var ids='';
-
+    var dmLibrarySelectList = new Array();
     if($('.dlSelect')){
         $('.dlSelect').each(function(){
             if($(this).val()!=0){
-                ids += $(this).val();
-                ids += ',';
+                dmLibrarySelectList.unshift($(this).val());
             }
         });
-        ids = ids.substr(0,ids.length-1);
     }
+    var selectHtml = '<select class="dlSelect"  style="width: 100px;margin-bottom: 0px;" id="danmuLibraryId'+dl_count+'" onchange="changeDmSelect(this)">';
+    var selectoption = '';
+    if( null != _danmuLibraryList){
+       for( var i=0;i<_danmuLibraryList.length;i++){
+            if(dmLibrarySelectList.length>0){
+                for( var j=0;j<dmLibrarySelectList.length;j++){
+                    if( _danmuLibraryList[i].id != dmLibrarySelectList[j]){
+                        selectoption += '<option value='+_danmuLibraryList[i].id+'>'+_danmuLibraryList[i].name+'</option>';
 
-
-    $.danmuAjax('/v1/api/admin/preDm/getAllLibraryNotInIds?ids='+ids, 'GET','json',null, function (data) {
-        if (data.result == 200) {
-            danmuLibraryList = data.data;
-            var dl = {
-                 id:'0',
-                 name:'选择弹幕库'
-            }
-            danmuLibraryList.unshift(dl);
-
-           var selectHtml = '<select class="dlSelect"  style="width: 100px;margin-bottom: 0px;" id="danmuLibraryId'+dl_count+'" onchange="changeDmSelect(this)">';
-           var selectoption = '';
-           if( null != danmuLibraryList){
-               for( var i=0;i<danmuLibraryList.length;i++){
-                    selectoption += '<option value='+danmuLibraryList[i].id+'>'+danmuLibraryList[i].name+'</option>';
-               }
-           }
-           selectHtml +=selectoption;
-           selectHtml += '</select>';
-           selectHtml +='<input type="text" class="dlText" style="width:20px;" maxLength="2"/>';
-           if($('#selectPreDm').html() == ''){
-                $('#selectPreDm').html(selectHtml);
-           }else{
-                if(dl_count == 1){
-                    selectHtml = '<a class="btn rmDmL" onclick="delDmLibrary(this)">-</a>'+selectHtml+'<a class="btn rmDmL" onclick="delDmLibrary(this)">-</a>';
-                }else{
-                    selectHtml += '<a class="btn rmDmL" onclick="delDmLibrary(this)">-</a>';
+                    }
                 }
-                $('#selectPreDm').append(selectHtml);
-           }
-
-
-           dl_count++;
-        } else {
-            alert(data.result_msg);
-        };
-    }, function (data) {
-        console.log(data);
-    });
+            }else{
+                selectoption += '<option value='+_danmuLibraryList[i].id+'>'+_danmuLibraryList[i].name+'</option>';
+            }
+       }
+    }
+    selectHtml +=selectoption;
+    selectHtml += '</select>';
+    selectHtml +='<input type="text" class="dlText" style="width:20px;" maxLength="2"/>';
+    if($('#selectPreDm').html() == ''){
+        $('#selectPreDm').html(selectHtml);
+    }else{
+        if(dl_count == 1){
+            selectHtml = '<a class="btn rmDmL" onclick="delDmLibrary(this)">-</a>'+selectHtml+'<a class="btn rmDmL" onclick="delDmLibrary(this)">-</a>';
+        }else{
+            selectHtml += '<a class="btn rmDmL" onclick="delDmLibrary(this)">-</a>';
+        }
+        $('#selectPreDm').append(selectHtml);
+    }
+    dl_count++;
 }
 
 var changeDmSelect = function(obj){
     var option = $(obj).val();
     var thisId = $(obj).attr('id');
+    var dmLibrarySelectList = new Array();
+    if($('.dlSelect')){
+        $('.dlSelect').each(function(){
+            if($(this).val()!=0 ){
+                dmLibrarySelectList.unshift(option);
+            }
+        });
+    }
+    console.log(dmLibrarySelectList);
     if(dl_count > 0 ){
         for(var i=0;i<dl_count;i++){
+            var thisVal = $('#danmuLibraryId'+i).val();
+            var selectHtml = '';
             if(thisId != 'danmuLibraryId'+i){
-                $('#danmuLibraryId'+i+' option[value='+option+']').remove();
+                $('#danmuLibraryId'+i).empty();
+                selectHtml = '<select class="dlSelect"  style="width: 100px;margin-bottom: 0px;" id="danmuLibraryId'+dl_count+'" onchange="changeDmSelect(this)">';
+                if( null != _danmuLibraryList){
+                   var danmuLibraryList = new Array();
+                   for( var j=0;j<_danmuLibraryList.length;j++){
+                        if( i==0 && dl_count == 2){
+                            if(_danmuLibraryList[j].id != $('#danmuLibraryId'+1).val() ){
+                                danmuLibraryList.push(_danmuLibraryList[j]);
+                            }
+                        }else if(i==0 && dl_count == 3){
+                             if(_danmuLibraryList[j].id != $('#danmuLibraryId'+1).val() && _danmuLibraryList[j].id != $('#danmuLibraryId'+2).val()){
+                                danmuLibraryList.push(_danmuLibraryList[j]);
+                             }
+                        }
+                        if( i==1 && dl_count == 2){
+                            console.log("dm0:"+$('#danmuLibraryId'+0).val());
+                            console.log("dm2:"+$('#danmuLibraryId'+2).val());
+                            if(_danmuLibraryList[j].id != $('#danmuLibraryId'+0).val()){
+                                danmuLibraryList.push(_danmuLibraryList[j]);
+                            }
+                        }else if( i==1 &&  dl_count == 3){
+                           if(_danmuLibraryList[j].id != $('#danmuLibraryId'+0).val() && _danmuLibraryList[j].id != $('#danmuLibraryId'+2).val() ){
+                               danmuLibraryList.push(_danmuLibraryList[j]);
+                           }
+                        }
+                        if( i==2 && dl_count == 2){
+                            if(_danmuLibraryList[j].id != $('#danmuLibraryId'+0).val()){
+                                danmuLibraryList.push(_danmuLibraryList[j]);
+                            }
+                        }else if(i==2 && dl_count == 3){
+                            if(_danmuLibraryList[j].id != $('#danmuLibraryId'+0).val() && _danmuLibraryList[j].id != $('#danmuLibraryId'+1).val()){
+                                danmuLibraryList.push(_danmuLibraryList[j]);
+                            }
+                        }
+                   }
+
+                   for(var j=0;j<danmuLibraryList.length;j++){
+                        if(j==0){
+                            if(danmuLibraryList[j].id !=0){
+                                selectHtml += '<option value="0">选择弹幕库</option>';
+                            }
+                        }
+                        selectHtml += '<option value='+danmuLibraryList[j].id+'>'+danmuLibraryList[j].name+'</option>';
+                   }
+                }
+                selectHtml += '</select>';
+                console.log(selectHtml);
+                $('#danmuLibraryId'+i).html(selectHtml);
+                $('#danmuLibraryId'+i).val(thisVal);
             }
         }
     }
 }
-
 
 var delDmLibrary = function(obj){
     dl_count--;

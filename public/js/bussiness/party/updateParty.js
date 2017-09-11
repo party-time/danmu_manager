@@ -2,6 +2,8 @@
 var _update_partyId;
 var _update_partyName;
 
+var selectObjId,selectObjOption;
+
 var findPartyById = function(){
     var url = location.href;
     var partyId = '';
@@ -51,7 +53,7 @@ var findPartyById = function(){
 }
 var dl_count=0;
 
-var getAllDanmuLibrary = function(partyId) {
+var getAllDanmuLibrary = function(partyId,callback) {
     $.danmuAjax('/v1/api/admin/danmuLibraryParty/getAllByPartyId?partyId='+partyId, 'GET','json',null, function (data) {
         if (data.result == 200) {
 
@@ -67,33 +69,29 @@ var getAllDanmuLibrary = function(partyId) {
                 }
            }else{
                var danmuLibrary = {
-                       id:'',
-                       densitry:'',
-                       danmuLibraryId:''
-                   }
+                   id:'',
+                   densitry:'',
+                   danmuLibraryId:''
+               }
                partyDanmuLibraryList.unshift(danmuLibrary);
            }
-
-
            $.danmuAjax('/v1/api/admin/preDm/getAllLibraryNotInIds', 'GET','json',null, function (data) {
                 if (data.result == 200) {
                     var danmuLibraryList = data.data;
                     var selectHtml = '';
+                    var dl = {
+                         id:'0',
+                         name:'选择弹幕库'
+                    }
+                    danmuLibraryList.unshift(dl);
                     for( var i=0;i<partyDanmuLibraryList.length;i++){
-                        var dl = {
-                             id:'0',
-                             name:'选择弹幕库'
-                        }
-                        danmuLibraryList.unshift(dl);
                         selectHtml += '<select class="dlSelect"  style="width: 100px;margin-bottom: 0px;" id="danmuLibraryId'+i+'" onchange="changeDmSelect(this)">';
                         for(var j=0;j<danmuLibraryList.length;j++){
-
                               if( danmuLibraryList[j].id ==  partyDanmuLibraryList[i].danmuLibraryId){
                                     selectHtml += '<option value='+danmuLibraryList[j].id+' selected>'+danmuLibraryList[j].name+'</option>';
                               }else{
                                     selectHtml += '<option value='+danmuLibraryList[j].id+'>'+danmuLibraryList[j].name+'</option>';
                               }
-
                         }
                         selectHtml += '</select>';
                         selectHtml +='<input type="text" class="dlText" style="width:20px;" maxLength="2" value="'+partyDanmuLibraryList[i].densitry+'" danmuParty="'+partyDanmuLibraryList[i].id+'"/>';
@@ -102,6 +100,19 @@ var getAllDanmuLibrary = function(partyId) {
                         ++dl_count;
                     }
                     $('#selectPreDm').html(selectHtml);
+                    for(var i=0;i<partyDanmuLibraryList.length;i++){
+                        var dmSelect = $('#danmuLibraryId'+i);
+                        for( var j=0;j<partyDanmuLibraryList.length;j++){
+                            if( $('#danmuLibraryId'+i).val() != partyDanmuLibraryList[j].danmuLibraryId){
+                                $('#danmuLibraryId'+i+' option[value='+partyDanmuLibraryList[j].danmuLibraryId+']').remove();
+                            }
+
+                        }
+                    }
+                    if( callback ){
+                        callback();
+                    }
+
                 }else{
                     alert(data.result_msg);
                 }
@@ -122,9 +133,7 @@ var addDanmuLibrary = function() {
         alert('只能增加3个弹幕库');
         return;
     }
-
     var ids='';
-
     if($('.dlSelect')){
         $('.dlSelect').each(function(){
             if($(this).val()!=0){
@@ -134,8 +143,6 @@ var addDanmuLibrary = function() {
         });
         ids = ids.substr(0,ids.length-1);
     }
-
-
     $.danmuAjax('/v1/api/admin/preDm/getAllLibraryNotInIds?ids='+ids, 'GET','json',null, function (data) {
         if (data.result == 200) {
             danmuLibraryList = data.data;
@@ -173,16 +180,23 @@ var addDanmuLibrary = function() {
 }
 
 var changeDmSelect = function(obj){
-    var option = $(obj).val();
-    var thisId = $(obj).attr('id');
-    if(dl_count > 0 ){
-        for(var i=0;i<dl_count;i++){
-            if(thisId != 'danmuLibraryId'+i){
-                $('#danmuLibraryId'+i+' option[value='+option+']').remove();
-            }
-        }
-    }
+    selectObjId=$(obj).attr('id');
+    selectObjOption=$(obj).val();
+    getAllDanmuLibrary(_update_partyId,function(){
+           var option = selectObjOption;
+           var thisId = selectObjId;
+           if(dl_count > 0 ){
+               for(var i=0;i<dl_count;i++){
+                   if(thisId != 'danmuLibraryId'+i){
+                       $('#danmuLibraryId'+i+' option[value='+option+']').remove();
+                   }
+               }
+           }
+           $('#'+thisId).val(option);
+    });
+
 }
+
 
 var delDmLibrary = function(obj){
     dl_count--;
