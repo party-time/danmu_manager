@@ -421,9 +421,9 @@ var addDanmuLibrary = function() {
         $('#selectPreDm').html(selectHtml);
     }else{
         if(dl_count == 1){
-            selectHtml = '<a class="btn rmDmL" onclick="delDmLibrary(this)">-</a>'+selectHtml+'<a class="btn rmDmL" onclick="delDmLibrary(this)">-</a>';
+            selectHtml = '<img class="rmDmL" onclick="delDmLibrary(this)" src="'+_baseUploadUrl+'/images/delete.png" style="width:20px;" />'+selectHtml+'<img class="rmDmL" onclick="delDmLibrary(this)" src="'+_baseUploadUrl+'/images/delete.png" style="width:20px;" />';
         }else{
-            selectHtml += '<a class="btn rmDmL" onclick="delDmLibrary(this)">-</a>';
+            selectHtml += '<img class="rmDmL" onclick="delDmLibrary(this)" src="'+_baseUploadUrl+'/images/delete.png" style="width:20px;" />';
         }
         $('#selectPreDm').append(selectHtml);
     }
@@ -495,7 +495,7 @@ var delDmLibrary = function(obj){
     $(obj).prev('.dlText').remove();
     $(obj).prev('.dlSelect').remove();
     if(dl_count == 2){
-         $(obj).prev('.btn.rmDmL').remove();
+         $(obj).prev('.rmDmL').remove();
     }
     $(obj).remove();
     for(var i=0;i<dl_count+1;i++){

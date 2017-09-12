@@ -24,7 +24,6 @@ var findPartyById = function(){
                     selectMovie();
                     if(data.data.party.type == 1){
                          $('#movieAlias').append("<option value='"+data.data.movieAlias.value+"' selected>"+data.data.movieAlias.name+"</option>");
-
                     }else{
                         if( null != data.data.danmuAddressList ){
                             for( var i=0;i<data.data.danmuAddressList.length;i++){
@@ -39,7 +38,7 @@ var findPartyById = function(){
 
                         }
                     }
-                    getAllDanmuLibrary(partyId);
+                    getAllDanmuLibrary(partyId,data.data.canUse);
                 }else{
                     alert('查询失败');
                 }
@@ -54,7 +53,8 @@ var findPartyById = function(){
 var dl_count=0;
 var _danmuLibraryList;
 
-var getAllDanmuLibrary = function(partyId) {
+var getAllDanmuLibrary = function(partyId,canUse) {
+
     $.danmuAjax('/v1/api/admin/preDm/getAllLibraryNotInIds', 'GET','json',null, function (data) {
         if (data.result == 200) {
             _danmuLibraryList = data.data;
@@ -76,7 +76,7 @@ var getAllDanmuLibrary = function(partyId) {
                         densitry:data.data[i].densitry,
                         danmuLibraryId:data.data[i].danmuLibraryId
                     }
-                    partyDanmuLibraryList.unshift(danmuLibrary);
+                    partyDanmuLibraryList.push(danmuLibrary);
                 }
            }else{
                var danmuLibrary = {
@@ -86,6 +86,7 @@ var getAllDanmuLibrary = function(partyId) {
                }
                partyDanmuLibraryList.unshift(danmuLibrary);
            }
+
            $.danmuAjax('/v1/api/admin/preDm/getAllLibraryNotInIds', 'GET','json',null, function (data) {
                 if (data.result == 200) {
                     var danmuLibraryList = data.data;
@@ -106,7 +107,7 @@ var getAllDanmuLibrary = function(partyId) {
                         }
                         selectHtml += '</select>';
                         selectHtml +='<input type="text" class="dlText" style="width:20px;" maxLength="2" value="'+partyDanmuLibraryList[i].densitry+'" danmuParty="'+partyDanmuLibraryList[i].id+'"/>';
-                        selectHtml += '<a class="btn rmDmL" onclick="delDmLibrary(this)" style="">-</a>';
+                        selectHtml += '<img class="rmDmL" onclick="delDmLibrary(this)" src="'+_baseUploadUrl+'/images/delete.png" style="width:20px;" />';
 
                         ++dl_count;
                     }
@@ -120,6 +121,15 @@ var getAllDanmuLibrary = function(partyId) {
 
                         }
                     }
+                    if( canUse == 1){
+                        $('.dlSelect').attr('disabled','disabled');
+                        $('.dlText').attr('disabled','disabled');
+                        $('.rmDmL').attr('disabled','disabled');
+                        $('.rmDmL').removeAttr('onclick');
+                        $('.btn.addDML').attr('disabled','disabled');
+                        $('.btn.addDML').removeAttr('onclick');
+                    }
+
                 }else{
                     alert(data.result_msg);
                 }
@@ -170,7 +180,7 @@ var addDanmuLibrary = function() {
     selectHtml +='<input type="text" class="dlText" style="width:20px;" maxLength="2"/>';
 
 
-    selectHtml += '<a class="btn rmDmL" onclick="delDmLibrary(this)">-</a>';
+    selectHtml += '<img class="rmDmL" onclick="delDmLibrary(this)" src="'+_baseUploadUrl+'/images/delete.png" style="width:20px;" />';
 
     $('#selectPreDm').append(selectHtml);
 
@@ -246,7 +256,7 @@ var delDmLibrary = function(obj){
                 $(obj).prev('.dlText').remove();
                 $(obj).prev('.dlSelect').remove();
                 if(dl_count == 1){
-                     $(obj).prev('.btn.rmDmL').remove();
+                     $(obj).prev('.rmDmL').remove();
                 }
                 $(obj).remove();
                 for(var i=0;i<dl_count+1;i++){
