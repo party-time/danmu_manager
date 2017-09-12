@@ -730,18 +730,6 @@
                                     data: {danmuDensity: array}
                                 });
                             }
-                            /*$.ajax({
-                                type: "post",
-                                url: "/v1/api/admin/danmuLibraryParty/chageDensity",
-                                data:JSON.stringify(array) ,
-                                contentType: "application/json; charset=utf-8",
-                                dataType: "json",
-                                success: function (response, ifo) {
-                                    alert("success");
-                                }, error: function () {
-                                    alert("error");
-                                }
-                            })*/
                         }
                     });
                 }else{
