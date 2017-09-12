@@ -106,7 +106,7 @@ var quaryObject = {
 var partyReOpen = function (id) {
     $.danmuAjax('/v1/api/admin/party/partyReOpen', 'GET','json',{'id':id}, function (data) {
         if (data.result == 200) {
-            alert(data.result_msg);
+            //alert(data.result_msg);
             location.reload();
         } else {
             alert(data.result_msg);

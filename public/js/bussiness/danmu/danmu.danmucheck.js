@@ -183,6 +183,8 @@
                 $scope.playerStatus = json.data;
             } else if (json.type == $scope.type.type_delaySecond) {
                 $scope.delaySecond = parseInt(json.data);
+            }else if (json.type == $scope.type.type_danmuDensity) {
+                initPreDanmuLibrary();
             } else if (json.type == $scope.type.type_partyActive) {
                 $scope.partyStatus = json.data.status;
                 if ($scope.partyStatus == 1) {
@@ -481,8 +483,7 @@
             if (ws.readyState == 1) {
                 return true;
             }
-            
-            alert('与服务器断开连接！');
+            //alert('与服务器断开连接！');
             return false;
         }
         
@@ -673,47 +674,63 @@
                 console.log(data);
             });
 
+            initPreDanmuLibrary();
+        }
+        
+        function initPreDanmuLibrary() {
             $.danmuAjax('/v1/api/admin/danmuLibraryParty/getAllByPartyId?partyId='+$scope.partyId, 'GET', 'json', {}, function (data) {
                 console.log(data);
-                var array = data.data;
-                if(array!=null && array.length>0){
+                if(data.data!=null && data.data.length>0){
                     var html = '';
                     html+='<table>';
                     html+='<tr><td rowspan="2"><i class="icon-bookmark"></i><h3 style="margin-right: 1em;width: 68px; margin-top: 0px;">弹幕密度</h3></td></tr>';
-                    for(var i=0; i<array.length; i++){
+                    for( var i=0;i<data.data.length;i++){
                         if(i==0){
                             html+='<tr>';
-                            html+='<td>'+array[i].name+'</td>';
-                            html+='<td><input type="text" style="width: 20px;" id="density_'+(i+1)+'" maxlength="2" value="'+array[i].densitry+'"><input type="hidden" value="'+array[i].danmuLibraryId+'" id="density_id_'+(i+1)+'" >';
+                            html+='<td>'+data.data[i].name+'</td>';
+                            html+='<td><input type="text" style="width: 20px;" id="density_'+(i+1)+'" maxlength="2" value="'+data.data[i].densitry+'"><input type="hidden" value="'+data.data[i].danmuLibraryId+'" id="density_id_'+(i+1)+'" >';
                             html+='</td>';
                             html+='</tr>';
                         }else{
                             html+='<tr>';
                             html+='<td></td>';
-                            html+='<td>'+array[i].name+'</td>' ;
-                            html+='<td><input type="text" style="width: 20px;" id="density_'+(i+1)+'" maxlength="2" value="'+array[i].densitry+'"><input type="hidden" value="'+array[i].danmuLibraryId+'" id="density_id_'+(i+1)+'" >';
+                            html+='<td>'+data.data[i].name+'</td>' ;
+                            html+='<td><input type="text" style="width: 20px;" id="density_'+(i+1)+'" maxlength="2" value="'+data.data[i].densitry+'"><input type="hidden" value="'+data.data[i].danmuLibraryId+'" id="density_id_'+(i+1)+'" >';
                             html+='</td>';
                             html+='</tr>';
                         }
                     }
                     html+='<tr><td>&nbsp;</td><td>&nbsp;</td><td style="text-align: right;"><input type="button" class="btn-info saveDensity" value="确定"/></td></tr>';
                     html+='</table>';
-                    html+='<input type="hidden" id="libraryCount" value="'+array.length+'">';
+                    html+='<input type="hidden" id="libraryCount" value="'+data.data.length+'">';
                     $("#densityDiv").html(html);
 
                     $(".saveDensity").click(function(){
                         var count =$("#libraryCount").val();
                         if(count>0){
                             var array = [];
+                            var sum = 0;
                             for(var i=0; i<count; i++){
+                                var density = $("#density_"+(i+1)).val();
+                                sum +=density;
                                 var object  = {
                                     partyId:$scope.partyId,
                                     danmuLibraryId:$("#density_id_"+(i+1)).val(),
-                                    densitry:$("#density_"+(i+1)).val()
+                                    densitry:density
                                 }
                                 array.push(object);
                             }
-                            $.ajax({
+                            if(sum>15){
+                                alert('弹幕密度之和不能超过15');
+                                return;
+                            }
+                            if (webSocketIsConnect() && checkPatyIsBegin()) {
+                                webSocketSendMessage({
+                                    type: 'danmuDensity',
+                                    data: {danmuDensity: array}
+                                });
+                            }
+                            /*$.ajax({
                                 type: "post",
                                 url: "/v1/api/admin/danmuLibraryParty/chageDensity",
                                 data:JSON.stringify(array) ,
@@ -724,17 +741,24 @@
                                 }, error: function () {
                                     alert("error");
                                 }
-                            })
+                            })*/
                         }
                     });
                 }else{
-                    $("#densityDiv").html('没有设置预置弹幕');
+                    var html = '';
+                    html+='<table>';
+                    html+='<tr><td rowspan="2"><i class="icon-bookmark"></i><h3 style="margin-right: 1em;width: 68px; margin-top: 0px;">弹幕密度</h3></td></tr>';
+                    html+='<tr>';
+                    html+='<td></td>';
+                    html+='<td>没有设置预置弹幕';
+                    html+='</td>';
+                    html+='</tr>';
+                    html+='</table>';
+                    $("#densityDiv").html(html);
                 }
             }, function (data) {
                 console.log(data);
             });
-
-
         }
 
         function getCookieValue(cookieName) {
