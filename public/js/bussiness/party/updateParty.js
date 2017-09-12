@@ -54,7 +54,7 @@ var findPartyById = function(){
 var dl_count=0;
 var _danmuLibraryList;
 
-var getAllDanmuLibrary = function(partyId,callback) {
+var getAllDanmuLibrary = function(partyId) {
     $.danmuAjax('/v1/api/admin/preDm/getAllLibraryNotInIds', 'GET','json',null, function (data) {
         if (data.result == 200) {
             _danmuLibraryList = data.data;
@@ -120,10 +120,6 @@ var getAllDanmuLibrary = function(partyId,callback) {
 
                         }
                     }
-                    if( callback ){
-                        callback();
-                    }
-
                 }else{
                     alert(data.result_msg);
                 }
@@ -165,21 +161,19 @@ var addDanmuLibrary = function() {
                 if(   _danmuLibraryList[i].id ==0 || _danmuLibraryList[i].id != $('#danmuLibraryId'+0).val() && _danmuLibraryList[i].id != $('#danmuLibraryId'+1).val()  ){
                      selectHtml += '<option value='+_danmuLibraryList[i].id+'>'+_danmuLibraryList[i].name+'</option>';
                 }
+            }else if( dl_count == 0){
+                selectHtml += '<option value='+_danmuLibraryList[i].id+'>'+_danmuLibraryList[i].name+'</option>';
             }
        }
     }
     selectHtml += '</select>';
     selectHtml +='<input type="text" class="dlText" style="width:20px;" maxLength="2"/>';
-    if($('#selectPreDm').html() == ''){
-        $('#selectPreDm').html(selectHtml);
-    }else{
-        if(dl_count == 1){
-            selectHtml = '<a class="btn rmDmL" onclick="delDmLibrary(this)">-</a>'+selectHtml+'<a class="btn rmDmL" onclick="delDmLibrary(this)">-</a>';
-        }else{
-            selectHtml += '<a class="btn rmDmL" onclick="delDmLibrary(this)">-</a>';
-        }
-        $('#selectPreDm').append(selectHtml);
-    }
+
+
+    selectHtml += '<a class="btn rmDmL" onclick="delDmLibrary(this)">-</a>';
+
+    $('#selectPreDm').append(selectHtml);
+
     dl_count++;
 }
 
@@ -251,14 +245,13 @@ var delDmLibrary = function(obj){
             var thisId = $(obj).attr('id');
                 $(obj).prev('.dlText').remove();
                 $(obj).prev('.dlSelect').remove();
-                if(dl_count == 2){
+                if(dl_count == 1){
                      $(obj).prev('.btn.rmDmL').remove();
                 }
                 $(obj).remove();
                 for(var i=0;i<dl_count+1;i++){
                     var thisVal = $('#danmuLibraryId'+i).val();
                     var selectHtml = '';
-
                     $('#danmuLibraryId'+i).empty();
                     selectHtml = '<select class="dlSelect"  style="width: 100px;margin-bottom: 0px;" id="danmuLibraryId'+dl_count+'" onchange="changeDmSelect(this)">';
                     if( null != _danmuLibraryList){
