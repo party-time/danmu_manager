@@ -181,7 +181,6 @@ var addDanmuLibrary = function() {
 
 
     selectHtml += '<img class="rmDmL" onclick="delDmLibrary(this)" src="'+_baseUploadUrl+'/images/delete.png" style="width:20px;" />';
-
     $('#selectPreDm').append(selectHtml);
 
     dl_count++;
