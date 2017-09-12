@@ -673,6 +673,67 @@
                 console.log(data);
             });
 
+            $.danmuAjax('/v1/api/admin/danmuLibraryParty/getAllByPartyId?partyId='+$scope.partyId, 'GET', 'json', {}, function (data) {
+                console.log(data);
+                var array = data.data;
+                if(array!=null && array.length>0){
+                    var html = '';
+                    html+='<table>';
+                    html+='<tr><td rowspan="2"><i class="icon-bookmark"></i><h3 style="margin-right: 1em;width: 68px; margin-top: 0px;">弹幕密度</h3></td></tr>';
+                    for(var i=0; i<array.length; i++){
+                        if(i==0){
+                            html+='<tr>';
+                            html+='<td>'+array[i].name+'</td>';
+                            html+='<td><input type="text" style="width: 20px;" id="density_'+(i+1)+'" maxlength="2" value="'+array[i].densitry+'"><input type="hidden" value="'+array[i].danmuLibraryId+'" id="density_id_'+(i+1)+'" >';
+                            html+='</td>';
+                            html+='</tr>';
+                        }else{
+                            html+='<tr>';
+                            html+='<td></td>';
+                            html+='<td>'+array[i].name+'</td>' ;
+                            html+='<td><input type="text" style="width: 20px;" id="density_'+(i+1)+'" maxlength="2" value="'+array[i].densitry+'"><input type="hidden" value="'+array[i].danmuLibraryId+'" id="density_id_'+(i+1)+'" >';
+                            html+='</td>';
+                            html+='</tr>';
+                        }
+                    }
+                    html+='<tr><td>&nbsp;</td><td>&nbsp;</td><td style="text-align: right;"><input type="button" class="btn-info saveDensity" value="确定"/></td></tr>';
+                    html+='</table>';
+                    html+='<input type="hidden" id="libraryCount" value="'+array.length+'">';
+                    $("#densityDiv").html(html);
+
+                    $(".saveDensity").click(function(){
+                        var count =$("#libraryCount").val();
+                        if(count>0){
+                            var array = [];
+                            for(var i=0; i<count; i++){
+                                var object  = {
+                                    partyId:$scope.partyId,
+                                    danmuLibraryId:$("#density_id_"+(i+1)).val(),
+                                    densitry:$("#density_"+(i+1)).val()
+                                }
+                                array.push(object);
+                            }
+                            $.ajax({
+                                type: "post",
+                                url: "/v1/api/admin/danmuLibraryParty/chageDensity",
+                                data:JSON.stringify(array) ,
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (response, ifo) {
+                                    alert("success");
+                                }, error: function () {
+                                    alert("error");
+                                }
+                            })
+                        }
+                    });
+                }else{
+                    $("#densityDiv").html('没有设置预置弹幕');
+                }
+            }, function (data) {
+                console.log(data);
+            });
+
 
         }
 
