@@ -722,6 +722,7 @@
                             }
                             if(sum>15){
                                 alert('弹幕密度之和不能超过15');
+                                initPreDanmuLibrary();
                                 return;
                             }
                             if (webSocketIsConnect() && checkPatyIsBegin()) {
