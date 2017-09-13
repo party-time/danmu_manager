@@ -712,7 +712,7 @@
                             var sum = 0;
                             for(var i=0; i<count; i++){
                                 var density = $("#density_"+(i+1)).val();
-                                sum +=density;
+                                sum +=parseInt(density);
                                 var object  = {
                                     partyId:$scope.partyId,
                                     danmuLibraryId:$("#density_id_"+(i+1)).val(),
