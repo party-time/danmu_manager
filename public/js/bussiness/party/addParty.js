@@ -29,7 +29,6 @@ var findPartyByName = function(){
     }
 };
 
-
 var findPartyByShortName = function(){
     var shortName = $('#shortName').val();
     if('' != shortName){
