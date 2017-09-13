@@ -712,7 +712,7 @@
                             var sum = 0;
                             for(var i=0; i<count; i++){
                                 var density = $("#density_"+(i+1)).val();
-                                sum +=density;
+                                sum +=parseInt(density);
                                 var object  = {
                                     partyId:$scope.partyId,
                                     danmuLibraryId:$("#density_id_"+(i+1)).val(),
@@ -722,6 +722,7 @@
                             }
                             if(sum>15){
                                 alert('弹幕密度之和不能超过15');
+                                initPreDanmuLibrary();
                                 return;
                             }
                             if (webSocketIsConnect() && checkPatyIsBegin()) {
@@ -730,18 +731,6 @@
                                     data: {danmuDensity: array}
                                 });
                             }
-                            /*$.ajax({
-                                type: "post",
-                                url: "/v1/api/admin/danmuLibraryParty/chageDensity",
-                                data:JSON.stringify(array) ,
-                                contentType: "application/json; charset=utf-8",
-                                dataType: "json",
-                                success: function (response, ifo) {
-                                    alert("success");
-                                }, error: function () {
-                                    alert("error");
-                                }
-                            })*/
                         }
                     });
                 }else{
