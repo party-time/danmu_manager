@@ -29,6 +29,7 @@ var findPartyByName = function(){
     }
 };
 
+
 var findPartyByShortName = function(){
     var shortName = $('#shortName').val();
     if('' != shortName){
@@ -380,6 +381,7 @@ var getAllDanmuLibrary = function(){
             selectHtml +=selectoption;
             selectHtml += '</select>';
             selectHtml +='<input type="text" class="dlText" style="width:20px;" maxLength="2"/>';
+            selectHtml += '<img class="rmDmL" onclick="delDmLibrary(this)" src="'+_baseUploadUrl+'/images/delete.png" style="width:20px;" />';
             $('#selectPreDm').html(selectHtml);
             dl_count++;
         }
@@ -412,21 +414,19 @@ var addDanmuLibrary = function() {
                 if(   _danmuLibraryList[i].id ==0 || _danmuLibraryList[i].id != $('#danmuLibraryId'+0).val() && _danmuLibraryList[i].id != $('#danmuLibraryId'+1).val()  ){
                      selectHtml += '<option value='+_danmuLibraryList[i].id+'>'+_danmuLibraryList[i].name+'</option>';
                 }
+            }else if( dl_count == 0){
+                 selectHtml += '<option value='+_danmuLibraryList[i].id+'>'+_danmuLibraryList[i].name+'</option>';
             }
        }
     }
     selectHtml += '</select>';
     selectHtml +='<input type="text" class="dlText" style="width:20px;" maxLength="2"/>';
-    if($('#selectPreDm').html() == ''){
-        $('#selectPreDm').html(selectHtml);
-    }else{
-        if(dl_count == 1){
-            selectHtml = '<img class="rmDmL" onclick="delDmLibrary(this)" src="'+_baseUploadUrl+'/images/delete.png" style="width:20px;" />'+selectHtml+'<img class="rmDmL" onclick="delDmLibrary(this)" src="'+_baseUploadUrl+'/images/delete.png" style="width:20px;" />';
-        }else{
-            selectHtml += '<img class="rmDmL" onclick="delDmLibrary(this)" src="'+_baseUploadUrl+'/images/delete.png" style="width:20px;" />';
-        }
-        $('#selectPreDm').append(selectHtml);
-    }
+
+
+    selectHtml += '<img class="rmDmL" onclick="delDmLibrary(this)" src="'+_baseUploadUrl+'/images/delete.png" style="width:20px;" />';
+
+    $('#selectPreDm').append(selectHtml);
+
     dl_count++;
 }
 
@@ -494,7 +494,7 @@ var delDmLibrary = function(obj){
     var thisId = $(obj).attr('id');
     $(obj).prev('.dlText').remove();
     $(obj).prev('.dlSelect').remove();
-    if(dl_count == 2){
+    if(dl_count ==1){
          $(obj).prev('.rmDmL').remove();
     }
     $(obj).remove();
