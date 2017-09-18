@@ -39,6 +39,8 @@
 
         $scope.key;
 
+        $scope.addressName;
+
         $scope.danmuMsg = "";//弹幕
         $scope.danmuColor = "#ffffff";// 弹幕颜色
         $scope.blingDanmuMsg = "";//闪光字
@@ -127,6 +129,8 @@
 
                 //电影状态
                 $scope.partyStatus = json.data.partyStatus;
+
+                $scope.addressName = json.data.addressName;
                 if ($scope.partyStatus == 1) {
                     $("#partyStartButton").hide();
                     $("#filmStartButton").show();
