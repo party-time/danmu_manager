@@ -918,6 +918,10 @@ var openControlDialog = function(addressName,addressId){
     htmlStr +='<a class="btn" onclick="sendControl(\'configCreate\')">生成配置表</a>';
     htmlStr +='</div><br>';
 
+    htmlStr +='<label class="control-label" style="width:60px">预置弹幕</label><div class="controls" style="margin-left:60px;">';
+    htmlStr +='<a class="btn" onclick="reinitPreDanmu()">重新加载预置弹幕</a>';
+    htmlStr +='</div><br>';
+
 
     if(role == '589a98cd77c8afdcbdeaeeb4') {
         htmlStr +='<label class="control-label" style="width:60px">模拟指令</label><div class="controls" style="margin-left:60px;">';
@@ -966,6 +970,10 @@ var openControlDialog = function(addressName,addressId){
     $('#myModalLabel').html('<div><p><h1>'+addressName+'的控制台</h1></p><div id="deviceStatus" ><h5>java1:正常 java2:断开连接</h5></div></div>');
     $('#modalBody').html(htmlStr);
     $('#myModal').modal('show');
+}
+
+var reinitPreDanmu = function (partyId,addressId) {
+    $.danmuAjax('/v1/api/admin/party/reinitPreDanmu?addressId='+g_addressId, 'GET','json',null, null);
 }
 
 var openScreenPic = function(addressId){
