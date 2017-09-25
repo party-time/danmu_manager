@@ -179,7 +179,6 @@
                         data:{},// 序列化表单值
                         async: true,
                         error: function(request) {
-                            alert("Connection error");
                         },
                         success: function(data) {
 
