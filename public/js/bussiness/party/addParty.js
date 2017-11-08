@@ -174,6 +174,7 @@ var checkEndTime = function(){
 
 
 var saveParty = function(){
+
     var partyType = $('#partyType').val();
     var densitrys='',ids='',idNum=0,densitryNum=0;
     var dlTextMsg= '';
@@ -282,7 +283,7 @@ var saveParty = function(){
         findPartyByName();
         //findPartyByShortName();
     }
-
+    $('#saveParty').attr('disabled',true);
 
     if(!$('.help-block').html()){
         $.danmuAjax('/v1/api/admin/party/save', 'POST','json',obj, function (data) {
@@ -292,6 +293,7 @@ var saveParty = function(){
                 if(data.result_msg){
                     alert(data.result_msg)
                 }else{
+                    $('#saveParty').attr('disabled',false);
                     alert('保存失败')
                 }
             }
@@ -421,10 +423,7 @@ var addDanmuLibrary = function() {
     }
     selectHtml += '</select>';
     selectHtml +='<input type="text" class="dlText" style="width:20px;" maxLength="2"/>';
-
-
     selectHtml += '<img class="rmDmL" onclick="delDmLibrary(this)" src="'+_baseUploadUrl+'/images/delete.png" style="width:20px;" />';
-
     $('#selectPreDm').append(selectHtml);
 
     dl_count++;
