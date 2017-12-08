@@ -895,9 +895,9 @@ var openControlDialog = function(addressName,addressId){
     var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">';
     htmlStr +='<label class="control-label" style="width:60px">投影相关</label>';
     htmlStr +='<div class="controls" style="margin-left:60px;">';
-    htmlStr +='<a class="btn" onclick="sendControl(\'projectStart\')">投影开启</a>';
-    htmlStr +='<a class="btn" onclick="sendControl(\'projectClose\')">投影关闭</a>';
-    htmlStr +='<a class="btn" onclick="sendControl(\'projectChange\')">投影切白</a>';
+    htmlStr +='<a class="btn" onclick="sendControl(\'projectorStart\')">投影开启</a>';
+    htmlStr +='<a class="btn" onclick="sendControl(\'projectorClose\')">投影关闭</a>';
+    htmlStr +='<a class="btn" onclick="sendControl(\'projectorChange\')">投影切白</a>';
     htmlStr +='</div><br>';
 
     htmlStr +='<label class="control-label" style="width:60px">app相关</label><div class="controls" style="margin-left:60px;">';
