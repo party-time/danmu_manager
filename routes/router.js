@@ -165,5 +165,8 @@ router.get('/report', function(req, res, next) {
     res.render('report/report');
 });
 
+router.get('/task', function(req, res, next) {
+    res.render('task/task');
+});
 
 module.exports = router;
