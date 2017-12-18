@@ -17,35 +17,35 @@
                                             <div class="control-group" style="margin-top: 18px;">
                                                 <label class="control-label" >强制关闭所有场地投影</label>
                                                 <div class="controls">
-                                                    <a class="btn addDML" onclick="">执行</a>
+                                                    <a class="btn addDML" onclick="exeTask('abc')">执行</a>
                                                 </div> <!-- /controls -->
                                             </div> <!-- /control-group -->
 
                                             <div class="control-group" style="margin-top: 18px;">
                                                 <label class="control-label" >关闭所有场地投影</label>
                                                 <div class="controls">
-                                                    <a class="btn addDML" onclick="addDanmuLibrary()">执行</a>
+                                                    <a class="btn addDML" onclick="exeTask('abc')">执行</a>
                                                 </div> <!-- /controls -->
                                             </div>
 
                                             <div class="control-group" style="margin-top: 18px;">
                                                 <label class="control-label" >清除投影关闭计数</label>
                                                 <div class="controls">
-                                                    <a class="btn addDML" onclick="addDanmuLibrary()">执行</a>
+                                                    <a class="btn addDML" onclick="exeTask('abc')">执行</a>
                                                 </div> <!-- /controls -->
                                             </div>
 
                                             <div class="control-group" style="margin-top: 18px;">
                                                 <label class="control-label" >监听所有场地的客户端在线情况</label>
                                                 <div class="controls">
-                                                    <a class="btn addDML" onclick="">执行</a>
+                                                    <a class="btn addDML" onclick="exeTask('abc')">执行</a>
                                                 </div> <!-- /controls -->
                                             </div>
 
                                             <div class="control-group" style="margin-top: 18px;">
                                                 <label class="control-label" >电影播放异常</label>
                                                 <div class="controls">
-                                                    <a class="btn addDML" onclick="">执行</a>
+                                                    <a class="btn addDML" onclick="exeTask('abc')">执行</a>
                                                 </div> <!-- /controls -->
                                             </div>
                                         </fieldset>
@@ -71,4 +71,23 @@
 <script src="/plug/bootstrapTable/locale/bootstrap-table-zh-CN.min.js"></script>
 <script src="/js/common/danmu.table.plug.js"></script>
 <script src="/js/common/danmu.ajax.plug.js"></script>
+
+<script>
+
+    var exeTask = function(taskName){
+        if (confirm('确认要执行吗')) {
+             $.danmuAjax('/v1/api/admin/task/taskController?taskName='+taskName, 'GET','json',null, function (data) {
+              if (data.result == 200) {
+
+                  alert('执行成功');
+
+              }else{
+                 alert('执行失败')
+              }
+            }, function (data) {
+                console.log(data);
+            });
+        }
+    }
+</script>
 <% include ../common/bottom.html %>
