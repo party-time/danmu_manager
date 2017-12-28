@@ -433,6 +433,9 @@ function doEdit(id){
                 $("#lastTime").val(parseInt(endTime)-parseInt(beginTime));
 
                 $("#vediodanmuId").val(dataObject.id);
+
+                //$("input:radio[name='videoRect']").eq(dataObject.content.videoRect).attr("checked",'checked');
+                $("#videoRect_"+dataObject.content.videoRect).attr("checked","checked");
                 setSpecialButtonBorder("videoDanmu",dataObject.msg,dataObject.content.idd);
 
 

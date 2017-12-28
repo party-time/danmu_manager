@@ -291,6 +291,20 @@
                             <h3>视频特效</h3>
                         </div>
                         <div class="widget-content">
+                            <div class="danmucheck-items-widget-header">
+                                <div style="padding-left: 10px;">
+                                    <label style="display: inline-block; width: 80px;">
+                                        <input name="videoRect" id="videoRect_bottom" type="radio" value="bottom" style="display: inline-block;" checked/>侧墙显示
+                                    </label>
+                                    <label style="display: inline-block; width: 80px;">
+                                        <input name="videoRect" id="videoRect_full" type="radio" value="full" style="display: inline-block;" />全屏展示
+                                    </label>
+                                    <label style="display: inline-block; width: 80px;">
+                                        <input name="videoRect" id="videoRect_top" type="radio" value="top" style="display: inline-block;"/>顶部显示
+                                    </label>
+
+                                </div>
+                            </div>
                            <span ng-repeat="specialVideo in specialVideos" ng-if="specialVideos.length > 0">
                                 <button type="button"
                                         style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; "

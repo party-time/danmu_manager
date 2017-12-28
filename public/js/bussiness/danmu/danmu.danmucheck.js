@@ -385,13 +385,14 @@
          */
         $scope.showSpecialVideo = function (specialVideo, status) {
 
+
             if (webSocketIsConnect() && checkPatyIsBegin()) {
                 //判断当前开启的特效与要开启的特效是不是同一个
                 if ($scope.specialVideo != specialVideo.id) {
                     var name = specialVideoName($scope.specialVideo);
                     var namenew = specialVideoName(specialVideo.id);
                     if (confirm("特效" + name + "正在开启，是否要开启" + namenew + "特效？")) {
-                        startSpecialVedio(specialVideo, status);
+                        startSpecialVedio(specialVideo, status,$("input[name='videoRect']:checked").val());
                     }
                 } else {
                     var msg = "";
@@ -402,7 +403,7 @@
                     }
                     msg += specialVideo.resourceName;
                     if (confirm("确定" + msg + "?")) {
-                        startSpecialVedio(specialVideo, status);
+                        startSpecialVedio(specialVideo, status,$("input[name='videoRect']:checked").val());
                     }
                 }
 
@@ -429,8 +430,8 @@
             }
         }
 
-        var startSpecialVedio = function (specialVideo, status) {
-            webSocketSendMessage({type: $scope.type.type_specialVideo, data: {id: specialVideo.id, status: status}});
+        var startSpecialVedio = function (specialVideo, status,videoRect) {
+            webSocketSendMessage({type: $scope.type.type_specialVideo, data: {id: specialVideo.id, status: status,videoRect:videoRect}});
         }
         /**
          * 设置动画特效按钮的状态

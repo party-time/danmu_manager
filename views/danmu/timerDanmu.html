@@ -91,6 +91,21 @@
                                             <h3 style="margin-right: 1em;">持续时间</h3>
                                             <input type="text" class="dataFormat" style="width: 40px;" id="lastTime" name="lastTime"/>(秒)
                                         </div>
+                                        <div class="danmucheck-items-widget-header">
+                                            <h3 style="margin-right: 1em;">视频特效显示区域</h3>
+                                            <div style="padding-left: 10px; padding-top: 10px;">
+                                                <label style="display: inline-block; width: 80px;">
+                                                    <input name="videoRect" id="videoRect_bottom" type="radio" value="bottom" style="display: inline-block;" checked/>侧墙显示
+                                                </label>
+                                                <label style="display: inline-block; width: 80px;">
+                                                    <input name="videoRect" id="videoRect_full" type="radio" value="full" style="display: inline-block;"/>全屏展示
+                                                </label>
+                                                <label style="display: inline-block; width: 80px;">
+                                                    <input name="videoRect" id="videoRect_top" type="radio" value="top" style="display: inline-block;"/>顶部显示
+                                                </label>
+
+                                            </div>
+                                        </div>
                                         <input type="hidden" name="videoId" id="videoId">
                                         <input type="hidden" name="videoName" id="videoName">
                                         <input type="hidden" name="currentPartyId" id="currentPartyId">
