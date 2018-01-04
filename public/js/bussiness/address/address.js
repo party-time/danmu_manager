@@ -429,7 +429,7 @@ var openDeviceDialog = function(addressName,addressId){
                 var ip1,ip2 = '';
                 var port1,port2='';
                 var id1,id2,id3,id4='';*/
-
+                var javaClientNum=0;
                 for(var i=0; i<data.data.length; i++){
                     var type = data.data[i].type;
                     var id = data.data[i].id;
@@ -448,7 +448,16 @@ var openDeviceDialog = function(addressName,addressId){
                         htmlStr += 'port：<input type="text" class="port span1" value="'+port+'" style="width: 40px;">';
                         htmlStr += '<input type="hidden" value="'+number+'" class="number span1" style="width: 10px;"> ';
                         htmlStr += '</div><br>';
+                        javaClientNum++;
                     }
+                }
+
+                if(javaClientNum<3){
+                    htmlStr +=  '<label class="control-label" style="width:80px;">javaClient3</label><div class="controls" style="margin-left:60px;">';
+                    htmlStr += '<input type="text" class="device span3"  maxlength="16" deviceType="1"> ';
+                    htmlStr += 'port：<input type="text" class="port span1" value="" style="width: 40px;">';
+                    htmlStr += '<input type="hidden" value="3" class="number span1" style="width: 10px;"> ';
+                    htmlStr += '</div><br>';
                 }
 
             }else{
@@ -472,6 +481,12 @@ var openDeviceDialog = function(addressName,addressId){
                 htmlStr += '<input type="text" class="device span3"  maxlength="16" deviceType="1"> ';
                 htmlStr += 'port：<input type="text" class="port span1" value="" style="width: 40px;">';
                 htmlStr += '<input type="hidden" value="2" class="number span1" style="width: 10px;"> ';
+                htmlStr += '</div><br>';
+
+                htmlStr +=  '<label class="control-label" style="width:80px;">javaClient3</label><div class="controls" style="margin-left:60px;">';
+                htmlStr += '<input type="text" class="device span3"  maxlength="16" deviceType="1"> ';
+                htmlStr += 'port：<input type="text" class="port span1" value="" style="width: 40px;">';
+                htmlStr += '<input type="hidden" value="3" class="number span1" style="width: 10px;"> ';
                 htmlStr += '</div><br>';
             }
             htmlStr+='</div></div></form>';
