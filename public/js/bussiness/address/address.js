@@ -430,6 +430,7 @@ var openDeviceDialog = function(addressName,addressId){
                 var port1,port2='';
                 var id1,id2,id3,id4='';*/
                 var javaClientNum=0;
+                var projectorNum=0;
                 for(var i=0; i<data.data.length; i++){
                     var type = data.data[i].type;
                     var id = data.data[i].id;

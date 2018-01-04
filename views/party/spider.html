@@ -9,13 +9,7 @@
                     <div class="widget widget-table action-table">
                         <!-- /widget-header -->
                         <div style="margin-bottom:10px;">
-                            <button type="button" class="btn btn-primary" onclick="addParty()">新增活动</button>
-                            <button type="button" class="btn btn-primary" onclick="manageRealTimeDm()">管理实时弹幕池</button>
-                            <button type="button" class="btn btn-primary" onclick="openSpider()" >爬取数据管理</button>
-                            类型:<select id="searchType" onchange="selectSearchType()" style="margin-bottom:0px;"><option value="-1" selected>全部</option><option value="0">活动</option><option value="1">电影</option></select>
-                            状态:<select id="searchStatus" style="margin-bottom:0px;"><option value="0">全部</option><option value="1" selected>未下线或未结束</option><option value="2">已下线或已结束</option></select>
-                            <button class="btn btn-primary" style="margin-bottom:0px;margin-left:10px;" onclick="searchParty()">搜索</button>
-                            <button type="button" class="btn btn-primary" onclick="filmCheck()">电影审核</button>
+                            <h1>爬虫数据管理</h1>
                         </div>
                         <div class="widget-content">
                             <table id="tableList" class="table table-striped"
@@ -58,5 +52,5 @@
 <script src="/plug/bootstrapTable/locale/bootstrap-table-zh-CN.min.js"></script>
 <script src="/js/common/danmu.table.plug.js"></script>
 <script src="/js/common/danmu.ajax.plug.js"></script>
-<script src="/js/bussiness/party/party.js"></script>
+<script src="/js/bussiness/party/spider.js"></script>
 <% include ../common/bottom.html %>

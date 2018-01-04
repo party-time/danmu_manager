@@ -33,6 +33,14 @@ router.get('/party/addRealTimeDm', function(req, res, next) {
   res.render('party/addRealTimeDm');
 });
 
+router.get('/party/spider', function(req, res, next) {
+  res.render('party/spider');
+});
+
+router.get('/party/updateSpider', function(req, res, next) {
+  res.render('party/updateSpider');
+});
+
 
 router.get('/party/update', function(req, res, next) {
   res.render('party/updateParty');
