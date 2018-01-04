@@ -975,6 +975,10 @@ var openControlDialog = function(addressName,addressId){
         htmlStr += '<a class="btn" onclick="sendControl(\'screenPic2\')">右侧截图</a>';
         htmlStr += '<a class="btn" href="'+_baseImageUrl+'/screenpic/' + addressId + '_2.jpg" target="_blank">查看右侧截图</a>';
         htmlStr += '<a class="btn" onclick="sendControl(\'teamViewClose2\')">关闭右侧</a>';
+        htmlStr += '<a class="btn" onclick="sendControl(\'teamViewStart3\')">开启第三台</a>';
+        htmlStr += '<a class="btn" onclick="sendControl(\'screenPic3\')">第三台截图</a>';
+        htmlStr += '<a class="btn" href="'+_baseImageUrl+'/screenpic/' + addressId + '_3.jpg" target="_blank">查看第三台截图</a>';
+        htmlStr += '<a class="btn" onclick="sendControl(\'teamViewClose3\')">关闭第三台</a>';
         htmlStr += '</div><br>';
     }
 
