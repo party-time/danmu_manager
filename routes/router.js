@@ -29,6 +29,10 @@ router.get('/party/add', function(req, res, next) {
   res.render('party/addParty');
 });
 
+router.get('/party/addRealTimeDm', function(req, res, next) {
+  res.render('party/addRealTimeDm');
+});
+
 
 router.get('/party/update', function(req, res, next) {
   res.render('party/updateParty');

@@ -725,3 +725,59 @@ $.initTable('tableList', columnsArray, quaryObject, tableUrl);
 function filmCheck(){
     openNewWindow('/film/danmuCheck')
 }
+
+var manageRealTimeDm = function(){
+    $('#myModalLabel').html('管理实时弹幕池');
+    var realTimeDmUrl = '/v1/api/admin/realTimeDm/list';
+    var realTimeDmQueryObject = {
+        pageSize: 6
+    }
+    var realTimeDmColumnsArray =[
+        {
+            field: 'name',
+            title: '名称',
+            align: 'center'
+        },
+        {
+           field: '', title: '操作',
+           align: 'center',
+           formatter: function (value, row, index) {
+                return '<a class="btn" onclick="delRealTimeDm(\''+row.id+'\')">删除</a>';
+           }
+        }
+    ];
+    var tableSuccess = function(){
+        $('#modalBody').find('.pull-left').remove();
+    }
+    var buttonHtml = '<button class="btn btn-primary" onclick="openSaveRealTimeDm()">新增</button><button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>';
+    $('#modalFooter').html(buttonHtml);
+    $.initTable('addressTableList', realTimeDmColumnsArray, realTimeDmQueryObject, realTimeDmUrl,tableSuccess);
+    $('#myModal').modal('show');
+}
+
+var openSaveRealTimeDm = function(){
+    window.location.href="/party/addRealTimeDm";
+}
+
+var delRealTimeDm = function(id){
+    var obj = {
+        id:id
+    }
+    $.danmuAjax('/v1/api/admin/realTimeDm/delete', 'GET','json',obj, function (data) {
+        if(data.result == 200) {
+            console.log(data);
+            manageRealTimeDm();
+            alert('删除成功');
+        }else{
+            alert('操作失败');
+        }
+
+    }, function (data) {
+        console.log(data);
+    });
+}
+
+var saveRealTimeDm = function(){
+
+
+}

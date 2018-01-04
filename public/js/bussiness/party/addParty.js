@@ -619,6 +619,111 @@ var openAddress = function(){
     $('#myModal').modal('show');
 }
 
+var selectRealTimeDmAddress = function(id,name){
+    var html = '<span class="_s'+id+'">'+name+'</span><a class="btn _a'+id+'" onclick="removeAddress(\''+id+'\')" addressId="'+id+'">删除</a>';
+    var spanList = $('#selectAddress').children('span');
+    if(spanList.length % 5 == 0){
+        $('#selectAddress').append('<br>');
+        $('#selectAddress').append(html);
+    }else{
+        $('#selectAddress').append(html);
+    }
+    openRealTimeDmAddress();
+}
+
+var openRealTimeDmAddress = function(){
+    var aList = $('#selectAddress').children('a');
+    var addressIds = '';
+    if( aList && aList.length > 0){
+        for(var i=0;i<aList.length;i++){
+            addressIds += $(aList[i]).attr('addressId');
+            if( i < aList.length-1){
+                addressIds += ',';
+            }
+        }
+    }
+    $.danmuAjax('/v1/api/admin/realTimeDm/findAllAddress', 'GET','json',null, function (data) {
+        if( data.result == 200){
+
+            if(data.data && data.data.length>0){
+                if( addressIds != '' ){
+                    addressIds += ',';
+                }
+                for(var i=0;i<data.data.length;i++){
+
+                    addressIds += data.data[i];
+                    if( i < data.data.length-1){
+                        addressIds += ',';
+                    }
+                }
+            }
+
+            var addressTableUrl = '/v1/api/admin/address/queryAll';
+                var addressQueryObject = {
+                    addressIds:addressIds,
+                    pageSize:6
+                }
+                var addressColumnsArray =[
+                    {
+                        field: 'name',
+                        title: '名称',
+                        align: 'center'
+                    },
+                    {
+                       title: '操作',
+                       align: 'center',
+                       formatter: function (value, row, index) {
+                            return '<a class="btn" onclick="selectRealTimeDmAddress(\''+row.id+'\',\''+row.name+'\')">选择</a>';
+                       }
+                    }
+                ];
+
+                var tableSuccess = function(){
+                    $('#modalBody').find('.pull-left').remove();
+                }
+                $.initTable('addressTableList', addressColumnsArray, addressQueryObject, addressTableUrl,tableSuccess);
+                $('#myModalLabel').html('场地管理');
+                var buttonHtml = '<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>';
+                $('#modalFooter').html(buttonHtml);
+                $('#modalody').find('.pull-left').remove();
+                $('#myModal').modal('show');
+        }else{
+             alert('查询失败')
+        }
+    }, function (data) {
+        console.log(data);
+    });
+}
+
+var saveRealTimeDmAddress = function(){
+    var aList = $('#selectAddress').children('a');
+   var addressIds = '';
+   if( aList && aList.length > 0){
+       for(var i=0;i<aList.length;i++){
+           addressIds += $(aList[i]).attr('addressId');
+           if( i < aList.length-1){
+               addressIds += ',';
+           }
+       }
+   }
+    if( aList.length == 0){
+        alert("请选择场地");
+        return;
+    }
+    var obj = {
+        'name': $('#name').val(),
+        'addressIds':addressIds
+    }
+
+    $.danmuAjax('/v1/api/admin/realTimeDm/save', 'POST','json',obj, function (data) {
+        if( data.result == 200){
+            alert("保存成功");
+            window.location.href="/party";
+        }
+    });
+
+}
+
 initMovieAlias();
 
 initAddParty();
