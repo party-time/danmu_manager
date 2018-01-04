@@ -436,6 +436,10 @@ var openDeviceDialog = function(addressName,addressId){
                     var ip = data.data[i].ip;
                     var port= data.data[i].port;
                     var number=data.data[i].number;
+
+                    if( port == null ){
+                        port = '';
+                    }
                     var url=data.data[i].url;
                     if(type==0){
                         htmlStr += '<label class="control-label" style="width:80px">投影仪'+number+'</label><div class="controls" style="margin-left:60px;">';
@@ -513,7 +517,7 @@ var saveDevice = function(addressId){
         for(var i=0;i<ipList.length;i++){
             var deviceInfo = new Object();
             deviceInfo.ip=$(ipList[i]).val();
-            if($(ipList[i]).attr("deviceType")==1 && !reg.test(deviceInfo.ip)){
+            if($(ipList[i]).attr("deviceType")==1 && !reg.test(deviceInfo.ip) && i<2){
                 alert("ip地址格式不正确，请重新填写");
                 return;
             }
