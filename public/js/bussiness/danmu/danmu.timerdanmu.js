@@ -435,7 +435,20 @@ function doEdit(id){
                 $("#vediodanmuId").val(dataObject.id);
 
                 //$("input:radio[name='videoRect']").eq(dataObject.content.videoRect).attr("checked",'checked');
-                $("#videoRect_"+dataObject.content.videoRect).attr("checked","checked");
+                /*if("full"==dataObject.content.videoRect){
+                    $("#videoRect_"+dataObject.content.videoRect).attr("checked","checked");
+                }*/
+                var array = ["full","bottom","top"];
+                for(var i=0; i<array.length; i++){
+                    console.log(dataObject.content.videoRect);
+                    if(dataObject.content.videoRect==array[i]){
+                        $("#videoRect_"+array[i]).prop("checked","checked");
+                    }else{
+                        $("#videoRect_"+array[i]).prop("checked",false);
+                    }
+                }
+
+                //$("#videoRect_"+dataObject.content.videoRect).attr("checked","checked");
                 setSpecialButtonBorder("videoDanmu",dataObject.msg,dataObject.content.idd);
 
 
