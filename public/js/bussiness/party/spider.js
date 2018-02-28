@@ -41,9 +41,14 @@ var tableUrl = '/v1/api/admin/spider/list';
             }
         },
         {
+            field: 'time',
+            title: '电影时长',
+            align: 'center'
+        },
+        {
             field: 'score',
             title: '评分',
-            align: 'center',
+            align: 'center'
         },
         {
             title: '操作',
