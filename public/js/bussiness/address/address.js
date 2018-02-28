@@ -989,6 +989,7 @@ var openControlDialog = function(addressName,addressId){
         htmlStr += '<label class="control-label" style="width:60px">投影重新开启</label><div class="controls" style="margin-left:60px;">';
         htmlStr +='<a class="btn" onclick="sendControl(\'projectorNewStart\')">投影开启（杭州厅）</a>';
         htmlStr += '<br>';
+
     }
 
     htmlStr	+='</div></div>';
