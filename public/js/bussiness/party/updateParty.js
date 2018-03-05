@@ -558,6 +558,10 @@ var saveParty = function(){
             alert('没有弹幕指令，请下线电影');
             return;
         }
+        if(!$('#movieTime').val()){
+            alert('请填写电影时长');
+            return;
+        }
         var obj = {
             'name': $('#name').val(),
             'type':partyType,
