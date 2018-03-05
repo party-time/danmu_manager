@@ -554,7 +554,10 @@ var saveParty = function(){
         }
         findPartyByName();
     }else{
-
+        if(!$('#movieAlias').val()){
+            alert('没有弹幕指令，请下线电影');
+            return;
+        }
         var obj = {
             'name': $('#name').val(),
             'type':partyType,
