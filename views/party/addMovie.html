@@ -18,7 +18,7 @@
                                                 <label class="control-label" id="movieTitle" >选择电影</label>
                                                 <div class="controls" >
                                                     <div id="movieName">
-                                                        <select id="selectMovie">
+                                                        <select id="selectMovie" onchange="selectMovieTime()">
                                                         </select>
                                                         <a onclick="createMovie()">电影不存在，重新创建</a>
                                                     </div>
@@ -42,17 +42,13 @@
                                                 </div> <!-- /controls -->
 
                                             </div>
-                                            <div class="control-group" id="partyTable" style="display:none">
-                                                <label class="control-label">选择场地</label>
+                                            <div class="control-group" id="movieTimeDiv" >
+                                                <label class="control-label">电影时长</label>
                                                 <div class="controls" >
-                                                    <a class="btn" onclick="openAddress();">选择</a>
+                                                    <input type="text" id="movieTime" />
                                                 </div> <!-- /controls -->
                                             </div>
-                                            <div class="control-group" id="selectAddressTable" style="display:none">
-                                                <label class="control-label" >已经选择的场地</label>
-                                                <div class="controls" id="selectAddress">
-                                                </div>
-                                            </div>
+
                                             <br>
                                             <input type="hidden" id="partyType" value="1">
                                             <div class="form-actions">

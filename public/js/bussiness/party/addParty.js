@@ -281,7 +281,8 @@ var saveParty = function(){
             'movieAlias': $('#movieAlias').val(),
             'densitrys':densitrys,
             'ids':ids,
-            'spiderId':$('#selectMovie').val()
+            'spiderId':$('#selectMovie').val(),
+            'movieTime':$('#movieTime').val()
         }
 
         findPartyByName();
@@ -733,12 +734,19 @@ var findMovie = function(){
         if( data.result == 200){
             var movieList = data.data;
             for(var i=0;i<movieList.length;i++){
-                $('#selectMovie').append("<option value='"+movieList[i].id+"'>"+movieList[i].name+"</option>");
+                $('#selectMovie').append("<option value='"+movieList[i].id+"' time='"+movieList[i].time+"'>"+movieList[i].name+"</option>");
+                if( i==0){
+                    $('#movieTime').val(movieList[i].time);
+                }
             }
         }
     }, function (data) {
         console.log(data);
     });
+}
+
+var selectMovieTime = function(){
+    $('#movieTime').val($('#selectMovie').find("option:selected").attr('time'));
 }
 
 var createMovie = function(){
