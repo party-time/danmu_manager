@@ -198,6 +198,10 @@ var addParty = function(){
     window.location.href="/party/add";
 }
 
+var addMovie = function(){
+    window.location.href="/party/addMovie";
+}
+
 var openAddress = function(partyName,partyId){
     var addressTableUrl = '/v1/api/admin/address/queryAdByPartyId';
     var addressQueryObject = {

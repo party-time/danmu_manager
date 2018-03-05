@@ -21,6 +21,7 @@ var drawNavbar = function(){
         htmlStr += '<li><a href="/h5temp">页面管理</a></li>';
         htmlStr += '<li><a href="/monitor">通知管理</a></li>';
         htmlStr += '<li><a href="/task">定时任务管理</a></li>';
+        htmlStr += '<li><a href="/party/spider">爬取数据管理</a></li>';
         htmlStr +=  '</ul></li>';
 
     }

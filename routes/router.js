@@ -46,6 +46,10 @@ router.get('/party/update', function(req, res, next) {
   res.render('party/updateParty');
 });
 
+router.get('/party/addMovie', function(req, res, next) {
+  res.render('party/addMovie');
+});
+
 
 /**地址管理*/
 router.get('/cinema', function(req, res, next) {

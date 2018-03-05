@@ -15,13 +15,25 @@
                                         <fieldset>
 
                                             <div class="control-group" style="margin-top: 18px;">
-                                                <label class="control-label" for="name">活动名称</label>
-                                                <div class="controls">
+                                                <label class="control-label" id="movieTitle" >选择电影</label>
+                                                <div class="controls" >
                                                     <div id="movieName">
-                                                        <input type="text" class="span6" id="name" placeholder="弹幕电影" maxlength="15" onblur="findPartyByName()">
+                                                        <select id="selectMovie">
+                                                        </select>
+                                                        <a onclick="createMovie()">电影不存在，重新创建</a>
                                                     </div>
                                                 </div> <!-- /controls -->
+
                                             </div> <!-- /control-group -->
+
+                                            <div id="movieTable" >
+                                                <div class="control-group">
+                                                    <label class="control-label" for="movieAlias">电影TMS指令</label>
+                                                    <div class="controls">
+                                                        <select id="movieAlias"></select>
+                                                    </div> <!-- /controls -->
+                                                </div> <!-- /control-group -->
+                                            </div>
                                             <div class="control-group">
                                                 <label class="control-label">选择预制弹幕库</label>
                                                 <div class="controls" >
@@ -30,19 +42,19 @@
                                                 </div> <!-- /controls -->
 
                                             </div>
-                                            <div class="control-group" id="partyTable">
+                                            <div class="control-group" id="partyTable" style="display:none">
                                                 <label class="control-label">选择场地</label>
                                                 <div class="controls" >
                                                     <a class="btn" onclick="openAddress();">选择</a>
                                                 </div> <!-- /controls -->
                                             </div>
-                                            <div class="control-group" id="selectAddressTable">
+                                            <div class="control-group" id="selectAddressTable" style="display:none">
                                                 <label class="control-label" >已经选择的场地</label>
                                                 <div class="controls" id="selectAddress">
                                                 </div>
                                             </div>
                                             <br>
-                                            <input type="hidden" id="partyType" value="0">
+                                            <input type="hidden" id="partyType" value="1">
                                             <div class="form-actions">
                                                 <a class="btn btn-primary" id="saveParty" onclick="saveParty();">下一步</a> <a class="btn" onclick="returnPartyList();">返回列表</a>
                                             </div>

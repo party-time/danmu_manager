@@ -9,12 +9,12 @@ var findPartyByName = function(){
             if( data.result == 200){
                 if(data.data){
                     if(!$('#name').parent().children('.help-block').html()){
-                        $('#name').after('<p class="help-block" style="color:red">活动名称重复</p>');
+                        $('#movieName').after('<p class="help-block" style="color:red">活动名称重复</p>');
                     }
                     $('#saveParty').attr('disabled',true);
                 }else{
-                    if($('#name').parent().children('.help-block').html()){
-                        $('#name').parent().children('.help-block').remove();
+                    if($('.help-block').html()){
+                        $('.help-block').remove();
                     }
                     $('#saveParty').attr('disabled',false);
                 }
@@ -24,7 +24,7 @@ var findPartyByName = function(){
         });
     }else{
         if(!$('#name').parent().children('.help-block').html()){
-            $('#name').after('<p class="help-block" style="color:red">活动名称不能为空</p>');
+            $('#movieName').after('<p class="help-block" style="color:red">活动名称不能为空</p>');
         }
     }
 };
@@ -277,7 +277,8 @@ var saveParty = function(){
             'type':partyType,
             'movieAlias': $('#movieAlias').val(),
             'densitrys':densitrys,
-            'ids':ids
+            'ids':ids,
+            'spiderId':$('#selectMovie').val()
         }
 
         findPartyByName();
@@ -723,6 +724,39 @@ var saveRealTimeDmAddress = function(){
     });
 
 }
+
+var findMovie = function(){
+    $.danmuAjax('/v1/api/admin/spider/findMovie', 'GET','json',null, function (data) {
+        if( data.result == 200){
+            var movieList = data.data;
+            for(var i=0;i<movieList.length;i++){
+                $('#selectMovie').append("<option value='"+movieList[i].id+"'>"+movieList[i].name+"</option>");
+            }
+        }
+    }, function (data) {
+        console.log(data);
+    });
+}
+
+var createMovie = function(){
+    $('#movieTitle').html('电影名称：');
+    if($('.help-block').html()){
+        $('.help-block').remove();
+    }
+    $('#movieName').html('<input type="text" class="span6" id="name" placeholder="弹幕电影" maxlength="15" onblur="findPartyByName()">'+
+        '<a onclick="createSelectMovie()">选择电影</a>');
+}
+
+var createSelectMovie = function(){
+    if($('.help-block').html()){
+        $('.help-block').remove();
+    }
+    $('#movieTitle').html('选择电影：');
+    $('#movieName').html('<select id="selectMovie"></select><a onclick="createMovie()">电影不存在，重新创建</a>');
+    findMovie();
+}
+
+findMovie();
 
 initMovieAlias();
 
