@@ -24,6 +24,8 @@ var findPartyById = function(){
                     selectMovie();
                     if(data.data.party.type == 1){
                          $('#movieAlias').append("<option value='"+data.data.movieAlias.value+"' selected>"+data.data.movieAlias.name+"</option>");
+                         $('#movieTimeDiv').show();
+                         $('#movieTime').val(data.data.party.movieTime);
                     }else{
                         if( null != data.data.danmuAddressList ){
                             for( var i=0;i<data.data.danmuAddressList.length;i++){
@@ -559,7 +561,8 @@ var saveParty = function(){
             'movieAlias': $('#movieAlias').val(),
             'densitrys':densitrys,
             'ids':ids,
-            'id':_update_partyId
+            'id':_update_partyId,
+            'movieTime':$('#movieTime').val()
         }
 
         findPartyByName();
