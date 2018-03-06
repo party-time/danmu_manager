@@ -75,8 +75,12 @@ router.get('/wechat', function(req, res, next) {
 
 
 /**预制弹幕*/
+router.get('/preDanmuLibrary', function(req, res, next) {
+    res.render('danmu/preDanmuLibrary');
+});
+
 router.get('/predanmu', function(req, res, next) {
-  res.render('danmu/predanmu');
+    res.render('danmu/predanmu',{id: req.query.id,name: req.query.name});
 });
 
 
