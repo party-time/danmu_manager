@@ -10,9 +10,11 @@ var columnsArray = [
         align: 'center',
         formatter: function (value, row, index) {
             var str='';
-            str += '<a class="btn" href="#" onclick="openDanmuCheck(\''+row.name+'\',\''+row.id+'\')">删除</a> &nbsp;';
+
             str += '<a class="btn btn-primary importDanmu" onclick= "importDanmuFuntion(\''+row.id+'\')">导入弹幕</a> &nbsp;';
-            str += '<a class="btn" target="_blank" href="/predanmu?id='+row.id+'&name='+row.name+'">修改预置弹幕</a> &nbsp;';
+            str += '<a class="btn" target="_blank" href="/predanmu?id='+row.id+'&name='+row.name+'">修改预置弹幕</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+
+            str += '<a class="btn btn-danger" href="#" onclick="delDanmuLibrary(\''+row.name+'\',\''+row.id+'\')">删除</a> &nbsp;';
             return str;
         },
         events:'operateEvents'
@@ -111,3 +113,18 @@ $(".templetDownButton").click(function () {
     form.submit();//表单提交
 });
 
+
+var delDanmuLibrary = function (name,id) {
+
+    if(confirm('亲，您确定要删除'+name+'弹幕库吗？如果删除，无法恢复，请慎重操作！！！')){
+        var obj={
+            id:id
+        }
+        $.danmuAjax('/v1/api/admin/delDanmuLibrary', 'GET','json',obj, function (data) {
+            searchLibrary();
+        }, function (data) {
+            console.log(data);
+        });
+    }
+
+}
