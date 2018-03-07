@@ -36,10 +36,17 @@
     <div class="main-inner">
         <div class="container">
             <div>
-                弹幕库名称:<input type="text" style="margin-left:10px;" id="dlName"/>
+                弹幕库名称:<span style="font-size: 20pt;"><%=name%></span>
+                <!--
+                <input type="text" style="margin-left:10px;" id="dlName"  value="<%=name%>"/>
                 <select id="selectedDl" style="width:100px;margin-left:10px;" onchange="getDanmuLibraryPage()"></select>
+                -->
+                <input type="hidden" id="selectedDl" value="<%=id%>">
+
+                <!--
                 <button type="button" class="btn btn-primary" onclick="saveDanmuLibrary()" style="margin-bottom:10px;margin-left:10px;">保存弹幕库</button>
                 <button type="button" class="btn btn-primary" onclick="delDanmuLibrary()" style="margin-bottom:10px;margin-left:10px;">删除弹幕库</button>
+                -->
                 <button type="button" class="btn btn-primary importDanmu" style="margin-bottom:10px;margin-left:10px;">导入弹幕</button>
             </div>
             <div class="row">

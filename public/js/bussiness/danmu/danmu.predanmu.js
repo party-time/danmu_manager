@@ -368,7 +368,8 @@ var delDanmuLibrary = function () {
 }
 
 initColor();
-getAllDanmuLibrary();
+//getAllDanmuLibrary();
+getDanmuLibraryPage(1);
 getDanmuPage(1);
 $.initTitle({'divId':'typeTitleDiv'});
 
