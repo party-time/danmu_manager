@@ -80,7 +80,7 @@ var initPartyResource = function(){
 
         $('#expressions').html(html);
     }else{
-         $('#expressions').html('<h4>还没有表情，可以<a href="javascript:void(0);" onclick="openExpressions()">选择表情</a>也可以按照文件名规则上传</h4>');
+         $('#expressions').html('<h4>还没有表情，可以<a href="javascript:void(0);" onclick="openExpressions()">选择电影表情</a>也可以按照文件名规则上传</h4>');
     }
 
 }
