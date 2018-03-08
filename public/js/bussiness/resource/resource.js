@@ -237,12 +237,12 @@ var getExpressions = function(pageNo,fileType){
 }
 
 var openExpressions = function(){
-    $('#myModalLabel').html('表情图片选择');
+    $('#myModalLabel').html('电影表情图片选择');
     getExpressions(1);
 }
 
 var openLExpressions = function(){
-    $('#myModalLabel').html('表情图片选择');
+    $('#myModalLabel').html('常驻表情图片选择');
     getExpressions(1,6);
 }
 
