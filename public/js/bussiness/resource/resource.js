@@ -75,7 +75,7 @@ var initPartyResource = function(){
 
                 html +='<img style="width:50%;" src="'+smallFileUrl+'" /><p style="word-wrap: break-word">'+parseInt(expressions[i].smallFileSize/1000)+'KB</p>';
             }
-            html +='<a class="btn" onclick="delPartyResource(\''+expressions[i].id+'\',1)">删除</a><a class="btn" onclick="openFile(\''+expressions[i].id+'\')">小表情</a></div>';
+            html +='<a class="btn" onclick="delPartyResource(\''+expressions[i].id+'\',1)">删除</a><a class="btn" onclick="openFile(\''+expressions[i].id+'\',\''+1+'\')">小表情</a></div>';
         }
 
         $('#expressions').html(html);
@@ -102,7 +102,7 @@ var drawExpressionsConstant = function(expressions){
 
                 html +='<img style="width:50%;" src="'+smallFileUrl+'" /><p style="word-wrap: break-word">'+parseInt(expressions[i].smallFileSize/1000)+'KB</p>';
             }
-            html +='<a class="btn" onclick="delPartyResource(\''+expressions[i].id+'\',1)">删除</a><a class="btn" onclick="openFile(\''+expressions[i].id+'\')">小表情</a></div>';
+            html +='<a class="btn" onclick="delPartyResource(\''+expressions[i].id+'\',1)">删除</a><a class="btn" onclick="openFile(\''+expressions[i].id+'\',\''+5+'\')">小表情</a></div>';
         }
 
         $('#lexpressions').html(html);
@@ -558,7 +558,9 @@ var getResourceFileType = function(type){
                 drawSpecVideos(data.data);
             }else if(type==4){
                  drawH5Background(data.data[0]);
-            }
+            }else if(type==5){
+                  drawExpressionsConstant(data.data);
+             }
         }else{
             alert('选择失败');
         }
