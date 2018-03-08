@@ -170,12 +170,15 @@ var openH5 = function(){
     geth5BackgroundPage(1);
 }
 
-var getExpressions = function(pageNo){
+var getExpressions = function(pageNo,fileType){
     g_expressions_pageNo = pageNo;
     $('#flashBody').html('正在加载中......');
     $('#myModal').modal('show');
+    if(!fileType){
+        fileType = 1;
+    }
     var obj={
-        fileType:1,
+        fileType:fileType,
         pageNo:pageNo,
         pageSize:18
     };
@@ -236,6 +239,11 @@ var getExpressions = function(pageNo){
 var openExpressions = function(){
     $('#myModalLabel').html('表情图片选择');
     getExpressions(1);
+}
+
+var openLExpressions = function(){
+    $('#myModalLabel').html('表情图片选择');
+    getExpressions(1,6);
 }
 
 var getSpecImagesPage = function(pageNo){

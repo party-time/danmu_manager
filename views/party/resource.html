@@ -9,7 +9,7 @@
                     <div>
                         <h3>资源管理</h3>
                         <p>图片类支持的格式为png,jpg,gif,视频类支持的格式为mp4,mov,flv,fla</p>
-                        <p>h5背景图片名称为hb_xxx.jpg,表情大图的名称为ex_xxx.jpg,特效图片为si_xxx.jpg,特效视频sv_xxx.mp4</p>
+                        <p>h5背景图片名称为hb_xxx.jpg,常驻表情大图的名称为co_xxx.jpg,表情大图的名称为ex_xxx.jpg,特效图片为si_xxx.jpg,特效视频sv_xxx.mp4</p>
                     </div>
                     <div class="widget">
                         <div class="widget-header">
@@ -26,7 +26,18 @@
                     <div class="widget">
                         <div class="widget-header">
                             <i class="icon-list-alt"></i>
-                            <h3><a href="javascript:void(0);" onclick="openExpressions()">选择表情</a></h3>
+                            <h3><a href="javascript:void(0);" onclick="openLExpressions()">选择常驻表情</a></h3>
+                        </div>
+                        <div class="widget-content" id="lexpressions">
+
+                        </div>
+                        <!-- /widget-content -->
+                    </div>
+
+                    <div class="widget">
+                        <div class="widget-header">
+                            <i class="icon-list-alt"></i>
+                            <h3><a href="javascript:void(0);" onclick="openExpressions()">选择电影表情</a></h3>
                         </div>
                         <div class="widget-content" id="expressions">
 
