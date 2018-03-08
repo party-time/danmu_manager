@@ -431,13 +431,15 @@ var openUpload = function(){
 
 
 
-var openFile = function(resourceId){
+var openFile = function(resourceId,fileTpe){
     $('#hiddenFile').click();
     $('#hiddenFile').attr('resourceId',resourceId);
+    $('#hiddenFile').attr('fileType',fileTpe);
 }
 
 var uploadSmallFile = function(){
     var file = document.querySelector('#hiddenFile').files[0];
+    var fileType = $('#hiddenFile').attr('fileType');
      var obj = {
         'file':file,
         'resourceId':$('#hiddenFile').attr('resourceId')
@@ -455,7 +457,7 @@ var uploadSmallFile = function(){
                  contentType:false,
                  success: function(data){
                     if(data.result == 200){
-                        getResourceFileType(1);
+                        getResourceFileType(fileType);
                         alert("上传成功");
                     }else{
                         alert("上传失败");
