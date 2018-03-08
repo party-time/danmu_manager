@@ -26,6 +26,8 @@ var initPartyResource = function(){
 
             drawExpressions(data.data.expressions);
 
+            drawExpressionsConstant(data.data.expressionsConstant);
+
             drawSpecImages(data.data.specialImages);
 
             drawSpecVideos(data.data.specialVideos);
@@ -79,6 +81,33 @@ var initPartyResource = function(){
         $('#expressions').html(html);
     }else{
          $('#expressions').html('<h4>还没有表情，可以<a href="javascript:void(0);" onclick="openExpressions()">选择表情</a>也可以按照文件名规则上传</h4>');
+    }
+
+}
+
+var drawExpressionsConstant = function(expressions){
+    $('#lexpressions').empty();
+    if( expressions && expressions.length > 0){
+        g_expressions = expressions;
+        var html = '';
+        for(var i=0;i<expressions.length;i++){
+            var fileurl = _baseImageUrl+expressions[i].fileUrl+'?v='+Math.random();
+
+            html += '<div style="width:15%; border: 1px solid green;display:inline-block;margin:1ex;">'+
+                    '<img style="width:90%" src="'+fileurl+'"/><p style="word-wrap: break-word">'+parseInt(expressions[i].fileSize/1000)+'KB</p>';
+
+            if(expressions[i].smallFileUrl ){
+
+                var smallFileUrl = _baseImageUrl+expressions[i].smallFileUrl+'?v='+Math.random();
+
+                html +='<img style="width:50%;" src="'+smallFileUrl+'" /><p style="word-wrap: break-word">'+parseInt(expressions[i].smallFileSize/1000)+'KB</p>';
+            }
+            html +='<a class="btn" onclick="delPartyResource(\''+expressions[i].id+'\',1)">删除</a><a class="btn" onclick="openFile(\''+expressions[i].id+'\')">小表情</a></div>';
+        }
+
+        $('#lexpressions').html(html);
+    }else{
+         $('#lexpressions').html('<h4>还没有常驻表情，可以<a href="javascript:void(0);" onclick="openLExpressions()">选择常驻表情</a>也可以按照文件名规则上传</h4>');
     }
 
 }
