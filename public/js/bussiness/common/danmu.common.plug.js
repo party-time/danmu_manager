@@ -228,6 +228,7 @@
                 }else if(object.componentId==1){
                     //表情特效
                     resourceArray=data.data.expressions;
+                    resourceArray.push(data.data.expressionconstant)
                     if(resourceArray!=null && resourceArray!=undefined){
                         for (var i = 0; i < resourceArray.length; i++) {
                             var expression = resourceArray[i];
