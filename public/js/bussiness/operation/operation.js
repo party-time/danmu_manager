@@ -1,3 +1,19 @@
+
+Date.prototype.format = function(f){
+    var o ={
+        "M+" : this.getMonth()+1, //month
+        "d+" : this.getDate(),    //day
+        "h+" : this.getHours(),   //hour
+        "m+" : this.getMinutes(), //minute
+        "s+" : this.getSeconds(), //second
+        "q+" : Math.floor((this.getMonth()+3)/3),  //quarter
+        "S" : this.getMilliseconds() //millisecond
+    }
+    if(/(y+)/.test(f))f=f.replace(RegExp.$1,(this.getFullYear()+"").substr(4 - RegExp.$1.length));
+    for(var k in o)
+        if(new RegExp("("+ k +")").test(f))f = f.replace(RegExp.$1,RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));return f
+}
+
 var tableUrl = '/v1/api/admin/operationLog/page';
 var columnsArray = [
     {
@@ -28,6 +44,43 @@ var columnsArray = [
 ];
 
 var quaryObject = {
+    pageSize: 20
+};
+
+var logTableUrl = '/v1/api/admin/operationLog/pageLog';
+var logColumnsArray = [
+    {
+        title: '序号',
+        align: 'center',
+        formatter: function (value, row, index) {
+            return index+1;
+        }
+    },
+    {
+        title: '日期',
+        align: 'center',
+        formatter: function (value, row, index) {
+            return  new Date(parseInt(row.operationLog.createTime)).format('yyyy-MM-dd hh:mm:ss');
+        }
+    },
+    {
+        title: '管理员',
+        align: 'center',
+        formatter: function (value, row, index) {
+            return row.adminUser.name;
+        }
+    },
+    {
+        field: 'key',
+        title: '日志内容',
+        align: 'center',
+        formatter: function (value, row, index) {
+            return row.operationLog.message;
+        }
+    }
+];
+
+var logQuaryObject = {
     pageSize: 20
 };
 
@@ -147,7 +200,7 @@ var save = function(){
         if(data.result == 200) {
             console.log(data);
             $('#myModal').modal('hide');
-            $.initTable('tableList', columnsArray, quaryObject, tableUrl);
+            operationLogTempInit();
             alert('创建成功');
         }else{
             if(data.result_msg){
@@ -186,7 +239,7 @@ var update = function(id){
         if(data.result == 200) {
             console.log(data);
             $('#myModal').modal('hide');
-            $.initTable('tableList', columnsArray, quaryObject, tableUrl);
+            operationLogTempInit();
             alert('修改成功');
         }else{
             if(data.result_msg){
@@ -201,4 +254,33 @@ var update = function(id){
 }
 
 //加载表格数据
-$.initTable('tableList', columnsArray, quaryObject, tableUrl);
+
+var operationLogTempInit = function(){
+    $.initTable('tableList', columnsArray, quaryObject, tableUrl);
+}
+
+var operationLogInit = function(){
+    $.initTable('tableList', logColumnsArray, logQuaryObject, logTableUrl);
+}
+
+var openSearch = function(){
+    var name = $('#openName').html();
+    if(name == '日志模版查询'){
+        operationLogTempInit();
+        $('#openName').html('操作日志查询');
+        $('#openName').unbind();
+        $('#openName').bind('click',function(){
+              operationLogInit();
+        })
+    }else if( name == '操作日志查询'){
+        operationLogInit();
+        $('#openName').html('日志模版查询');
+        $('#openName').unbind();
+        $('#openName').bind('click',function(){
+               operationLogTempInit();
+        })
+    }
+}
+
+operationLogInit();
+
