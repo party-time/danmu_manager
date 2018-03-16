@@ -189,4 +189,8 @@ router.get('/task', function(req, res, next) {
     res.render('task/task');
 });
 
+router.get('/operation', function(req, res, next) {
+    res.render('operationlogManager/operationlog');
+});
+
 module.exports = router;
