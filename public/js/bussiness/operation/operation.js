@@ -67,7 +67,7 @@ var logColumnsArray = [
         title: '管理员',
         align: 'center',
         formatter: function (value, row, index) {
-            return row.adminUser.name;
+            return row.adminUser.userName;
         }
     },
     {
