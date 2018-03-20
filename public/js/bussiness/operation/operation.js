@@ -73,7 +73,7 @@ var logColumnsArray = [
     {
         field: 'key',
         title: '日志内容',
-        align: 'center',
+        align: 'left',
         formatter: function (value, row, index) {
             return row.operationLog.message;
         }
