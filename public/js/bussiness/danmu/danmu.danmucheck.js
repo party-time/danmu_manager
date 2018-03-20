@@ -383,7 +383,7 @@
          * @param specialVideo
          * @param status
          */
-        $scope.showSpecialVideo = function (specialVideo, status) {
+        $scope.showSpecialVideo = function (specialVideo, status,name) {
 
 
             if (webSocketIsConnect() && checkPatyIsBegin()) {
@@ -392,7 +392,7 @@
                     var name = specialVideoName($scope.specialVideo);
                     var namenew = specialVideoName(specialVideo.id);
                     if (confirm("特效" + name + "正在开启，是否要开启" + namenew + "特效？")) {
-                        startSpecialVedio(specialVideo, status,$("input[name='videoRect']:checked").val());
+                        startSpecialVedio(specialVideo, status,$("input[name='videoRect']:checked").val(),name);
                     }
                 } else {
                     var msg = "";
@@ -403,7 +403,7 @@
                     }
                     msg += specialVideo.resourceName;
                     if (confirm("确定" + msg + "?")) {
-                        startSpecialVedio(specialVideo, status,$("input[name='videoRect']:checked").val());
+                        startSpecialVedio(specialVideo, status,$("input[name='videoRect']:checked").val(),msg);
                     }
                 }
 
@@ -430,8 +430,8 @@
             }
         }
 
-        var startSpecialVedio = function (specialVideo, status,videoRect) {
-            webSocketSendMessage({type: $scope.type.type_specialVideo, data: {id: specialVideo.id, status: status,videoRect:videoRect}});
+        var startSpecialVedio = function (specialVideo, status,videoRect,name) {
+            webSocketSendMessage({type: $scope.type.type_specialVideo, data: {id: specialVideo.id, status: status,videoRect:videoRect,name:name}});
         }
         /**
          * 设置动画特效按钮的状态
@@ -693,7 +693,10 @@
                         if(i==0){
                             html+='<tr>';
                             html+='<td>'+data.data[i].name+'</td>';
-                            html+='<td><input type="text" style="width: 20px;" id="density_'+(i+1)+'" maxlength="2" value="'+data.data[i].densitry+'"><input type="hidden" value="'+data.data[i].danmuLibraryId+'" id="density_id_'+(i+1)+'" >';
+                            html+='<td>';
+                            html+='<input type="text" style="width: 20px;" id="density_'+(i+1)+'" maxlength="2" value="'+data.data[i].densitry+'"><input type="hidden" value="'+data.data[i].danmuLibraryId+'" id="density_id_'+(i+1)+'" >';
+                            html+='<input type="hidden" value="'+data.data[i].densitry+'" id="density_src_id_'+(i+1)+'" >';
+                            html+='<input type="hidden" value="'+data.data[i].name+'" id="libraryName'+(i+1)+'" >';
                             html+='</td>';
                             html+='</tr>';
                         }else{
@@ -701,6 +704,8 @@
                             html+='<td></td>';
                             html+='<td>'+data.data[i].name+'</td>' ;
                             html+='<td><input type="text" style="width: 20px;" id="density_'+(i+1)+'" maxlength="2" value="'+data.data[i].densitry+'"><input type="hidden" value="'+data.data[i].danmuLibraryId+'" id="density_id_'+(i+1)+'" >';
+                            html+='<input type="hidden" value="'+data.data[i].densitry+'" id="density_src_id_'+(i+1)+'" >';
+                            html+='<input type="hidden" value="'+data.data[i].name+'" id="libraryName'+(i+1)+'" >';
                             html+='</td>';
                             html+='</tr>';
                         }
@@ -721,6 +726,8 @@
                                 var object  = {
                                     partyId:$scope.partyId,
                                     danmuLibraryId:$("#density_id_"+(i+1)).val(),
+                                    densitryHis:$("#density_src_id_"+(i+1)).val(),
+                                    libraryName:$("#libraryName"+(i+1)).val(),
                                     densitry:density
                                 }
                                 array.push(object);
