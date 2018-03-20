@@ -436,7 +436,7 @@
                 var name = valueList[i].name;
                 var value = valueList[i].value;
                 var id= valueList[i].id;
-                var radioButton = '<label style="display: inline-block; width: 80px;"><input id="'+widgetId+id+'" name="'+key+'" type="radio" value="'+value+'" style="display: inline-block;"/>'+name+'</label> ';
+                var radioButton = '<label style="display: inline-block; width: 80px;"><input id="'+widgetId+id+'" name="'+key+'" type="radio" value="'+value+'" style="display: inline-block;"/><input name="'+key+'name" type="hidden" value="'+name+'"/>'+name+'</label> ';
                 divObject.append(radioButton);
                 if(object.defaultValue==value){
                     $("#"+widgetId+id).attr("checked",'checked');

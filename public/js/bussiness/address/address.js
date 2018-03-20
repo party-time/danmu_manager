@@ -928,7 +928,7 @@ var openControlDialog = function(addressName,addressId){
     htmlStr +='<label class="control-label" style="width:60px">下载相关</label><div class="controls" style="margin-left:60px;">';
     htmlStr +='<a class="btn" onclick="sendControl(\'videoDown\')">特效视频下载</a>';
     htmlStr +='<a class="btn" onclick="sendControl(\'expressionDown\')">表情下载</a>';
-    htmlStr +='<a class="btn" onclick="sendControl(\'specialImgDown\')">特效图片下载</a>';
+    htmlStr +='<a class="btn" onclick="sendControl(\'expressionDown\')">特效图片下载</a>';
     htmlStr +='<a class="btn" onclick="sendControl(\'timerDmDown\')">定时弹幕下载</a>';
     htmlStr +='<a class="btn" onclick="sendControl(\'adDmDown\')">广告弹幕下载</a>';
     htmlStr +='<a class="btn" onclick="sendControl(\'resourceAllDown\')">下载所有资源</a>';
