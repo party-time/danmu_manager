@@ -17,6 +17,14 @@ var tableUrl = '/v1/api/admin/spider/list';
     var danmuLibraryList = [];
     var columnsArray = [
         {
+            title: '电影海报',
+            align: 'center',
+            formatter: function (value, row, index) {
+                var imgUrl = _baseUrl + '/'+row.imageUrl;
+                  return '<img src="'+imgUrl+'" />';
+            }
+        },
+        {
             field: 'name',
             title: '电影名称',
             align: 'center'
