@@ -63,6 +63,7 @@ var logColumnsArray = [
             return  new Date(parseInt(row.operationLog.createTime)).format('yyyy-MM-dd hh:mm:ss');
         }
     },
+
     {
         title: '管理员',
         align: 'center',
