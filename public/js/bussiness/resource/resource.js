@@ -226,14 +226,14 @@ var getExpressions = function(pageNo,fileType){
                 if(isHave){
                     htmlStr += '<div style="display:inline-block;width:14%;border:1px solid red;"><img style="width:90%" src="'+fileUrl+'" /><p style="padding-left:10px"><a href="javascript:void(0);" class="btn" onclick="delResource(\''+data.rows[i].id+'\',1)">删除</a></p></div>';
                 }else{
-                    htmlStr += '<div style="display:inline-block;width:14%;"><a href="javascript:void(0);" onclick="selectResource(\''+data.rows[i].id+'\','+fileType+')"><img style="width:90%" src="'+fileUrl+'" /></a><p style="padding-left:10px"><a href="javascript:void(0);" class="btn" onclick="delResource(\''+data.rows[i].id+'\',1)">删除</a></p></div>';
+                    htmlStr += '<div style="display:inline-block;width:14%;"><a href="javascript:void(0);" onclick="selectResource(\''+data.rows[i].id+'\','+fileType+')"><img style="width:90%" src="'+fileUrl+'" /></a><p style="padding-left:10px"><a href="javascript:void(0);" class="btn" onclick="delResource(\''+data.rows[i].id+'\','+fileType+')">删除</a></p></div>';
                 }
 
             }else if( i% 6 > 0){
                 if(isHave){
                     htmlStr += '<div style="display:inline-block;width:14%;margin-left:15px;border:1px solid red;"><img style="width:90%"  src="'+fileUrl+'" /><p style="padding-left:10px"><a href="javascript:void(0);" class="btn" onclick="delResource(\''+data.rows[i].id+'\',1)">删除</a></p></div>';
                 }else{
-                    htmlStr += '<div style="display:inline-block;width:14%;margin-left:15px;"><a href="javascript:void(0);" onclick="selectResource(\''+data.rows[i].id+'\','+fileType+')"><img style="width:90%"  src="'+fileUrl+'" /></a><p style="padding-left:10px"><a href="javascript:void(0);" class="btn" onclick="delResource(\''+data.rows[i].id+'\',1)">删除</a></p></div>';
+                    htmlStr += '<div style="display:inline-block;width:14%;margin-left:15px;"><a href="javascript:void(0);" onclick="selectResource(\''+data.rows[i].id+'\','+fileType+')"><img style="width:90%"  src="'+fileUrl+'" /></a><p style="padding-left:10px"><a href="javascript:void(0);" class="btn" onclick="delResource(\''+data.rows[i].id+'\','+fileType+')">删除</a></p></div>';
                 }
 
                 if( i%6 == 5){
