@@ -96,7 +96,7 @@ var openAddMonitor = function(){
                 '<textarea class="span4" style="height:100px" id="content"></textarea></div><br>';
        htmlStr +='<label class="control-label" style="width:60px">日志内容占位符</label><div class="controls" style="margin-left:60px;">'+
                        '<span class="span4">时间:${time},管理员:${adminUser},活动名称:${partyName},弹幕名称:${danmuName}'+
-                       ',模拟指令:${cmd},颜色:${color},内容:${content},场地:${address},X:{x},Y:{y}</span></div><br>';
+                       ',模拟指令:${cmd},颜色:${color},内容:${content},场地:${address},X:${x},Y:${y}</span></div><br>';
        htmlStr+='</div></form>';
     $('#modalBody').html(htmlStr);
     var buttonHtml = '<button class="btn btn-primary" onclick="save()">保存</button>';
@@ -121,7 +121,7 @@ var openUpdateMonitor = function(id){
                     '<textarea class="span4" style="height:100px" id="content">'+data.data.content+'</textarea></div><br>';
             htmlStr +='<label class="control-label" style="width:60px">日志内容占位符</label><div class="controls" style="margin-left:60px;">'+
                                    '<span class="span4">时间:${time},管理员:${adminUser},活动名称:${partyName},弹幕名称:${danmuName}'+
-                                   ',模拟指令:${cmd},颜色:${color},内容:${content},场地:${address},X:{x},Y:{y}</span></div><br>';
+                                   ',模拟指令:${cmd},颜色:${color},内容:${content},场地:${address},X:${x},Y:${y}</span></div><br>';
             htmlStr+='</div></form>';
             $('#modalBody').html(htmlStr);
             var buttonHtml = '<button class="btn btn-primary" onclick="update(\''+id+'\')">修改</button>';
