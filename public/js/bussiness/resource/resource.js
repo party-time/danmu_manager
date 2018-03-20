@@ -50,7 +50,7 @@ var initPartyResource = function(){
     $('#h5Html').empty();
     if( h5BackgroundFile ){
         g_h5bg = h5BackgroundFile.id;
-        var h5url = _baseImageUrl+h5BackgroundFile.fileUrl;
+        var h5url = _baseImageUrl+h5BackgroundFile.fileUrl+'?t='+=Date.parse(new Date());
         var html = '<img style="width:30%" src="'+h5url+'"/>';
         $('#h5Html').html(html);
     }else{
