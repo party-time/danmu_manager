@@ -21,7 +21,7 @@ var tableUrl = '/v1/api/admin/spider/list';
             align: 'center',
             formatter: function (value, row, index) {
                 var imgUrl = _baseUrl + '/'+row.imageUrl;
-                  return '<img src="'+imgUrl+'" />';
+                  return '<img src="'+imgUrl+'" style="width:20%"/>';
             }
         },
         {
