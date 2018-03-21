@@ -63,6 +63,7 @@ var logColumnsArray = [
             return  new Date(parseInt(row.operationLog.createTime)).format('yyyy-MM-dd hh:mm:ss');
         }
     },
+
     {
         title: '管理员',
         align: 'center',
@@ -73,7 +74,7 @@ var logColumnsArray = [
     {
         field: 'key',
         title: '日志内容',
-        align: 'center',
+        align: 'left',
         formatter: function (value, row, index) {
             return row.operationLog.message;
         }
