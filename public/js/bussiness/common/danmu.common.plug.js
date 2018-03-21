@@ -456,7 +456,7 @@
                 var name = valueList[i].name;
                 var value = valueList[i].value;
                 var id= valueList[i].id;
-                var checkBox = '<label style="display: inline-block; width: 80px;"><input id="'+widgetId+id+'" name="'+key+'" type="checkbox" value="'+value+'" style="display: inline-block;"/>'+name+'</label> ';
+                var checkBox = '<label style="display: inline-block; width: 80px;"><input id="'+widgetId+id+'" name="'+key+'" type="checkbox" value="'+value+'" style="display: inline-block;"/><input name="'+key+'name" type="hidden" value="'+name+'"/>'+name+'</label> ';
                 divObject.append(checkBox);
                 if(object.defaultValue==value){
                     $("#"+widgetId+id).attr("checked",'true');
