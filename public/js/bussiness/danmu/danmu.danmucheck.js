@@ -388,11 +388,11 @@
 
             if (webSocketIsConnect() && checkPatyIsBegin()) {
                 //判断当前开启的特效与要开启的特效是不是同一个
-                if ($scope.specialVideo != specialVideo.id) {
+                if ($scope.specialVideo != specialVideo.id && $scope.specialVideo!="") {
                     var name = specialVideoName($scope.specialVideo);
                     var namenew = specialVideoName(specialVideo.id);
                     if (confirm("特效" + name + "正在开启，是否要开启" + namenew + "特效？")) {
-                        startSpecialVedio(specialVideo, status,$("input[name='videoRect']:checked").val(),name);
+                        startSpecialVedio(specialVideo, status,$("input[name='videoRect']:checked").val(),namenew);
                     }
                 } else {
                     var msg = "";
