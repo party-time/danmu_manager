@@ -384,8 +384,6 @@
          * @param status
          */
         $scope.showSpecialVideo = function (specialVideo, status,name) {
-
-
             if (webSocketIsConnect() && checkPatyIsBegin()) {
                 //判断当前开启的特效与要开启的特效是不是同一个
                 if ($scope.specialVideo != specialVideo.id && $scope.specialVideo!="") {
