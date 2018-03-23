@@ -193,4 +193,8 @@ router.get('/operation', function(req, res, next) {
     res.render('operationlogManager/operationlog');
 });
 
+router.get('/welcome', function(req, res, next) {
+    res.render('welcome/welcome');
+});
+
 module.exports = router;

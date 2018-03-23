@@ -24,6 +24,7 @@ var drawNavbar = function(){
         htmlStr += '<li><a href="/task">定时任务管理</a></li>';
         htmlStr += '<li><a href="/party/spider">爬取数据管理</a></li>';
         htmlStr += '<li><a href="/operation">操作日志管理</a></li>';
+        htmlStr += '<li><a href="/welcome">欢迎语管理</a></li>';
         htmlStr +=  '</ul></li>';
 
     }
