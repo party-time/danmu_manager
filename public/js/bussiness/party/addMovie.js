@@ -3,7 +3,7 @@ var findMovie = function(){
         if( data.result == 200){
             var movieList = data.data;
             for(var i=0;i<movieList.length;i++){
-                $('#selectMovie').append("<option value='"+movieList[i].id+"'>"+movieList[i].name+"</option>");
+                $('#selectMovie').append("<option value='"+movieList[i].id+"'>"+movieList[i].name+" 评分:"+movieList[i].score+"</option>");
             }
         }
     }, function (data) {
