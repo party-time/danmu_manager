@@ -25,7 +25,7 @@ var drawNavbar = function(){
         htmlStr += '<li><a href="/party/spider">爬取数据管理</a></li>';
         htmlStr += '<li><a href="/operation">操作日志管理</a></li>';
         htmlStr += '<li><a href="/shopManager">商品管理</a> </li>';
-        htmlStr += '<li><a href="/order"><i class="icon-text-height"></i><span>订单管理</span> </a> </li>';
+        htmlStr += '<li><a href="/order">订单管理</span> </a> </li>';
         htmlStr +=  '</ul></li>';
     }
     if(role != '589a98cd77c8afdcbdeaeeb6'){
