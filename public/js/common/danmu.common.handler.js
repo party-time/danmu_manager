@@ -140,12 +140,8 @@ var navbarSelect = function(){
         $('.icon-font').parent().parent().attr('class','active');
     }
 
-    if( url.indexOf('/shopManager')!=-1){
+    if( url.indexOf('/welcome')!=-1){
         $('.icon-bold').parent().parent().attr('class','active');
-    }
-
-    if( url.indexOf('/order')!=-1){
-        $('.icon-text-height').parent().parent().attr('class','active');
     }
 
 }

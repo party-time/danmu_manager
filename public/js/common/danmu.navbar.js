@@ -8,9 +8,9 @@ var drawNavbar = function(){
         htmlStr += '<li><a href="/cinema"><i class="icon-film"></i><span>影院管理</span> </a> </li>';
         htmlStr +='<li><a href="/blockword"><i class="icon-bar-chart"></i><span>屏蔽词管理</span> </a> </li>';
         htmlStr += '<li><a href="/wechat"><i class="icon-camera"></i><span>微信自动回复管理</span> </a> </li>';
-        htmlStr += '<li><a href="/shopManager"><i class="icon-bold"></i><span>商品管理</span> </a> </li>';
-        htmlStr += '<li><a href="/order"><i class="icon-text-height"></i><span>订单管理</span> </a> </li>';
+
         htmlStr += '<li><a href="/report"><i class="icon-align-center"></i><span>举报管理</span> </a> </li>';
+        htmlStr += '<li><a href="/welcome"><i class="icon-bold"></i><span>欢迎语管理</span></a></li>';
     var role = $.cookie('role');
     if(role == '589a98cd77c8afdcbdeaeeb4'){
         htmlStr += '<li class="dropdown"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-long-arrow-down"></i><span>其他</span> <b class="caret"></b></a>';
@@ -24,9 +24,9 @@ var drawNavbar = function(){
         htmlStr += '<li><a href="/task">定时任务管理</a></li>';
         htmlStr += '<li><a href="/party/spider">爬取数据管理</a></li>';
         htmlStr += '<li><a href="/operation">操作日志管理</a></li>';
-        htmlStr += '<li><a href="/welcome">欢迎语管理</a></li>';
+        htmlStr += '<li><a href="/shopManager">商品管理</a> </li>';
+        htmlStr += '<li><a href="/order"><i class="icon-text-height"></i><span>订单管理</span> </a> </li>';
         htmlStr +=  '</ul></li>';
-
     }
     if(role != '589a98cd77c8afdcbdeaeeb6'){
         $('.mainnav').html(htmlStr);
