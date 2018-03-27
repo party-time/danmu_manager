@@ -24,7 +24,7 @@ var columnsArray = [
             var msg = row.message.replace('"','&quot;');
             msg = msg.replace('<','&lt;');
             msg = msg.replace('>','&gt;');
-            return '<a class="btn" onclick="delBlockKeyword(\''+row.id+'\',\''+msg+'\')">删除</a>';
+            return '<a class="btn" onclick="delBlockKeyword(\''+row.id+'\')">删除</a>';
         },
         events: 'operateEvents'
     }
@@ -70,8 +70,8 @@ var addBlockKeyword = function () {
     }
 };
 
-var delBlockKeyword = function (id, word) {
-    if (confirm('确认要删除欢迎语“' + word + '”吗？')) {
+var delBlockKeyword = function (id) {
+    if (confirm('确认要删除欢迎语吗？')) {
 
          $.danmuAjax('/v1/api/admin/welcome/del/'+id, 'delete','json',null, function (data) {
           if (data.result == 200) {
