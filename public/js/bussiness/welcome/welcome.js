@@ -21,7 +21,7 @@ var columnsArray = [
         field: '', title: '操作',
         align: 'center',
         formatter: function (value, row, index) {
-            var msg = row.message.replace('\"','&quot;');
+            var msg = row.message.replace('"','&quot;');
             msg = msg.replace('<','&lt;');
             msg = msg.replace('>','&gt;');
             return '<a class="btn" onclick="delBlockKeyword(\''+row.id+'\',\''+msg+'\')">删除</a>';
