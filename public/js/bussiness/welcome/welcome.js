@@ -21,7 +21,10 @@ var columnsArray = [
         field: '', title: '操作',
         align: 'center',
         formatter: function (value, row, index) {
-            return '<a class="btn" onclick="delBlockKeyword(\''+row.id+'\',\''+row.message+'\')">删除</a>';
+            var msg = row.message.replace('\"','&quot;');
+            msg = msg.replace('<','&lt;');
+            msg = msg.replace('>','&gt;');
+            return '<a class="btn" onclick="delBlockKeyword(\''+row.id+'\',\''+msg+'\')">删除</a>';
         },
         events: 'operateEvents'
     }
