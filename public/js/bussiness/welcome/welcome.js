@@ -8,9 +8,8 @@ var columnsArray = [
         }
     },
     {
-        field: 'message',
         title: '欢迎语',
-        align: 'center'
+        align: 'center',
         formatter: function (value, row, index) {
             var msg = row.message.replace('\"','&quot;');
             msg = msg.replace('<','&lt;');
