@@ -234,6 +234,8 @@ var openAddCmdTemp = function () {
             '<input type="text" class="span1"  id="sort" > </div><br>';
     htmlStr+='<label class="control-label" style="width:60px">是否展示</label><div class="controls" style="margin-left:60px;">'+
             '<select id="show"><option value="0" selected>是</option><option value="1" >否</option></select></div><br>';
+    htmlStr+='<label class="control-label" style="width:60px">指令类型</label><div class="controls" style="margin-left:60px;">'+
+            '<select id="cmdType"><option value="0" selected>FLASH</option><option value="1" >小程序</option></select></div><br>';
     htmlStr+='<div id="paramList">'+addParamHtml();
     htmlStr+='</div></div></form>';
     $('#modalBody').html(htmlStr);
@@ -267,6 +269,8 @@ var openUpdateCmdTemp = function (id) {
                       '<input type="text" class="span1"  id="sort"  value="'+data.data.sort+'"  > </div><br>';
           htmlStr+='<label class="control-label" style="width:60px">是否展示</label><div class="controls" style="margin-left:60px;">'+
                       '<select id="show"><option value="0" selected>是</option><option value="1" >否</option></select></div><br>';
+          htmlStr+='<label class="control-label" style="width:60px">指令类型</label><div class="controls" style="margin-left:60px;">'+
+                       '<select id="cmdType"><option value="0">FLASH</option><option value="1" >小程序</option></select></div><br>';
           htmlStr+='<div id="paramList">';
           var componentType = -1;
           for(var i=0;i<data.data.cmdJsonParamList.length;i++){
@@ -276,6 +280,7 @@ var openUpdateCmdTemp = function (id) {
           $('#modalBody').html(htmlStr);
           $('#cmdIsInLib').val(data.data.isInDanmuLib);
           $('#cmdIsSendH5').val(data.data.isSendH5);
+          $('#cmdType').val(data.data.type);
           if(data.data.show){
                 $('#show').val(data.data.show);
           }
@@ -336,6 +341,8 @@ var saveParam = function(id){
     var sort = $('#sort').val();
 
     var show = $('#show').val();
+
+    var cmdType = $('#cmdType').val();
 
     if( '' == cmdTempName){
         alert("指令名称不能为空");
@@ -422,6 +429,7 @@ var saveParam = function(id){
         isSendH5:isSendH5,
         sort:sort,
         show:show,
+        type:cmdType,
         cmdJsonParamList:paramList
     }
 
