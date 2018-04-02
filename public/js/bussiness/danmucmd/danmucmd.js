@@ -33,6 +33,14 @@ var quaryObject = {
 };
 
 
+var searchCmdPage = function(){
+    var quaryObject = {
+        pageSize: 20,
+        type:$('#cmdSearchType').val()
+    };
+    $.initTable('tableList', columnsArray, quaryObject, tableUrl);
+}
+
 var addParamHtml = function(){
     var paramHtml = '<div class="control-group">'+
            '<label class="control-label" style="width:60px">排序</label>'+

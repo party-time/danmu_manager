@@ -11,11 +11,11 @@
                         <div>
                             <button type="button" class="btn btn-primary" onclick="openAddCmdTemp()">新增指令</button>
                             <button type="button" class="btn btn-primary" onclick="openComponent()">管理页面组件</button>
-                            <select>
-                                <option>全部</option>
-                                <option>FLASH</option>
-                                <option>小程序</option>
-                            </select> <button type="button" class="btn btn-primary" >搜索</button>
+                            <select id="cmdSearchType">
+                                <option value="-1">全部</option>
+                                <option value="0">FLASH</option>
+                                <option value="1">小程序</option>
+                            </select> <button type="button" class="btn btn-primary" onclick="searchCmdPage()" >搜索</button>
                         </div>
                         <div class="widget-content">
                             <table id="tableList" class="table table-striped"
