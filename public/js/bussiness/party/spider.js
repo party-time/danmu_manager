@@ -41,7 +41,6 @@ var tableUrl = '/v1/api/admin/spider/list';
             }
         },
         {
-            field: 'date',
             title: '上映时间',
             align: 'center',
             formatter: function (value, row, index) {
