@@ -88,6 +88,7 @@ var columnsArray = [
                 str += '<a class="btn" href="#" onclick="openAddress(\''+row.name+'\',\''+row.id+'\')">广告弹幕</a>';
                 str += '<a class="btn" href="#" onclick="openTimerDanmu(\''+row.id+'\')">定时弹幕</a>';
             }
+            str += '<a class="btn" href="#" onclick="openFastDanmu(\''+row.id+'\')">一键弹幕</a>';
             return str+='<a class="btn" href="#" onclick="openH5temp(\''+row.id+'\',\''+row.name+'\')">页面管理</a><a class="btn" href="#" onclick="updateParty(\''+row.id+'\')">修改信息</a>';
         },
         events:'operateEvents'
@@ -798,4 +799,76 @@ var delRealTimeDm = function(id){
 
 var openSpider = function(){
     openNewWindow('/party/spider');
+}
+
+var openFastDanmu = function(partyId){
+    $('#myModalLabel').html('管理一键弹幕');
+    var html = '<input type="text" style="margin-bottom:0px;" id="fastdm" /> <a class="btn btn-primary" onclick="saveFastDanmu(\''+partyId+'\');">新增</a>';
+    $('#headerHtml').html(html);
+    var fastDmUrl = '/v1/api/admin/fastdm/page';
+    var fastDmQueryObject = {
+        pageSize: 6,
+        partyId:partyId
+    }
+    var fastDmColumnsArray =[
+        {
+            field: 'word',
+            title: '弹幕',
+            align: 'center'
+        },
+        {
+           field: '', title: '操作',
+           align: 'center',
+           formatter: function (value, row, index) {
+                return '<a class="btn" onclick="delFastdm(\''+row.id+'\',\''+partyId+'\')">删除</a>';
+           }
+        }
+    ];
+    var tableSuccess = function(){
+        $('#modalBody').find('.pull-left').remove();
+    }
+    $.initTable('addressTableList', fastDmColumnsArray, fastDmQueryObject, fastDmUrl,tableSuccess);
+    $('#myModal').modal('show');
+}
+
+var saveFastDanmu = function(partyId){
+    var obj = {
+        partyId:partyId,
+        word:$('#fastdm').val()
+    }
+
+    $.danmuAjax('/v1/api/admin/fastdm/find', 'GET','json',obj, function (data) {
+            if(data.result == 200 && null ==data.data) {
+                $.danmuAjax('/v1/api/admin/fastdm', 'POST','json',obj, function (data) {
+                        if(data.result == 200) {
+                            alert('创建成功');
+                            openFastDanmu(partyId);
+                        }else{
+                            alert('操作失败');
+                        }
+                    }, function (data) {
+                        console.log(data);
+                    });
+            }else{
+                alert('有重复的一键弹幕');
+            }
+        }, function (data) {
+            console.log(data);
+        });
+
+}
+
+var delFastdm = function(id,partyId){
+     if(confirm('确定要删除一键弹幕吗？')){
+        $.danmuAjax('/v1/api/admin/fastdm/'+id, 'DELETE','json',null, function (data) {
+            if(data.result == 200) {
+                alert('删除成功');
+                openFastDanmu(partyId);
+            }else{
+                alert('操作失败');
+            }
+        }, function (data) {
+            console.log(data);
+        });
+     }
 }
