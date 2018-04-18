@@ -290,7 +290,7 @@
                         <div class="widget-header"><i class="icon-bookmark"></i>
                             <h3>视频特效</h3>
                         </div>
-                        <div class="widget-content">
+                        <div class="widget-content" style="padding-left: 5px; padding-right: 0px;">
                             <div class="danmucheck-items-widget-header">
                                 <div style="padding-left: 10px;">
                                     <label style="display: inline-block; width: 80px;">
@@ -305,17 +305,17 @@
 
                                 </div>
                             </div>
-                           <span ng-repeat="specialVideo in specialVideos" ng-if="specialVideos.length > 0">
-                                <button type="button"
-                                        style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; "
+                           <span ng-repeat="specialVideo in specialVideos" ng-if="specialVideos.length > 0" style="text-align: center;">
+                                <span type="button"
+                                        style=" width: 115px; height:20px;margin-top: 1px;  font-size: 10pt; padding-left: 0px; padding-right: 0px;text-align:center;"
                                         class="btn btn-sm btn-default"
                                         ng-click="showSpecialVideo(specialVideo,specialVideo.status)"
-                                        ng-if="specialVideo.status==0" title="{{specialVideo.resourceName}}">{{specialVideo.resourceName.substring(0,4)}}</button>
-                                <button type="button"
-                                        style=" width: 65px; height:30px;margin-top: 1px; margin-right: 0.5em; "
+                                        ng-if="specialVideo.status==0" title="{{specialVideo.resourceName}}">{{specialVideo.resourceName}}</span>
+                                <span type="button"
+                                        style=" width: 115px; height:20px;margin-top: 1px;  font-size: 10pt; padding-left: 0px; padding-right: 0px;text-align:center;"
                                         class="btn btn-sm btn-danger"
                                         ng-click="showSpecialVideo(specialVideo,specialVideo.status)"
-                                        ng-if="specialVideo.status==1" title="{{specialVideo.resourceName}}">{{specialVideo.resourceName.substring(0,4)}}</button>
+                                        ng-if="specialVideo.status==1" title="{{specialVideo.resourceName}}">{{specialVideo.resourceName}}</span>
                         </span>
                         </div>
                     </div>
