@@ -545,7 +545,7 @@ var movieSchedulePage = function(partyId){
                   if( null == row.movieSchedule.clientMoviceStartTime){
                     return "电影未开始";
                   }else{
-                    return new Date(parseInt(row.movieSchedule.moviceStartTime)).format('yyyy-MM-dd hh:mm:ss');
+                    return new Date(parseInt(row.movieSchedule.clientMoviceStartTime)).format('yyyy-MM-dd hh:mm:ss');
                   }
 
             }
