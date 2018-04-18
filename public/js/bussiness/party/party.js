@@ -533,7 +533,7 @@ var movieSchedulePage = function(partyId){
             title: '广告开始时间',
             align: 'center',
             formatter: function (value, row, index) {
-                  return new Date(parseInt(row.movieSchedule.startTime)).format('yyyy-MM-dd hh:mm:ss');
+                  return new Date(parseInt(row.movieSchedule.clientStartTime)).format('yyyy-MM-dd hh:mm:ss');
             }
         },
         {
@@ -541,7 +541,7 @@ var movieSchedulePage = function(partyId){
             title: '电影开始时间',
             align: 'center',
             formatter: function (value, row, index) {
-                  if( null == row.movieSchedule.moviceStartTime){
+                  if( null == row.movieSchedule.clientMoviceStartTime){
                     return "电影未开始";
                   }else{
                     return new Date(parseInt(row.movieSchedule.moviceStartTime)).format('yyyy-MM-dd hh:mm:ss');
@@ -554,7 +554,7 @@ var movieSchedulePage = function(partyId){
             title: '电影结束时间',
             align: 'center',
             formatter: function (value, row, index) {
-                if( null == row.movieSchedule.endTime){
+                if( null == row.movieSchedule.clientEndTime){
                     return "电影未结束";
                 }else{
                     return new Date(parseInt(row.movieSchedule.endTime)).format('yyyy-MM-dd hh:mm:ss');
