@@ -1020,6 +1020,7 @@ var sendControl = function(cmd){
             $.cookie('sendControlTime', new Date().getTime(),{ expires: 1 });
         }else{
             alert("操作过于频繁，10分钟之内只能执行一次!");
+            return;
         }
     }else{
         $.cookie('sendControlTime', new Date().getTime() , { expires: 1 });
