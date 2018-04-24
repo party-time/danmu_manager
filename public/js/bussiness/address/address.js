@@ -926,11 +926,11 @@ var openControlDialog = function(addressName,addressId){
     htmlStr +='</div><br>';
 
     htmlStr +='<label class="control-label" style="width:60px">下载相关</label><div class="controls" style="margin-left:60px;">';
-    htmlStr +='<a class="btn" onclick="sendControl(\'videoDown\')">特效视频下载</a>';
-    htmlStr +='<a class="btn" onclick="sendControl(\'expressionDown\')">表情下载</a>';
-    htmlStr +='<a class="btn" onclick="sendControl(\'specialImgDown\')">特效图片下载</a>';
-    htmlStr +='<a class="btn" onclick="sendControl(\'timerDmDown\')">定时弹幕下载</a>';
-    htmlStr +='<a class="btn" onclick="sendControl(\'adDmDown\')">广告弹幕下载</a>';
+    //htmlStr +='<a class="btn" onclick="sendControl(\'videoDown\')">特效视频下载</a>';
+    //htmlStr +='<a class="btn" onclick="sendControl(\'expressionDown\')">表情下载</a>';
+    //htmlStr +='<a class="btn" onclick="sendControl(\'specialImgDown\')">特效图片下载</a>';
+    //htmlStr +='<a class="btn" onclick="sendControl(\'timerDmDown\')">定时弹幕下载</a>';
+    //htmlStr +='<a class="btn" onclick="sendControl(\'adDmDown\')">广告弹幕下载</a>';
     htmlStr +='<a class="btn" onclick="sendControl(\'resourceAllDown\')">下载所有资源</a>';
     htmlStr +='</div><br>';
 
@@ -1013,6 +1013,18 @@ var sendControl = function(cmd){
     /*if(cmd=='danmu-start'){
         cmd = $('#selectDmStart').val();
     }*/
+    var st = $.cookie('sendControlTime');
+    if( st ){
+        var aa = (new Date().getTime() - st ) /1000;
+        if( aa > 600){
+            $.cookie('sendControlTime', new Date().getTime(),{ expires: 1 });
+        }else{
+            alert("操作过于频繁，10分钟之内只能执行一次!");
+            return;
+        }
+    }else{
+        $.cookie('sendControlTime', new Date().getTime() , { expires: 1 });
+    }
     _picRandom = new Date().getTime();
     var obj = {
         'danmuStart':$('#selectDmStart').val(),
@@ -1031,6 +1043,8 @@ var sendControl = function(cmd){
     });
 
 }
+
+
 
 //加载表格数据
 $.initTable('tableList', columnsArray, quaryObject, tableUrl);
