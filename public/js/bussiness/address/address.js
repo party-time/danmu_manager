@@ -1021,17 +1021,19 @@ var sendControl = function(cmd){
     /*if(cmd=='danmu-start'){
         cmd = $('#selectDmStart').val();
     }*/
-    var st = $.cookie('sendControlTime');
-    if( st ){
-        var aa = (new Date().getTime() - st ) /1000;
-        if( aa > 600){
-            $.cookie('sendControlTime', new Date().getTime(),{ expires: 1 });
+    if( cmd == 'resourceAllDown'){
+        var st = $.cookie('sendControlTime');
+        if( st ){
+            var aa = (new Date().getTime() - st ) /1000;
+            if( aa > 600){
+                $.cookie('sendControlTime', new Date().getTime(),{ expires: 1 });
+            }else{
+                alert("操作过于频繁，10分钟之内只能执行一次!");
+                return;
+            }
         }else{
-            alert("操作过于频繁，10分钟之内只能执行一次!");
-            return;
+            $.cookie('sendControlTime', new Date().getTime() , { expires: 1 });
         }
-    }else{
-        $.cookie('sendControlTime', new Date().getTime() , { expires: 1 });
     }
     _picRandom = new Date().getTime();
     var obj = {
