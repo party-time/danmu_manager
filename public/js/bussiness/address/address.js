@@ -176,6 +176,11 @@ var screenColumnsArray =[
       align: 'center'
   },
   {
+    field: 'screenId',
+    title: '屏幕编号',
+    align: 'center'
+  },
+  {
       field: 'isHaveClient',
       title: '客户端',
       align: 'center',
@@ -597,8 +602,10 @@ var openSaveScreen = function(){
        '<label class="control-label" style="width:50px">名称</label><div class="controls" style="margin-left:60px;">'+
        '<input type="text" class="span4" id="screenName" maxlength="10" ></div><br>'+
        '<label class="control-label" style="width:50px">有效期</label><div class="controls" style="margin-left:60px;">'+
-           '<input type="text" class="span4" id="overdue" placeholder="不填为永久,填写格式yyyy-MM-dd" maxlength="10" ></div><br>'+
-       '<label class="control-label" style="width:50px">参数模版</label><div class="controls" style="margin-left:60px;">';
+       '<input type="text" class="span4" id="overdue" placeholder="不填为永久,填写格式yyyy-MM-dd" maxlength="10" ></div><br>'+
+       '<label class="control-label" style="width:60px">屏幕编号</label><div class="controls" style="margin-left:60px;">'+
+       '<input type="text" class="span4" id="screenId" placeholder="屏幕编号，杨腾飞专用" maxlength="10" ></div><br>'+
+       '<label class="control-label" style="width:60px">参数模版</label><div class="controls" style="margin-left:60px;">';
 
        var shtml = '<select class="span4" id="paramTemplateId">';
       for(var i=0;i<g_paramTemplate.length;i++){
@@ -660,7 +667,8 @@ var saveScreen = function () {
         'addressId':g_addressId,
         'name': $('#screenName').val(),
         'overdueStr': $('#overdue').val(),
-        'paramTemplateId':$('#paramTemplateId').val()
+        'paramTemplateId':$('#paramTemplateId').val(),
+        'screenId':$('#screenId').val()
     };
      $.danmuAjax('/v1/api/admin/client/save', 'POST','json','application/x-www-form-urlencoded; charset=UTF-8',obj, function (data) {
         if (data.result == 200) {
@@ -1013,17 +1021,19 @@ var sendControl = function(cmd){
     /*if(cmd=='danmu-start'){
         cmd = $('#selectDmStart').val();
     }*/
-    var st = $.cookie('sendControlTime');
-    if( st ){
-        var aa = (new Date().getTime() - st ) /1000;
-        if( aa > 600){
-            $.cookie('sendControlTime', new Date().getTime(),{ expires: 1 });
+    if( cmd == 'resourceAllDown'){
+        var st = $.cookie('sendControlTime');
+        if( st ){
+            var aa = (new Date().getTime() - st ) /1000;
+            if( aa > 600){
+                $.cookie('sendControlTime', new Date().getTime(),{ expires: 1 });
+            }else{
+                alert("操作过于频繁，10分钟之内只能执行一次!");
+                return;
+            }
         }else{
-            alert("操作过于频繁，10分钟之内只能执行一次!");
-            return;
+            $.cookie('sendControlTime', new Date().getTime() , { expires: 1 });
         }
-    }else{
-        $.cookie('sendControlTime', new Date().getTime() , { expires: 1 });
     }
     _picRandom = new Date().getTime();
     var obj = {

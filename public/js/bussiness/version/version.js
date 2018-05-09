@@ -46,7 +46,7 @@ var openAddVersion = function(){
     $('#myModalLabel').html('新建版本信息');
     var htmlStr = '<form id="edit-profile" class="form-horizontal"><div class="control-group" style="margin-top: 18px;">'+
    '<label class="control-label" style="width:65px">版本名称</label><div class="controls" style="margin-left:60px;">'+
-   '<input type="text" class="span4" id="versionName" maxlength="8" /></div><br>'+
+   '<input type="text" class="span4" id="versionName" maxlength="20" /></div><br>'+
    '<label class="control-label" style="width:65px">版本号</label><div class="controls" style="margin-left:60px;">'+
        '<input type="text" class="span4" id="version"  maxlength="30" placeholder="xxx.xxx.xxx例如1.0.0" onblur="checkVersion()"></div><br>'+
    '<label class="control-label" style="width:65px">类型</label><div class="controls" style="margin-left:60px;">'+
