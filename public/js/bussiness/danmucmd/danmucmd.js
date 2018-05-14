@@ -109,7 +109,7 @@ var selectComponent = function(obj){
          }
     }else{
         $(dmCmdType).attr("disabled","disabled");
-        $(defaultValue).attr("disabled","disabled");
+        //$(defaultValue).attr("disabled","disabled");
         $(checkRule).attr("disabled","disabled");
         //$(isCheck).attr("disabled","disabled");
     }
