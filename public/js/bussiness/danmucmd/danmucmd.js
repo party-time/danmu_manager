@@ -192,7 +192,7 @@ var drawParamHtml = function(obj){
 
            paramHtml +='</select>'+
            '<span style="margin-left: 10px;margin-right: 10px;">默认值</span>'+
-           '<input type="text" class="defaultValue span1" value="'+obj.defaultValue+'" '+isDisable+'>'+
+           '<input type="text" class="defaultValue span1" value="'+obj.defaultValue+'" >'+
            '<span style="margin-left: 10px;margin-right: 10px;">校验规则</span>'+
            '<input type="text" class="checkRule span1" value="'+obj.checkRule+'" '+isDisable+'>'+
            '<span style="margin-left: 10px;margin-right: 10px;">是否审核</span>';
