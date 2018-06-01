@@ -116,7 +116,9 @@ var columnsArray = [
         title: '操作',
         align: 'center',
         formatter: function (value, row, index) {
-            return '<a class="btn" onclick="openAddress(\''+row.wechatUser.id+'\')">修改场地</a><a class="btn" onclick="delUser(\''+row.wechatUser.id+'\',\''+row.wechatUser.nick+'\')">删除</a>';
+            return '<a class="btn" onclick="openAddress(\''+row.wechatUser.id+'\')">修改场地</a>' +
+                '<a class="btn" onclick="delUser(\''+row.wechatUser.id+'\',\''+row.wechatUser.nick+'\')">删除</a>'+
+                '<a class="btn" onclick="sendBiaoBai(\''+row.wechatUser.id+'\')">表白</a>';
         },
         events: 'operateEvents'
     }
@@ -200,6 +202,19 @@ var openAddress = function(wechatUserId){
     $('#modalFooter').html(buttonHtml);
     $('#modalody').find('.pull-left').remove();
     $('#myModal').modal('show');
+}
+
+var sendBiaoBai = function(wechatId){
+    $.danmuAjax('/v1/api/admin/wechatmanager/sendBiaobai?wechatId='+wechatId, 'GET','json',null, function (data) {
+        if(data.result == 200){
+            console.log(data);
+            alert('发送成功');
+        }else{
+            alert('发送失败');
+        }
+    }, function (data) {
+        console.log(data);
+    });
 }
 
 var assignAddress = function(addressId,wechatId){
