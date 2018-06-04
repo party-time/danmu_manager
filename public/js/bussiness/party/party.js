@@ -525,9 +525,15 @@ var movieSchedulePage = function(partyId){
     }
     var movieScheduleColumnsArray =[
         {
-            field: 'danmuAddress.name',
             title: '地址',
-            align: 'center'
+            align: 'center',
+            formatter: function(){
+                if(danmuAddress.name){
+                    return danmuAddress.name;
+                }else{
+                    return "未知";
+                }
+            }
         },
         {
             field: 'movieSchedule.startTime',
