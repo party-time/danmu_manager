@@ -528,7 +528,7 @@ var movieSchedulePage = function(partyId){
             title: '地址',
             align: 'center',
             formatter: function(){
-                if(danmuAddress.name){
+                if(danmuAddress){
                     return danmuAddress.name;
                 }else{
                     return "未知";
