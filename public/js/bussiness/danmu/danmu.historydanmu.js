@@ -55,7 +55,7 @@ var columnsArray = [
         title: '弹幕类型',
         align: 'center',
         formatter: function (value, row, index) {
-            if(value==null || danmuTypeName=="" || danmuTypeName==undefined){
+            if(value==null || value=="" || value==undefined){
                 return "未知类型"
             }else{
                 return value;
