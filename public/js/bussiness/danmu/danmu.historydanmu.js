@@ -24,6 +24,18 @@ var columnsArray = [
         align: 'center'
     },
     {
+        field: 'danmuTypeName',
+        title: '弹幕类型',
+        align: 'center',
+        formatter: function (value, row, index) {
+            if(value==null || value=="" || value==undefined){
+                return "未知类型"
+            }else{
+                return value;
+            }
+        }
+    },
+    {
         field: 'msg',
         title: '弹幕信息',
         halign: "center",
@@ -47,18 +59,6 @@ var columnsArray = [
                 return '已发送';
             }else{
                 return '已发成功';
-            }
-        }
-    },
-    {
-        field: 'danmuTypeName',
-        title: '弹幕类型',
-        align: 'center',
-        formatter: function (value, row, index) {
-            if(value==null || value=="" || value==undefined){
-                return "未知类型"
-            }else{
-                return value;
             }
         }
     },
