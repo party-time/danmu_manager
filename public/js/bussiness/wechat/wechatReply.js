@@ -22,7 +22,7 @@ var columnsArray = [
         field: '', title: '操作',
         align: 'center',
         formatter: function (value, row, index) {
-            return '<a class="btn" onclick="openReplyWords(\''+row.id+'\',\''+row.words+'\',\''+row.message+'\',\''+row.mediaId+'\',\''+row.mediaName+'\')">修改</a><a class="btn" onclick="delReplyWords(\''+row.id+'\',\''+row.words+'\')">删除</a>';
+            return '<a class="btn" onclick="openReplyWords(\''+row.id+'\')">修改</a><a class="btn" onclick="delReplyWords(\''+row.id+'\',\''+row.words+'\')">删除</a>';
         },
         events: 'operateEvents'
     }
@@ -153,20 +153,33 @@ var delReplyWords = function(id,name){
 
 var g_replyWordsId = ''
 
-var openReplyWords = function(id,words,message,mediaId,mediaName){
-   g_replyWordsId = id;
-   $('#voiceControl').html('');
-   $('#addReplyWords').val(words);
-   if( null == mediaId || 'null' == mediaId){
-        $('#message').val(message);
-   }else{
-        $('#messageControl').html('<label class="control-label" for="message">已经关联语音</label><div class="controls">'+mediaName+'<a onclick="cancelVoice(\''+id+'\')">取消</a></div>');
-        $('#voiceControl').html('');
-   }
-   $('#selectVoiceBtn').click(function(){
-            openVoice(g_replyWordsId);
-   });
-   $('#myModal').modal('show');
+var openReplyWords = function(id){
+    var obj = {
+        id:id
+    }
+    $.danmuAjax('/v1/api/admin/wxmessage/find', 'GET','json',obj, function (data) {
+        if(data.result == 200) {
+           g_replyWordsId = id;
+           $('#voiceControl').html('');
+           $('#addReplyWords').val(data.data.wordList);
+           if( null == data.data.mediaId || 'null' == data.data.mediaId){
+                $('#message').val(data.data.message);
+           }else{
+                $('#messageControl').html('<label class="control-label" for="message">已经关联语音</label><div class="controls">'+data.data.mediaName+'<a onclick="cancelVoice(\''+id+'\')">取消</a></div>');
+                $('#voiceControl').html('');
+           }
+           $('#selectVoiceBtn').click(function(){
+                    openVoice(g_replyWordsId);
+           });
+           $('#myModal').modal('show');
+         }else{
+            alert('查询失败');
+         }
+    }, function (data) {
+        console.log(data);
+    });
+
+
 
 }
 
