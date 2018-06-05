@@ -51,6 +51,18 @@ var columnsArray = [
         }
     },
     {
+        field: 'danmuTypeName',
+        title: '弹幕类型',
+        align: 'center',
+        formatter: function (value, row, index) {
+            if(value==null || danmuTypeName=="" || danmuTypeName==undefined){
+                return "未知类型"
+            }else{
+                return value;
+            }
+        }
+    },
+    {
         field: 'createTime',
         title: '发送时间',
         align: 'center',
