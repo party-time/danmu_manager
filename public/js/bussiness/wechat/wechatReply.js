@@ -226,7 +226,7 @@ var openVoice = function(msgId){
 
 var openImage = function(msgId){
     $('#voiceControl').html('<table id="voiceTableList" class="table table-striped" table-height="360"></table>');
-    var voiceUrl = '/v1/api/admin/wxmessage/findImage';
+    var voiceUrl = '/v1/api/admin/wxmessage/findMedia';
     var voiceColumnsArray = [
         {
             field: 'name',
