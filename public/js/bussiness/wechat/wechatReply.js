@@ -165,12 +165,22 @@ var openReplyWords = function(id){
            if( null == data.data.mediaId || 'null' == data.data.mediaId){
                 $('#message').val(data.data.message);
            }else{
-                $('#messageControl').html('<label class="control-label" for="message">已经关联语音</label><div class="controls">'+data.data.mediaName+'<a onclick="cancelVoice(\''+id+'\')">取消</a></div>');
-                $('#voiceControl').html('');
+                if(data.data.meidaType ==0){
+                    $('#messageControl').html('<label class="control-label" for="message">已经关联语音</label><div class="controls">'+data.data.mediaName+'<a onclick="cancelVoice(\''+id+'\')">取消</a></div>');
+                    $('#voiceControl').html('');
+                }else if(data.data.meidaType ==1){
+                    $('#messageControl').html('<label class="control-label" for="message">已经关联图片</label><div class="controls">'+data.data.mediaName+'<a onclick="cancelVoice(\''+id+'\')">取消</a></div>');
+                    $('#voiceControl').html('');
+                }
+
            }
            $('#selectVoiceBtn').click(function(){
                     openVoice(g_replyWordsId);
            });
+
+           $('#selectImageBtn').click(function(){
+                   openImage(g_replyWordsId);
+          });
            $('#myModal').modal('show');
          }else{
             alert('查询失败');
@@ -214,6 +224,36 @@ var openVoice = function(msgId){
     $.initTable('voiceTableList', voiceColumnsArray, voiceQuaryObject, voiceUrl,tableSuccess);
 }
 
+var openImage = function(msgId){
+    $('#voiceControl').html('<table id="voiceTableList" class="table table-striped" table-height="360"></table>');
+    var voiceUrl = '/v1/api/admin/wxmessage/findMedia';
+    var voiceColumnsArray = [
+        {
+            field: 'name',
+            title: '名称',
+            align: 'center'
+        },
+        {
+            field: 'media_id',
+            title: '图片id',
+            align: 'center'
+        },
+        {
+            title: '操作',
+            align: 'center',
+            formatter: function (value, row, index) {
+                return '<a class="btn" onclick="selectVoice(\''+msgId+'\',\''+row.name+'\',\''+row.media_id+'\')">选择</a>';
+            },
+            events: 'operateEvents'
+        }
+    ];
+    var voiceQuaryObject = {
+        page:1,
+        size:20
+    };
+    $.initTable('voiceTableList', voiceColumnsArray, voiceQuaryObject, voiceUrl,tableSuccess);
+}
+
 var selectVoice = function(msgId,name,media_id){
     var obj = {
         id:msgId,
@@ -224,6 +264,25 @@ var selectVoice = function(msgId,name,media_id){
         if(data.result == 200) {
            console.log(data);
            $('#messageControl').html('<label class="control-label" for="message">已经关联语音</label><div class="controls">'+name+'<a onclick="cancelVoice()">取消</a></div>');
+           $('#voiceControl').html('');
+         }else{
+            alert('删除失败');
+         }
+    }, function (data) {
+        console.log(data);
+    });
+}
+
+var selectImage = function(msgId,name,media_id){
+    var obj = {
+        id:msgId,
+        mediaId:media_id,
+        mediaName:name
+    }
+    $.danmuAjax('/v1/api/admin/wxmessage/selectImage', 'GET','json',obj, function (data) {
+        if(data.result == 200) {
+           console.log(data);
+           $('#messageControl').html('<label class="control-label" for="message">已经关联图片</label><div class="controls">'+name+'<a onclick="cancelVoice()">取消</a></div>');
            $('#voiceControl').html('');
          }else{
             alert('删除失败');
