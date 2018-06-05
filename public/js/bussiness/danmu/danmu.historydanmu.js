@@ -36,6 +36,19 @@ var columnsArray = [
         formatter: function (value, row, index) {
             return '<img src="' + value + '" style="width: 30px;height: 30px;"/>';
         }
+    },{
+        field: 'sendStatus',
+        title: '发送状态',
+        align: 'center',
+        formatter: function (value, row, index) {
+            if(value==0){
+                return '未发送';
+            }else if(value==1){
+                return '已发送';
+            }else{
+                return '已发成功';
+            }
+        }
     },
     {
         field: 'createTime',
