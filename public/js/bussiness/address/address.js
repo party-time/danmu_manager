@@ -244,7 +244,7 @@ var drawParamHtml = function(param){
     }
 
     var paramHtml = '<div><label class="control-label" style="width:60px">'+param.des+'</label>'+'<span class="span1"  style="color:red;margin-top: 3px;">'+s0+'</span>'+
-           '<input type="text" class="param span3"  maxlength="16" value="'+param.paramValue+'" paramId="'+param.paramId+'" paramValueId="'+param.paramValueId+'"></div><br>';
+           '<input type="text" class="param span3"  maxlength="20" value="'+param.paramValue+'" paramId="'+param.paramId+'" paramValueId="'+param.paramValueId+'"></div><br>';
 
     return paramHtml;
 }
@@ -454,7 +454,7 @@ var openDeviceDialog = function(addressName,addressId){
                         htmlStr += '</div><br>';
                     }else if(type==1){
                         htmlStr +=  '<label class="control-label" style="width:80px;">javaClient'+number+'</label><div class="controls" style="margin-left:60px;">';
-                        htmlStr += '<input type="text" class="device span3"  maxlength="16" deviceType="'+type+'" value="'+ip+'" deviceId="'+id+'"> ';
+                        htmlStr += '<input type="text" class="device span3"  maxlength="20" deviceType="'+type+'" value="'+ip+'" deviceId="'+id+'"> ';
                         htmlStr += 'port：<input type="text" class="port span1" value="'+port+'" style="width: 40px;">';
                         htmlStr += '<input type="hidden" value="'+number+'" class="number span1" style="width: 10px;"> ';
                         htmlStr += '</div><br>';
@@ -464,7 +464,7 @@ var openDeviceDialog = function(addressName,addressId){
 
                 if(javaClientNum<3){
                     htmlStr +=  '<label class="control-label" style="width:80px;">javaClient3</label><div class="controls" style="margin-left:60px;">';
-                    htmlStr += '<input type="text" class="device span3"  maxlength="16" deviceType="1"> ';
+                    htmlStr += '<input type="text" class="device span3"  maxlength="20" deviceType="1"> ';
                     htmlStr += 'port：<input type="text" class="port span1" value="" style="width: 40px;">';
                     htmlStr += '<input type="hidden" value="3" class="number span1" style="width: 10px;"> ';
                     htmlStr += '</div><br>';
@@ -482,19 +482,19 @@ var openDeviceDialog = function(addressName,addressId){
                 htmlStr += '</div><br>';
 
                 htmlStr +=  '<label class="control-label" style="width:80px;">javaClient1</label><div class="controls" style="margin-left:60px;">';
-                htmlStr += '<input type="text" class="device span3"  maxlength="16" deviceType="1"> ';
+                htmlStr += '<input type="text" class="device span3"  maxlength="20" deviceType="1"> ';
                 htmlStr += 'port：<input type="text" class="port span1" value="" style="width: 40px;">';
                 htmlStr += '<input type="hidden" value="1" class="number span1" style="width: 10px;"> ';
                 htmlStr += '</div><br>';
 
                 htmlStr +=  '<label class="control-label" style="width:80px;">javaClient2</label><div class="controls" style="margin-left:60px;">';
-                htmlStr += '<input type="text" class="device span3"  maxlength="16" deviceType="1"> ';
+                htmlStr += '<input type="text" class="device span3"  maxlength="20" deviceType="1"> ';
                 htmlStr += 'port：<input type="text" class="port span1" value="" style="width: 40px;">';
                 htmlStr += '<input type="hidden" value="2" class="number span1" style="width: 10px;"> ';
                 htmlStr += '</div><br>';
 
                 htmlStr +=  '<label class="control-label" style="width:80px;">javaClient3</label><div class="controls" style="margin-left:60px;">';
-                htmlStr += '<input type="text" class="device span3"  maxlength="16" deviceType="1"> ';
+                htmlStr += '<input type="text" class="device span3"  maxlength="20" deviceType="1"> ';
                 htmlStr += 'port：<input type="text" class="port span1" value="" style="width: 40px;">';
                 htmlStr += '<input type="hidden" value="3" class="number span1" style="width: 10px;"> ';
                 htmlStr += '</div><br>';
@@ -848,7 +848,7 @@ var selectVersion = function(addressId,versionId,addressName,versionNum){
        '<label class="control-label" style="width:80px">版本号</label><div class="controls" style="margin-left:60px;">'+
        '<p class="span4">'+versionNum+'</p></div><br>'+
        '<label class="control-label" style="width:80px">更新时间</label><div class="controls" style="margin-left:60px;">'+
-           '<input type="text" class="span4" id="updatePlanTime" placeholder="yyyy-MM-dd" maxlength="16" ></div></div></form>';
+           '<input type="text" class="span4" id="updatePlanTime" placeholder="yyyy-MM-dd" maxlength="20" ></div></div></form>';
 
     $('#modalBody').html(htmlStr);
     $('#myModalLabel').html(addressName+'填写升级时间');
