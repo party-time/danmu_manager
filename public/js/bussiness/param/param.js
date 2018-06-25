@@ -148,7 +148,7 @@ var delParam = function(obj){
                 var obj = {
                     id:paramId
                 }
-                $.danmuAjax('/v1/api/admin/paramTemplate/delParam', 'GET','json',obj, function (data) {
+                $.danmuAjax('/v1/api/admin/paramTemplate/delParam', 'GET','json','',obj, function (data) {
                     if(data.result == 200) {
                       console.log(data);
 
