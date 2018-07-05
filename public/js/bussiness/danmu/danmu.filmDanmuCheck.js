@@ -380,8 +380,11 @@
 
             reflashHitoryDanmu();
 
-        }
 
+            setInterval(function () {
+                reflashHitoryDanmu();
+            }, 60 * 1000);
+        }
 
         function reflashHitoryDanmu() {
             Date.prototype.format = function(f){
