@@ -416,24 +416,6 @@
                     formatter: function (value, row, index) {
                         return new Date(parseInt(value)).format('yyyy-MM-dd hh:mm');
                     }
-                },
-                {
-                    field: '', title: '操作',
-                    align: 'center',
-                    formatter: function (value, row, index) {
-                        if (row.send) {
-                            return '已发送';
-                        } else {
-                            var str = '';
-                            if(row.blocked){
-                                str='<button type="button" onclick="unblocked(\''+row.id+'\')">解除屏蔽</button>';
-                            }else{
-                                str='<button type="button" onclick="blocked(\''+row.id+'\')">屏蔽</button>';
-                            }
-                            return str+'<button type="button" class = "sendPrize" id="row_' + row.id + '" onclick="openSendGift(\''+row.id+'\')">发奖品</button>';
-                        }
-                    },
-                    events: 'operateEvents'
                 }
             ];
 
