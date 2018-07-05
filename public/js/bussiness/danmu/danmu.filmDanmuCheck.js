@@ -378,6 +378,12 @@
                 console.log(data);
             });
 
+            reflashHitoryDanmu();
+
+        }
+
+
+        function reflashHitoryDanmu() {
             Date.prototype.format = function(f){
                 var o ={
                     "M+" : this.getMonth()+1, //month
@@ -437,7 +443,6 @@
             ];
 
             $.initTable('tableList', columnsArray, quaryObject, tableUrl);
-
         }
 
 
