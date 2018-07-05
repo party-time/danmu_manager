@@ -58,3 +58,12 @@
 .dataTr{
     height: 50px;
 }
+
+
+#box123{
+    width:0px;
+    height:30px;
+    border:2px  #0000FF solid;
+    background:#CCCCCC;
+    display:none;
+}

@@ -222,6 +222,13 @@
             } else if(json.type==$scope.type.type_danmuDensity){
                 $scope.danmuDensity= json.data;
             } else if (json.type == 'normalDanmu') {
+
+                //var shapeAudio=document.getElementById("promptVideo");
+                //shapeAudio.play();
+                $("#promptVideo").attr("src","/video/prompt.mp3");
+                $('#promptVideo')[0].pause();
+                $('#promptVideo')[0].play();
+
                 var danmu = json.data;
                 danmu.s = 10;
                 danmu.createTime = new Date().getTime() + 1000;

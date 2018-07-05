@@ -126,6 +126,8 @@
                 $scope.delaySecond = 5;
                 //刷新弹幕频率
                 $interval(refreshDanmuList, 1000);
+                $('#box123').show();
+                $('#box123').animate({width:'800px'})
             } else if (json.type == $scope.type.type_adminCount) {
                 $scope.adminCount = [];
                 var array = json.data;
@@ -135,6 +137,13 @@
             } else if(json.type==$scope.type.type_checkStatus){
                 $scope.checkFlg= parseInt(json.data.data);
             } else if (json.type == 'normalDanmu') {
+                //var shapeAudio=document.getElementById("promptVideo");
+                //shapeAudio.play();
+                $("#promptVideo").attr("src","/video/prompt.mp3");
+                $('#promptVideo')[0].pause();
+                $('#promptVideo')[0].play();
+
+
                 var danmu = json.data;
                 danmu.s = 5;
                 danmu.createTime = new Date().getTime() + 1000;
@@ -367,6 +376,68 @@
                 console.log(data);
             });
 
+            var tableUrl = '/v1/api/admin/historyCheckDanmu/page';
+            var columnsArray = [
+                {
+                    field: 'nick',
+                    title: '昵称',
+                    align: 'center'
+                },
+                {
+                    field: 'danmuTypeName',
+                    title: '弹幕类型',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        if(value==null || value=="" || value==undefined){
+                            return "未知类型"
+                        }else{
+                            return value;
+                        }
+                    }
+                },
+                {
+                    field: 'msg',
+                    title: '弹幕信息',
+                    halign: "center",
+                    align: "left"
+                },
+                {
+                    field: 'url',
+                    title: '图片',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        return '<img src="' + value + '" style="width: 30px;height: 30px;"/>';
+                    }
+                },
+                {
+                    field: 'createTime',
+                    title: '发送时间',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        return new Date(parseInt(value)).format('yyyy-MM-dd hh:mm');
+                    }
+                },
+                {
+                    field: '', title: '操作',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        if (row.send) {
+                            return '已发送';
+                        } else {
+                            var str = '';
+                            if(row.blocked){
+                                str='<button type="button" onclick="unblocked(\''+row.id+'\')">解除屏蔽</button>';
+                            }else{
+                                str='<button type="button" onclick="blocked(\''+row.id+'\')">屏蔽</button>';
+                            }
+                            return str+'<button type="button" class = "sendPrize" id="row_' + row.id + '" onclick="openSendGift(\''+row.id+'\')">发奖品</button>';
+                        }
+                    },
+                    events: 'operateEvents'
+                }
+            ];
+
+            $.initTable('tableList', columnsArray, quaryObject, tableUrl);
 
         }
 

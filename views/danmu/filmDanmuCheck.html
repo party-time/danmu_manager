@@ -71,6 +71,7 @@
                         </div>
                         <!-- /widget-content -->
                     </div>
+
                     <div class="widget widget-table">
                         <div class="widget-header"><i class="icon-th-list"></i>
                             <h3>弹幕列表 <span class="danmuCheck-link-status">{{danmuList.length}}</span>条</h3>
@@ -174,6 +175,27 @@
                         <!-- /widget-content -->
                     </div>
                     <!-- /widget -->
+                    <div class="widget widget-nopad">
+                        <div class="widget-header"><i class="icon-list-alt"></i>
+                            <h3> 已经审核的弹幕</h3>
+                        </div>
+                        <!-- /widget-header -->
+                        <div class="widget-content">
+                            <div class="widget widget-table action-table">
+                                <!-- /widget-header -->
+                                <div class="widget-content">
+                                    <table id="tableList" class="table table-striped"
+                                           data-pagination-first-text="第一页"
+                                           data-pagination-pre-text="前一页"
+                                           data-pagination-next-text="下一页"
+                                           data-pagination-last-text="最后一页"></table>
+                                    </table>
+                                </div>
+                                <!-- /widget-content -->
+                            </div>
+                        </div>
+                        <!-- /widget-content -->
+                    </div>
                 </div>
                 <!-- /span8 -->
             </div>
@@ -182,7 +204,10 @@
         <!-- /container -->
     </div>
     <!-- /main-inner -->
+
 </div>
+
+<audio style="display: none;" id="promptVideo" controls="controls"></audio>
 
 <link rel="stylesheet" href="/plug/bootstrap-switch/css/bootstrap-switch.css"/>
 <link rel="stylesheet" href="/css/danmu/danmu.danmucheck.css"/>
@@ -191,6 +216,15 @@
 <script src="/js/bussiness/danmu/danmu.filmDanmuCheck.js"></script>
 <script src="/js/common/danmu.ajax.plug.js"></script>
 <script src="/plug/select2/js/select2.js"></script>
+
+
+<link href="/plug/bootstrapTable/bootstrap-table.min.css" rel="stylesheet"/>
+<script src="/plug/bootstrapTable/bootstrap-table.min.js"></script>
+<script src="/plug/bootstrapTable/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="/js/common/danmu.table.plug.js"></script>
+<script src="/js/common/danmu.ajax.plug.js"></script>
+<script src="/js/bussiness/danmu/danmu.historydanmu.js"></script>
+
 
 
 <% include ../common/bottom.html %>
