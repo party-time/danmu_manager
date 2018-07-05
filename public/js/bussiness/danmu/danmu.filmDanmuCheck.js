@@ -266,7 +266,7 @@
                     if (danmu.id == id) {
                         danmu.isBlocked = true;
                         danmu.s = -10;
-                        webSocketSendMessage({type: $scope.type.type_blockDanmu, blockDanmu: {id: danmu.id}})
+                        webSocketSendMessage({type: $scope.type.type_blockDanmu, data: {id: danmu.id}})
                         break;
                     }
                 }
