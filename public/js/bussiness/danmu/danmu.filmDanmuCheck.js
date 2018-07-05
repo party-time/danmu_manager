@@ -1,4 +1,5 @@
 (function () {
+    var quaryObject = {};
     var app = angular.module('danmuCheckApp', []);
        app.controller('danmuCheckCtrl', function ($scope, $http, $interval) {
         var websoctAddress;
