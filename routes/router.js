@@ -15,6 +15,11 @@ router.get('/user', function(req, res, next) {
   res.render('user/user');
 });
 
+router.get('/userCount', function(req, res, next) {
+    res.render('user/userCount');
+});
+
+
 /**跳转到活动页面*/
 router.get('/party', function(req, res, next) {
   res.render('party/party');

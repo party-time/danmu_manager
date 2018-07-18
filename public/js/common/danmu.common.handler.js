@@ -119,7 +119,7 @@ var navbarSelect = function(){
         $('.icon-film').parent().parent().attr('class','active');
     }
     if( url.indexOf('/user')!=-1){
-        $('.icon-user').parent().parent().attr('class','active');
+        //$('.icon-user').parent().parent().attr('class','active');
     }
     if( url.indexOf('/blockword')!=-1){
         $('.icon-bar-chart').parent().parent().attr('class','active');

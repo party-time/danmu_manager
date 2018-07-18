@@ -4,7 +4,15 @@ var drawNavbar = function(){
         htmlStr +='<li><a href="/preDanmuLibrary"><i class="icon-list-alt"></i><span>预制弹幕管理</span> </a> </li>';
         htmlStr +='<li><a href="/adDanmuLibrary"><i class="icon-play-circle"></i><span>广告管理</span> </a> </li>';
         htmlStr += '<li><a href="/reward"><i class="icon-font"></i><span>支付管理</span> </a> </li>';
+
+
+        htmlStr += '<li class="dropdown"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-user"></i><span>用户管理</span> <b class="caret"></b></a>';
+        htmlStr += '<ul class="dropdown-menu">';
         htmlStr += '<li><a href="/user"><i class="icon-user"></i><span>用户管理</span> </a></li>';
+        htmlStr += '<li><a href="/userCount"><i class="icon-anchor"></i>用户统计</a></li>';
+        htmlStr +=  '</ul></li>';
+
+
         htmlStr += '<li><a href="/cinema"><i class="icon-film"></i><span>影院管理</span> </a> </li>';
         htmlStr +='<li><a href="/blockword"><i class="icon-bar-chart"></i><span>屏蔽词管理</span> </a> </li>';
         htmlStr += '<li><a href="/wechat"><i class="icon-camera"></i><span>微信自动回复管理</span> </a> </li>';
