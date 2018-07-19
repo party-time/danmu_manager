@@ -440,7 +440,7 @@
                     title: '发送时间',
                     align: 'center',
                     formatter: function (value, row, index) {
-                        return new Date(parseInt(value)).format('yyyy-MM-dd hh:mm:ss');
+                        return new Date(parseInt(row.createTime)).format('yyyy-MM-dd hh:mm:ss');
                     }
                 },
                 {
@@ -448,7 +448,7 @@
                     title: '接收时间',
                     align: 'center',
                     formatter: function (value, row, index) {
-                        return new Date(parseInt(value)).format('yyyy-MM-dd hh:mm:ss');
+                        return new Date(parseInt(row.adminAccepetTime)).format('yyyy-MM-dd hh:mm:ss');
                     }
                 }
             ];
