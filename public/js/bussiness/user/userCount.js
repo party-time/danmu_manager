@@ -57,7 +57,7 @@ var getDate = function(){
             if(data.data!=null && data.data!=undefined){
                 data.data.forEach(function( val, index ) {
                     //console.log( val, index, this );
-                    $("#dateSelect").append("<option value='"+val+"'>"+val+"</option>");
+                    $(".dateSelect").append("<option value='"+val+"'>"+val+"</option>");
                 });
             }
         }else{
