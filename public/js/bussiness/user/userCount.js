@@ -45,11 +45,6 @@ var columnsArray = [
 var quaryObject = {
     pageSize: 20
 };
-
-
-
-
-
 var getDate = function(){
     $.danmuAjax('/v1/api/admin/wechatCount/currentYearCountDate', 'GET','json',null, function (data) {
         if(data.result == 200){
@@ -67,11 +62,20 @@ var getDate = function(){
         console.log(data);
     });
 }
-var init = function () {
-    getDate();
+
+var queryCountData = function () {
+    quaryObject.date = $(".dateSelect").val();
     //加载表格数据
     $.initTable('tableList', columnsArray, quaryObject, tableUrl);
+}
+var init = function () {
+    getDate();
+    queryCountData();
 
 }
+
+$(".dateSelect").onchange(function (e) {
+    alert(e);
+});
 
 init();
