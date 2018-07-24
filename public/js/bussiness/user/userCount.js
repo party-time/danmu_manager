@@ -74,7 +74,7 @@ var init = function () {
 
 }
 
-$(".dateSelect").onchange(function (e) {
+$(".dateSelect").change(function (e) {
     alert(e);
 });
 
