@@ -54,6 +54,12 @@ var getDate = function(){
     $.danmuAjax('/v1/api/admin/wechatCount/currentYearCountDate', 'GET','json',null, function (data) {
         if(data.result == 200){
             console.log(data);
+            if(data.data!=null && data.data!=undefined){
+                data.data.forEach(function( val, index ) {
+                    //console.log( val, index, this );
+                    $("#dateSelect").append("<option value='"+val+"'>"+val+"</option>");
+                });
+            }
         }else{
 
         }
