@@ -75,7 +75,7 @@ var init = function () {
 }
 
 $(".dateSelect").change(function (e) {
-    alert(e);
+    queryCountData();
 });
 
 init();
