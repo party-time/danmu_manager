@@ -67,3 +67,5 @@ var init = function () {
     $.initTable('tableList', columnsArray, quaryObject, tableUrl);
 
 }
+
+init();
