@@ -88,7 +88,7 @@ var columnsArray = [
         title: '影厅及座位号',
         align: 'center',
         formatter: function (value, row, index) {
-            if(null != row && null != row.order && "null" != row.order){
+            if(null != row && null != row.order && "null" != row.order && null != row.order.roomNum){
               return "影厅"+row.order.roomNum+"座位号"+row.order.seatNum;
             }
         }
