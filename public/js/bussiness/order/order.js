@@ -25,10 +25,10 @@ var columnsArray = [
     {
         title: '微信头像',
         align: 'center',
-        width:'30%',
+        width:'10%',
         formatter: function (value, row, index) {
             if(null != row && null != row.wechatUser){
-                return '<img width="30%" src="'+row.wechatUser.imgUrl+'" />';
+                return '<img width="50%" src="'+row.wechatUser.imgUrl+'" />';
             }else{
                return "";
             }
@@ -40,6 +40,17 @@ var columnsArray = [
         formatter: function (value, row, index) {
             if(null != row && null != row.wechatUser){
                 return row.wechatUser.nick;
+            }else{
+               return "";
+            }
+        }
+    },
+    {
+        title: '手机号',
+        align: 'center',
+        formatter: function (value, row, index) {
+            if(null != row && null != row.order){
+                return row.order.phone;
             }else{
                return "";
             }
@@ -70,6 +81,15 @@ var columnsArray = [
         formatter: function (value, row, index) {
             if(null != row && null != row.order && "null" != row.order){
               return row.order.num;
+            }
+        }
+    },
+    {
+        title: '影厅及座位号',
+        align: 'center',
+        formatter: function (value, row, index) {
+            if(null != row && null != row.order && "null" != row.order){
+              return "影厅"+row.order.roomNum+"座位号"+row.order.seatNum;
             }
         }
     },
@@ -130,7 +150,16 @@ var columnsArray = [
             }
         }
 
-    }
+    },
+    {
+        title: '操作',
+        align: 'center',
+        formatter: function (value, row, index) {
+            var html = '<input type="button" value="退款" class="btn btn-primary"><input type="button" value="开发票" class="btn btn-primary">';
+            return html;
+        }
+
+     }
 ];
 var quaryObject = {
     pageSize: 20

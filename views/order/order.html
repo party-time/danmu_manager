@@ -7,6 +7,12 @@
             <div class="row">
                 <div class="span12">
                     <div class="widget widget-table action-table">
+                        <div style="margin-bottom:10px;">
+                            开始日期：<input type="text" style="margin-bottom: 0px;" placeholder="2018-8-2"/>
+                            结束日期：<input type="text" style="margin-bottom: 0px;" placeholder="2018-8-2"/>
+                            <button type="button" class="btn btn-primary" onclick="addParty()">搜索</button>
+                            <button type="button" class="btn btn-primary" onclick="manageRealTimeDm()">导出excel</button>
+                        </div>
                         <!-- /widget-header -->
                         <div class="widget-content">
                             <table id="tableList" class="table table-striped"
