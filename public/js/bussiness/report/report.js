@@ -61,7 +61,7 @@ var columnsArray = [
         title: '举报人昵称',
         align: 'center',
         formatter: function (value, row, index) {
-            if(null != row && null != row.danmu.nick){
+            if(null != row && null != row.danmu){
                 return row.danmu.nick;
             }else{
                return "";
