@@ -36,7 +36,7 @@ var drawNavbar = function(){
         htmlStr += '<li><a href="/order">订单管理</span> </a> </li>';
         htmlStr +=  '</ul></li>';
     }
-    if(role != '589a98cd77c8afdcbdeaeeb6'){
+    if(role != '589a98cd77c8afdcbdeaeeb6' && role != '5b6166ade6e9b84788fcbc5f'){
         $('.mainnav').html(htmlStr);
     }
     if(role == '589a98cd77c8afdcbdeaeeb6'){

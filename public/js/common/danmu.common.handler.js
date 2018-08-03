@@ -12,7 +12,6 @@ $.ajaxSetup({
     //完成请求后触发。即在success或error触发后触发
     complete: function (xhr, status) {
         console.log('complete invoke! status:' + status + '<br/>');
-
         if (xhr.status == 444) {
             window.location = '/login';
             return;
@@ -21,7 +20,10 @@ $.ajaxSetup({
             window.location = '/film/danmuCheck';
             return;
         }
-
+        if (xhr.status == 466) {
+            window.location = '/order';
+            return;
+        }
     },
     //发送请求前触发
     beforeSend: function (xhr) {
