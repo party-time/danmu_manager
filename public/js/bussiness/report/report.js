@@ -111,6 +111,8 @@ var columnsArray = [
     }
 
 ];
+
+
 var quaryObject = {
     pageSize: 20
 };
