@@ -436,19 +436,19 @@
                     }
                 },
                 {
-                    field: 'sendUserTime',
-                    title: '发送时间(用户)',
-                    align: 'center',
-                    formatter: function (value, row, index) {
-                        return new Date(parseInt(row.sendUserTime)).format('yyyy-MM-dd hh:mm:ss');
-                    }
-                },
-                {
                     field: 'adminAccepetTime',
                     title: '接收时间(管理员)',
                     align: 'center',
                     formatter: function (value, row, index) {
                         return new Date(parseInt(row.adminAccepetTime)).format('yyyy-MM-dd hh:mm:ss');
+                    }
+                },
+                {
+                    field: 'sendUserTime',
+                    title: '发送时间(用户)',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        return new Date(parseInt(row.sendUserTime)).format('yyyy-MM-dd hh:mm:ss');
                     }
                 }
             ];
