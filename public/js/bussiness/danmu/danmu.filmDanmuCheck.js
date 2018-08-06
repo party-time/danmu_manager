@@ -212,6 +212,13 @@
             }
         }
 
+       $scope.setOpenRing=function (value) {
+           if(value==0){
+               $scope.openRing =0;
+           }else{
+               $scope.openRing =1;
+           }
+       }
         $scope.setCheck=function (value) {
             if (ws.readyState == 1) {
                 var key = getCookieValue("auth_key");
