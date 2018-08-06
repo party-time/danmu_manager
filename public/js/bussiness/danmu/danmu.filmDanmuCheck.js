@@ -43,6 +43,7 @@
         $scope.autoCheck=0;
         $scope.delaySecond=0;
         $scope.checkFlg=0;
+        $scope.openRing =0;
 
 
         $scope.partyStatus;

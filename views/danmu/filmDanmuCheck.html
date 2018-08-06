@@ -56,6 +56,15 @@
                                                 <button type="button" class="btn btn-dark"  ng-click="setCheck(1)">不审</button>
                                             </span>
                                         </div>
+                                        <div style="display: inline;">
+                                            &nbsp;是否审核:
+                                            <span ng-if="openRing==1">
+                                                <button type="button" class="btn btn-info"  ng-click="setCheck(0)">开启铃声</button>
+                                            </span>
+                                            <span ng-if="openRing==0">
+                                                <button type="button" class="btn btn-dark"  ng-click="setCheck(1)">关闭铃声</button>
+                                            </span>
+                                        </div>
 
 
                                         &nbsp;延迟时间：
