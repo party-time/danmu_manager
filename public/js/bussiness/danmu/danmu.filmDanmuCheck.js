@@ -436,11 +436,11 @@
                     }
                 },
                 {
-                    field: 'createTime',
+                    field: 'sendUserTime',
                     title: '发送时间(用户)',
                     align: 'center',
                     formatter: function (value, row, index) {
-                        return new Date(parseInt(row.createTime)).format('yyyy-MM-dd hh:mm:ss');
+                        return new Date(parseInt(row.sendUserTime)).format('yyyy-MM-dd hh:mm:ss');
                     }
                 },
                 {
