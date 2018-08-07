@@ -131,6 +131,9 @@
                 $scope.partyStatus = json.data.partyStatus;
 
                 $scope.addressName = json.data.addressName;
+
+                $scope.ringFlg = json.data.ringFlg;
+
                 if ($scope.partyStatus == 1) {
                     $("#partyStartButton").hide();
                     $("#filmStartButton").show();
@@ -225,9 +228,12 @@
 
                 //var shapeAudio=document.getElementById("promptVideo");
                 //shapeAudio.play();
-                $("#promptVideo").attr("src","/video/prompt.mp3");
-                $('#promptVideo')[0].pause();
-                $('#promptVideo')[0].play();
+                if($scope.ringFlg==0){
+                    $("#promptVideo").attr("src","/video/prompt.mp3");
+                    $('#promptVideo')[0].pause();
+                    $('#promptVideo')[0].play();
+                }
+
 
                 var danmu = json.data;
                 danmu.s = 10;
@@ -631,6 +637,18 @@
                 }).error(function (data, status, headers, config) {
             });
 
+        }
+
+        $scope.setOpenRing=function (value) {
+            if (ws.readyState == 1) {
+                var key = getCookieValue("auth_key");
+                if(value==0){
+                    $scope.ringFlg =0;
+                }else{
+                    $scope.ringFlg =1;
+                }
+                webSocketSendMessage({type: 'setring',data: {status: value,key:key}});
+            }
         }
 
         $scope.checkIsArray = function (object) {

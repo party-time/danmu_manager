@@ -43,7 +43,7 @@
         $scope.autoCheck=0;
         $scope.delaySecond=0;
         $scope.checkFlg=0;
-        $scope.openRing =0;
+        $scope.ringFlg =0;
 
 
         $scope.partyStatus;
@@ -127,10 +127,12 @@
                 $scope.checkFlg= parseInt(json.data.checkStatus);
                 //延迟时间
                 $scope.delaySecond = 5;
+
+                $scope.ringFlg = json.data.ringFlg;
                 //刷新弹幕频率
                 $interval(refreshDanmuList, 1000);
-                $('#box123').show();
-                $('#box123').animate({width:'800px'})
+                //$('#box123').show();
+                //$('#box123').animate({width:'800px'})
             } else if (json.type == $scope.type.type_adminCount) {
                 $scope.adminCount = [];
                 var array = json.data;
@@ -142,11 +144,11 @@
             } else if (json.type == 'normalDanmu') {
                 //var shapeAudio=document.getElementById("promptVideo");
                 //shapeAudio.play();
-                $("#promptVideo").attr("src","/video/prompt.mp3");
-                $('#promptVideo')[0].pause();
-                $('#promptVideo')[0].play();
-
-
+                if($scope.ringFlg==0){
+                    $("#promptVideo").attr("src","/video/prompt.mp3");
+                    $('#promptVideo')[0].pause();
+                    $('#promptVideo')[0].play();
+                }
                 var danmu = json.data;
                 danmu.s = 5;
                 danmu.createTime = new Date().getTime() + 1000;
@@ -213,10 +215,14 @@
         }
 
        $scope.setOpenRing=function (value) {
-           if(value==0){
-               $scope.openRing =0;
-           }else{
-               $scope.openRing =1;
+           if (ws.readyState == 1) {
+               var key = getCookieValue("auth_key");
+               if(value==0){
+                   $scope.ringFlg =0;
+               }else{
+                   $scope.ringFlg =1;
+               }
+               webSocketSendMessage({type: 'setring',data: {status: value,key:key}});
            }
        }
         $scope.setCheck=function (value) {
