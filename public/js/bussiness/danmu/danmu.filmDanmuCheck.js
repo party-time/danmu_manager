@@ -165,7 +165,7 @@
                 }
                 var danmu = json.data;
                 danmu.s = 5;
-                danmu.adminAccepetTime = Date(parseInt(row.adminAccepetTime));
+                danmu.adminAccepetTime = Date(parseInt(danmu.adminAccepetTime));
                 danmu.createTime = new Date().getTime() + 1000;
                 danmu.timeCount = $scope.delaySecond+1;
                 danmu.isSend=false;
