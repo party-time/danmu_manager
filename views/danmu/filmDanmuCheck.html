@@ -108,7 +108,7 @@
                                 <tbody>
                                 <tr ng-repeat="danmu in danmuList" class="dataTr">
                                     <td>
-                                        {{danmu.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}
+                                        {{danmu.adminAccepetTime | date: 'yyyy-MM-dd HH:mm:ss'}}
                                     </td>
                                     <td>
                                         <span ng-if="danmu.nick!=null">{{danmu.nick}}</span>
